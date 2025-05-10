@@ -1,0 +1,45 @@
+@media screen and (min-width: 640px) {
+    .temple{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    main {
+        max-width: 80%;
+        margin: 0 auto;
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+        align-items: center;
+    }
+
+    nav, header {
+		display: flex;
+        justify-content: space-around;
+	}
+
+    .filterButton {
+		display: flex;
+        justify-content: space-around;
+	}
+	.filterButton  li {
+		display: flex; /* change state in small view */
+	}
+	#menu {
+		display: none;
+	}
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}

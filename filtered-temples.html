@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WDD 131 – Media Query Example</title>
+
+        <meta name="description" content="Media query learning activity example page.">
+        <meta name="author" content="KOUBATIKA ELSY FERNANDEZ">
+        <meta name="keywords" content="HTML, CSS, JavaScript, Media Queries, Responsive Design">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="styles/filtered-temples.css">
+        <link rel="stylesheet" href="styles/filtered-temples-large.css">
+
+        <script src="scripts/filtered-temples.js" defer></script>
+    </head>
+
+    <body>
+        <header>
+            <h1>Temple Album</h1>
+            <a id="menu" href="#"></a>
+            <nav>
+                <ul class="filterButton">
+                    <li><button id="home">Home</button></li>
+                    <li><button id="old">Old</button></li>
+                    <li><button id="new">New</button></li>
+                    <li><button id="large">Large</button></li>
+                    <li><button id="small">Small</button></li>
+                </ul>                      
+            </nav>
+        </header>
+        <main>
+            <h2>Home</h2>
+            <div class="temple" id="container">
+                <article class="temple-card">
+                    <div class="temple-al" id="temple-container">
+                        <h3 class="temple-name"></h3>
+                        <div class="block">
+                            <p class="temple-location"><strong>Location:</strong> </p>
+                            <p class="temple-dedicated"><strong>Dedicated:</strong> </p>
+                            <p class="temple-area"><strong>Area:</strong> sq ft</p>
+                        </div>
+                    </div>
+                    <img class="temple-image" src="" loading="lazy" alt="Image of temple" width="200" height="300">
+                </article>
+            </div>
+        </main>
+        <footer>
+            <p>©<span id="currentyear"></span> ❖ Koubatika Elsy Fernandez, Brazzaville ❖</p>
+            <p><span id="lastModified"></span> </p>
+        </footer>
+    </body>
+</html>
