@@ -15,52 +15,62 @@ body {
     background-color: var(--secondary-color);
 }
 
-h1{
-    padding: 2rem;
+h1 {
+    padding: 4rem;
     color: var(--secondary-color);
     background-color: var(--primary-color);
     letter-spacing: 1.1pt;
     text-align: center;
     font-family: 'Roboto', sans-serif;
+    font-size: 3rem;
 }
 
-nav {
+.menu {
+    background-color: var(--tertiary-color);
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+}
+
+button {
+    background-color: var(--tertiary-color);
+    color: var(--secondary-color);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    font-size: 2rem;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+}
+.filterButton {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    margin: 0;
+    padding: 1rem;
     background-color: var(--tertiary-color);
 }
 
-nav li {
-	list-style-type: none;
+nav button:hover {
+	background-color: var(--primary-color);
+    transition: 0.3s;
+    color: var(--secondary-color);
+    border-radius: 5px;
 }
 
-nav a {
-	display: block;
-	color: var(--secondary-color);
-	text-align: center;
-	padding: 1rem;
-	text-decoration: none;
-    font-size: 1.5rem;
-    font-family: 'Roboto', sans-serif;
+.grid  {
+    display: flex;
+    gap: 1rem;
 }
 
-nav a:hover {
-	border: 1px solid var(--primary-color);
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-}
-
-.content
-{
+.content{
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 1rem;
 }
 
-.card {
+.card, .carde {
     width: 100%;
     background-color: var(--secondary-color);
     box-shadow: 0 10px 10px 10px rgba(0, 0, 0, 0.1);
@@ -68,46 +78,71 @@ nav a:hover {
     font-family: 'Roboto', sans-serif;
 }
 
-.card h2 {
+.card h2, .carde h2 {
     text-align: center;
     padding: 1rem 0;
-    margin-bottom: 2rem;
     font-family: 'Roboto', sans-serif;
-    font-weight: 700;
     background-color: var(--primary-color);
     color: var(--secondary-color);
     border-radius: 5px 5px 0 0;
 }
 
-.card img {
-    width: 70%;
+.carde img {
+    width: 90%;
     height: auto;
+    padding: 1rem;
     margin: 0 auto;
     display: block;
 }
-.card p {
-    padding: 1.5rem;
+.carde p {
+    padding: 1rem;
     font-size: 1.5rem;
     text-align: center;
     color: var(--tertiary-color);
     font-family: 'Roboto', sans-serif;
 }
 
-ul {
-    padding: 1rem 4rem;
-    font-size: 18px;
-    font-family: 'Roboto', sans-serif;
+.carde {
+    width: 60%;
 }
 
 header img {
-    width: 10%;
+    width: 12%;
+    height: auto;
     position: absolute;
-    top: 0;
-    left: 0;
-    margin: 1rem;
+    top: 10px;
+    left: 4rem;
+    box-shadow: 0 10px 10px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
 }
 
-footer{
+.resources-list li {
+    padding: 1rem;
+    font-size: 1rem;
+    list-style-type: none;
+}
+
+.temple {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 0 auto;
+    padding: 2rem;
+    max-width: 900px;
+}
+
+.temple-card li {
+    list-style-type: none;
+    box-shadow: 0 10px 10px 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    font-size: 2rem;
+    border-radius: 10px;
+}
+
+
+footer {
     background-color: var(--primary-color);
     color: var(--secondary-color);
     text-align: center;
@@ -115,4 +150,5 @@ footer{
     padding: 1.5rem;
     font-family: 'Roboto', sans-serif;
 }
+
 

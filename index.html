@@ -7,9 +7,9 @@
         <meta name="author" content="Fernandez">
         <title>WDD 131 – Dynamic Web Fundamentals - Koubatika ELsy Fernandez</title>
 
-        <link rel="stylesheet" href="styles/base.css">
-        <link rel="stylesheet" href="styles/base_large.css">
         <link rel="stylesheet" href="styles/normalize.css">
+        
+        <link rel="stylesheet" href="styles/base.css">
 
         <!--Pour integrer du java scriptes-->
         <script src="scripts/getdates.js" defer></script>
@@ -24,19 +24,22 @@
 
     <body>
         <header>
+            <a id="menu" href="#"></a>
             <div class="header">
                 <img src="images/profil.webp" alt="Fernandez's picture">
                 <h1>Koubatika E. fernnandez</h1>
             </div>
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="chamber.html">Chamber</a>
-                <a href="index.html">Final project</a>
-                <a href="https://elsykoubatika.github.io/wdd231/">GitHib Profile</a>
-                <a href="https://www.linkedin.com/in/fk14/">linkedIn</a>
+            <a id="menu" href="#"></a>
+            <nav class="menu">
+                <li><button id="home" onclick="location.href='index.html';">Home</button></li>
+                <li><button id="home" onclick="location.href='chamber.html';">Chamber</button></li>
+                <li><button id="home" onclick="location.href='index.html';">Final project</button></li>
+                <li><button id="home" onclick="location.href='https://elsykoubatika.github.io/wdd231/';">GitHib Profile</button></li>
+                <li><button id="home" onclick="location.href='https://www.linkedin.com/in/fk14/';">linkedin</button></li>
             </nav>
         </header>
         <main class="content">
+            <h2>Home</h2>
             <div class="grid">
                 <section class="card">
                     <h2>Course Worrk</h2>
@@ -46,7 +49,7 @@
                         <li></li>
                     </ul>
                 </section>
-                <section class="card">
+                <section class="carde">
                     <div class="viaduc">
                         <h2>Le viaduc, Brazzaville</h2>
                         <img src="images/picture.webp" alt="Official flag of Congo Brazzaville" class="flag">
@@ -56,8 +59,21 @@
             </div>
             <section class="card">
                 <h2>Web and Computer Prrogramming Certificate</h2>
-                <p>My favorite temple is the Kinshasa temple. I love it because it is the first temple in my country and it is a symbol of hope for all Congolese people.</p>
-                <img src="images/temple.webp" alt="Kinshasa temple" class="temple">
+
+                <nav class="block">
+                    <ul class="filterButton">
+                        <li><button id="all">All</button></li>
+                        <li><button id="cse">CSE</button></li>
+                        <li><button id="WDD">WDD</button></li>
+                    </ul>                      
+                </nav>
+                <div class="temple" id="container">
+                    <div class="temple-card">
+                        <ul>
+                            <li class="course"><strong></strong></li>
+                        </ul>
+                    </div>
+                </div>
             </section>
         </main>
         <footer>
