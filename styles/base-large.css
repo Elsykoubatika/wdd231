@@ -1,0 +1,58 @@
+/* vues plus grandes/plus larges **************************/
+@media screen and (min-width: 640px) {
+
+    .menu {
+		display: flex;
+        justify-content: space-around;
+	}
+	.menu  li {
+		display: flex; /* change state in small view */
+	}
+	#menu {
+		display: none;
+	}
+
+    h1 {
+        font-size: 9rem;
+    }
+
+    header img {
+        width: 8%;
+        position: absolute;
+        display: flex;;
+    }
+
+    .temple {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.grid  {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 2fr 1fr;
+}
+.card, .carde {
+    width: 100%;
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    animation: fade 1s ease-in-out;
+}
+
+}
+
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}

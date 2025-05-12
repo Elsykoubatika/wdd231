@@ -22,14 +22,13 @@ h1 {
     letter-spacing: 1.1pt;
     text-align: center;
     font-family: 'Roboto', sans-serif;
-    font-size: 3rem;
+    font-size: 2rem;
 }
 
 .menu {
-    background-color: var(--tertiary-color);
-    display: flex;
-    justify-content: space-around;
+    background-color: var(--tertiary-color);;
     list-style-type: none;
+    text-align: center;
 }
 
 button {
@@ -44,11 +43,21 @@ button {
 }
 .filterButton {
     display: flex;
-    justify-content: space-around;
+    gap: 1rem;
+    justify-content: center;
     list-style-type: none;
-    margin: 0;
     padding: 1rem;
+}
+
+.filterButton button {
     background-color: var(--tertiary-color);
+    color: var(--secondary-color);
+    border: none;
+    padding: 9px 3.5rem;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
 }
 
 nav button:hover {
@@ -60,14 +69,18 @@ nav button:hover {
 
 .grid  {
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }
 
 .content{
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    justify-content: center;
+    gap: 5px;
 }
 
 .card, .carde {
@@ -84,12 +97,11 @@ nav button:hover {
     font-family: 'Roboto', sans-serif;
     background-color: var(--primary-color);
     color: var(--secondary-color);
-    border-radius: 5px 5px 0 0;
+    border-radius: 4px 4px 0 0;
 }
 
 .carde img {
-    width: 90%;
-    height: auto;
+    width: 80%;
     padding: 1rem;
     margin: 0 auto;
     display: block;
@@ -103,15 +115,14 @@ nav button:hover {
 }
 
 .carde {
-    width: 60%;
+    width: 100%;
 }
 
 header img {
-    width: 12%;
-    height: auto;
+    width: 15%;
     position: absolute;
     top: 10px;
-    left: 4rem;
+    left: 3rem;
     box-shadow: 0 10px 10px 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 }
@@ -124,7 +135,6 @@ header img {
 
 .temple {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
     margin: 0 auto;
     padding: 2rem;
@@ -133,12 +143,13 @@ header img {
 
 .temple-card li {
     list-style-type: none;
-    box-shadow: 0 10px 10px 10px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     font-family: 'Roboto', sans-serif;
     text-align: center;
     font-size: 2rem;
     border-radius: 10px;
+    font-weight: 700;
+    border: #1310103c 3px solid;
 }
 
 
@@ -151,4 +162,23 @@ footer {
     font-family: 'Roboto', sans-serif;
 }
 
+#menu {
+	font-size: 4rem;
+	font-weight: 700;
+	text-decoration: none;
+	padding: 0.5rem 0.75rem;
+    color: var(--tertiary-color);
+    position: absolute;
+    top: 28px;
+    right: 4rem;
+}
+#menu::before {
+	content: "X";
+}
+.show button {
+	display: none;
+}
 
+#menu.show::before {
+	content: "≡";
+}

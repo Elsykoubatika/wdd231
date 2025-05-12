@@ -23,7 +23,7 @@ document.getElementById('currentyear').textContent = `${currentYear}`;
 document.getElementById("lastModified").textContent = `Last modified: ${formattedLastModified}`;
 
 // Store the selected elements that we are going to use. This is not required but a good practice with larger programs where the variable will be referenced more than once.
-const mainnav = document.querySelector('.filterButton')
+const mainnav = document.querySelector('.menu')
 const hambutton = document.querySelector('#menu');
 
 // Add a click event listender to the hamburger button and use a callback function that toggles the list element's list of classes.
