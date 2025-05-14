@@ -1,4 +1,5 @@
 /* vues plus grandes/plus larges **************************/
+
 @media screen and (min-width: 640px) {
 
     .menu {
@@ -18,33 +19,134 @@
 
     header img {
         width: 8%;
-        position: absolute;
-        display: flex;;
+        top: 30px;
+        left: 25px;
     }
 
     .temple {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+    }
+
+.carde img {
+    width: 90%;
     margin: 0 auto;
-    padding: 2rem;
+    height: auto;
 }
 
-.grid  {
+    .menu button {
+        padding: 1.3rem 4rem;
+        font-size: 1rem;
+    }
+
+    footer img {
+        width: 2%;
+    }
+}
+
+
+/* Tablet */
+@media (min-width: 768px) {
+    header img {
+        width: 10%;
+        top: 1px;
+        left: 150px;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+    .temple {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .carde img {
+        width: 85%;
+        margin: 0 auto;
+        height: auto;
+    }
+
+    
+.grid {
     display: grid;
-    gap: 1rem;
+    gap: 5px;
     grid-template-columns: 2fr 1fr;
+    margin: 0 auto;
+    padding: 5px;
+    width: 92%;
 }
-.card, .carde {
+}
+
+/* Laptop */
+@media (min-width: 1024px) {
+    header img {
+        width: 9%;
+        top: 8px;
+        left: 3rem;
+    }
+
+    h1 {
+        font-size: 7rem;
+    }
+
+    .content {
+    margin: 0 auto;
     width: 100%;
-    background-color: var(--secondary-color);
-    border-radius: 5px;
-    font-family: 'Roboto', sans-serif;
-    animation: fade 1s ease-in-out;
+    }
+
+    .grid {
+        display: grid;
+        gap: 5px;
+        grid-template-columns: 2fr 1fr;
+        margin: 0 auto;
+        padding: 5px;
+        width: 92%;
+    }
+    .carde img {
+        width: 90%;
+        margin: 0 auto;
+        height: auto;
+    }
+
+    .filterButton button {
+        padding: 1rem 5rem;
+        font-size: 1.2rem;
+        margin: 0 auto;
+    }
+
+    h2 {
+        font-size: 1rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
 }
 
-}
+@media screen and (min-width: 1280px) {
+    header img {
+        width: 7%;
+        top: 1px;
+        left: 395px;
+    }
 
+    .temple {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .carde img {
+        width: 85%;
+        margin: 0 auto;
+        height: auto;
+    }
+    
+}
 
 @keyframes fade {
     0% {

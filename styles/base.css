@@ -10,19 +10,24 @@
     --tertiary-color: #333333;
 }
 
-body {
+main {
     font-family: 'Roboto', sans-serif;
     background-color: var(--secondary-color);
 }
 
 h1 {
-    padding: 4rem;
+    padding: 3rem;
     color: var(--secondary-color);
     background-color: var(--primary-color);
     letter-spacing: 1.1pt;
     text-align: center;
     font-family: 'Roboto', sans-serif;
-    font-size: 2rem;
+    font-size: 1.5rem;
+}
+
+h2 {
+    padding: 9px;
+    letter-spacing: 1.1pt;
 }
 
 .menu {
@@ -31,13 +36,11 @@ h1 {
     text-align: center;
 }
 
-button {
+.menu button {
     background-color: var(--tertiary-color);
     color: var(--secondary-color);
     border: none;
-    padding: 1rem 2rem;
-    border-radius: 5px;
-    font-size: 2rem;
+    padding: 1rem 4rem;
     font-family: 'Roboto', sans-serif;
     cursor: pointer;
 }
@@ -49,13 +52,27 @@ button {
     padding: 1rem;
 }
 
+.content {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.grid {
+    margin: 0 auto;
+    width: 92%;
+}
+
+.detail-list li {
+    padding: 4px;
+    position: relative;
+    left: 30px;
+}
 .filterButton button {
     background-color: var(--tertiary-color);
     color: var(--secondary-color);
     border: none;
-    padding: 9px 3.5rem;
+    padding: 10px 30px;
     border-radius: 5px;
-    font-size: 1.5rem;
     font-family: 'Roboto', sans-serif;
     cursor: pointer;
 }
@@ -64,34 +81,9 @@ nav button:hover {
 	background-color: var(--primary-color);
     transition: 0.3s;
     color: var(--secondary-color);
-    border-radius: 5px;
 }
 
-.grid  {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-}
-
-.content{
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-}
-
-.card, .carde {
-    width: 100%;
-    background-color: var(--secondary-color);
-    box-shadow: 0 10px 10px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    font-family: 'Roboto', sans-serif;
-}
-
-.card h2, .carde h2 {
+.card h2, .carde h2, .computer h2 {
     text-align: center;
     padding: 1rem 0;
     font-family: 'Roboto', sans-serif;
@@ -100,37 +92,44 @@ nav button:hover {
     border-radius: 4px 4px 0 0;
 }
 
+.card, .carde, .computer {
+    background-color: var(--secondary-color);
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.computer {
+    width: 91%;
+    margin: 0 auto;
+}
+
 .carde img {
-    width: 80%;
-    padding: 1rem;
+    width: 70%;
+    padding: 10px;
     margin: 0 auto;
     display: block;
 }
 .carde p {
-    padding: 1rem;
-    font-size: 1.5rem;
+    padding: 10px;
+    font-size: 1rem;
     text-align: center;
     color: var(--tertiary-color);
     font-family: 'Roboto', sans-serif;
 }
 
-.carde {
-    width: 100%;
-}
-
 header img {
-    width: 15%;
+    width: 11%;
     position: absolute;
     top: 10px;
-    left: 3rem;
+    left: 80px;
     box-shadow: 0 10px 10px 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 }
 
 .resources-list li {
     padding: 1rem;
-    font-size: 1rem;
-    list-style-type: none;
+    position: relative;
+    left: 30px;
 }
 
 .temple {
@@ -138,39 +137,51 @@ header img {
     gap: 1rem;
     margin: 0 auto;
     padding: 2rem;
-    max-width: 900px;
 }
 
 .temple-card li {
     list-style-type: none;
-    padding: 1rem;
+    padding: 10px;
     font-family: 'Roboto', sans-serif;
     text-align: center;
-    font-size: 2rem;
+    font-size: 1rem;
     border-radius: 10px;
     font-weight: 700;
-    border: #1310103c 3px solid;
 }
-
+.temple {
+    margin: 0 auto;
+    border-top: 3px solid var(--tertiary-color);
+    border-bottom: 3px solid var(--tertiary-color);
+}
 
 footer {
     background-color: var(--primary-color);
     color: var(--secondary-color);
     text-align: center;
-    font-size: 1.2rem;
-    padding: 1.5rem;
-    font-family: 'Roboto', sans-serif;
+    padding: 1rem;
 }
 
+footer img {
+    width: 4%;
+    position: relative;
+    left: 8px;
+    box-shadow: 0 10px 10px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+p {
+    padding: 1rem;
+    font-size: 10px;
+}
 #menu {
-	font-size: 4rem;
+	font-size: 2rem;
 	font-weight: 700;
 	text-decoration: none;
 	padding: 0.5rem 0.75rem;
     color: var(--tertiary-color);
     position: absolute;
-    top: 28px;
-    right: 4rem;
+    top: 25px;
+    right: 1rem;
 }
 #menu::before {
 	content: "X";
@@ -182,3 +193,5 @@ footer {
 #menu.show::before {
 	content: "≡";
 }
+
+

@@ -7,7 +7,6 @@
         <meta name="author" content="Fernandez">
         <title>WDD 131 – Dynamic Web Fundamentals - Koubatika ELsy Fernandez</title>
 
-        <link rel="stylesheet" href="styles/normalize.css">
         <link rel="stylesheet" href="styles/base.css">
         <link rel="stylesheet" href="styles/base-large.css">
 
@@ -29,24 +28,28 @@
                 <h1>Koubatika E. fernandez</h1>
             </div>
             <a id="menu" href="#"></a>
-            <nav class="menu">
-                <li><button id="home" onclick="location.href='index.html';">Home</button></li>
-                <li><button id="home" onclick="location.href='chamber.html';">Chamber</button></li>
-                <li><button id="home" onclick="location.href='index.html';">Final project</button></li>
-                <li><button id="home" onclick="location.href='https://elsykoubatika.github.io/wdd231/';">GitHib Profile</button></li>
-                <li><button id="home" onclick="location.href='https://www.linkedin.com/in/fk14/';">linkedin</button></li>
+            <nav class="Container">
+                <ul class="menu">
+                    <li><button id="home" onclick="location.href='index.html';">Home</button></li>
+                    <li><button id="chamber" onclick="location.href='chamber.html';">Chamber</button></li>
+                    <li><button id="final" onclick="location.href='index.html';">Final project</button></li>
+                    <li><button id="git" onclick="location.href='https://elsykoubatika.github.io/wdd231/';">GitHib Profile</button></li>
+                    <li><button id="link" onclick="location.href='https://www.linkedin.com/in/fk14/';">linkedin</button></li>
+                </ul>
             </nav>
         </header>
         <main class="content">
             <h2>Home</h2>
             <div class="grid">
                 <section class="card">
-                    <h2>Course Worrk</h2>
-                    <ul class="resources-list">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
+                    <h2>Course Work</h2>
+                    <div class="resources-list" id ="contenter">
+                        <ul class="resource-card">
+                            <li class="title"><strong></strong></li>
+                            <!--<li class="credits"><strong>Credits:</strong></li>-->
+                            <!--<li class="technology"><strong>Technology:</strong> </li>-->
+                        </ul>
+                    </div>
                 </section>
                 <section class="carde">
                     <div class="viaduc">
@@ -56,7 +59,7 @@
                     </div>
                 </section>
             </div>
-            <section class="card">
+            <section class="computer">
                 <h2>Web and Computer Prrogramming Certificate</h2>
                 <nav class="block">
                     <ul class="filterButton">
@@ -72,12 +75,23 @@
                         </ul>
                     </div>
                 </div>
+
+                <div class="detail" id="conteneur">
+                    <div class="detail-card">
+                        <ul class="detail-list">
+                            <li class="title"><strong>Title:</strong></li>
+                            <li class="technology"><strong>Technology:</strong> </li>
+                            <li class="description"><strong>Description:</strong> </li>
+                            <li class="credits"><strong>Credits:</strong></li>
+                        </ul>
+                    </div>
+                </div>
             </section>
         </main>
         <footer>
-            <p>©<span id="currentyear"></span> ❖ Koubatika Elsy Fernandez, Brazzaville ❖</p>
+            <p>©<span id="currentyear"></span> ❖ Koubatika Elsy Fernandez, Congo Brazzaville ❖</p>
+            <img src="images/flag.webp" alt="Official flag of Congo Brazzaville" class="flag">
             <p><span id="lastModified"></span> </p>
         </footer>
     </body>
-    <!--date de modficication 16/01/205-->
 </html>

@@ -166,7 +166,7 @@ const displayTemples = (filterFn) => {
 };
 
 const updateHeader = (text) => {
-	const header = document.querySelector("h2");
+	const header = document.querySelector("");
 	header.textContent = text;
 };
 
