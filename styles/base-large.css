@@ -46,7 +46,7 @@
 
 
 /* Tablet */
-@media (min-width: 768px) {
+@media screen and (min-width: 768px) {
     header img {
         width: 10%;
         top: 1px;
@@ -81,20 +81,16 @@
 }
 
 /* Laptop */
-@media (min-width: 1024px) {
-    header img {
-        width: 9%;
-        top: 8px;
-        left: 3rem;
-    }
-
-    h1 {
-        font-size: 7rem;
-    }
+@media screen and (min-width: 1024px){
 
     .content {
     margin: 0 auto;
     width: 100%;
+    }
+    .profil {
+        width: 7%;
+        left: 30rem;
+        top: 2px;
     }
 
     .grid {
@@ -119,33 +115,16 @@
 
     h2 {
         font-size: 1rem;
+        padding: 0.5rem;
     }
 
     p {
         font-size: 1rem;
     }
-}
 
-@media screen and (min-width: 1280px) {
-    header img {
-        width: 7%;
-        top: 1px;
-        left: 395px;
+    h1 {
+        font-size: 4rem;
     }
-
-    .temple {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        width: 80%;
-        margin: 0 auto;
-    }
-
-    .carde img {
-        width: 85%;
-        margin: 0 auto;
-        height: auto;
-    }
-    
 }
 
 @keyframes fade {

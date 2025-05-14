@@ -213,3 +213,85 @@ smallButton.addEventListener("click", () => {
 
 	//container.appendChild(card);
 //});
+
+// Récupérer les containers
+const courseListContainer = document.getElementById("container");
+const detailContainer = document.getElementById("contenteur");
+
+// Récupérer les templates
+const templateCard = document.querySelector(".temple-card").cloneNode(true);
+const resourceCard = document.querySelector(".resource-card").cloneNode(true);
+
+// Supprimer les originaux pour éviter la duplication
+document.querySelector(".temple-card").remove();
+document.querySelector(".resource-card").remove();
+
+// Remplir la liste de ressources de cours (facultatif, selon usage)
+const resourceContainer = document.getElementById("contenter");
+temples.forEach(temple => {
+  const card = resourceCard.cloneNode(true);
+  card.querySelector(".title").innerHTML = `<strong></strong> ${temple.subject} ${temple.number} - ${temple.title}`;
+  resourceContainer.appendChild(card);
+});
+
+// Fonction générique pour afficher les temples filtrés
+function displayTemples(filterFn) {
+  courseListContainer.innerHTML = "";
+
+  temples.filter(filterFn).forEach(temple => {
+    const card = templateCard.cloneNode(true);
+    card.querySelector(".course").innerHTML = `<strong></strong> ${temple.subject} ${temple.number}`;
+    card.dataset.code = `${temple.subject}-${temple.number}`; // ← Ajout d'un identifiant fiable
+
+    if (temple.completed) {
+      card.style.backgroundColor = "#A7A89E";
+      card.style.color = "black";
+      card.style.border = "3px solid #0000003c";
+    } else {
+      card.style.backgroundColor = "#506A4D";
+      card.style.color = "#000";
+      card.style.border = "1px solid #000";
+    }
+
+    card.style.borderRadius = "8px";
+    courseListContainer.appendChild(card);
+  });
+}
+
+// Affichage initial : tous les temples
+displayTemples(() => true);
+
+// Gestion des filtres
+document.getElementById("all").addEventListener("click", () => {
+  displayTemples(() => true);
+});
+
+document.getElementById("cse").addEventListener("click", () => {
+  displayTemples(temple => temple.subject.startsWith("CSE"));
+});
+
+document.getElementById("WDD").addEventListener("click", () => {
+  displayTemples(temple => temple.subject.startsWith("WDD"));
+});
+
+// Afficher les détails au clic si completed = true
+courseListContainer.addEventListener("click", e => {
+  const card = e.target.closest(".temple-card");
+  if (!card) return;
+
+  const code = card.dataset.code;
+  const found = temples.find(t => `${t.subject}-${t.number}` === code);
+
+  if (!found || !found.completed) return;
+
+  detailContainer.innerHTML = `
+    <div class="detail-card">
+      <ul class="detail-list">
+        <li class="title"><strong>Title:</strong> ${found.title}</li>
+        <li class="technology"><strong>Technology:</strong> ${found.technology.join(", ")}</li>
+        <li class="description"><strong>Description:</strong> ${found.description}</li>
+        <li class="credits"><strong>Credits:</strong> ${found.credits}</li>
+      </ul>
+    </div>
+  `;
+});

@@ -125,6 +125,7 @@ temples.forEach(temple => {
   // Clone le modèle
     const card = template.cloneNode(true);
     card.querySelector(".course").innerHTML = `<strong></strong> ${temple.subject} ${temple.number}`;
+	
     container.appendChild(card);
 });
 
@@ -136,6 +137,7 @@ temples.forEach(temple => {
   // Clone le modèle
     const card = cours.cloneNode(true);
     card.querySelector(".title").innerHTML = `<strong></strong> ${temple.subject} ${temple.number} - ${temple.title}`;
+
 	//card.querySelector(".credits").innerHTML = `<strong>Credits:</strong> ${temple.credits}`;
     content.appendChild(card);
 });
@@ -206,13 +208,7 @@ cseButton.addEventListener("click", () => {
 });
 
 wddButton.addEventListener("click", () => {
-	displayTemples(temple => {
-		updateHeader(displayTemples);		
+	displayTemples(temple => {		
 	return temple.subject.startsWith("WDD");
 	});
 });
-
-const updateHeader = (text) => {
-	const header = document.querySelector(".detail");
-	header.textContent = text;
-};
