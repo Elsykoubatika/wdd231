@@ -1,0 +1,121 @@
+{
+"warehouse": {
+    "id": "AB0234-7",
+    "manager": "John Ojo",
+    "location": "Delphi"
+    },
+    
+    "products": [
+    {
+        "id": 132,
+        "name": "Zeeway 300",
+        "category": "Electric Bike",
+        "price": 89.99,
+        "inStock": true
+    },
+    {
+        "id": 221,
+        "name": "City Cruiser 300",
+        "category": "Commuter Bike",
+        "price": 99.50,
+        "inStock": true
+    },
+    {
+        "id": 367,
+        "name": "Speedster Road Elite",
+        "category": "Road Bike",
+        "price": 199.00,
+        "inStock": false
+    }
+    ],
+
+    "orders": [
+    {
+        "id": 1001,
+        "productId": 132,
+        "quantity": 2,
+        "status": "shipped"
+    },
+    {
+        "id": 1002,
+        "productId": 221,
+        "quantity": 1,
+        "status": "pending"
+    },
+    {
+        "id": 1003,
+        "productId": 367,
+        "quantity": 1,
+        "status": "cancelled"
+    }
+    ],
+
+    "family_name": "Santos",
+    "move_in_date": "2024-06-24",
+    "number_of_people": 4,
+    "visited_by_bishopric": true,
+
+    "family_members": [
+    {
+        "name": "Pedro Santos",
+        "gender": "Male",
+        "birthdate": "1990-05-15"
+    },
+    {
+        "name": "Maria Santos",
+        "gender": "Female",
+        "birthdate": "1992-08-20"
+    },
+    {
+        "name": "Andrea Santos",
+        "gender": "Female",
+        "birthdate": "2010-03-05"
+    },
+    {
+        "name": "Luz Santos",
+        "gender": "Male",
+        "birthdate": "2012-11-10"
+    }
+    ],
+
+    "squadName" : "Super Hero Squad",
+    "homeTown" : "Metro City",
+    "formed" : 2016,
+    "secretBase" : "Super tower",
+    "active" : true,
+    "members" : [
+    {
+      "name" : "Molecule Man",
+      "age" : 29,
+      "secretIdentity" : "Dan Jukes",
+      "powers" : [
+        "Radiation resistance",
+        "Turning tiny",
+        "Radiation blast"
+      ]
+    },
+    {
+      "name" : "Madame Uppercut",
+      "age" : 39,
+      "secretIdentity" : "Jane Wilson",
+      "powers" : [
+        "Million tonne punch",
+        "Damage resistance",
+        "Superhuman reflexes"
+      ]
+    },
+    {
+      "name" : "Eternal Flame",
+      "age" : 1000000,
+      "secretIdentity" : "Unknown",
+      "powers" : [
+        "Immortality",
+        "Heat Immunity",
+        "Inferno",
+        "Teleportation",
+        "Interdimensional travel"
+      ]
+    }
+  ]
+  
+}
