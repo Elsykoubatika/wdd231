@@ -35,3 +35,15 @@ async function displayPopular() {
 }
 
 displayPopular();
+
+// Ou encore
+const fechData = async () => {
+    try {
+        const reponse = await fetch("https://raw.githubusercontent.com/Elsykoubatika/wdd231/main/week%202/scripts/response.json");
+        const data = await reponse.json();
+        console.log(data);
+    }
+    catch (error) {
+        console.log("Erreur de chargement des données", error);
+    }
+};
