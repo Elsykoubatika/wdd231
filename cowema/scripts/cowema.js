@@ -1498,3 +1498,25 @@
             });
         }
 
+    //choix la ville et de l'arrondissement
+    const neighborhoodSelect = document.getElementById("clientNeighborhood");
+    const villeSelect = document.getElementById("clientCity");
+    
+// Lorsqu'une ville est sélectionnée
+    villeSelect.addEventListener("change", () => {
+        const selectedVille = villeSelect.value;
+
+      // On vide les anciens arrondissements
+        neighborhoodSelect.innerHTML = '<option value=""> Choisir un arrondissement </option>';
+
+      // Si une ville valide est choisie, on ajoute ses arrondissements
+        if (selectedVille && deliveryFees[selectedVille]) {
+        const arrondissements = Object.keys(deliveryFees[selectedVille]);
+        arrondissements.forEach(arr => {
+            const option = document.createElement("option");
+            option.value = arr;
+            option.textContent = arr;
+            neighborhoodSelect.appendChild(option);
+        });
+    }
+    });
