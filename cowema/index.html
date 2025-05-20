@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="styles/cowema.css">
     <script src="scripts/cowema.js" defer></script>
 
+    <noscript><img height="1" width="1" style="display:none"src="https://www.facebook.com/tr?id=562190026611572&ev=PageView&noscript=1"/></noscript>
+
 </head>
 <body>
     <header>
@@ -19,12 +21,13 @@
                     <img src="images/cowema-logo.png" alt="Logo Cowema" style="margin-right: 10px;">
                     <div>
                         <a href="#" class="logo">COWEMA</a>
-                        <div style="font-size: 14px; color: var(--light-text);">Acheter, Vendre Simplement!</div>
+                        <div class="logo-text" style=" color: var(--light-text);">Acheter, Vendre Simplement!</div>
                     </div>
                 </div>
                 
                 <div class="search-container">
                     <input type="text" class="search-box" id="searchBox" placeholder="Rechercher un produit...">
+                    <button onclick="trackSearch()"></button>
                 </div>
 
                 <div class="header-actions">
@@ -260,9 +263,16 @@
                 
                 <div class="delivery-form-group">
                     <label for="clientNeighborhood" class="required-field">Quartier</label>
-                    <input type="text" id="clientNeighborhood" required>
+                    <select id="clientCity" required>
+                        <option value="">Sélectionnez votre Quartier</option>
+                        <option value="Brazzaville">Brazzaville (BZ)</option>
+                        <option value="Pointe-Noire">Pointe-Noire (PN)</option>
+                        <option value="Dolisie">Dolisie</option>
+                        <option value="Nkayi">Nkayi</option>
+                        <option value="Autre">Autre ville</option>
+                    </select>
                 </div>
-                
+
                 <div class="delivery-form-group">
                     <label for="clientAddress" class="optional-field">Adresse détaillée</label>
                     <input type="text" id="clientAddress">
@@ -302,7 +312,7 @@
                         <input type="password" id="loginPassword" required>
                     </div>
                     <div class="modal-actions" style="justify-content: space-between; margin-top: 20px;">
-                        <button type="button" class="btn btn-skip" id="showRegisterBtn">
+                        <button type="button" class="btn btn-skip" id="showRegisterBtn" onClick="fbq('track', 'Purchase');">
                             Créer un compte
                         </button>
                         <button type="submit" class="btn btn-submit">

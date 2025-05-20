@@ -412,18 +412,26 @@
         // Frais de livraison par ville et quartier
         const deliveryFees = {
             "Brazzaville": {
-                "Moungali": 2000,
-                "Bacongo": 1500,
-                "Poto-Poto": 1500,
-                "Makelekele": 2500,
-                "Talangaï": 3000,
-                "Autre": 3500
+                "Makélékélé": 1000,
+                "Bacongo": 1000,
+                "Poto-Poto": 1000,
+                "Moungali": 1000,
+                "Ouenzé": 1000,
+                "Talangaï":1500,
+                "Mfilou": 1000,
+                "Djiri":2000,
+                "Mayanga": 1500,
+                "Midibou": 2000,
+                "Kombe": 2000,
+                "Nganga Lingolo": 2000,
             },
             "Pointe-Noire": {
-                "Loandjili": 2000,
+                "Lumumba": 1000,
+                "Mvou-Mvou": 1500,
                 "Tié-Tié": 1500,
-                "Mbota": 2500,
-                "Autre": 3000
+                "Loandjili": 1500,
+                "Mongo Mpoukou": 1000,
+                "Ngoyo": 1500,
             },
             "Dolisie": {
                 "Centre-ville": 2000,
@@ -651,7 +659,7 @@
                         </span>
                     </div>
                     <div class="product-actions">
-                        <button class="btn btn-primary buy-btn" data-product-id="${product.id}">
+                        <button onclick="fbq('track', 'Purchase', {value: 14900,currency: 'XAF' });" class="btn btn-primary buy-btn" data-product-id="${product.id}">
                             <i class="fas fa-shopping-bag"></i> Acheter
                         </button>
                         <button class="btn btn-secondary add-to-cart-btn" data-product-id="${product.id}">
@@ -824,7 +832,7 @@
             product.images.forEach((img, index) => {
                 imagesHTML += `
                     <img src="${img}" class="thumbnail ${index === 0 ? 'active' : ''}" 
-                         onclick="changeMainImage(this, '${img}')" alt="Miniature ${index + 1}">
+                        onclick="changeMainImage(this, '${img}')" alt="Miniature ${index + 1}">
                 `;
             });
             
@@ -875,7 +883,7 @@
                         </div>
                         
                         <div class="modal-actions">
-                            <button class="btn btn-primary buy-btn" data-product-id="${product.id}">
+                            <button onclick="fbq('track', 'Lead');" class="btn btn-primary buy-btn" data-product-id="${product.id}">
                                 <i class="fas fa-shopping-bag"></i> Acheter maintenant
                             </button>
                             <button class="btn btn-secondary add-to-cart-btn" data-product-id="${product.id}">
@@ -1079,8 +1087,8 @@
                 
                 // Calculer les frais de livraison
                 const deliveryFee = deliveryFees[formData.city]?.[formData.neighborhood] || 
-                                   deliveryFees[formData.city]?.["Autre"] || 
-                                   deliveryFees["Autre"]["Autre"];
+                                    deliveryFees[formData.city]?.["Autre"] || 
+                                    deliveryFees["Autre"]["Autre"];
                 
                 const totalAmount = currentProductForPurchase ? 
                     (currentProductForPurchase.promoPrice || currentProductForPurchase.price) + deliveryFee :
@@ -1164,6 +1172,41 @@
                 clearCart();
             }
         }
+
+        
+    !function(f,b,e,v,n,t,s)
+        {if(f.fbq)
+            return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}
+            (window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+            
+    fbq('init', '562190026611572');
+    fbq('track', 'PageView');
+    
+    fbq('track', 'Lead', {value: 40.00, currency: 'USD'});
+    
+    function onClick() {
+    fbq('track', 'Purchase');
+    };
+
+    function trackSearch() {
+    // On récupère la valeur de la recherche dans l’input
+    var searchQuery = document.getElementById("searchBox").value;
+
+    // On déclenche l’événement Facebook Pixel
+    fbq('track', 'Search', {
+        search_string: searchQuery,
+        content_ids: ['1234', '2424'], // Ids fictifs pour l'exemple
+        value: 0.00,
+        currency: 'XAF'
+    });
+};
+
 
         // Suivi des conversions
         function trackConversion(action, value = null) {
@@ -1454,3 +1497,4 @@
                 });
             });
         }
+
