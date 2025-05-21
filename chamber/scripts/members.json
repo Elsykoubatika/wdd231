@@ -1,0 +1,58 @@
+[
+  {
+    "nom": "TechNova Solutions",
+    "adresse": "123 Rue de l'Innovation, Bamako",
+    "telephone": "+223 7000 1234",
+    "url": "https://technova.ml",
+    "image": "technova.png",
+    "niveauAdhesion": 3
+  },
+  {
+    "nom": "Soleil Market",
+    "adresse": "45 Avenue du Marché, Timbuktu",
+    "telephone": "+223 7123 4567",
+    "url": "https://soleilmarket.ml",
+    "image": "soleil.png",
+    "niveauAdhesion": 2
+  },
+  {
+    "nom": "Afrique Digitale",
+    "adresse": "Zone TechnoPark, Bamako",
+    "telephone": "+223 7333 9988",
+    "url": "https://afriquedigitale.ml",
+    "image": "afrique-digitale.png",
+    "niveauAdhesion": 3
+  },
+  {
+    "nom": "Tombouctou Transports",
+    "adresse": "12 Rue Sahara, Tombouctou",
+    "telephone": "+223 7555 3311",
+    "url": "https://tombouctoutransports.ml",
+    "image": "transport.png",
+    "niveauAdhesion": 1
+  },
+  {
+    "nom": "Nafama Couture",
+    "adresse": "Marché Central, Ségou",
+    "telephone": "+223 7888 2222",
+    "url": "https://nafamacouture.ml",
+    "image": "nafama.png",
+    "niveauAdhesion": 2
+  },
+  {
+    "nom": "Bamako Coffee Hub",
+    "adresse": "Rond-point de la Jeunesse, Bamako",
+    "telephone": "+223 7666 8899",
+    "url": "https://bamakocoffee.ml",
+    "image": "coffee.png",
+    "niveauAdhesion": 3
+  },
+  {
+    "nom": "Green Mali Energy",
+    "adresse": "Parc ÉcoTech, Sikasso",
+    "telephone": "+223 7999 0001",
+    "url": "https://greenmali.ml",
+    "image": "green-energy.png",
+    "niveauAdhesion": 2
+  }
+]

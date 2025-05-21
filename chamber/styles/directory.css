@@ -1,0 +1,34 @@
+* {
+    margin:  0;
+    padding: 0;
+	box-sizing: border-box;
+}
+
+:root{
+    --primary-color: #22391F;
+    --secondary-color: #ffffffdc;
+    --tertiary-color: #000000;
+}
+
+header {
+    background-color: white;
+    box-shadow: 0 20px 20px 10px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+}
+
+.logo img {
+    width: 6%;
+}
+
+nav {
+    display: flex;
+    
+    flex-direction: flex-end;
+    text-decoration: none;
+}
+ul {
+    text-decoration: none;
+}
