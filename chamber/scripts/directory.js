@@ -76,14 +76,16 @@ async function displayBusiness() {
     //Crée le HTML pour chaque membre
     const businessHTML = members.map(member => `
         <div class="business-card">
-            <img src="${member.image}" alt="Logo de ${member.nom}" />
             <h4>${member.nom}</h4>
             <p class="tagline"> 'Business Tag Line'</p>
-            <p>
-                <strong>Adresse:</strong> ${member.adresse}<br>
-                <strong>Téléphone:</strong> ${member.telephone}<br>
-                <strong>Site:</strong> <a href="${member.url}" target="_blank">${member.url}</a>
-            </p>
+            <div class="infos">
+                <img src="${member.image}" alt="Logo de ${member.nom}" />
+                <p>
+                    <strong>Adresse:</strong> ${member.adresse}<br>
+                    <strong>Téléphone:</strong> ${member.telephone}<br>
+                    <strong>Site:</strong> <a href="${member.url}" target="_blank">${member.url}</a>
+                </p>
+            </div>
         </div>
     `).join("");
 

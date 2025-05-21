@@ -6,10 +6,12 @@
 
 :root{
     --primary-color: #22391F;
-    --secondary-color: #ffffffdc;
+    --secondary-color: #f9f4f4;
     --tertiary-color: #000000;
 }
-
+body{
+    background: var(--secondary-color);
+}
 header {
     background-color: white;
     box-shadow: 0 20px 20px 10px rgba(0, 0, 0, 0.3);
@@ -19,16 +21,141 @@ header {
     display: flex;
 }
 
-.logo img {
-    width: 6%;
+h1 {
+    font-size: 30px;
+    position: relative;
+    color: var(--primary-color);
+    top: 40px;
 }
 
-nav {
+.logo img {
+    width: 8%;
+}
+.logo {
     display: flex;
-    
-    flex-direction: flex-end;
-    text-decoration: none;
+    padding: 0 30px;
 }
 ul {
-    text-decoration: none;
+    display: flex;
+    position: relative;
+    right: 50px;
+    gap: 20px;
+    top: 60px;
+    list-style: none;
 }
+
+li a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 200;
+    color: #22391F;
+}
+
+#darkModeToggle {
+    font-size: 20px;
+    position: relative;
+    bottom: 10px;
+    border: none;
+    border-radius: 20px;
+}
+
+.hero {
+    background-color: #22391F;
+    padding: 10px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.hero img {
+    display: flex;
+    width: 100%;
+}
+
+.hero button {
+    background-color: whitesmoke ;
+    padding: 10px 35px;
+    border-radius: 7px;
+}
+
+.info-panels {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+h2 {
+    font-size: 20px;
+    color: #22391F;
+    padding: 10px;
+}
+
+.panel {
+    box-shadow:  0 10px 20px rgba(0,0,0,0.2);
+    padding: 0 0 50px;
+}
+
+#weather-forecast {
+    font-size: 20px;
+    margin: 10px;
+    padding: 15px 10px;
+}
+
+#current-weather {
+    padding: 0 50px;
+    position: relative;
+    bottom: 40px;
+}
+
+#weather img  {
+    width: 10%;
+    margin: 20px;
+}
+
+h3 {
+    font-size: 14px;
+    color: var(--secondary-color);
+    background-color: #22391F;
+    padding: 2px;
+    margin: 0 auto;
+}
+#events {
+    width: 50%;
+}
+
+.businesses {
+    width: 84%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.business-card {
+    box-shadow:  0 10px 20px rgba(0,0,0,0.2);
+    padding: 0 0 50px;
+    border-radius: 5px;
+}
+
+.business-card h4, .tagline {
+    padding: 5px;
+    text-align: center;
+}
+
+.infos {
+    display: flex;
+    margin: 2px;
+}
+
+footer {
+    background-color: #22391F;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10rem;
+    color: #f9f4f4;
+}
+
+footer img {
+    width: 15%;
+}
+
