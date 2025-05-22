@@ -125,6 +125,11 @@
     h1 {
         font-size: 4rem;
     }
+    .header img {
+        width: 8%;
+        top: 1px;
+        left: 19rem;
+    }
 }
 
 @keyframes fade {
