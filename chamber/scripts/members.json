@@ -4,7 +4,7 @@
     "adresse": "123 Rue de l'Innovation, Bamako",
     "telephone": "+223 7000 1234",
     "url": "https://technova.ml",
-    "image": "technova.png",
+    "image": "images/unnamed.webp",
     "niveauAdhesion": 3
   },
   {
@@ -12,7 +12,7 @@
     "adresse": "45 Avenue du Marché, Timbuktu",
     "telephone": "+223 7123 4567",
     "url": "https://soleilmarket.ml",
-    "image": "soleil.png",
+    "image": "images/unnamed.webp",
     "niveauAdhesion": 2
   },
   {
@@ -20,7 +20,7 @@
     "adresse": "Zone TechnoPark, Bamako",
     "telephone": "+223 7333 9988",
     "url": "https://afriquedigitale.ml",
-    "image": "afrique-digitale.png",
+    "image": "images/unnamed.webp",
     "niveauAdhesion": 3
   },
   {
@@ -28,7 +28,7 @@
     "adresse": "12 Rue Sahara, Tombouctou",
     "telephone": "+223 7555 3311",
     "url": "https://tombouctoutransports.ml",
-    "image": "transport.png",
+    "image": "images/unnamed.webp",
     "niveauAdhesion": 1
   },
   {
@@ -36,7 +36,7 @@
     "adresse": "Marché Central, Ségou",
     "telephone": "+223 7888 2222",
     "url": "https://nafamacouture.ml",
-    "image": "nafama.png",
+    "image": "images/unnamed.webp",
     "niveauAdhesion": 2
   },
   {
@@ -44,7 +44,7 @@
     "adresse": "Rond-point de la Jeunesse, Bamako",
     "telephone": "+223 7666 8899",
     "url": "https://bamakocoffee.ml",
-    "image": "coffee.png",
+    "image": "images/unnamed.webp",
     "niveauAdhesion": 3
   },
   {
@@ -52,7 +52,7 @@
     "adresse": "Parc ÉcoTech, Sikasso",
     "telephone": "+223 7999 0001",
     "url": "https://greenmali.ml",
-    "image": "green-energy.png",
+    "image": "images/unnamed.webp",
     "niveauAdhesion": 2
   }
 ]

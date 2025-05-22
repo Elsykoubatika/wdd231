@@ -24,12 +24,11 @@
             </div>
             <nav>
                 <a id="menu" href="#" title="Open menu"></a>
-                <ul class="filterButton">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Directory</a></li>
-                    <li><a href="#">Join</a></li>
-                    <li><a href="#">Discover</a></li>
-                    <li><button id="darkModeToggle" type="button">🌓</button></li>
+                <ul class="filterButton" id="navlinks">
+                    <li><button id="home" type="button">Home</button></li>
+                    <li><button id="Directory" type="button">Directory</button></li>
+                    <li><button id="Join" type="button">Join</button></li>
+                    <li><button id="discover" type="button">Discover</button></li>
                 </ul>
             </nav>
         </header> 
@@ -62,19 +61,25 @@
                     Chargement...
                     </p>
                 </div>
-            </section>  
-            
-            <!-- Business Highlights -->
-            <section class="businesses" id="businesses">
-                <div class="business-card">
-                    <img src="business1-placeholder.png" alt="Business logo" />
-                    <h4>Business Name</h4>
-                    <p class="tagline">Business Tag Line</p>
-                    <p><strong>EMAIL:</strong> info@gmail.com<br>
-                        <strong>PHONE:</strong> 800-555-1234<br>
-                        <strong>URL:</strong> mybusiness.com</p>
-                </div>
             </section>
+            
+            <div class="affiche">
+                <button id="grid">⏹️ Grid</button>
+                <button id="list">📄 List</button>
+            </div>
+            <!-- Business Highlights -->
+            <article class="grid">
+                <section class="businesses" id="businesses">
+                    <div class="business-card">
+                        <img src="business1-placeholder.png" alt="Business logo" />
+                        <h4>Business Name</h4>
+                        <h5 class="tagline">Business Tag Line</h5>
+                        <p><strong>EMAIL:</strong> info@gmail.com<br>
+                            <strong>PHONE:</strong> 800-555-1234<br>
+                            <strong>URL:</strong> mybusiness.com</p>
+                    </div>
+                </section>
+            </article>
         </main> 
 
         <!-- Footer -->

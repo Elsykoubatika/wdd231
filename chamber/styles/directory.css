@@ -1,4 +1,5 @@
 * {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin:  0;
     padding: 0;
 	box-sizing: border-box;
@@ -44,11 +45,11 @@ ul {
     list-style: none;
 }
 
-li a {
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 200;
-    color: #22391F;
+.hero-btn, .filterButton button {
+    border: none;
+    font-size: 15px;
+    background-color: #ffffff;
+    cursor: pointer;
 }
 
 #darkModeToggle {
@@ -72,9 +73,12 @@ li a {
 }
 
 .hero button {
+    position: absolute;
     background-color: whitesmoke ;
-    padding: 10px 35px;
+    padding: 15px 35px;
     border-radius: 7px;
+    right: 10rem;
+    top: 38rem;
 }
 
 .info-panels {
@@ -83,9 +87,10 @@ li a {
     gap: 10px;
 }
 h2 {
+    position: relative;
     font-size: 20px;
     color: #22391F;
-    padding: 10px;
+    padding: 10px 70px;
 }
 
 .panel {
@@ -121,6 +126,10 @@ h3 {
     width: 50%;
 }
 
+h4 {
+    font-size: 15px;
+    padding: 1px ;
+}
 .businesses {
     width: 84%;
     display: grid;
@@ -128,22 +137,35 @@ h3 {
     gap: 10px;
     margin: 0 auto;
     padding: 20px;
+    color: #c9bbbb;
 }
 
 .business-card {
-    box-shadow:  0 10px 20px rgba(0,0,0,0.2);
-    padding: 0 0 50px;
-    border-radius: 5px;
+    box-shadow:  0 10px 11px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    border: 1px  solid ;
 }
 
 .business-card h4, .tagline {
-    padding: 5px;
     text-align: center;
+    color: #000000;
+}
+
+.tagline {
+    border-bottom: 1px  solid var(--primary-color);
+    font-size: 9px;
 }
 
 .infos {
     display: flex;
     margin: 2px;
+    color: #000000;
+    padding: 5px;
+}
+
+.infos img {
+    width: 20%;
+    margin: 0 10px 10px ;
 }
 
 footer {
@@ -159,3 +181,104 @@ footer img {
     width: 15%;
 }
 
+#menu {
+    display: none;
+}
+
+#menu {
+	font-size: 2rem;
+	font-weight: 700;
+	text-decoration: none;
+	padding: 0.5rem 0.75rem;
+    color: var(--tertiary-color);
+    position: absolute;
+    top: 25px;
+    right: 1rem;
+}
+#menu::before {
+	content: "X";
+}
+.show button {
+	display: none;
+}
+
+#menu.show::before {
+	content: "≡";
+}
+
+.grid img {
+	border: 1px solid #fff;
+	box-shadow: 0 0 1rem #555;
+}
+
+.grid section > * {
+	margin: 0.1rem;
+}
+
+.list div:nth-child(even) {
+    background-color: #777373;
+}
+
+.list section {
+    display: flex;
+    flex-direction: column;
+	padding: 1rem;
+    width: 100%;
+}
+
+.list div {
+    display:flex ;
+    border-radius: 0;
+    gap: 0;
+    box-shadow: none;
+}
+
+.list h5 {
+    display: none;
+    border: none;
+}
+
+.list p {
+    display: flex;
+    text-align: center;
+    margin: 0 30px;
+}
+
+.list strong {
+    margin: 0 20px;
+}
+
+.list section > * {
+	margin: 0 1rem;
+}
+
+.list section img {
+	display: none; /* smaller viewports only */
+}
+
+.affiche button {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 15px;
+    border: none;
+    text-align: center;
+    font-size: 14px;
+    background-color: #000000;
+    color:#fff;
+    cursor: pointer;
+}
+
+.affiche button:hover{
+    background-color: #22391F;
+    color: #ffffff;
+}
+
+.affiche {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    gap: 5px;
+    padding: 20px;
+    width: 20%;
+
+}

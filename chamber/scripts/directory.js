@@ -74,10 +74,11 @@ async function displayBusiness() {
     const members = await getBusiness();
 
     //Crée le HTML pour chaque membre
-    const businessHTML = members.map(member => `
+    const businessHTML = members.map(member =>
+        `
         <div class="business-card">
             <h4>${member.nom}</h4>
-            <p class="tagline"> 'Business Tag Line'</p>
+            <h5 class="tagline">${member.niveauAdhesion}</h5>
             <div class="infos">
                 <img src="${member.image}" alt="Logo de ${member.nom}" />
                 <p>
@@ -87,7 +88,7 @@ async function displayBusiness() {
                 </p>
             </div>
         </div>
-    `).join("");
+    ` ).join("");
 
     document.getElementById("businesses").innerHTML = businessHTML;
 }
@@ -117,11 +118,30 @@ document.getElementById('currentyear').textContent = `${currentYear}`;
 document.getElementById("lastModified").textContent = `Last modified: ${formattedLastModified}`;
 
 // Store the selected elements that we are going to use. This is not required but a good practice with larger programs where the variable will be referenced more than once.
-const mainnav = document.querySelector('.filterButton')
-const hambutton = document.querySelector('#menu');
+const navlinks = document.querySelector('#navlinks')
+const hamburgerBtn = document.querySelector('#menu');
 
 // Add a click event listender to the hamburger button and use a callback function that toggles the list element's list of classes.
-hambutton.addEventListener('click', () => {
-	mainnav.classList.toggle('show');
-	hambutton.classList.toggle('show');
+hamburgerBtn.addEventListener("click", () => {
+    navlinks.classList.toggle("show");
 });
+
+
+const gridbutton = document.querySelector("#grid");
+const listbutton = document.querySelector("#list");
+const display = document.querySelector("article");
+
+// The following code could be written cleaner. How? We may have to simplfiy our HTMl and think about a default view.
+
+gridbutton.addEventListener("click", () => {
+	// example using arrow function
+	display.classList.add("grid");
+	display.classList.remove("list");
+});
+
+listbutton.addEventListener("click", showList); // example using defined function
+
+function showList() {
+	display.classList.add("list");
+	display.classList.remove("grid");
+}
