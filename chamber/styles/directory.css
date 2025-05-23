@@ -315,10 +315,10 @@ footer img {
     #menu {
         display: block;
         font-size: 20px;
-        font-weight: 700;
         text-decoration: none;
         padding: 0.5rem 0.75rem;
         color: var(--tertiary-color);
+        top: 10px;
     }
 
     ul {
@@ -330,7 +330,7 @@ footer img {
 
     h1 {
         font-size: 15px;
-        top: 25px;
+        top: 18px;
     }
 
     .info-panels {
@@ -366,7 +366,7 @@ footer img {
     }
 
     .hero button {
-        top: 6rem;
+        top: 8rem;
         right: 2rem;
         font-size: 9px;
         padding: 8px 5px;
