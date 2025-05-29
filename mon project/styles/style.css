@@ -1,0 +1,117 @@
+main {
+    width: auto;
+    max-width: 840px;
+    background-color: #ffffffc4;
+    text-align: center;
+    color: #8e879b;
+
+}
+/*
+main img {
+    width: 350px;
+    height: auto;
+    margin: auto;
+    border: 30px solid rgba(114, 76, 76, 0);
+    padding: 0rem;
+    background-color: #2b4083c4;
+    color: #605b6b;
+    text-align: center;
+    
+}*/
+
+/*style de base pour la page*/
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #dbe5ef;
+    margin: 20px;
+    padding: 20px;
+    color: #222c39
+}
+/*
+aside {
+    width: 30rem;
+    margin: auto;
+    border: 100px solid rgba(59, 51, 51, 0);
+    padding: 1rem;
+    background-color: #eaf6f0c4;
+    color: #0e061e;
+    text-align: left;
+}
+
+aside img {
+    width: 400px;
+    height: auto;
+}
+*/
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #66fdfdd8;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(185, 173, 173, 0.919);
+}
+/*titre principal*/
+h1 {
+    text-align: center;
+    color: #111119;
+    box-shadow: 0 0 10px rgba(45, 237, 228, 0.843);
+    border-radius: 50px;
+
+}
+
+/*titre de section*/
+h2 {
+    color: #0303039d;
+    margin-top: 2px;
+    text-align: left;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.607);
+    border-radius: 5px;
+    background: #7aa5fc;
+}
+
+/*texte des questions*/
+p{
+    font-size: 1.2em;
+    margin: 10px 0;
+    margin-left: auto;
+    text-align: left;
+    box-shadow: 0 0 10px rgba(59, 132, 215, 0.843);
+    background-color: #8bc3ff;
+    border-radius: 5px;
+}
+
+/* Style des labels et boutons radio */
+label {
+    margin-left: 100px;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+/* Bouton de soumission */
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #7aa5fc;
+    color: #000202f3;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #28507a;
+}
+
+footer {
+    margin-top: 15px;
+    border-top: 1px solid #8c7f38;
+    text-align: center;
+}

@@ -7,26 +7,38 @@
 
 :root{
     --primary-color: #22391F;
-    --secondary-color: #f9f4f4;
-    --tertiary-color: #000000;
+    --secondary-color: #152210;
+    --text: #e7e7f0d7;
+    --decor: #055472;
 }
 body{
-    background: var(--secondary-color);
+    background: var(--text);
+    color: var(--text);
+    transition: all 0.3s ease;
+    font-family: Arial, sans-serif;
 }
+
+/* Thème sombre */
+body.dark-mode {
+    background-color: #181717a9;
+    color: #f0f0f0;
+}
+
 header {
-    background-color: white;
     box-shadow: 0 20px 20px 10px rgba(0, 0, 0, 0.3);
     position: sticky;
     top: 0;
     z-index: 100;
     display: flex;
+    background-color: var(--text);
 }
 
 h1 {
-    font-size: 30px;
+    width: 50%;
+    font-size: 40px;
     position: relative;
     color: var(--primary-color);
-    top: 40px;
+    top: 25px;
 }
 
 .logo img {
@@ -45,11 +57,27 @@ ul {
     list-style: none;
 }
 
-.hero-btn, .filterButton button {
+
+.hero-btn {
     border: none;
-    font-size: 15px;
-    background-color: #ffffff;
+    font-size: 20px;
     cursor: pointer;
+}
+
+.filterButton button {
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    background: none;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+.filterButton button:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 5px;
 }
 
 #darkModeToggle {
@@ -89,13 +117,15 @@ ul {
 h2 {
     position: relative;
     font-size: 20px;
-    color: #22391F;
+    color: var(--primary-color);
     padding: 10px 70px;
 }
 
 .panel {
     box-shadow:  0 10px 20px rgba(0,0,0,0.2);
-    padding: 0 0 50px;
+    padding: 0 1px 40px;
+    background-color: var(--secondary-color);
+    border-radius: 3px;
 }
 
 #weather-forecast {
@@ -105,21 +135,24 @@ h2 {
 }
 
 #current-weather {
-    padding: 0 50px;
+    padding: 15px 50px;
     position: relative;
-    bottom: 40px;
 }
 
 #weather img  {
-    width: 10%;
     margin: 20px;
 }
 
+.weat {
+    display: flex;
+
+}
+
 h3 {
-    font-size: 14px;
-    color: var(--secondary-color);
-    background-color: #22391F;
-    padding: 2px;
+    font-size: 20px;
+    color: var(--text);
+    background-color: var(--primary-color);
+    padding: 5px;
     margin: 0 auto;
 }
 #events {
@@ -137,24 +170,30 @@ h4 {
     gap: 10px;
     margin: 0 auto;
     padding: 20px;
-    color: #c9bbbb;
+    color: var(--secondary-color);
 }
 
 .business-card {
-    box-shadow:  0 10px 11px rgba(0,0,0,0.2);
+    box-shadow:  0 10px 11px rgba(0,0,0,0.3);
     border-radius: 8px;
     border: 1px  solid ;
+    background-color: #0f1f0d0c;
 }
 
 .business-card h4, .tagline {
     text-align: center;
-    color: #000000;
+    color: var(--secondary-color);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    padding: 5px;
+    border-bottom: 1px  solid ;
 }
 
 .tagline {
-    border-bottom: 1px  solid var(--primary-color);
+    border-bottom: 1px  solid var(--secondary-color);
     font-size: 9px;
 }
+
 
 .infos {
     display: flex;
@@ -174,22 +213,17 @@ footer {
     display: flex;
     justify-content: center;
     gap: 10rem;
-    color: #f9f4f4;
+    color: var(--text);
 }
 
 footer img {
     width: 15%;
 }
 
-
 #menu {
-	font-size: 2rem;
 	font-weight: 700;
 	text-decoration: none;
-	padding: 0.5rem 0.75rem;
-    color: var(--tertiary-color);
     position: absolute;
-    top: 25px;
     right: 1rem;
 }
 #menu::before {
@@ -215,9 +249,9 @@ footer img {
 	margin: 0.1rem;
 }
 
-.list div:nth-child(even) {
+/*.list div:nth-child(even) {
     background-color: #777373;
-}
+}*/
 
 .list section {
     display: flex;
@@ -266,6 +300,7 @@ footer img {
     background-color: #000000;
     color:#fff;
     cursor: pointer;
+    border-radius: 3px;
 }
 
 .affiche button:hover{
@@ -314,11 +349,11 @@ footer img {
 
     #menu {
         display: block;
-        font-size: 20px;
+        font-size: 30px;
         text-decoration: none;
         padding: 0.5rem 0.75rem;
-        color: var(--tertiary-color);
-        top: 10px;
+        color: var(--primary-color);
+        top: 20px;
     }
 
     ul {
@@ -329,8 +364,7 @@ footer img {
     }
 
     h1 {
-        font-size: 15px;
-        top: 18px;
+        font-size: 25px;
     }
 
     .info-panels {
@@ -380,11 +414,11 @@ footer img {
     }
 
     p {
-        font-size: 10px;
+        font-size: 15px;
     }
 
     #weather-forecast{
-        font-size: 10px;
+        font-size: 15px;
     }
 
     .affiche button {
@@ -426,6 +460,10 @@ footer img {
     flex-direction: column;
 	padding: 0;
     width: 100%;
+}
+
+#weather p {
+    font-size: 15px;
 }
 
 .list section > * {

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Timbuktu Chamber of Commerce</title>
+        <meta property="og:title" content="Timbuktu Chamber of Commerce">
+        <meta property="og:description" content="WDD 231 : Développement d'interfaces Web I - Koubatika ELsy Fernandez">
+        <meta property="og:url" content="https://elsykoubatika.github.io/wdd231/">
+        <meta property="og:image" content="images/profil.webp">
+        <meta property="og:type" content="website">
+
+        <link rel="stylesheet" href="styles/directory.css">
+        <link rel="icon" href="images/favicon.ico">
+        <script src="scripts/directory.js" defer></script>
+    </head>
+    <body>
+
+    <!-- Header / Navigation -->
+        <header>
+            <div class="logo">
+                <img src="images/vue-lettre-3d-k.webp" alt="Timbuktu Chamber of Commerce" />
+                <h1>Timbuktu<br><small>Chamber of Commerce</small></h1>
+            </div>
+            <nav>
+                <a id="menu" href="#" title="Open menu"></a>
+                <ul class="filterButton" id="navlinks">
+                    <li><button id="home" type="button">Home</button></li>
+                    <li><button id="Directory" type="button">Directory</button></li>
+                    <li><button id="Join" type="button">Join</button></li>
+                    <li><button id="discover" type="button">Discover</button></li>
+                    <li><button id="toggle-theme" type="button" title="Changer de thème">🌓</button></li>
+                </ul>
+            </nav>
+        </header> 
+        
+        <!-- Hero Image -->
+        <section class="hero">
+            <img src="images/hero.webp" alt="Scalable, responsive hero image" />
+            <button class="hero-btn" type="button">Keynote Tickets</button>
+        </section>  
+
+        <!-- Main Content -->
+        <main>
+            <h2>Home</h2> 
+            <section class="info-panels">
+                <div class="panel" id="events">
+                    <h3>Events</h3>
+                    <p id="description">Upcoming local business events and workshops.</p>
+                </div>
+                <div class="panel" id="weather">
+                    <h3>Current Weather</h3>
+                    <div class="weat">
+                        <img src="images/meteorologique.webp" alt="Scalable, responsive hero image" />
+                        <p id="current-weather">
+                        Chargement...
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="panel">
+                    <h3>Weather Forecast</h3>
+                    <p id="weather-forecast">
+                    Chargement...
+                    </p>
+                </div>
+            </section>
+            
+            <div class="affiche">
+                <button id="grid" type="button">⏹️ Grid</button>
+                <button id="list" type="button">📄 List</button>
+            </div>
+            <!-- Business Highlights -->
+            <article class="grid">
+                <section class="businesses" id="businesses">
+                    <div class="business-card">
+                        <img src="business1-placeholder.png" alt="Business logo" />
+                        <h4>Business Name</h4>
+                        <h5 class="tagline">Business Tag Line</h5>
+                        <p><strong>EMAIL:</strong> info@gmail.com<br>
+                            <strong>PHONE:</strong> 800-555-1234<br>
+                            <strong>URL:</strong> mybusiness.com</p>
+                    </div>
+                </section>
+            </article>
+        </main> 
+
+        <!-- Footer -->
+        <footer>
+            <div >
+                <p>
+                    <strong>Timbuktu Chamber of Commerce</strong><br>
+                    10 Rue De La Paix<br>
+                    Timbuktu, Mali 999<br>
+                    info@timbuktucc.org<br>
+                    (223) 555-2300
+                </p>
+            </div>
+
+            <div class="social-media">
+                <a href="#"><img src="images/youtube.png" alt="YouTube"/></a>
+                <a href="#"><img src="images/twitter.png" alt="Twitter"/></a>
+                <a href="#"><img src="images/linkedin.png" alt="LinkedIn"/></a>
+            </div>
+
+            <div class="footer-note">
+                <p>WDD231 Class Project</p>
+                <p>Koubatika Elsy Fernandez, Brazzaville</p>
+                <p>©<span id="currentyear"></span> ❖ Timbuktu Chamber of Commerce❖</p>
+                <p><span id="lastModified"></span> </p>
+            </div>
+        </footer>
+    </body>
+</html>

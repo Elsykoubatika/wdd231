@@ -27,6 +27,8 @@ async function displayProphets() {
         Lever du soleil: ${formatTime(weather.sys.sunrise)}<br>
         Coucher du soleil: ${formatTime(weather.sys.sunset)}
     `;
+
+    document.getElementById("description").innerHTML = `<p id="description">${weather.weather[0].description}</p>`;
 }
 
 displayProphets();
@@ -70,30 +72,47 @@ async function getBusiness() {
     return data;
 }
 
-async function displayBusiness() {
-    const members = await getBusiness();
 
-    //Crée le HTML pour chaque membre
-    const businessHTML = members.map(member =>
-        `
-        <div class="business-card">
-            <h4>${member.nom}</h4>
-            <h5 class="tagline">${member.niveauAdhesion}</h5>
-            <div class="infos">
-                <img src="${member.image}" alt="Logo de ${member.nom}" />
-                <p>
-                    <strong>Adresse:</strong> ${member.adresse}<br>
-                    <strong>Téléphone:</strong> ${member.telephone}<br>
-                    <strong>Site:</strong> <a href="${member.url}" target="_blank">${member.url}</a>
-                </p>
+function shuffleAndDisplayBusiness(limit = 3) {
+    getBusiness().then(members => {
+        // Shuffle array
+        for (let i = members.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [members[i], members[j]] = [members[j], members[i]];
+        }
+        // Limit to 'limit' cards
+        const selected = members.slice(0, limit);
+        const businessHTML = selected.map(member =>
+            `
+            <div class="business-card" data-niveau="${member.niveauAdhesion}">
+                <h4>${member.nom}</h4>
+                <div class="infos">
+                    <img src="${member.image}" alt="Logo de ${member.nom}" />
+                    <p>
+                        <strong>Adresse:</strong> ${member.adresse}<br>
+                        <strong>Téléphone:</strong> ${member.telephone}<br>
+                        <strong>Site:</strong> <a href="${member.url}" target="_blank">${member.url}</a>
+                    </p>
+                </div>
             </div>
-        </div>
-    ` ).join("");
+        ` ).join("");
+        document.getElementById("businesses").innerHTML = businessHTML;
 
-    document.getElementById("businesses").innerHTML = businessHTML;
+        // Change background color based on niveauAdhesion
+        const cards = document.querySelectorAll("#businesses .business-card");
+        selected.forEach((member, idx) => {
+            const card = cards[idx];
+            if (String(member.niveauAdhesion) === "2") {
+                card.style.backgroundColor = 'gold';
+            } else if (String(member.niveauAdhesion) === "3") {
+                card.style.backgroundColor = 'silver';
+            }
+        });
+    });
 }
 
-displayBusiness();
+// Exemple d'utilisation : afficher 4 cartes aléatoires
+shuffleAndDisplayBusiness(3);
 
 // Get the current year
 const currentYear = new Date().getFullYear();
@@ -145,3 +164,9 @@ function showList() {
 	display.classList.add("list");
 	display.classList.remove("grid");
 }
+
+const toggleBtn = document.getElementById('toggle-theme');
+
+toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+});
