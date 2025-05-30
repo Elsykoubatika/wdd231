@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Données utilisateurs</title>
+</head>
+<body>
+    <h2>📊 Données enregistrées</h2>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Date</th>
+            <th>Nom</th>
+            <th>Téléphone</th>
+            <th>URL</th>
+            <th>Image</th>
+        </tr>
+        {% for d in donnees %}
+            <tr>
+                <td>{{ d.date_creation.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>{{ d.nom }}</td>
+                <td>{{ d.telephone }}</td>
+                <td>{{ d.url }}</td>
+                <td>
+                    {% if d.image_path %}
+                        <a href="{{ url_for('static', filename=d.image_path.replace('static/', '')) }}" target="_blank">Voir</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

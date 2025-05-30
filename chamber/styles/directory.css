@@ -1,5 +1,4 @@
 * {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin:  0;
     padding: 0;
 	box-sizing: border-box;
@@ -48,7 +47,7 @@ h1 {
     display: flex;
     padding: 0 25px;
 }
-ul {
+ul, #toggle-theme {
     display: flex;
     position: relative;
     right: 50px;
@@ -64,13 +63,18 @@ ul {
     cursor: pointer;
 }
 
-.filterButton button {
+.filterButton button, #toggle-theme {
     border: none;
     font-size: 20px;
     cursor: pointer;
     background: none;
     font-weight: 700;
     color: var(--secondary-color);
+}
+
+#toggle-theme{
+    margin: 0 30px;
+    top: 55px;
 }
 
 .filterButton button:hover {
@@ -105,8 +109,8 @@ ul {
     background-color: whitesmoke ;
     padding: 15px 35px;
     border-radius: 7px;
-    right: 10rem;
-    top: 38rem;
+    right: 20rem;
+	top: 70rem;
 }
 
 .info-panels {
@@ -324,8 +328,10 @@ footer img {
         display: block;
         width: 25%;
         position: absolute;
-        top: 40px;
+        top: 45px;
+        right: 10rem;
         box-shadow:0 0 1rem #070707;
+        border-radius: 5px;
     } 
     .logo img {
         width: 15%;
@@ -347,13 +353,19 @@ footer img {
         color: #22391F;
     }
 
-    #menu {
+    #menu{
         display: block;
-        font-size: 30px;
+        font-size: 40px;
         text-decoration: none;
-        padding: 0.5rem 0.75rem;
+        padding: 0.5rem 5rem;
         color: var(--primary-color);
         top: 20px;
+    }
+
+    #toggle-theme {
+        top: 30px;
+        right: 1px;
+        font-size: 20px;
     }
 
     ul {
@@ -400,8 +412,8 @@ footer img {
     }
 
     .hero button {
-        top: 8rem;
-        right: 2rem;
+        top: 21rem;
+        right: 4rem;
         font-size: 9px;
         padding: 8px 5px;
     }

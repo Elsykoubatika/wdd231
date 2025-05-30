@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Formulaire utilisateur</title>
+    </head>
+    <body>
+        <h2>Remplis ce formulaire pour générer ton QR Code</h2>
+        <form action="/submit_form" method="POST" enctype="multipart/form-data">
+            <label>Nom :</label><br>
+            <input type="text" name="nom" required><br><br>
+
+            <label>Téléphone :</label><br>
+            <input type="text" name="telephone" required><br><br>
+
+            <label>URL à lier :</label><br>
+            <input type="text" name="url" required><br><br>
+
+            <label>Image (facultative) :</label><br>
+            <input type="file" name="image" accept="image/*"><br><br>
+
+            <button type="submit">Générer le QR Code</button>
+        </form>
+        {% if qr_code %}
+            <h3>QR Code généré pour {{ nom }} :</h3>
+            <img src="{{ qr_code }}" alt="QR Code"><br><br>
+
+            <a href="{{ url_for('static', filename=qr_code_file) }}" download>
+                <button>Télécharger le QR Code</button>
+            </a>
+        {% endif %}
+    </body>
+</html>
