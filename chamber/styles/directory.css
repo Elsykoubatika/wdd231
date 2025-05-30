@@ -12,7 +12,6 @@
 }
 body{
     background: var(--text);
-    color: var(--text);
     transition: all 0.3s ease;
     font-family: Arial, sans-serif;
 }
