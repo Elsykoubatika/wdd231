@@ -108,8 +108,8 @@ ul, #toggle-theme {
     background-color: whitesmoke ;
     padding: 15px 35px;
     border-radius: 7px;
-    right: 20rem;
-	top: 70rem;
+    right: 15rem;
+	top: 40rem;
 }
 
 .info-panels {
@@ -129,6 +129,7 @@ h2 {
     padding: 0 1px 40px;
     background-color: var(--secondary-color);
     border-radius: 3px;
+    color: var(--text)
 }
 
 #weather-forecast {
@@ -318,7 +319,165 @@ footer img {
     gap: 5px;
     padding: 20px;
     width: 20%;
+}
 
+
+/* join */
+
+.formulaire {
+    display: flex;
+    justify-content: center;
+    padding: 25px;
+}
+
+form {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+	box-shadow: 0 0 1rem #555;
+    padding: 0 0px 20px;
+    border-radius: 5px;
+}
+
+form h2 {
+    text-align: center;
+    background-color: #22391F;
+    color: beige;
+    border-radius: 5px 5px 0 0 ;
+}
+
+form h4 {
+    color: beige;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    background-color: var(--primary-color);
+    margin: 0 auto;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+form input[type="submit"]
+{
+    width: 80%;
+    margin: auto;
+    padding: 10px ;
+    cursor: pointer;
+    font-size: 15px;
+    border-radius: 5px;
+    background-color: #22391F;
+    color: #f0f0f0;
+}
+
+form input[type="submit"]:hover {
+    background-color: #055472;
+    color: #fff;
+}
+
+.join {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding:  22px 20px;
+}
+
+.member{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding:  20px 20px;
+    border-radius: 0 50px;
+}
+
+.member button {
+    width: 40%;
+    cursor: pointer;
+    margin:  auto;
+    padding: 8px;
+    font-size: 10px;
+    border-radius: 5px;
+    color: white;
+    background-color: #22391F;
+}
+
+.member h2 {
+    margin: auto;
+    font-size: 25px;
+}
+
+.member {
+    box-shadow: 0 0 1rem #555;
+}
+
+label {
+    padding: 10px;
+    font-size: 15px ;
+    font-weight: 550;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin: 2px;
+}
+
+input[type= "text"],
+input[type= "email"],
+input[type= "tel"]
+{
+    padding: 6px 150px;
+    border-radius: 3px;
+}
+
+textarea {
+    padding: 20px 140px;
+    border-radius: 3px;
+}
+
+dialog button{
+    width: 40%;
+    display: flex;
+    cursor: pointer;
+    margin: 0 auto;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 5px;
+    color: white;
+    background-color: #22391F;
+    justify-content: center;
+}
+
+dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    border-radius:0 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    background: white;
+    width: 50%;
+    z-index: 1000;
+    font-size: 20px;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.4); /* floutage de l'arrière-plan */
+}
+
+.thanks {
+    padding: 50px 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#tout {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    padding: 20px;
+    font-size: 15px;
+        border-radius: 0 50px;
+}
+
+#tout h2 {
+    font-size: 30px;
+    padding: 10px 20px;
 }
 
 @media screen and (max-width: 780px) {

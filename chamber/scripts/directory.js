@@ -1,3 +1,67 @@
+window.addEventListener("DOMContentLoaded", () => {
+    const now = new Date();
+//const option = now.toLocaleDateString('fr-FR', {weekday: 'long',year: 'numeric', month: 'long', day: 'numeric'});
+    const timeFR = now.toLocaleDateString('fr-FR', {hour: '2-digit', minute: '2-digit'});
+    const formated = ` ${timeFR}`;
+    document.getElementById("timestamp").value = formated;
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+try {
+    const getString = window.location.search;
+    const myInfo = new URLSearchParams(getString);
+
+    const target = document.querySelector('#tout');
+    if (!target) throw new Error("Element #tout not found!");
+
+    target.innerHTML = `
+        <h2>Thank you ${myInfo.get('first')} ${myInfo.get('last')}</h2>
+        <p><strong>Organizational Title:</strong> ${myInfo.get('organization-title')}</p>
+        <p><strong>Email:</strong> ${myInfo.get('email')}</p>
+        <p><strong>Phone:</strong> ${myInfo.get('phone')}</p>
+        <p><strong>Business:</strong> ${myInfo.get('business')}</p>
+        <p><strong>Membership:</strong> ${myInfo.get('membership')}</p>
+        <p><strong>Description:</strong> ${myInfo.get('description')}</p>
+        <p><strong>Date:</strong> ${myInfo.get('timestamp')}</p>
+    `;
+    } catch (e) {
+        console.error("Erreur dans le script :", e.message);
+    }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+function toggleDialog(openBtnId, dialogId, closeBtnId) {
+    const openBtn = document.getElementById(openBtnId);
+    const dialog = document.getElementById(dialogId);
+    const closeBtn = document.getElementById(closeBtnId);
+
+    if (openBtn && dialog && closeBtn) {
+        openBtn.addEventListener("click", () => {
+            dialog.showModal();
+        });
+
+        closeBtn.addEventListener("click", () => {
+            dialog.close();
+        });
+    } else {
+        console.warn(`⛔ Élément(s) manquant(s) pour le dialogue :`, {
+            openBtnId,
+            dialogId,
+            closeBtnId
+        });
+    }
+}
+
+  // Initialise les boîtes de dialogue
+  toggleDialog("openButton2", "dialogBox2", "closeButton2"); // NP
+  toggleDialog("openButton3", "dialogBox3", "closeButton3"); // Bronze
+  toggleDialog("openButton4", "dialogBox4", "closeButton4"); // Silver
+  toggleDialog("openButton",  "dialogBox",  "closeButton");  // Gold
+
+  // 👇 Tes autres fonctions ici : elles seront sûres de s’exécuter !
+    console.log("✅ Tout le JS est chargé sans erreur !");
+});
+
 
 const url = `https://api.openweathermap.org/data/2.5/weather?q=Brazzaville&appid=d93a8fa684d60808fdd71ed4aa5189be&units=imperial&lang=fr`;
 const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=Brazzaville&appid=d93a8fa684d60808fdd71ed4aa5189be&units=imperial&lang=fr`;
@@ -170,3 +234,4 @@ const toggleBtn = document.getElementById('toggle-theme');
 toggleBtn.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
 });
+
