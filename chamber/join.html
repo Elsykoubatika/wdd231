@@ -23,15 +23,15 @@
                 <img src="images/vue-lettre-3d-k.webp" alt="Timbuktu Chamber of Commerce" />
                 <h1>Timbuktu<br><small>Chamber of Commerce</small></h1>
             </div>
-            <nav>
-                <a id="menu" href="#" title="Open menu"></a>
-                <ul class="filterButton" id="navlinks">
-                    <li><a href="index.html"><button id="home" type="button">Home</button></a></li>
-                    <li><a href="#"><button id="directory" type="button">Directory</button></a></li>
-                    <li><a href="join.html"><button id="join" type="button">Join</button></a></li>
-                    <li><a href="#"><button id="discover" type="button">Discover</button></a></li>
-                </ul>
+
+            <a id="menu" href="#" title="Open menu"></a>
+            <nav class="filterButton" id="navlinks">
+                <button id="Home" type="button" onclick="window.location.href='index.html'">Home</button>
+                <button id="Direction" type="button" onclick="window.location.href='#'">Directory</button>
+                <button id="Join" type="button" onclick="window.location.href='join.html'">Join</button>
+                <button id="Discover" type="button" onclick="window.location.href='join.html'">Discover</button>
             </nav>
+
             <button id="toggle-theme" type="button" title="Changer de thème">🌓</button>
         </header> 
 
@@ -39,9 +39,9 @@
     <section class="form">
         <form method="GET" action="thanks.html" class="designOne">
             <h2>Membership Application Form</h2>
-            <label>First Name <input type="text" name="first" required autocomplete="given-name" title="Your First Name" placeholde="Elsy"></label>
-            <label>Last Name <input type="text" name="last" required autocomplete="family-name" title="Your Last Name" placeholde=" Koubatika"></label>
-            <label>Organizational title <input type="text" name="organization-title" autocomplete="organization-title" title="Your organizational title" placeholde="Cowema"></label>
+            <label>First Name <input type="text" name="first" required autocomplete="given-name" title="Your First Name"></label>
+            <label>Last Name <input type="text" name="last" required autocomplete="family-name" title="Your Last Name" ></label>
+            <label>Organizational title <input type="text" name="organization-title" autocomplete="organization-title" title="Your organizational title" ></label>
             <label>Email address<input type="email" name="email" required placeholder="john89@gmail.com"  title="Your Email" autocomplete="email"></label>
             <label>mobile phone number <input type="tel" name="phone" required autocomplete="tel" title="A Phone Number with dashes" placeholder="987-555-1234" ></label>
             <label>business/organization's name <input type="text" name="business" required autocomplete="organization-title" title="Your business or organization's name"></label>
@@ -88,9 +88,11 @@
                 <p><strong>Fee:</strong> Low</p>
                 <p><strong>Description:</strong></p>
                 <p>Perfect for businesses just getting started.</p>
-                <li>Get listed on our website </li>
-                <li>Join our networking events</li>
-                <li>Access basic training sessions</li>
+                <ul>
+                    <li>Get listed on our website </li>
+                    <li>Join our networking events</li>
+                    <li>Access basic training sessions</li>
+                </ul>
                 <p> A small step for you, a big boost for your visibility!</p>
                 <button id="closeButton3" type="button">close</button>
             </dialog>
@@ -106,9 +108,11 @@
                 <p><strong>Fee:</strong> Medium</p>
                 <p><strong>Description:</strong></p>
                 <p>Great for companies that want to grow faster:.</p>
-                <li>All Bronze benefits</li>
-                <li>More visibility in our communications</li>
-                <li>Member discounts on services</li>
+                <ul>
+                    <li>All Bronze benefits</li>
+                    <li>More visibility in our communications</li>
+                    <li>Member discounts on services</li>
+                </ul>
                 <p> Take your business to the next level!</p>
                 <button id="closeButton4" type="button">close</button>
             </dialog>
@@ -124,10 +128,12 @@
                 <p><strong>Fee:</strong>Premium</p>
                 <p><strong>Description:</strong></p>
                 <p>This is the highest level of membership with VIP perks:</p>
-                <li>All Bronze and Silver benefits</li>
-                <li>Top visibility (logo on homepage, social media shoutouts)</li>
-                <li>VIP access to all events</li>
-                <li>Opportunity to co-host workshops and webinars</li>
+                <ul>
+                    <li>All Bronze and Silver benefits</li>
+                    <li>Top visibility (logo on homepage, social media shoutouts)</li>
+                    <li>VIP access to all events</li>
+                    <li>Opportunity to co-host workshops and webinars</li>
+                </ul>
                 <p> Be a key player and help shape the business future of our community!</p>
                 <button id="closeButton" type="button">close</button>
             </dialog>

@@ -46,13 +46,14 @@ h1 {
     display: flex;
     padding: 0 25px;
 }
-ul, #toggle-theme {
+
+.filterButton, #toggle-theme {
     display: flex;
     position: relative;
     right: 50px;
     gap: 20px;
-    top: 60px;
-    list-style: none;
+    top: 2px;
+    padding: 0 0;
 }
 
 
@@ -74,13 +75,6 @@ ul, #toggle-theme {
 #toggle-theme{
     margin: 0 30px;
     top: 55px;
-}
-
-.filterButton button:hover {
-    background-color: var(--primary-color);
-    color: #fff;
-    padding: 8px 15px;
-    border-radius: 5px;
 }
 
 #darkModeToggle {
@@ -122,6 +116,7 @@ h2 {
     font-size: 20px;
     color: var(--primary-color);
     padding: 10px 70px;
+    background-color: #f0f0f0;
 }
 
 .panel {
@@ -337,6 +332,8 @@ form {
 	box-shadow: 0 0 1rem #555;
     padding: 0 0px 20px;
     border-radius: 5px;
+    background-color: #f0f0f0;
+    color: #22391F;
 }
 
 form h2 {
@@ -394,6 +391,8 @@ form input[type="submit"]:hover {
     border-radius: 0 50px;
     animation: fadeInZoom 0.5s ease-out;
     transform: translate(0, 0);
+    background-color: #f0f0f0;
+    color: #22391F;
 }
 
 @keyframes fadeInZoom {
@@ -504,12 +503,10 @@ dialog::backdrop {
 
     .filterButton {
         display: block;
-        width: 25%;
-        position: absolute;
         top: 45px;
-        right: 10rem;
         box-shadow:0 0 1rem #070707;
         border-radius: 5px;
+                background-color: #22391F;
     } 
     .logo img {
         width: 15%;
@@ -519,17 +516,16 @@ dialog::backdrop {
         padding: 0 2px;
     }
     .filterButton button {
-        font-size: 12px;
-        background-color: #22391F;
+        font-size: 15px;
+        color: white;
+        font-weight: 550;
         padding: 10px;
-        color: #ffffff;
-        font-weight: 700;
     }
 
     .filterButton button:hover {
-        background-color: #fff4f4;
+        background-color: white;
         color: #22391F;
-    }
+    } 
 
     #menu{
         display: block;
@@ -544,13 +540,6 @@ dialog::backdrop {
         top: 30px;
         right: 1px;
         font-size: 20px;
-    }
-
-    ul {
-    display: flex;
-    position: relative;
-    background-color: #22391F;
-    justify-items: center;
     }
 
     h1 {

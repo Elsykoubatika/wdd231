@@ -29,6 +29,15 @@ try {
     }
 });
 
+// dark mode
+const toggleBtn = document.getElementById('toggle-theme');
+
+toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+});
+
+//
+
 document.addEventListener("DOMContentLoaded", () => {
 function toggleDialog(openBtnId, dialogId, closeBtnId) {
     const openBtn = document.getElementById(openBtnId);
@@ -229,9 +238,4 @@ function showList() {
 	display.classList.remove("grid");
 }
 
-const toggleBtn = document.getElementById('toggle-theme');
-
-toggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-});
 
