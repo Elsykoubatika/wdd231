@@ -412,7 +412,7 @@ form input[type="submit"]:hover {
     margin:  auto;
     padding: 8px;
     font-size: 10px;
-    border-radius: 5px;
+    border-radius: 6px;
     color: white;
     background-color: #22391F;
 }
