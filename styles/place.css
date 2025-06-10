@@ -69,6 +69,22 @@ li {
     margin: 0.5em 0;
 }
 
+a {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: var(--accent-color);
+    padding: 1.2em 1em;
+    border-radius: 5px;
+    margin: 0 auto;
+    font-size: 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a:hover {
+    background-color: var(--secondary-color);
+    color: var(--link-color);
+}
+
 footer {
     background-color: var(--primary-color);
     color: #ffffff;
