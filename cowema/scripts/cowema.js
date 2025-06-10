@@ -838,7 +838,7 @@
             
             const priceHTML = product.promoPrice 
                 ? `<span class="product-old-price">${product.price.toLocaleString()} FCFA</span>
-                   <span class="product-price">${product.promoPrice.toLocaleString()} FCFA</span>`
+                    <span class="product-price">${product.promoPrice.toLocaleString()} FCFA</span>`
                 : `<span class="product-price">${product.price.toLocaleString()} FCFA</span>`;
             
             productModalBody.innerHTML = `
@@ -1281,34 +1281,6 @@
         
         // Exposer des fonctions au scope global pour les événements inline
         window.changeMainImage = changeMainImage;
-        
-        // Gestion de l'authentification
-        document.getElementById('loginLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('loginModal').style.display = 'flex';
-        });
-
-        document.getElementById('registerLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('registerModal').style.display = 'flex';
-        });
-
-        document.getElementById('logoutLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            currentUser = null;
-            localStorage.removeItem('cowema_currentUser');
-            updateAuthUI();
-        });
-
-        document.querySelector('.account-link').addEventListener('click', function(e) {
-            e.preventDefault();
-            if (currentUser) {
-                document.getElementById('accountName').value = currentUser.name;
-                document.getElementById('accountEmail').value = currentUser.email;
-                document.getElementById('accountPhone').value = currentUser.phone;
-                document.getElementById('accountModal').style.display = 'flex';
-            }
-        });
 
         // Gestion des formulaires
         document.getElementById('loginForm').addEventListener('submit', function(e) {

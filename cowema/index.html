@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="styles/cowema.css">
     <script src="scripts/cowema.js" defer></script>
 
-    <noscript><img height="1" width="1" style="display:none"src="https://www.facebook.com/tr?id=562190026611572&ev=PageView&noscript=1"/></noscript>
-
 </head>
 <body>
     <header>
@@ -27,7 +25,6 @@
                 
                 <div class="search-container">
                     <input type="text" class="search-box" id="searchBox" placeholder="Rechercher un produit...">
-                    <button onclick="trackSearch()"></button>
                 </div>
 
                 <div class="header-actions">
@@ -37,28 +34,6 @@
                     </div>
                 </div>
 
-                <div class="header-links">
-                    <a href="#" style="color: black; text-decoration: none;cursor: pointer; font-size: 1.2rem">
-                        <i class="fas fa-question-circle"></i> Aide
-                    </a>
-                </div>
-                <div class="auth-links" id="authLinks">
-                    <a href="#" id="loginLink" style="color: black; margin-right: 15px; text-decoration: none;font-size: 1.2rem">
-                        <i class="fas fa-sign-in-alt"></i> Connexion
-                    </a>
-                    <a href="#" id="registerLink" style="color: black; text-decoration: none; font-size: 1.2rem">
-                        <i class="fas fa-user-plus"></i> Inscription
-                    </a>
-                </div>
-                <div class="user-menu" id="userMenu" style="display: none;">
-                    <span id="userGreeting" style="margin-right: 15px;"></span>
-                    <a href="#" class="account-link" style="color: black; margin-right: 15px; text-decoration: none; font-size: 1.2rem">
-                        <i class="fas fa-user"></i> Mon compte
-                    </a>
-                    <a href="#" id="logoutLink" style="color: black; text-decoration: none; font-size: 1.2rem">
-                        <i class="fas fa-sign-out-alt"></i> Déconnexion
-                    </a>
-                </div>
             </div>
             </div>
         </div>
@@ -200,24 +175,6 @@
         </div>
     </div>
 
-    <!-- Popup d'abandon de panier -->
-    <div class="cart-abandon-modal modal" id="cartAbandonModal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Votre panier vous attend</h3>
-                <span class="close-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p>Vous avez des articles dans votre panier qui n'attendent que vous!</p>
-                <div class="modal-actions" style="justify-content: center; margin-top: 20px;">
-                    <button class="btn btn-primary" id="viewCartBtn" style="flex: none;">
-                        <i class="fas fa-shopping-cart"></i> Voir mon panier
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Formulaire de livraison -->
     <div class="modal" id="deliveryFormModal">
         <div class="delivery-form-container">
@@ -288,133 +245,6 @@
         </div>
     </div>
 
-    <!-- Modal de connexion -->
-    <div class="modal" id="loginModal">
-        <div class="modal-content" style="max-width: 400px;">
-            <div class="modal-header">
-                <h3 class="modal-title">Connexion</h3>
-                <span class="close-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form id="loginForm">
-                    <div class="delivery-form-group">
-                        <label for="loginEmail">Email</label>
-                        <input type="email" id="loginEmail" required>
-                    </div>
-                    <div class="delivery-form-group">
-                        <label for="loginPassword">Mot de passe</label>
-                        <input type="password" id="loginPassword" required>
-                    </div>
-                    <div class="modal-actions" style="justify-content: space-between; margin-top: 20px;">
-                        <button type="button" class="btn btn-skip" id="showRegisterBtn" onClick="fbq('track', 'Purchase');">
-                            Créer un compte
-                        </button>
-                        <button type="submit" class="btn btn-submit">
-                            Se connecter
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal d'inscription -->
-    <div class="modal" id="registerModal">
-        <div class="modal-content" style="max-width: 500px;">
-            <div class="modal-header">
-                <h3 class="modal-title">Créer un compte</h3>
-                <span class="close-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form id="registerForm">
-                    <div class="delivery-form-group">
-                        <label for="registerName">Nom complet</label>
-                        <input type="text" id="registerName" required>
-                    </div>
-                    <div class="delivery-form-group">
-                        <label for="registerEmail">Email</label>
-                        <input type="email" id="registerEmail" required>
-                    </div>
-                    <div class="delivery-form-group">
-                        <label for="registerPhone">Téléphone</label>
-                        <input type="tel" id="registerPhone" required>
-                    </div>
-                    <div class="delivery-form-group">
-                        <label for="registerPassword">Mot de passe</label>
-                        <input type="password" id="registerPassword" required>
-                    </div>
-                    <div class="delivery-form-group">
-                        <label for="registerConfirmPassword">Confirmer le mot de passe</label>
-                        <input type="password" id="registerConfirmPassword" required>
-                    </div>
-                    <div class="modal-actions" style="justify-content: space-between; margin-top: 20px;">
-                        <button type="button" class="btn btn-skip" id="showLoginBtn">
-                            Déjà un compte? Se connecter
-                        </button>
-                        <button type="submit" class="btn btn-submit">
-                            S'inscrire
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal compte utilisateur -->
-    <div class="modal" id="accountModal">
-        <div class="modal-content" style="max-width: 600px;">
-            <div class="modal-header">
-                <h3 class="modal-title">Mon compte</h3>
-                <span class="close-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="tabs">
-                    <button class="tab-btn active" data-tab="profile">Profil</button>
-                    <button class="tab-btn" data-tab="delivery">Adresses</button>
-                    <button class="tab-btn" data-tab="orders">Commandes</button>
-                </div>
-                
-                <div id="profileTab" class="tab-content active">
-                    <form id="profileForm">
-                        <div class="delivery-form-group">
-                            <label for="accountName">Nom complet</label>
-                            <input type="text" id="accountName" required>
-                        </div>
-                        <div class="delivery-form-group">
-                            <label for="accountEmail">Email</label>
-                            <input type="email" id="accountEmail" required>
-                        </div>
-                        <div class="delivery-form-group">
-                            <label for="accountPhone">Téléphone</label>
-                            <input type="tel" id="accountPhone" required>
-                        </div>
-                        <div class="modal-actions" style="justify-content: flex-end; margin-top: 20px;">
-                            <button type="submit" class="btn btn-submit">
-                                Enregistrer
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                
-                <div id="deliveryTab" class="tab-content">
-                    <div id="deliveryAddresses">
-                        <!-- Les adresses seront ajoutées ici dynamiquement -->
-                    </div>
-                    <button class="btn btn-primary" id="addAddressBtn" style="margin-top: 20px;">
-                        <i class="fas fa-plus"></i> Ajouter une adresse
-                    </button>
-                </div>
-                
-                <div id="ordersTab" class="tab-content">
-                    <div id="orderHistory">
-                        <!-- L'historique des commandes sera ajouté ici -->
-                        <p style="text-align: center; padding: 20px;">Aucune commande passée pour le moment</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal d'adresse -->
     <div class="modal" id="addressModal">
         <div class="modal-content" style="max-width: 500px;">
@@ -458,43 +288,6 @@
                         </button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de capture de leads -->
-    <div class="modal" id="leadCaptureModal">
-        <div class="modal-content" style="max-width: 800px; display: flex;">
-            <div style="flex: 1; background: url('https://via.placeholder.com/400x500?text=Produits+Innovants') center/cover no-repeat; border-radius: 10px 0 0 10px; display: none;" class="lead-image">
-                <!-- Image sera affichée en desktop seulement -->
-            </div>
-            <div style="flex: 1; padding: 20px;">
-                <div class="modal-header">
-                    <h3 class="modal-title">Ne manquez rien!</h3>
-                    <span class="close-modal">&times;</span>
-                </div>
-                <div class="modal-body">
-                    <p>Inscrivez-vous pour recevoir nos offres exclusives et être informé des nouveaux produits en avant-première!</p>
-                    <form id="leadCaptureForm">
-                        <div class="delivery-form-group">
-                            <label for="leadName">Votre nom</label>
-                            <input type="text" id="leadName" required>
-                        </div>
-                        <div class="delivery-form-group">
-                            <label for="leadEmail">Votre email</label>
-                            <input type="email" id="leadEmail" required>
-                        </div>
-                        <div class="delivery-form-group">
-                            <label for="leadPhone">Votre téléphone</label>
-                            <input type="tel" id="leadPhone" required>
-                        </div>
-                        <div class="modal-actions" style="justify-content: center; margin-top: 20px;">
-                            <button type="submit" class="btn btn-submit">
-                                Ne rien manquer!
-                            </button>
-                        </div>
-                    </form>
-                </div>
             </div>
         </div>
     </div>
