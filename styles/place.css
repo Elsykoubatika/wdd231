@@ -1,0 +1,79 @@
+@font-face {
+    font-family: "Playfair Display";
+    src: url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root {
+    --primary-color:  #083344;
+    --secondary-color: #9bb1b8;
+    --accent-color: #be3432;
+    --background-color: #c4cbcec5;
+    --text-color: #303030;
+    --link-color: #1b403c;
+}
+body {
+    font-family:  "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.8;
+    background-color: var(--background-color);
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 1em;
+    text-align: center;
+}
+
+main {
+    padding: 2em;
+    max-width: 1200px;
+    margin: auto;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0.5em 0;
+    color: #ffffff;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0.5em 0;
+    color: var(--text-color);
+}
+
+.wireframe {
+    background-color: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+p{
+    font-size: 1.8rem;
+
+    margin: 0.5em 0;
+}
+
+li {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin: 0.5em 0;
+}
+
+footer {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
