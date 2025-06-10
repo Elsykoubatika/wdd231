@@ -98,6 +98,51 @@ nav button:hover {
     box-shadow: 0 10px 10px 10px rgba(0, 0, 0, 0.1);
 }
 
+dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    background: var(--secondary-color);
+    width: 40%;
+    padding: 10px;
+    z-index: 1000;
+    font-size: 14px;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.4); /* floutage de l'arrière-plan */
+}
+
+dialog h3 {
+    font-family: 'Roboto', sans-serif;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 1rem;
+    background-color: var(--primary-color);
+    padding: 1rem;
+}
+
+dialog button {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    padding: 7px 20px;
+    margin: 0 auto;
+    display: flex;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+
+.detail-list {
+    margin: 0 auto;
+    padding: 20px;
+}
 .computer {
     width: 91%;
     margin: 0 auto;
@@ -139,15 +184,21 @@ header img {
     padding: 2rem;
 }
 
-.temple-card li {
+#course1 { 
+    background-color: #A7A89E;
+}
+.temple-card li, .temple button {
     list-style-type: none;
-    padding: 10px;
+    padding: 7px;
     font-family: 'Roboto', sans-serif;
     text-align: center;
-    font-size: 1rem;
-    border-radius: 10px;
+    font-size: 1.2rem;
     font-weight: 700;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
 }
+
 .temple {
     margin: 0 auto;
     border-top: 3px solid var(--tertiary-color);

@@ -142,6 +142,7 @@ temples.forEach(temple => {
     content.appendChild(card);
 });
 
+
 // Filter temples built after 2000
 const allButton = document.getElementById("all");
 const cseButton = document.getElementById("cse");
@@ -178,6 +179,7 @@ const displayTemples = (filterFn) => {
 	});
 };
 
+const buttons = document.querySelectorAll("#course1");
 // Change background to green for completed courses
 document.querySelectorAll(".temple-card").forEach(card => {
 	const courseText = card.querySelector(".course")?.textContent || "";
@@ -211,4 +213,31 @@ wddButton.addEventListener("click", () => {
 	displayTemples(temple => {		
 	return temple.subject.startsWith("WDD");
 	});
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const dialog = document.getElementById("conteneur");
+    const closeBtn = document.getElementById("close");
+
+    // Sélectionne tous les boutons de cours
+    const courseButtons = document.querySelectorAll(".course");
+
+    courseButtons.forEach((btn, index) => {
+        btn.addEventListener("click", () => {
+            const temple = temples[index];
+            const card = dialog.querySelector("h3");
+            const listItems = dialog.querySelectorAll("li");
+            card.innerHTML = `Course Name: ${temple.subject} ${temple.number}`;
+            listItems[0].innerHTML = `<strong>Title:</strong> ${temple.title}`;
+            listItems[1].innerHTML = `<strong>Technology:</strong> ${temple.technology.join(', ')}`;
+            listItems[2].innerHTML = `<strong>Description:</strong> ${temple.description}`;
+            listItems[3].innerHTML = `<strong>Credits:</strong> ${temple.credits}`;
+
+            dialog.showModal();
+        });
+    });
+
+    closeBtn.addEventListener("click", () => {
+        dialog.close();
+    });
 });
