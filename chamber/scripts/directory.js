@@ -36,6 +36,44 @@ toggleBtn.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
 });
 
+// Load data from JSON file and display it in cards
+// This function fetches data from a JSON file and displays it in cards on the page.
+async function loadData() {
+    try {
+        const urls = "scripts/discover.json";
+        const response = await fetch(urls);
+        const elements = await response.json();
+        const container = document.getElementById("discover-cards");
+        if (elements && elements.length > 0) {
+            elements.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.innerHTML = `
+                <div class= "region">
+                    <h2>${item.name}</h2>
+                    <div class="decouvert">
+                        <div class="card-info">
+                            <img src="${item.photo_url}" alt="${item.name}" width="300" height="200" loading="lazy"/>
+                        </div>
+                        <div class="deco">
+                            <p>${item.description}</p>
+                            <address>${item.address}</address>
+                        </div>
+                    </div>
+                    <button onclick="alert('Plus d\'infos sur ${item.name}')">En savoir plus</button>
+                </div>
+                `;
+                container.appendChild(card);
+            });
+        } else {
+            container.innerHTML = "<p>Aucune donnée à afficher.</p>";
+        }
+    } catch (error) {
+        console.error("Erreur lors du chargement des données :", error);
+    }
+};
+loadData();
+
 //
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -160,11 +198,11 @@ function shuffleAndDisplayBusiness(limit = 3) {
             <div class="business-card" data-niveau="${member.niveauAdhesion}">
                 <h4>${member.nom}</h4>
                 <div class="infos">
-                    <img src="${member.image}" alt="Logo de ${member.nom}" />
+                    <img src="${member.image}" alt="Logo de ${member.nom}" loading="lazy"/>
                     <p>
                         <strong>Adresse:</strong> ${member.adresse}<br>
                         <strong>Téléphone:</strong> ${member.telephone}<br>
-                        <strong>Site:</strong> <a href="${member.url}" target="_blank">${member.url}</a>
+                        <strong>Site:</strong> <a href="${member.url}" target="_blank">${member.url} </a>
                     </p>
                 </div>
             </div>
@@ -236,6 +274,5 @@ listbutton.addEventListener("click", showList); // example using defined functio
 function showList() {
 	display.classList.add("list");
 	display.classList.remove("grid");
-}
-
+};
 

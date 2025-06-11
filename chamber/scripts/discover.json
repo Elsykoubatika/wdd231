@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Chez Fidel (boîte / Ndombolo)",
+    "address": "Bacongo, Brazzaville (ex: Chez Faignond, 1948)",
+    "cost": "1,000–3,000 FCFA (boissons en sus)",
+    "description": "Ambiance locale avec de la rumba et du Ndombolo, lieu de fête populaire et authentique.",
+    "photo_url": "https://images.openai.com/thumbnails/91bb06ef27e93546b77b43a0bf805459.jpeg"
+  },
+  {
+    "name": "Institut Français du Congo (IFC)",
+    "address": "Place de la République, Bacongo, Brazzaville",
+    "cost": "Médiathèque : 5,000 FCFA/an ; expositions et concerts souvent gratuits",
+    "description": "Centre culturel avec cinéma, expositions, concerts et une grande médiathèque.",
+    "photo_url": "https://images.openai.com/thumbnails/85efe956ce92e3e51f72308fcd598042.jpeg"
+  },
+    {
+    "name": "Street Art & Architecture Coloniale",
+    "address": "Quartier Poto-Poto (ex: Rue Dahomey, Rue Yaoundé)",
+    "cost": "Gratuit",
+    "description": "Découverte des fresques de rue, du patrimoine colonial et de la vie urbaine colorée.",
+    "photo_url": "https://images.openai.com/thumbnails/cbc59162ecdcdaea1e41a7d90df35ca4.jpeg"
+  },
+    {
+    "name": "Parc National d’Odzala-Kokoua",
+    "address": "Province de la Cuvette-Ouest, ~400 km de Brazzaville",
+    "cost": "Environ 1,000 EUR (~650,000 FCFA) pour safari et séjour lodge",
+    "description": "Immersion dans la jungle avec gorilles, éléphants forestiers et biodiversité exceptionnelle.",
+    "photo_url": "https://www.congo-voyages.com/wp-content/uploads/ctt222-odzala-576x324.jpg"
+  },
+  {
+    "name": "Balade sur le fleuve Congo",
+    "address": "Quai de Brazzaville, Bacongo",
+    "cost": "Environ 10,000 FCFA (1–2h de croisière)",
+    "description": "Croisière sur le fleuve Congo avec vue sur Kinshasa, idéale pour un moment détente ou romantique.",
+    "photo_url": "https://actualite.cd/sites/default/files/styles/800_600/public/2025-03/Taxi%20fluvial.jpg?itok=aPpMHaOe"
+  },
+  {
+    "name": "La Mandarine",
+    "address": "03 Avenue Foch, Centre-Ville, Brazzaville",
+    "cost": "1,500–10,000 FCFA (pâtisseries, brunch, etc.)",
+    "description": "Café-pâtisserie chic proposant viennoiseries, brunchs et plats libanais dans une ambiance cosy.",
+    "photo_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/18/21/c5/7b/la-mandarine.jpg?w=800&h=400&s=1"
+  },
+  {
+    "name": "Gorges de Diosso",
+    "address": "Diosso, Kouilou (à 20 km de Pointe-Noire)",
+    "cost": "2,000 FCFA pour l’accès ; 7,500 FCFA pour descente dans les gorges",
+    "description": "Canyon naturel aux falaises rouges spectaculaires, randonnée et paysages à couper le souffle.",
+    "photo_url": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nolRXypmgJimHZOZMk8KF3Rw9jwd08xtFksCybFhc63xLTmWzjwLCgyU7xXmZxjTMlmESAYY_Kmdqx3DQ-D4C43NrK__qDMo6Z6ucxj4bWiMgB429Ki467c8PldSc68R9LR4UYj=s680-w680-h510-rw"
+  },
+  {
+    "name": "Basilique Sainte-Anne",
+    "address": "N2, Poto-Poto, Brazzaville",
+    "cost": "Gratuit",
+    "description": "Chef-d'œuvre architectural unique avec toiture verte, atmosphère calme et spirituelle.",
+    "photo_url": "https://static.wixstatic.com/media/6495a0_5d34984f46224a4da23e5503d6135713~mv2.jpeg/v1/fill/w_666,h_301,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/6495a0_5d34984f46224a4da23e5503d6135713~mv2.jpeg"
+  },
+  {
+    "name": "Mont Boukaria",
+    "address": "Vers Talangaï / Ouenzé (organisé localement)",
+    "cost": "Gratuit ou pourboire au guide (~2,000–5,000 FCFA)",
+    "description": "Petite randonnée avec vue panoramique sur toute la ville de Brazzaville.",
+    "photo_url": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/f2/65/ae.jpg"
+  },
+  {
+    "name": "Stade Alphonse Massamba-Débat",
+    "address": "Brazzaville, près de Poto-Poto",
+    "cost": "1,000–5,000 FCFA selon le match",
+    "description": "Matchs de foot locaux avec ambiance de folie. Clubs emblématiques : CARA, Étoile du Congo…",
+    "photo_url": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nr9bMzZbUcRP1YxEsSvgsbGUmi71owJr8bP_FM4kQQrxhkaDZpMX7XYSYInMYzlC-mtDN-T0QxwXxyXKfqS_p9v_KEpkr0838hqDKsv2g7dRob44tK-QManpTJp73baJJK4XXl8lQ=s680-w680-h510-rw"
+  }
+]

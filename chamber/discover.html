@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -15,8 +15,6 @@
         <script src="scripts/directory.js" defer></script>
     </head>
     <body>
-
-    <!-- Header / Navigation -->
         <header>
             <div class="logo">
                 <img src="images/vue-lettre-3d-k.webp" alt="Timbuktu Chamber of Commerce" />
@@ -31,58 +29,12 @@
             </nav>
             <button id="toggle-theme" type="button" title="Changer de thème">🌓</button>
         </header> 
-        
-        <!-- Hero Image -->
-        <section class="hero">
-            <img src="images/hero.webp" alt="Scalable, responsive hero image" />
-            <button class="hero-btn" type="button">Keynote Tickets</button>
-        </section>  
-
-        <!-- Main Content -->
-        <main>
-            <h2>Home</h2> 
-            <section class="info-panels">
-                <div class="panel" id="events">
-                    <h3>Events</h3>
-                    <p id="description">Upcoming local business events and workshops.</p>
-                </div>
-                <div class="panel" id="weather">
-                    <h3>Current Weather</h3>
-                    <div class="weat">
-                        <img src="images/meteorologique.webp" alt="Scalable,image" />
-                        <p id="current-weather">
-                        Chargement...
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="panel">
-                    <h3>Weather Forecast</h3>
-                    <p id="weather-forecast">
-                    Chargement...
-                    </p>
-                </div>
+        <main class="discover">
+            <h2>Découvrir la région</h2>
+            <section class="grid-container" id="discover-cards">
+                <!-- Les cartes seront injectées ici par JavaScript -->
             </section>
-            
-            <div class="affiche">
-                <button id="grid" type="button">⏹️ Grid</button>
-                <button id="list" type="button">📄 List</button>
-            </div>
-            <!-- Business Highlights -->
-            <article class="grid">
-                <section class="businesses" id="businesses">
-                    <div class="business-card">
-                        <h4>Business Name</h4>
-                        <h5 class="tagline">Business Tag Line</h5>
-                        <p><strong>EMAIL:</strong> info@gmail.com<br>
-                            <strong>PHONE:</strong> 800-555-1234<br>
-                            <strong>URL:</strong> mybusiness.com</p>
-                    </div>
-                </section>
-            </article>
-        </main> 
-
-        <!-- Footer -->
+        </main>
         <footer>
             <div >
                 <p>

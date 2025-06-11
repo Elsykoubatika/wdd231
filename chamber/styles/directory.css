@@ -13,7 +13,6 @@
 body{
     background: var(--text);
     transition: all 0.3s ease;
-    font-family: Arial, sans-serif;
 }
 
 /* Thème sombre */
@@ -32,11 +31,12 @@ header {
 }
 
 h1 {
-    width: 50%;
-    font-size: 40px;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 35px;
+    padding: 30px 0;
     color: var(--primary-color);
-    top: 25px;
 }
 
 .logo img {
@@ -98,12 +98,18 @@ h1 {
 }
 
 .hero button {
+    padding: 10px 20px;
+    font-size: 15px;
+    background-color: var(--text);
+    color: var(--primary-color);
+    font-weight: 700;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
     position: absolute;
-    background-color: whitesmoke ;
-    padding: 15px 35px;
-    border-radius: 7px;
-    right: 15rem;
-	top: 40rem;
+    right: 150px;
+    top: 40rem;
 }
 
 .info-panels {
@@ -117,6 +123,7 @@ h2 {
     color: var(--primary-color);
     padding: 10px 70px;
     background-color: #f0f0f0;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .panel {
@@ -275,6 +282,7 @@ footer img {
     display: flex;
     text-align: center;
     margin: 0 30px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .list strong {
@@ -381,6 +389,7 @@ form input[type="submit"]:hover {
 .join h2 {
     font-size: 30px;
     text-align: center;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .member {
@@ -473,7 +482,7 @@ dialog {
     background: white;
     width: 50%;
     z-index: 1000;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 dialog::backdrop {
@@ -498,6 +507,65 @@ dialog::backdrop {
     padding: 10px 20px;
 }
 
+/*Discover*/
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+    gap: 10px;
+    padding: 20px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.grid-container img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+    padding: 10px 0;
+}
+
+.decouvert {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.deco {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+}
+
+.region {
+    background-color: var(--text);
+    border-radius: 5px;
+    border: var(--primary-color) solid 3px;
+    box-shadow: 0 0 1rem #555;
+}
+.region h2 {
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    background-color: var(--primary-color);
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.region button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px auto;
+    padding: 10px 60px;
+    font-size: 12px;
+    background-color: rgb(66, 66, 66);
+    color: var(--text);
+    font-weight: 700;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
 @media screen and (max-width: 780px) {
 
@@ -506,7 +574,7 @@ dialog::backdrop {
         top: 45px;
         box-shadow:0 0 1rem #070707;
         border-radius: 5px;
-                background-color: #22391F;
+        background-color: #22391F;
     } 
     .logo img {
         width: 15%;
@@ -665,4 +733,67 @@ form h2 {
     font-size: 20px;
     padding: 10px;
 }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.grid-container img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.decouvert {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.deco {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.region {
+    background-color: var(--text);
+    border-radius: 5px;
+    border: var(--primary-color) solid 3px;
+    box-shadow: 0 0 1rem #555;
+}
+.region h2 {
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    background-color: var(--primary-color);
+    font-family: 'Courier New', Courier, monospace;
+}
+
+}
+
+@media screen and (max-width: 64rem) {
+    .hero {
+        width: 100%;
+    }   
+    
+}
+
+@media screen and (max-width: 38rem) {
+    .hero {
+        width: 100%;
+    }
+    .hero img {
+        width: 100%;
+    }
+    .hero button {
+        top: 20rem;
+        right: 2rem;
+        font-size: 9px;
+        padding: 8px 5px;
+    }
 }
