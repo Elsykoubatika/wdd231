@@ -53,7 +53,7 @@ async function loadData() {
                     <h2>${item.name}</h2>
                     <div class="decouvert">
                         <div class="card-info">
-                            <img src="${item.photo_url}" alt="${item.name}" width="300" height="200" loading="lazy"/>
+                            <img src="${item.photo_url}" alt="${item.name}"  loading="lazy"/>
                         </div>
                         <div class="deco">
                             <p>${item.description}</p>

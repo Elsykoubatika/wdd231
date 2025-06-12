@@ -519,8 +519,8 @@ dialog::backdrop {
 }
 
 .grid-container img {
-    width: 100%;
-    height: auto;
+    width: 300px;
+    height: 200px;
     transition: transform 0.3s ease;
     padding: 10px 0;
 }
@@ -567,6 +567,17 @@ dialog::backdrop {
     cursor: pointer;
 }
 
+.region button:hover {
+    background-color: #055472;
+    color: #fff;
+}
+
+.region p,.region address {
+    font-size: 13px;
+    padding: 10px;
+    color: var(--primary-color);
+}
+
 @media screen and (max-width: 780px) {
 
     .filterButton {
@@ -575,6 +586,7 @@ dialog::backdrop {
         box-shadow:0 0 1rem #070707;
         border-radius: 5px;
         background-color: #22391F;
+        text-align: center;
     } 
     .logo img {
         width: 15%;
@@ -593,7 +605,9 @@ dialog::backdrop {
     .filterButton button:hover {
         background-color: white;
         color: #22391F;
-    } 
+        width: 100%;
+        border-radius: 5px;
+    }
 
     #menu{
         display: block;
@@ -743,8 +757,9 @@ form h2 {
 }
 
 .grid-container img {
-    width: 100%;
-    height: auto;
+    width: 450px;
+    height: 250px;
+    padding: 0;
     transition: transform 0.3s ease;
 }
 
@@ -774,26 +789,4 @@ form h2 {
     font-family: 'Courier New', Courier, monospace;
 }
 
-}
-
-@media screen and (max-width: 64rem) {
-    .hero {
-        width: 100%;
-    }   
-    
-}
-
-@media screen and (max-width: 38rem) {
-    .hero {
-        width: 100%;
-    }
-    .hero img {
-        width: 100%;
-    }
-    .hero button {
-        top: 20rem;
-        right: 2rem;
-        font-size: 9px;
-        padding: 8px 5px;
-    }
 }
