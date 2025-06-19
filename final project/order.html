@@ -10,6 +10,7 @@
     <meta property="og:image" content="images/profil.webp">
     <meta property="og:type" content="website">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <link rel="icon" href="images/favicon.ico">
 
     <link rel="icon" href="images/favicon.ico">
@@ -67,7 +68,10 @@
                     <label for="clientPhone" class="required-field">Téléphone<input type="tel" id="clientPhone" required></label>
                     <label for="clientEmail" class="optional-field">Email<input type="email" id="clientEmail"></label>
                     
-
+                    <div id="selectedProductPreview" class="product-preview">
+                        <!-- Le produit sélectionné sera affiché ici -->
+                    </div>
+                    
                     <label for="clientCity" class="required-field">Ville</label>
                     <select id="clientCity" required>
                         <option value="">Sélectionnez votre ville</option>
@@ -93,36 +97,39 @@
                 </div>
             </form>
         </div>
-            <dialog class="modal" id="productModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Détails du produit</h3>
-                    <span class="close-modal">&times;</span>
+        <dialog class="modal" id="productModal">
+                <div class="modal-content">
+                    <button class="close-cart-modal" id="closeCartModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="modal-header">
+                        <h3 class="modal-title">Détails du produit</h3>
+                        <span class="close-modal">&times;</span>
+                    </div>
+                    <div class="modal-body" id="productModalBody">
+                        <!-- Le contenu sera ajouté dynamiquement -->
+                    </div>
                 </div>
-                <div class="modal-body" id="productModalBody">
-                    <!-- Le contenu sera ajouté dynamiquement -->
-                </div>
-            </div>
         </dialog>
-        <div id="productsByCategory">
+        <div id="productsByCategory" class="products-container">
             <!-- Les produits groupés par catégorie seront générés ici -->
         </div>
-        <div id="paginationControls" ></div>
+        <div id="paginationControls" class="pagination-controls"></div>
     </main>
     <footer>
         <div class="image-logo">
             <img src="images/logo.png" alt="logo">
             <div>
-                <h2 class="logo">Ma Boutique</h2>
+                <h2 class="footer-logo">Ma Boutique</h2>
                 <P >Acheter, Vendre Simplement!</P>
             </div>
         </div>
         <div class="footer-info">
             <p>
                 10 Rue De La Paix<br>
-                Timbuktu, Mali 999<br>
-                info@timbuktucc.org<br>
-                (223) 555-2300
+                Brazzaville, Congo 999<br>
+                fkoubatika@gmail.com<br>
+                +242065086382
             </p>
         </div>
         <div class="social-media">
