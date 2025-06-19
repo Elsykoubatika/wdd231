@@ -55,12 +55,12 @@
         <section class="livre">
             <section class="delivery-form-container">
                 <div>
-                    <form id="deliveryInfoForm">
+                    <form method="GET" action="thanks.html" class="designOne" id="deliveryInfoForm">
                             <section class="delivery-form-group">
                                 <div class="modal-header">
                             <h3 class="delivery-form-title">Informations de livraison</h3>
                             </div>
-                            
+
                             <div class="delivery-info">
                                 <h4><i class="fas fa-info-circle"></i> Informations importantes</h4>
                                 <p><strong><i class="fas fa-truck"></i> <strong>Livraison:</strong> Disponible partout au Congo</p>
@@ -74,10 +74,10 @@
                             <label>mobile phone number <input type="tel" name="phone" required autocomplete="tel" title="A Phone Number with dashes" placeholder="987-555-1234" ></label>
                             <label>Arrondissement <input type="text" name="business" required autocomplete="organization-title" title="Your business or organization's name"></label>
 
-                            <label for="clientAddress" class="optional-field">Adresse détaillée<input type="text" id="clientAddress"></label>
+                            <label for="clientAddress" class="optional-field">Adresse détaillée<input type="text" id="clientAddress" name="adress"></label>
                         
                             <label for="clientNotes" class="optional-field">Notes supplémentaires</label>
-                            <textarea id="clientNotes" rows="3"></textarea>
+                            <textarea id="clientNotes" rows="3" name="description" ></textarea>
 
                             <div id="selectedProductPreview" class="product-preview">
                                 <!-- Le produit sélectionné sera affiché ici -->
@@ -86,6 +86,8 @@
                             <div id="selectedProductPreview" class="product-preview">
                                 <!-- Le produit sélectionné sera affiché ici -->
                             </div>
+
+                            <input type="hidden" name="timestamp" id="timestamp">
 
                             <button type="submit" class="btn btn-submit">
                                 <i class="fas fa-check"></i> Confirmer

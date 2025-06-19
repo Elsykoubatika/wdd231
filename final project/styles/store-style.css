@@ -470,6 +470,44 @@ form button:hover {
     cursor: pointer;
 }
 
+.thanks {
+    padding: 50px 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#tout {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    padding: 20px;
+    font-size: 15px;
+    border-radius: 5px;
+}
+
+#tout h2 {
+    font-size: 30px;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+}
+
+.formulaire {
+    display: flex;
+    justify-content: center;
+    padding: 25px;
+}
+
+.formulaire form {
+    width: 100%;
+    display: flex;
+    padding: 0 10px;
+    border-radius: 5px;
+}
+
+form h2 {
+    margin: 10px;
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 25px;
+}
 footer {
     background-color: var(--primary-color);
     color: #ffffff;

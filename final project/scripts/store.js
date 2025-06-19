@@ -1,3 +1,36 @@
+window.addEventListener("DOMContentLoaded", () => {
+    const now = new Date();
+//const option = now.toLocaleDateString('fr-FR', {weekday: 'long',year: 'numeric', month: 'long', day: 'numeric'});
+    const timeFR = now.toLocaleDateString('fr-FR', {hour: '2-digit', minute: '2-digit'});
+    const formated = ` ${timeFR}`;
+    document.getElementById("timestamp").value = formated;
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const target = document.querySelector("#tout");
+        if (!target) throw new Error("L'élément avec l'ID #tout est introuvable.");
+
+        // Fonction pour afficher une valeur ou "Non renseigné"
+        const safe = (val) => val ? val : "Non renseigné";
+
+        target.innerHTML = `
+            <h2>Merci ${safe(params.get('first'))} ${safe(params.get('last'))} 🎉</h2>
+            <p>Votre commande a Bien été enregistre</p>
+            <h3>Information de Livraison</h3>
+            <p><strong>ville :</strong> ${safe(params.get('organization-title'))}</p>
+            <p><strong>Email :</strong> ${safe(params.get('email'))}</p>
+            <p><strong>Téléphone :</strong> ${safe(decodeURIComponent(params.get('phone')))}</p>
+            <p><strong>arrondissement :</strong> ${safe(params.get('business'))}</p>
+            <p><strong>Adresse détaillée:</strong> ${safe(params.get('adress'))}</p>
+            <p><strong>Notes supplémentaires :</strong> ${safe(params.get('description'))}</p>
+            <p><strong>Date :</strong> ${safe(params.get('timestamp'))}</p>
+        `;
+    } catch (e) {
+        console.error("Erreur dans le script d'affichage :", e);
+    }
+});
 
 // Store the selected elements that we are going to use. This is not required but a good practice with larger programs where the variable will be referenced more than once.
 const navlinks = document.querySelector('#navlinks');
@@ -484,10 +517,6 @@ document.addEventListener("DOMContentLoaded", function () {
     container.appendChild(totalDiv);
 });
 
-// Fonction utilitaire pour raccourcir un titre
-function truncateText(text, maxLength) {
-    return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
-}
 
 document.addEventListener('DOMContentLoaded', () => {
     const productPreview = document.getElementById('selectedProductPreview');
@@ -507,15 +536,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
     }
-});
-
-document.getElementById('deliveryInfoForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    // Nettoyer
-    localStorage.removeItem("selectedProduct");
-
-    alert("Commande envoyée avec succès !");
-  // Tu peux aussi rediriger, envoyer à WhatsApp, etc.
 });
 
 function truncateText(text, maxLength = 32) {

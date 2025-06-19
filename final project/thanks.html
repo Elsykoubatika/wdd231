@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MA BOUTIQUE</title>
+    <meta property="og:title" content="Timbuktu Chamber of Commerce">
+    <meta property="og:description" content="WDD 231 : Développement d'interfaces Web I - Koubatika ELsy Fernandez">
+    <meta property="og:url" content="https://elsykoubatika.github.io/wdd231/">
+    <meta property="og:image" content="images/profil.webp">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="icon" href="images/favicon.ico">
+
+    <link rel="stylesheet" href="styles/store-style.css">
+    <script src="scripts/store.js" defer></script>
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <div class="main-header">
+            <section class="header-content">
+                <div  class="image-logo">
+                    <a href="index.html">
+                        <img src="images/logo.png" alt="logo">
+                    </a>
+                    <div>
+                        <h1 class="logo">Ma Boutique</h1>
+                        <P >Acheter, Vendre Simplement!</P>
+                    </div>
+                </div>
+                
+                <div class="search-container">
+                    <input type="text" class="search-box" id="searchBox" placeholder="Rechercher un produit...">
+                </div>
+
+                <a id="menu" href="#" title="Open menu"></a>
+                <nav class="filterButton" id="navlinks">
+                    <button id="Home" type="button" onclick="window.location.href='index.html'">Home</button>
+                    <button id="Direction" type="button" onclick="window.location.href='order.html'">Order</button>
+                    <button id="Join" type="button" onclick="window.location.href='join.html'">Join</button>
+                </nav>
+                <button id="toggle-theme" type="button" title="Changer de thème">🌓</button>
+            </section>
+        </div>
+    </header>
+    <main class="thanks">
+        <div id="tout"></div>
+    </main>
+            <footer>
+        <div  class="image-logo">
+            <a href="index.html">
+                <img src="images/logo.png" alt="logo">
+            </a>
+            <div>
+                <h2>Ma Boutique</h2>
+                <P >Acheter, Vendre Simplement!</P>
+            </div>
+        </div>
+        <div class="footer-info">
+            <p>
+                10 Rue De La Paix<br>
+                Brazzaville, Congo 999<br>
+                fkoubatika@gmail.com<br>
+                +242065086382
+            </p>
+        </div>
+        <div class="social-media">
+            <a href="https://www.youtube.com/watch?v=e5cYUiB78HU"><img src="images/youtube.png" alt="YouTube"/></a>
+            <a href="#"><img src="images/twitter.png" alt="Twitter"/></a>
+            <a href="#"><img src="images/linkedin.png" alt="LinkedIn"/></a>
+        </div>
+        <div class="footer-note">
+            <p>WDD231 Class Project</p>
+            <p>Koubatika Elsy Fernandez, Brazzaville</p>
+            <p>©<span id="currentyear"></span> ❖ Ma Boutique ❖</p>
+            <p><span id="lastModified"></span> </p>
+        </div>
+    </footer>
+</body>
+</html>
