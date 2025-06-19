@@ -24,9 +24,11 @@
 <body>
     <header>
         <div class="main-header">
-            <section class="container header-content">
+            <section class="header-content">
                 <div  class="image-logo">
-                    <img src="images/logo.png" alt="logo" >
+                    <a href="index.html">
+                        <img src="images/logo.png" alt="logo">
+                    </a>
                     <div>
                         <h1 class="logo">Ma Boutique</h1>
                         <P >Acheter, Vendre Simplement!</P>
@@ -37,13 +39,13 @@
                     <input type="text" class="search-box" id="searchBox" placeholder="Rechercher un produit...">
                 </div>
 
-                <div class="header-actions">
-                    <div class="cart-icon">
-                        <i class="fas fa-shopping-cart" id="headerCartBtn"></i>
-                        <span class="cart-count" id="headerCartCount" >0</span>
-                    </div>
-                </div>
-
+                <a id="menu" href="#" title="Open menu"></a>
+                <nav class="filterButton" id="navlinks">
+                    <button id="Home" type="button" onclick="window.location.href='index.html'">Home</button>
+                    <button id="Direction" type="button" onclick="window.location.href='order.html'">Order</button>
+                    <button id="Join" type="button" onclick="window.location.href='join.html'">Join</button>
+                </nav>
+                <button id="toggle-theme" type="button" title="Changer de thème">🌓</button>
             </section>
         </div>
     </header>
@@ -73,7 +75,7 @@
         </div>
     </section>
 
-    <main class="container">
+    <main>
         <section>
             <div class="categories" id="categoriesContainer">
                 <!-- Les catégories seront générées dynamiquement -->
@@ -87,12 +89,9 @@
             <!-- Product Details Modal -->
         <dialog class="modal" id="productModal">
             <div class="modal-content">
-                <button class="close-cart-modal" id="closeCartModal">
-                    <i class="fas fa-times"></i>
-                </button>
                 <div class="modal-header">
                     <h3 class="modal-title">Détails du produit</h3>
-                    <span class="close-modal">&times;</span>
+                    <button class="close-modal">&times;</button>
                 </div>
                 <div class="modal-body" id="productModalBody">
                     <!-- Le contenu sera ajouté dynamiquement -->
@@ -102,10 +101,10 @@
 
         <!-- Panier -->
         <section class="cart-container">
-            <button class="cart-btn" id="cartBtn">
+            <button class="cart-bt" id="cartBtn">
                 <i class="fas fa-shopping-cart"></i>.
             </button>
-            <div class="cart-count" id="cartCount">0</div>
+            <div class="count" id="cartCount">0</div>
         </section>
     
     <dialog class="cart-modal" id="cartModal">
@@ -134,7 +133,9 @@
 
     <footer>
         <div  class="image-logo">
-            <img src="images/logo.png" alt="logo" >
+            <a href="index.html">
+                <img src="images/logo.png" alt="logo">
+            </a>
             <div>
                 <h2>Ma Boutique</h2>
                 <P >Acheter, Vendre Simplement!</P>

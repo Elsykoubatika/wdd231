@@ -14,13 +14,7 @@
 	}
 
     h1 {
-        font-size: 9rem;
-    }
-
-    header img {
-        width: 8%;
-        top: 30px;
-        left: 25px;
+        font-size: 2rem;
     }
 
     .temple {
@@ -47,11 +41,6 @@
 
 /* Tablet */
 @media screen and (min-width: 768px) {
-    header img {
-        width: 10%;
-        top: 1px;
-        left: 150px;
-    }
 
     h1 {
         font-size: 3rem;
@@ -87,11 +76,6 @@
     margin: 0 auto;
     width: 100%;
     }
-    .profil {
-        width: 7%;
-        left: 30rem;
-        top: 2px;
-    }
 
     .grid {
         display: grid;
@@ -123,12 +107,11 @@
     }
 
     h1 {
-        font-size: 4rem;
+        font-size: 7rem;
     }
-    .header img {
-        width: 8%;
-        top: 1px;
-        left: 19rem;
+
+    .head img {
+    width: 140px;
     }
 }
 

@@ -1,3 +1,14 @@
+
+// Store the selected elements that we are going to use. This is not required but a good practice with larger programs where the variable will be referenced more than once.
+const navlinks = document.querySelector('#navlinks');
+const hamburgerBtn = document.querySelector('#menu');
+
+hamburgerBtn.addEventListener('click', () => {
+  navlinks.classList.toggle('show');         // on affiche/masque les liens
+  hamburgerBtn.classList.toggle('active');   // on change l'icône du bouton (optionnel)
+});
+
+
 // Get the current year
 const currentYear = new Date().getFullYear();
 
@@ -25,7 +36,6 @@ document.getElementById("lastModified").textContent = `Last modified: ${formatte
 // Variables globales
 let products = [];
 let categories = [];
-let cart = [];
 let currentCategory = 'all';
 let currentSearch = '';
 
@@ -34,8 +44,8 @@ const productsApiUrl = "https://eu.cowema.org/api/public/products";
 
 // Initialisation
 document.addEventListener('DOMContentLoaded', async function() {
-    await loadData(); // charge catégories et produits
-    setupCategoryButtons(); // active les boutons
+        await loadData();
+        setupCategoryButtons();
 });
 
 // Charger catégories et produits
@@ -63,11 +73,12 @@ async function loadData() {
     }
 }
 
-// Afficher les boutons de catégories
 function displayCategories() {
     const container = document.getElementById('categoriesContainer');
     if (!container) return;
     container.innerHTML = '';
+
+    const maxVisible = 6;
 
     // Bouton "Tous"
     const allBtn = document.createElement('button');
@@ -76,21 +87,41 @@ function displayCategories() {
     allBtn.dataset.category = 'all';
     container.appendChild(allBtn);
 
-    // Boutons pour chaque catégorie
-    categories.forEach(cat => {
+    // Afficher les 6 premières catégories
+    categories.slice(0, maxVisible).forEach(cat => {
         const btn = document.createElement('button');
         btn.className = 'category-btn';
         btn.dataset.category = cat.name;
         btn.textContent = cat.name;
         container.appendChild(btn);
     });
+
+    // Si plus de 6, ajouter un bouton "Voir plus"
+    if (categories.length > maxVisible) {
+        const seeMoreBtn = document.createElement('button');
+        seeMoreBtn.textContent = 'Voir plus';
+        seeMoreBtn.className = 'see-more-btn';
+        container.appendChild(seeMoreBtn);
+
+        seeMoreBtn.addEventListener('click', () => {
+            // Ajouter les catégories restantes
+            categories.slice(maxVisible).forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'category-btn';
+                btn.dataset.category = cat.name;
+                btn.textContent = cat.name;
+                container.insertBefore(btn, seeMoreBtn);
+            });
+
+            seeMoreBtn.remove(); // Supprimer le bouton après affichage
+        });
+    }
 }
 
-// Configurer les boutons pour filtrer
 function setupCategoryButtons() {
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('category-btn')) {
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             e.target.classList.add('active');
             currentCategory = e.target.dataset.category;
             displayProductsByCategory();
@@ -124,9 +155,8 @@ function displayProductsByCategory() {
             <p class="product-stock"><i class="fas fa-box"></i> ${p.available_stock} en stock</p>
             <p class="product-city"><i class="fas fa-map-marker-alt"></i> ${p.supplier_city || 'Localisation non précisée'}</p>
             <p class="product-category"><i class="fas fa-tags"></i> ${p.category}</p>
-            <p><strong>${p.price} FCFA</strong></p>
+            <p class="product-price"><strong>${p.price} FCFA</strong></p>
             <button class="cart-btn" data-id="${p.id}"><i class="fas fa-shopping-cart"></i></button>
-            <button class="buy-btn" data-id="${p.id}">Acheter</button>
             </div>
         `;
         container.appendChild(card);
@@ -199,7 +229,7 @@ function showProductModal(product) {
         // Image principale (première image par défaut)
         galleryHTML += `
             <div class="main-image-container">
-                <img src="${product.images[0]}" alt="${product.title}" class="main-image" id="mainProductImage">
+                <img src="${product.thumbnail[0]}" alt="${product.title}" class="main-image" id="mainProductImage">
             </div>
         `;
         
@@ -244,15 +274,10 @@ function showProductModal(product) {
                 ${priceHTML}
                 
                 <div class="product-meta">
-                    <p><i class="fas fa-box"></i> Stock: ${product.stock || 'N/A'}</p>
-                    <p><i class="fas fa-map-marker-alt"></i> ${product.city || 'Localisation non précisée'}</p>
+                    <p><i class="fas fa-box"></i> Stock: ${product.available_stock || 'N/A'}</p>
+                    <p><i class="fas fa-map-marker-alt"></i> ${product.supplier_city || 'Localisation non précisée'}</p>
                 </div>
-                
-                <div class="product-description">
-                    <h3>Description</h3>
-                    <p>${product.description || "Pas de description disponible."}</p>
-                </div>
-                
+
                 <div class="modal-actions">
                     <button class="btn buy-btn" onclick="preparePurchase(${product.id})">
                         <i class="fas fa-shopping-bag"></i> Acheter maintenant
@@ -266,7 +291,6 @@ function showProductModal(product) {
     `;
 
     // Afficher le modal
-    modal.style.display = 'flex';
     modal.showModal();
 }
 
@@ -300,23 +324,200 @@ function preparePurchase(productId) {
     window.location.href = "order.html";
 }
 
+// Gestion du panier
+
+let cart = [];
+
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    const existing = cart.find(item => item.id === productId);
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        cart.push({
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            image: product.thumbnail,
+            quantity: 1
+        });
+    }
+
+    updateCart();
+}
+
+
+function updateCart() {
+    const cartItems = document.getElementById("cartItems");
+    const cartTotal = document.getElementById("cartTotal");
+    const cartCount = document.getElementById("cartCount");
+
+    cartItems.innerHTML = "";
+    let total = 0;
+    let count = 0;
+
+    cart.forEach(item => {
+        total += item.price * item.quantity;
+        count += item.quantity;
+
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+            <img src="${item.image}" alt="${item.title}" width="50">
+            <div class="item-info">
+                <p>${item.title}</p>
+                <p>${item.price} FCFA x ${item.quantity}</p>
+            </div>
+        `;
+        cartItems.appendChild(div);
+    });
+
+    cartTotal.textContent = total.toLocaleString();
+    cartCount.textContent = count;
+}
+
+document.addEventListener("click", function(e) {
+    if (e.target.closest('.cart-btn')) {
+        const id = parseInt(e.target.closest('.cart-btn').dataset.id);
+        addToCart(id);
+    }
+});
+
+const cartModal = document.getElementById("cartModal");
+const cartBtn = document.getElementById("cartBtn");
+const closeCartModal = document.getElementById("closeCartModal");
+
+cartBtn.addEventListener("click", () => {
+    if (cartModal.open) {
+        cartModal.close();
+    } else {
+        cartModal.showModal();
+    }
+});
+
+
+// Gestion du modal produit
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('productModal');
+    const closeBtn = document.querySelector('#productModal .close-modal');
+
+    if (closeBtn && modal) {
+        closeBtn.addEventListener('click', () => {
+            modal.close();
+        });
+    }
+});
+
+closeCartModal.addEventListener("click", () => {
+    cartModal.close();
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const productPreview = document.getElementById('selectedProductPreview');
     const selectedProduct = JSON.parse(localStorage.getItem("selectedProduct"));
 
     if (selectedProduct) {
         productPreview.innerHTML = `
-            <div style="border:1px solid #ccc; padding:15px; margin-bottom:15px; display:flex; gap:15px; align-items:center;">
-                <img src="${selectedProduct.image}" alt="${selectedProduct.title}" width="100" style="border-radius:8px;">
-                <div>
-                    <h3 style="margin:0;">${truncateText(selectedProduct.title, 35)}</h3>
-                    <p style="font-weight:bold; color:green;">${selectedProduct.price.toLocaleString()} FCFA</p>
-                </div>
+            <div class="product-preview" style="display: flex; align-items: center; gap: 16px; border-radius: 10px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);">
+            <img src="${selectedProduct.image}" alt="${selectedProduct.title}" width="90" height="90" style="border-radius: 8px; object-fit: cover; box-shadow: 0 1px 4px rgba(0,0,0,0.08);">
+            <div style="flex:1;">
+                <h3 style="margin:0 0 6px 0; font-size: 1.1rem; color: #222; font-weight: 600;">${truncateText(selectedProduct.title, 30)}</h3>
+                <p style="margin:0 0 4px 0; color: #555; font-size: 0.9rem;">Produit sélectionné pour achat</p>
+                <p style="margin:0; color: #888; font-size: 0.85rem;">ID: ${selectedProduct.id}</p>
+                <p style="margin:0; color: #888; font-size: 0.85rem;">Quantité: 1</p>
+                <p style="font-weight: bold; color: #1a8917; font-size: 1.05rem; margin: 0;">${selectedProduct.price.toLocaleString()} FCFA</p>
+            </div>
             </div>
         `;
     }
 });
 
-function truncateText(text, maxLength = 35) {
+function clearCart() {
+    cart = [];
+    updateCart();
+    console.log("🧹 Panier vidé !");
+}
+
+document.getElementById("clearCartBtn").addEventListener("click", clearCart);
+
+document.getElementById("checkoutBtn").addEventListener("click", function () {
+    if (cart.length === 0) {
+        alert("Votre panier est vide !");
+        return;
+    }
+
+    // Stocker les infos du panier dans localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    // Stocker le total
+    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    localStorage.setItem("cartTotal", total);
+
+    // Redirection
+    window.location.href = "order.html";
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const total = parseInt(localStorage.getItem("cartTotal")) || 0;
+    const container = document.getElementById("selectedProductPreview");
+
+    if (cart.length === 0) {
+        container.innerHTML = "<p>Votre panier est vide.</p>";
+        return;
+    }
+
+    container.innerHTML = cart.map(item => `
+        <div  style="border:1px solid #ccc; padding:10px; margin-bottom:10px; display:flex; gap:10px;">
+            <img src="${item.image}" alt="${item.title}" width="80" style="border-radius:5px;">
+            <div>
+                <h3 style="margin:0;">${truncateText(item.title, 30)}</h3>
+                <p  style="font-weight: bold; color: #1a8917; font-size: 1.05rem; margin: 0;">${item.quantity} x ${item.price.toLocaleString()} FCFA</p>
+            </div>
+        </div>
+    `).join("");
+
+    const totalDiv = document.createElement("div");
+    totalDiv.innerHTML = `<h4 style="text-align:right;">Total: ${total.toLocaleString()} FCFA</h4>`;
+    container.appendChild(totalDiv);
+});
+
+// Fonction utilitaire pour raccourcir un titre
+function truncateText(text, maxLength) {
+    return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const productPreview = document.getElementById('selectedProductPreview');
+    const selectedProduct = JSON.parse(localStorage.getItem("selectedProduct"));
+
+    if (selectedProduct) {
+        productPreview.innerHTML = `
+            <div class="product-preview" style="display: flex; align-items: center; gap: 16px; border-radius: 10px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);">
+            <img src="${selectedProduct.image}" alt="${selectedProduct.title}" width="90" height="90" style="border-radius: 8px; object-fit: cover; box-shadow: 0 1px 4px rgba(0,0,0,0.08);">
+            <div style="flex:1;">
+                <h3 style="margin:0 0 6px 0; font-size: 1.1rem; color: #222; font-weight: 600;">${truncateText(selectedProduct.title, 30)}</h3>
+                <p style="margin:0 0 4px 0; color: #555; font-size: 0.9rem;">Produit sélectionné pour achat</p>
+                <p style="margin:0; color: #888; font-size: 0.85rem;">ID: ${selectedProduct.id}</p>
+                <p style="margin:0; color: #888; font-size: 0.85rem;">Quantité: 1</p>
+                <p style="font-weight: bold; color: #1a8917; font-size: 1.05rem; margin: 0;">${selectedProduct.price.toLocaleString()} FCFA</p>
+            </div>
+            </div>
+        `;
+    }
+});
+
+document.getElementById('deliveryInfoForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    // Nettoyer
+    localStorage.removeItem("selectedProduct");
+
+    alert("Commande envoyée avec succès !");
+  // Tu peux aussi rediriger, envoyer à WhatsApp, etc.
+});
+
+function truncateText(text, maxLength = 32) {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 }
