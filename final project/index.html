@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MA BOUTIQUE</title>
+    <meta property="og:title" content="Timbuktu Chamber of Commerce">
+    <meta property="og:description" content="WDD 231 : Développement d'interfaces Web I - Koubatika ELsy Fernandez">
+    <meta property="og:url" content="https://elsykoubatika.github.io/wdd231/">
+    <meta property="og:image" content="images/profil.webp">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="images/favicon.ico">
+
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="styles/store-style.css">
+    <script src="scripts/store.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <div class="main-header">
+            <section class="container header-content">
+                <div  class="image-logo">
+                    <img src="images/logo.png" alt="logo" >
+                    <div>
+                        <h1 class="logo">Ma Boutique</h1>
+                        <P >Acheter, Vendre Simplement!</P>
+                    </div>
+                </div>
+                
+                <div class="search-container">
+                    <input type="text" class="search-box" id="searchBox" placeholder="Rechercher un produit...">
+                </div>
+
+                <div class="header-actions">
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-cart" id="headerCartBtn"></i>
+                        <span class="cart-count" id="headerCartCount" >0</span>
+                    </div>
+                </div>
+
+            </section>
+            </div>
+        </div>
+    </header>
+    <section>
+        <img src="images/joice.webp" alt="hero" loading="lazy" width="100%">
+    </section>
+    <section class="stats-section">
+        <div class="main-header">
+            <div class="stats-grid">
+                <div class="stat-item" id="vendus">
+                    <div class="stat-number">+1800</div>
+                    <div class="stat-label">Articles vendus</div>
+                </div>
+                <div class="stat-item" id="servis">
+                    <div class="stat-number">+800</div>
+                    <div class="stat-label">Clients servis</div>
+                </div>
+                <div class="stat-item" id="villes">
+                    <div class="stat-number">+5</div>
+                    <div class="stat-label">Villes couvertes</div>
+                </div>
+                <div class="stat-item" id="taux">
+                    <div class="stat-number" >95%</div>
+                    <div class="stat-label">Taux de satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <section>
+            <div class="categories" id="categoriesContainer">
+                <!-- Les catégories seront générées dynamiquement -->
+            </div>
+
+            <div id="productsByCategory">
+                <!-- Les produits groupés par catégorie seront générés ici -->
+            </div>
+            <div id="paginationControls" ></div>
+        </section>
+            <!-- Product Details Modal -->
+        <dialog class="modal" id="productModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Détails du produit</h3>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body" id="productModalBody">
+                    <!-- Le contenu sera ajouté dynamiquement -->
+                </div>
+            </div>
+        </dialog>
+
+        <!-- Panier -->
+        <section class="cart-container">
+            <button class="cart-btn" id="cartBtn">
+                <i class="fas fa-shopping-cart"></i>.
+            </button>
+            <div class="cart-count" id="cartCount">0</div>
+        </section>
+    
+    <dialog class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <h2><i class="fas fa-shopping-cart"></i> Votre Panier</h2>
+            <div class="cart-items" id="cartItems">
+                <!-- Les articles du panier seront ajoutés ici -->
+            </div>
+            <div class="cart-total">
+                Total: <span id="cartTotal">0</span> FCFA
+            </div>
+            <div class="cart-actions">
+                <button class="btn btn-skip" id="clearCartBtn">
+                    <i class="fas fa-trash"></i> Vider le panier
+                </button>
+                <button class="btn btn-submit" id="checkoutBtn">
+                    <i class="fas fa-whatsapp"></i> Commander
+                </button>
+            </div>
+        </div>
+    </dialog>
+    </main>    
+
+    <footer>
+        <div  class="image-logo">
+            <img src="images/logo.png" alt="logo" >
+            <div>
+                <h2 class="logo">Ma Boutique</h2>
+                <P >Acheter, Vendre Simplement!</P>
+            </div>
+        </div>
+        <div class="footer-info">
+            <p>
+                10 Rue De La Paix<br>
+                Timbuktu, Mali 999<br>
+                info@timbuktucc.org<br>
+                (223) 555-2300
+            </p>
+        </div>
+        <div class="social-media">
+            <a href="https://www.youtube.com/watch?v=e5cYUiB78HU"><img src="images/youtube.png" alt="YouTube"/></a>
+            <a href="#"><img src="images/twitter.png" alt="Twitter"/></a>
+            <a href="#"><img src="images/linkedin.png" alt="LinkedIn"/></a>
+        </div>
+        <div class="footer-note">
+            <p>WDD231 Class Project</p>
+            <p>Koubatika Elsy Fernandez, Brazzaville</p>
+            <p>©<span id="currentyear"></span> ❖ Ma Boutique ❖</p>
+            <p><span id="lastModified"></span> </p>
+        </div>
+    </footer>
+</body>
+</html>
