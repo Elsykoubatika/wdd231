@@ -160,6 +160,7 @@ temples.forEach(temple => {
 const allButton = document.getElementById("all");
 const cseButton = document.getElementById("cse");
 const wddButton = document.getElementById("WDD");
+const itmButton = document.getElementById("ITM")
 
 // Function to display temples based on a filter
 const displayTemples = (filterFn) => {
@@ -225,6 +226,12 @@ cseButton.addEventListener("click", () => {
 wddButton.addEventListener("click", () => {
 	displayTemples(temple => {		
 	return temple.subject.startsWith("WDD");
+	});
+});
+
+itmButton.addEventListener("click", () => {
+	displayTemples(temple => {		
+	return temple.subject.startsWith("ITM");
 	});
 });
 
