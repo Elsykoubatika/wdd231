@@ -60,6 +60,19 @@ const temples = [
         ],
         completed: true
     },
+	{
+        subject: 'ITM',
+        number: 111,
+        title: 'Introduction to Databases',
+        credits: 3,
+        certificate: 'Web and Computer Programming',
+        description: 'Each student will develop fundamental knowledge and skills in using, designing, and building relational databases by doing the following: Explain how data and databases are used in business systems. Demonstrate design and creation of relational databases. Use a DBMS (Database Management System) and CASE (Computer-Aided Software Engineering) tool. Construct Create, Insert, Update, and Delete statements. Query a database using single and multiple tables, including built-in aggregate functions and WHERE clause filtering.',
+        technology: [
+            'SQL',
+            'MySQL WorkBench '
+        ],
+        completed: true
+    },
     {
         subject: 'CSE',
         number: 111,
