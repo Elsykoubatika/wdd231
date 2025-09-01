@@ -1,3 +1,4 @@
+﻿
 window.addEventListener("DOMContentLoaded", () => {
     const now = new Date();
 //const option = now.toLocaleDateString('fr-FR', {weekday: 'long',year: 'numeric', month: 'long', day: 'numeric'});
@@ -5,6 +6,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const formated = ` ${timeFR}`;
     document.getElementById("timestamp").value = formated;
 });
+
 
 window.addEventListener("DOMContentLoaded", () => {
     try {
@@ -74,6 +76,41 @@ let currentSearch = '';
 
 const categoriesApiUrl = "https://eu.cowema.org/api/public/categories";
 const productsApiUrl = "https://eu.cowema.org/api/public/products";
+
+// Banners + priorité par catégorie (mots-clés dans le nom)
+const BANNERS = [
+    { id:'packs', kicker:'OFFRE SPÉCIALE', emoji:'🎁',
+        title:'3 articles = 1 prix',
+        sub:'Économisez avec nos Packs',
+        bg:'linear-gradient(135deg,#0ea5e9,#22c55e)',
+        ctas:[{label:'Voir les Packs', type:'link', href:'/packs'}]
+    },
+    { id:'whatsapp', kicker:'BESOIN D\'AIDE ?', emoji:'💬',
+        title:'Parlez à un conseiller',
+        sub:'Réponse rapide sur WhatsApp',
+        bg:'linear-gradient(135deg,#22c55e,#16a34a)',
+        ctas:[{label:'WhatsApp', type:'whatsapp', prefill:'Bonjour 👋, je veux en savoir plus sur vos packs.'}]
+    },
+    { id:'livraison', kicker:'LIVRAISON RAPIDE', emoji:'🚚',
+        title:'Brazzaville & Pointe-Noire',
+        sub:'Commandez, on s\'occupe du reste',
+        bg:'linear-gradient(135deg,#f59e0b,#ef4444)',
+        ctas:[{label:'Commander via WhatsApp', type:'whatsapp', prefill:'Bonjour, je souhaite commander un pack avec livraison.'}]
+    },
+];
+const BANNER_PRIORITY_BY_CATEGORY = {
+    'électronique':'packs','electronique':'packs',
+    'téléphone':'whatsapp','telephone':'whatsapp',
+    'maison':'livraison','mode':'whatsapp'
+};
+
+
+
+// WhatsApp settings
+const DEFAULT_SETTINGS = {
+    phone: '+242061234567',
+    template: 'Bonjour Cowema 👋, je souhaite commander: {title} (ID {id}) au prix de {price} FCFA.'
+};
 
 // Initialisation
 document.addEventListener('DOMContentLoaded', async function() {
@@ -541,3 +578,5 @@ document.addEventListener('DOMContentLoaded', () => {
 function truncateText(text, maxLength = 32) {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 }
+
+

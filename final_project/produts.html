@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Cowema • Catalogue avec filtres</title>
+
+        <link rel="stylesheet" href="styles/produt.css">
+        <script src="scripts/produt.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <div class="wrap">
+                <div class="brand"><span class="dot"></span> Cowema — Catalogue</div>
+                <div class="tools" role="region" aria-label="Filtres catalogue">
+                    <label class="control" title="Rechercher un produit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="10.5" cy="10.5" r="7.5" stroke="currentColor" stroke-width="2"/></svg>
+                        <input type="text" id="q" placeholder="Rechercher (nom, référence, mot-clé)…" autocomplete="off" />
+                    </label>
+                    <label class="control" for="category" title="Filtrer par catégorie">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M6 12h12M10 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                        <span class="visually-hidden">Catégorie</span>
+                        <select id="category" aria-label="Catégorie"></select>
+                    </label>
+                    <label class="control" title="Disponibilité">
+                        <input id="stockOnly" type="checkbox" />
+                        <span>En stock uniquement</span>
+                    </label>
+                    <button class="btn" id="refresh" title="Actualiser la liste">Actualiser</button>
+                </div>
+                <div class="statusbar">
+                    <span id="count" class="chip">0 article</span>
+                    <span id="activeCat" class="chip">Toutes catégories</span>
+                    <span id="status" class="chip">Prêt</span>
+                </div>
+                <div class="loader" id="loader"><span class="spinner"></span> <span>Chargement des produits…</span></div>
+                <div class="error" id="error" role="alert"></div>
+            </div>
+        </header>
+    
+        <main class="wrap">
+            <section id="grid" class="grid" aria-live="polite" aria-busy="false"></section>
+        </main>
+    
+        <div class="footer">© <span id="year"></span> Cowema — Démo catalogue filtrable (HTML/CSS/JS pur)</div>
+    </body>
+</html>
