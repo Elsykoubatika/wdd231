@@ -14,7 +14,7 @@
     <link rel="icon" href="images/favicon.ico">
 
     <link rel="stylesheet" href="styles/store-style.css">
-    <script src="scripts/store.js" defer></script>
+    <script src="scripts/store1.js" defer></script>
     <link rel="icon" href="images/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,8 +23,8 @@
 </head>
 <body>
     <header>
-        <div class="main-header">
-            <section class="header-content">
+        <section class="main-header">
+            <article class="header-content">
                 <div  class="image-logo">
                     <a href="index.html">
                         <img src="images/logo.png" alt="logo">
@@ -34,9 +34,12 @@
                         <P >Acheter, Vendre Simplement!</P>
                     </div>
                 </div>
-                
-                <div class="search-container">
-                    <input type="text" class="search-box" id="searchBox" placeholder="Rechercher un produit...">
+
+                <div>
+                    <label class="control" title="Rechercher un produit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="10.5" cy="10.5" r="7.5" stroke="currentColor" stroke-width="2"/></svg>
+                        <input type="text" id="q" placeholder="Rechercher (nom, référence, mot-clé)…" autocomplete="on" />
+                    </label>
                 </div>
 
                 <a id="menu" href="#" title="Open menu"></a>
@@ -45,94 +48,105 @@
                     <button id="Direction" type="button" onclick="window.location.href='order.html'">Order</button>
                     <button id="Join" type="button" onclick="window.location.href='join.html'">Join</button>
                 </nav>
+                
+                <div class="cart-container">
+                    <button class="cart-bt" id="cartBtn">
+                        <i class="fas fa-shopping-cart"></i>.
+                    </button>
+                    <div class="count" id="cartCount">0</div>
+                </div>
+
                 <button id="toggle-theme" type="button" title="Changer de thème">🌓</button>
-            </section>
-        </div>
-    </header>
-    <section class="hero-section">
-        <img src="images/joice.webp" alt="hero" loading="lazy">
-    </section>
-    <section class="stats-section">
-        <div class="main-header">
-            <div class="stats-grid">
-                <div class="stat-item" id="vendus">
-                    <div class="stat-number">+1800</div>
-                    <div class="stat-label">Articles vendus</div>
-                </div>
-                <div class="stat-item" id="servis">
-                    <div class="stat-number">+800</div>
-                    <div class="stat-label">Clients servis</div>
-                </div>
-                <div class="stat-item" id="villes">
-                    <div class="stat-number">+5</div>
-                    <div class="stat-label">Villes couvertes</div>
-                </div>
-                <div class="stat-item" id="taux">
-                    <div class="stat-number" >95%</div>
-                    <div class="stat-label">Taux de satisfaction</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <main>
-        <section>
-            <div class="categories" id="categoriesContainer">
-                <!-- Les catégories seront générées dynamiquement -->
-            </div>
-
-            <div id="productsByCategory" class="products-container">
-                <!-- Les produits groupés par catégorie seront générés ici -->
-            </div>
-            <div id="paginationControls" class="pagination-controls"></div>
+            </article>
         </section>
-            <!-- Product Details Modal -->
-        <dialog class="modal" id="productModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Détails du produit</h3>
-                    <button class="close-modal">&times;</button>
+    </header>
+    <main>
+        <section class="hero-section">
+            <img src="images/joice.webp" alt="hero" loading="lazy">
+        </section>
+
+        <section class="stats-section">
+            <div class="main-header">
+                <div class="stats-grid">
+                    <div class="stat-item" id="vendus">
+                        <div class="stat-number">+1800</div>
+                        <div class="stat-label">Articles vendus</div>
+                    </div>
+                    <div class="stat-item" id="servis">
+                        <div class="stat-number">+800</div>
+                        <div class="stat-label">Clients servis</div>
+                    </div>
+                    <div class="stat-item" id="villes">
+                        <div class="stat-number">+5</div>
+                        <div class="stat-label">Villes couvertes</div>
+                    </div>
+                    <div class="stat-item" id="taux">
+                        <div class="stat-number" >95%</div>
+                        <div class="stat-label">Taux de satisfaction</div>
+                    </div>
                 </div>
-                <div class="modal-body" id="productModalBody">
-                    <!-- Le contenu sera ajouté dynamiquement -->
+            </div>
+        </section>
+
+        <section>
+            <article class="container">
+                <div class="tools" role="region" aria-label="Filtres catalogue">
+                    <label class="control" title="Disponibilité">
+                        <input id="stockOnly" type="checkbox" />
+                        <span>En stock uniquement</span>
+                    </label>
+                </div>
+
+                <div class="controls" role="group" aria-label="Filtres & Tri">
+                    <div class="control" title="Catégorie">
+                        <span>Catégorie</span>
+                        <select id="categorySelect" aria-label="Filtrer par catégorie">
+                            <option value="all">Toutes</option>
+                        </select>
+                    </div>
+                    <div class="control" title="Tri">
+                        <span>Tri</span>
+                        <select id="sortSelect" aria-label="Trier par prix">
+                            <option value="price-asc">Prix : croissant</option>
+                            <option value="price-desc">Prix : décroissant</option>
+                        </select>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section>
+            <div id="grid" class="grid" aria-live="polite"></div>
+            <div id="pagination" class="pagination" aria-label="Pagination"></div>
+        </section>
+        
+        <!-- Panier -->
+        <dialog class="cart-modal" id="cartModal">
+            <div class="cart-content">
+                <button class="close-cart-modal" id="closeCartModal">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2><i class="fas fa-shopping-cart"></i> Votre Panier</h2>
+                <div class="cart-items" id="cartItems">
+                    <!-- Les articles du panier seront ajoutés ici -->
+                </div>
+                <div class="cart-total">
+                    Total: <span id="cartTotal">0</span> FCFA
+                </div>
+                <div class="cart-actions">
+                    <button class="btn btn-skip" id="clearCartBtn">
+                        <i class="fas fa-trash"></i> Vider le panier
+                    </button>
+                    <button class="btn btn-submit" id="checkoutBtn">
+                        <i class="fas fa-whatsapp"></i> Commander
+                    </button>
                 </div>
             </div>
         </dialog>
-
-        <!-- Panier -->
-        <section class="cart-container">
-            <button class="cart-bt" id="cartBtn">
-                <i class="fas fa-shopping-cart"></i>.
-            </button>
-            <div class="count" id="cartCount">0</div>
-        </section>
-    
-    <dialog class="cart-modal" id="cartModal">
-        <div class="cart-content">
-            <button class="close-cart-modal" id="closeCartModal">
-                <i class="fas fa-times"></i>
-            </button>
-            <h2><i class="fas fa-shopping-cart"></i> Votre Panier</h2>
-            <div class="cart-items" id="cartItems">
-                <!-- Les articles du panier seront ajoutés ici -->
-            </div>
-            <div class="cart-total">
-                Total: <span id="cartTotal">0</span> FCFA
-            </div>
-            <div class="cart-actions">
-                <button class="btn btn-skip" id="clearCartBtn">
-                    <i class="fas fa-trash"></i> Vider le panier
-                </button>
-                <button class="btn btn-submit" id="checkoutBtn">
-                    <i class="fas fa-whatsapp"></i> Commander
-                </button>
-            </div>
-        </div>
-    </dialog>
     </main>    
 
     <footer>
-        <div  class="image-logo">
+        <div class="image-logo">
             <a href="index.html">
                 <img src="images/logo.png" alt="logo">
             </a>

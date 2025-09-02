@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Détail produit — Cowema</title>
+  <meta name="description" content="Fiche produit Cowema avec galerie, CTA WhatsApp, similaires et liste des produits." />
+  <link rel="stylesheet" href="styles/detail.css">
+    <script src="scripts/detail.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="container toolbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <span>Détail produit</span>
+      </div>
+      <div>
+        <a class="btn ghost small" href="./">⟵ Retour au catalogue</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="status" class="muted">
+        <p>Chargement…</p>
+    </div>
+
+    <section id="detail" class="detail" aria-live="polite" hidden>
+      <div class="gallery">
+        <div class="gallery-main" id="galleryMain"></div>
+        <div class="gallery-thumbs" id="galleryThumbs"></div>
+      </div>
+
+      <div class="info" id="info"></div>
+    </section>
+
+    <h3 class="row-title">Produits similaires</h3>
+    <div id="rowSimilar" class="row-scroll"></div>
+
+    <h3 class="row-title">Tous les produits</h3>
+    <div id="rowAll" class="row-scroll"></div>
+  </main>
+</body>
+</html>
