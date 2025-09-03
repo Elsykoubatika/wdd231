@@ -241,7 +241,7 @@ async function loadAllProductsSafe(){
         const arr = (js.data || []).map(normalizeProduct);
         all.push(...arr);
 
-        if (p % 1 === 0) {
+        if (p % 10 === 0) {
             ALL_PRODUCTS = dedupById(all);
             ensureCategoryOptions(true);
             render();
