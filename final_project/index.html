@@ -43,6 +43,7 @@
                 </div>
 
                 <a id="menu" href="#" title="Open menu"></a>
+                
                 <nav class="filterButton" id="navlinks">
                     <button id="Home" type="button" onclick="window.location.href='index.html'">Home</button>
                     <button id="Direction" type="button" onclick="window.location.href='order.html'">Order</button>
@@ -61,9 +62,35 @@
         </section>
     </header>
     <main>
+        <!-- ===== SHOP BY CATEGORY (hub) ===== -->
+        <section class="cat-hub">
+            <h2>Acheter par catégorie</h2>
+            <div class="cat-hub-grid" id="catHub"></div>
+        </section>
+
+        <!-- ===== PROMOS (deal du jour style) ===== -->
+        <section class="promo-deals">
+            <div class="promo-head">
+                <h2>Offres & Promotions</h2>
+                <a class="btn ghost" href="categorie.html?promo=1">Tout voir</a>
+            </div>
+            <div class="promo-grid" id="promoGrid"></div>
+        </section>
+
+        <!-- ===== LIGNES DÉFILANTES (comme “résultats…” / “en lien…”) ===== -->
+        <section class="row-scroll">
+            <div class="row-head">
+                <h3>En lien avec vos recherches</h3>
+                <a class="btn ghost" href="categorie.html?all=1">Voir plus</a>
+            </div>
+            <div class="row-track" id="rowTrack"></div>
+        </section>
+
         <section class="hero-section">
             <img src="images/joice.webp" alt="hero" loading="lazy">
         </section>
+        
+        <section id="homeCats" class="home-cats"></section>
 
         <section class="stats-section">
             <div class="main-header">

@@ -22,7 +22,7 @@ document.getElementById('currentyear').textContent = `${currentYear}`;
 document.getElementById("lastModified").textContent = `Last modified: ${formattedLastModified}`;
 
 // ===== CONFIG =====
-const API_PRODUCTS   = 'https://eu.cowema.org/api/public/products';
+const API_PRODUCTS   = './public/data/products.json';
 // On n'utilise plus API_CATEGORIES, on génère la liste depuis les produits pour coller aux noms réels.
 
 // UI
@@ -30,32 +30,7 @@ const PER_PAGE = 200;
 const MAX_PAGES_DISPLAY = 100;
 
 // Bannières + priorité par catégorie (mots-clés dans le nom)
-const BANNERS = [
-    { id:'packs', kicker:'OFFRE SPÉCIALE', emoji:'🎁',
-        title:'3 articles = 1 prix',
-        sub:'Économisez avec nos Packs',
-        bg:'linear-gradient(135deg,#0ea5e9,#22c55e)',
-        ctas:[{label:'Voir les Packs', type:'link', href:'/packs'}]
-    },
-    { id:'whatsapp', kicker:'BESOIN D\'AIDE ?', emoji:'💬',
-        title:'Parlez à un conseiller',
-        sub:'Réponse rapide sur WhatsApp',
-        bg:'linear-gradient(135deg,#22c55e,#16a34a)',
-        ctas:[{label:'WhatsApp', type:'whatsapp', prefill:'Bonjour 👋, je veux en savoir plus sur vos packs.'}]
-    },
-    { id:'livraison', kicker:'LIVRAISON RAPIDE', emoji:'🚚',
-        title:'Brazzaville & Pointe-Noire',
-        sub:'Commandez, on s\'occupe du reste',
-        bg:'linear-gradient(135deg,#f59e0b,#ef4444)',
-        ctas:[{label:'Commander via WhatsApp', type:'whatsapp', prefill:'Bonjour, je souhaite commander un pack avec livraison.'}]
-    },
-    { id:'livraison', kicker:'LIVRAISON RAPIDE', emoji:'🚚',
-        title:'Brazzaville & Pointe-Noire',
-        sub:'Commandez, on s\'occupe du reste',
-        bg:'linear-gradient(135deg,#f59e0b,#ef4444)',
-        ctas:[{label:'Commander via WhatsApp', type:'whatsapp', prefill:'Bonjour, je souhaite commander un pack avec livraison.'}]
-    },
-];
+const BANNERS = './public/data/banner.json';
 const BANNER_PRIORITY_BY_CATEGORY = {
     'électronique':'packs','electronique':'packs',
     'téléphone':'whatsapp','telephone':'whatsapp',
@@ -64,7 +39,7 @@ const BANNER_PRIORITY_BY_CATEGORY = {
 
 // WhatsApp settings
 const DEFAULT_SETTINGS = {
-    phone: '+242061234567',
+    phone: '+242065086382',
     template: 'Bonjour Cowema 👋, je souhaite commander: {title} (ID {id}) au prix de {price} FCFA.'
 };
 let WA_SETTINGS = loadSettings();
@@ -133,7 +108,7 @@ function skeletonCards(count=PER_PAGE){
         const card = document.createElement('div');
         card.className = 'card skeleton';
         card.innerHTML = `
-            <div class="thumb" style="background:#0f1218"></div>
+            <div class="thumb" ></div>
             <div class="content">
                 <div class="title" style="height:34px;background:#1b1f28;border-radius:8px"></div>
                 <div class="meta"  style="height:18px;background:#1b1f28;border-radius:8px"></div>
@@ -219,29 +194,54 @@ function ensureCategoryOptions(forceRefresh=false){
     });
 }
 
-// Agrégateur "safe": utilise cache + backoff anti-429
-async function loadAllProductsSafe(){
+// cette fonction permet d'extraire un tableau depuis différentes structures
+function firstArray(payload) {
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload?.items)) return payload.items; // bundle local
+    if (Array.isArray(payload?.data))  return payload.data;  // API paginée
+    return [];
+}
+
+// Agrégateur "safe" : charge depuis le JSON local ou pagine l'API
+async function loadAllProductsSafe() {
+    // 1. lire le cache pour un rendu rapide
     const cached = loadCache();
-    if (cached) {
+    if (cached && Array.isArray(cached)) {
         ALL_PRODUCTS = cached;
         ensureCategoryOptions(true);
         render();
+        if (typeof renderHomeBlocks === 'function') renderHomeBlocks();
     }
 
-    const first = await fetchWithBackoff(`${API_PRODUCTS}?page=1`);
-    const last  = Math.min(Number(first.last_page || 1), MAX_PAGES_CAP);
-    let all     = (first.data || []).map(normalizeProduct);
+    // 2. déterminer si on charge un fichier JSON local
+    const isBundleJson = /\.json(\?|$)/i.test(API_PRODUCTS);
+    const firstUrl     = isBundleJson ? API_PRODUCTS : `${API_PRODUCTS}?page=1`;
 
-    ALL_PRODUCTS = all.slice();
+    // 3. récupérer la première "page" (ou le bundle complet)
+    const firstPayload = await fetchWithBackoff(firstUrl);
+    let all = firstArray(firstPayload).map(normalizeProduct);
+
+    // affichage rapide
+    ALL_PRODUCTS = dedupById(all);
     ensureCategoryOptions(true);
     render();
 
-    for(let p=2; p<=last; p++){
+    // 4. si c’est un bundle local : arrêter ici et rendre les blocs d’accueil
+    if (isBundleJson) {
+        saveCache(ALL_PRODUCTS);  // facultatif
+        if (typeof renderHomeBlocks === 'function') renderHomeBlocks();
+        return;
+    }
+
+    // 5. sinon : API paginée
+    const last = Math.min(Number(firstPayload.last_page || 1), MAX_PAGES_CAP);
+    for (let p = 2; p <= last; p++) {
         const js  = await fetchWithBackoff(`${API_PRODUCTS}?page=${p}`);
-        const arr = (js.data || []).map(normalizeProduct);
+        const arr = firstArray(js).map(normalizeProduct);
         all.push(...arr);
 
-        if (p % 10 === 0) {
+        // rafraîchit périodiquement l'écran
+        if (p % 20 === 0) {
             ALL_PRODUCTS = dedupById(all);
             ensureCategoryOptions(true);
             render();
@@ -249,11 +249,16 @@ async function loadAllProductsSafe(){
         await sleep(RATE_LIMIT_MS);
     }
 
+    // 6. final : dé-doublonnage, cache et rendu complet
     ALL_PRODUCTS = dedupById(all);
     saveCache(ALL_PRODUCTS);
     ensureCategoryOptions(true);
     render();
+    if (typeof renderHomeBlocks === 'function') renderHomeBlocks();
 }
+
+
+
 function dedupById(list){
     const seen = new Set();
     return list.filter(x => { const k = String(x.id); if(seen.has(k)) return false; seen.add(k); return true; });
@@ -280,6 +285,7 @@ function parseQuery(raw){
     });
     return { phrases, pos, neg };
 }
+
 function searchProductsBase(products, { q='', stockOnly=false } = {}){
     const { phrases, pos, neg } = parseQuery(q);
     return products.filter(p=>{
@@ -326,7 +332,7 @@ function productCard(p){
     ${discount>0?`<div class="discount-badge">-${discount}%</div>`:''}
     <div class="thumb">
         <a href="detail.html?id=${encodeURIComponent(p.id)}" aria-label="Voir le détail">
-            ${img?`<img src="${img}" alt="${escapeHtml(titleClean)}" loading="lazy" />`:`<div class="ph">🛍️</div>`}
+            ${img?`<img src="${img}" alt="${escapeHtml(titleClean)}" loading="lazy" width="200" height="200" />`:`<div class="ph">🛍️</div>`}
         </a>
     </div>
         <div class="content">
@@ -408,7 +414,6 @@ function renderPagination(total){
         if(v>=1 && v<=total){ CURRENT.page=v; render(); }
     };
 }
-
 
 function groupProductsByCategory(list){
     const map = new Map();
@@ -503,7 +508,7 @@ function render(){
 
     pageItems.forEach((p,idx)=>{
         gridEl.appendChild(productCard(p));
-        const shouldInsertBanner = ((idx+1)%24===0);
+        const shouldInsertBanner = ((idx+1)%10===0);
         if(shouldInsertBanner){
             const b = selectBanner(priorityId, bannerRotationIndex++);
             gridEl.appendChild(bannerEl(b));
@@ -512,6 +517,7 @@ function render(){
 
     renderCategoryShowcase(sorted);
     renderPagination(totalPages);
+    renderHomeCategories();
 }
 
 // ===== EVENTS (une seule fois, après définition de render) =====
@@ -551,6 +557,163 @@ els.saveSettings?.addEventListener('click', ()=>{
     WA_SETTINGS = {phone, template}; saveSettings();
     alert('Paramètres WhatsApp enregistrés.');
 });
+
+// -------- Catégories -> landing (style tuiles) --------
+const homeCatsEl = document.getElementById('homeCats');
+
+function buildCategoryIndex(list){
+  // Regroupe par catégorie, puis collecte les sous-catégories et une image de représentation
+    const map = new Map();
+    list.forEach(p=>{
+        const cat = p.categoryName || 'Autres';
+        const sub = (p.raw?.sub_category || p.sub_category || '').toString().trim();
+        if(!map.has(cat)) map.set(cat, { name:cat, subs:new Map(), products:[] });
+        const group = map.get(cat);
+        group.products.push(p);
+        if(sub){
+            if(!group.subs.has(sub)) group.subs.set(sub, p.image || p.thumbnail || '');
+        }
+    });
+    return [...map.values()];
+}
+
+function tileHTML(label, img, href){
+    const safeImg = img
+        ? `<img src="${img}" alt="${escapeHtml(label)}" loading="lazy">`
+        : `<div class="ph"></div>`;
+    return `<a class="tile" href="${href}">
+        ${safeImg}
+        <span>${escapeHtml(label)}</span>
+    </a>`;
+}
+
+function renderHomeCategories(){
+    if(!homeCatsEl || !Array.isArray(ALL_PRODUCTS) || !ALL_PRODUCTS.length) return;
+
+    const groups = buildCategoryIndex(ALL_PRODUCTS)
+        .sort((a,b)=> b.products.length - a.products.length);
+
+    const top = groups.slice(0, 12); // montre 12 blocs “catégories”
+    homeCatsEl.innerHTML = top.map(g=>{
+      // jusqu’à 4 sous-catégories ; si moins, on complète avec des produits de la catégorie
+        const subEntries = [...g.subs.entries()].slice(0,4);
+        let tiles = subEntries.map(([label,img]) =>
+            tileHTML(label, img, `categorie.html?cat=${encodeURIComponent(g.name)}&sub=${encodeURIComponent(label)}`)
+        ).join('');
+
+        if(subEntries.length < 4){
+            const need = 4 - subEntries.length;
+            const extras = g.products.slice(0, need).map(p =>
+                tileHTML(truncateText(p.title||'Article', 28), p.image, `categorie.html?cat=${encodeURIComponent(g.name)}`)
+            ).join('');
+            tiles += extras;
+        }
+
+        return `<div class="cat-box">
+            <h3>${escapeHtml(g.name)}</h3>
+            <div class="tiles">${tiles}</div>
+            <a class="more" href="categorie.html?cat=${encodeURIComponent(g.name)}">Voir plus</a>
+        </div>`;
+    }).join('');
+}
+
+/* ===== RENDER HUB / PROMOS / LIGNES ===== */
+
+// image d’une catégorie = première image d’un produit de la catégorie
+function pickImageForCategory(cat){
+    const hit = ALL_PRODUCTS.find(p => (p.categoryName||'') === cat && p.image);
+    return hit?.image || '';
+}
+
+function groupByCategory(){
+    const map = new Map();
+    for(const p of ALL_PRODUCTS){
+        const cat = p.categoryName || 'Autres';
+        if(!map.has(cat)) map.set(cat, []);
+        map.get(cat).push(p);
+    }
+    return [...map.entries()] // [cat, items[]]
+            .sort((a,b)=> b[1].length - a[1].length);
+}
+
+function renderCatHub(){
+    const host = document.getElementById('catHub');
+    if(!host) return;
+
+    const pairs = groupByCategory();
+    const top  = pairs.slice(0,7); // 1 hero + 6 tuiles
+
+    const [heroCat, heroItems] = top[0] || ['Tous', ALL_PRODUCTS];
+    const heroImg = pickImageForCategory(heroCat);
+
+    const heroHTML = `
+        <article class="cat-hero">
+            <div>
+                <div class="kicker">Viva</div>
+                <h3 style="margin:.25rem 0 0">${escapeHtml(heroCat)}</h3>
+                <a class="btn" href="categorie.html?cat=${encodeURIComponent(heroCat)}">Profitez-en maintenant</a>
+            </div>
+            ${heroImg ? `<img src="${heroImg}" alt="${escapeHtml(heroCat)}" style="position:absolute;right:8px;bottom:0;max-height:95%;border-radius:12px">` : ''}
+        </article>`;
+
+    const tilesHTML = top.slice(1).map(([cat, items])=>{
+        const img = pickImageForCategory(cat);
+        // propose 2 sous-catégories (si disponibles dans raw)
+        const subs = [...new Set(items.map(x => x.raw?.sub_category).filter(Boolean))].slice(0,2);
+        return `
+            <a class="cat-tile" href="categorie.html?cat=${encodeURIComponent(cat)}" aria-label="Voir ${escapeHtml(cat)}">
+                ${img ? `<img src="${img}" alt="${escapeHtml(cat)}">` : `<div class="ph" style="width:96px;height:96px;border-radius:12px;background:#1b1f28"></div>`}
+                <div>
+                    <div class="t">${escapeHtml(cat)}</div>
+                    ${subs.length ? `<div class="sous">${escapeHtml(subs.join(' • '))}</div>` : ``}
+                </div>
+            </a>`;
+    }).join('');
+
+    host.innerHTML = heroHTML + tilesHTML;
+}
+
+function productMini(p){
+    const discount = percent(p.oldPrice, p.price);
+    return `
+    <article class="card mini-card">
+        <a href="detail.html?id=${encodeURIComponent(p.id)}" aria-label="${escapeHtml(p.title)}">
+            <div class="thumb" style="position:relative">
+                ${discount>0?`<div class="discount-badge">-${discount}%</div>`:''}
+                ${p.image?`<img src="${p.image}" alt="${escapeHtml(p.title)}" loading="lazy">`:`<div class="ph">🛍️</div>`}
+            </div>
+            <div class="content">
+                <div class="title" title="${escapeHtml(p.title)}">${escapeHtml(p.title)}</div>
+                <div class="price"><span class="now">${fmtCurrency(p.price||0)}</span>
+                    ${p.oldPrice>p.price?` <span class="old">${fmtCurrency(p.oldPrice)}</span>`:''}
+                </div>
+            </div>
+        </a>
+    </article>`;
+}
+
+function renderPromos(){
+    const host = document.getElementById('promoGrid');
+    if(!host) return;
+    const promos = ALL_PRODUCTS.filter(p => Number(p.oldPrice)>Number(p.price))
+                            .sort((a,b)=> percent(b.oldPrice,b.price)-percent(a.oldPrice,a.price))
+                            .slice(0,12);
+    host.innerHTML = promos.map(productMini).join('');
+}
+
+function renderScrollRow(){
+    const host = document.getElementById('rowTrack');
+    if(!host) return;
+        const picks = ALL_PRODUCTS.slice(0,24); // simple : les 24 premiers (tu peux filtrer par popularité si dispo)
+    host.innerHTML = picks.map(productMini).join('');
+}
+
+// appelle ces 3 rendus quand tes produits sont disponibles
+function renderHomeBlocks(){
+    renderCatHub();
+    renderPromos();
+    renderScrollRow();
+}
 
 
 // Gestion du panier

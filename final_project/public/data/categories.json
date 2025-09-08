@@ -1,0 +1,86 @@
+{
+  "generatedAt": "2025-09-06T16:10:06.904Z",
+  "total": 20,
+  "items": [
+    {
+      "name": "Automobiles",
+      "count": 8
+    },
+    {
+      "name": "Autres",
+      "count": 404
+    },
+    {
+      "name": "Beauté",
+      "count": 54
+    },
+    {
+      "name": "Cuisine",
+      "count": 30
+    },
+    {
+      "name": "Divertissement",
+      "count": 29
+    },
+    {
+      "name": "Ecole & Education",
+      "count": 87
+    },
+    {
+      "name": "Electroménager",
+      "count": 216
+    },
+    {
+      "name": "Electronics",
+      "count": 599
+    },
+    {
+      "name": "Elevage & Agriculture",
+      "count": 1
+    },
+    {
+      "name": "Fournitures de Bureau",
+      "count": 5
+    },
+    {
+      "name": "Habillements",
+      "count": 624
+    },
+    {
+      "name": "Immobilier",
+      "count": 10
+    },
+    {
+      "name": "Informatiques",
+      "count": 5
+    },
+    {
+      "name": "Mobilier",
+      "count": 24
+    },
+    {
+      "name": "Nourritures",
+      "count": 1
+    },
+    {
+      "name": "Santé & Bien-être",
+      "count": 13
+    },
+    {
+      "name": "Sécurité",
+      "count": 2
+    },
+    {
+      "name": "Services",
+      "count": 2
+    },
+    {
+      "name": "Solaire",
+      "count": 16
+    },
+    {
+      "name": "Sport",
+      "count": 28
+    }
+  ]
+}

@@ -102,8 +102,7 @@ main{padding:20px 0}
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
     gap: 20px;
-    width: 100%;
-    height: 100%;
+    margin-top: 20px;
 }
 
 .card{
@@ -133,9 +132,183 @@ main{padding:20px 0}
 img{
     width:100%;
     height:100%;
-    object-fit:cover;
-    display:block
 }
+
+/*categorie*/
+
+.home-cats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:16px; margin:20px 0;
+}
+.home-cats .cat-box{
+    background:#0f1218; 
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:12px; 
+    padding:14px; 
+    display:flex; 
+    flex-direction:column; 
+    gap:12px;
+}
+
+.home-cats .cat-box h3{ 
+    font-size:1.05rem; 
+    margin:0 0 4px;
+}
+.home-cats .tiles{
+    display:grid; 
+    grid-template-columns:repeat(2,1fr); 
+    gap:10px;
+}
+
+.home-cats .tile{ 
+    display:block; 
+    text-decoration:none; 
+    color:inherit 
+}
+.home-cats .tile img,.home-cats .tile .ph{
+    width:100%; 
+    aspect-ratio:4/3; 
+    object-fit:cover; 
+    border-radius:8px;
+    background:#101826; 
+    display:block;
+}
+
+.home-cats .tile span{ 
+    display:block; 
+    font-size:.9rem; 
+    margin-top:6px; 
+    color:#c8d1df 
+}
+.home-cats .more{ 
+    color:#60a5fa; 
+    font-weight:600; 
+    font-size:.9rem; 
+    text-decoration:none 
+}
+
+.home-cats .more:hover{ text-decoration:underline }
+
+/* HUB catégories */
+.cat-hub{margin-block:24px}
+
+.cat-hub h2{
+    font-size:clamp(20px,2.4vw,28px);
+    margin:0 0 12px
+}
+.cat-hub-grid{
+    display:grid;
+    gap:14px;
+    grid-template-columns: 2fr 1fr 1fr;  
+  /* gros hero + 2 colonnes tuiles */
+}
+
+.cat-hero{
+    position:relative;
+    min-height:280px;
+    border-radius:16px;
+    overflow:hidden;
+    background:linear-gradient(135deg,#dbeafe,#f0fdf4);
+    display:flex;
+    align-items:flex-end;
+    padding:18px 18px 12px;
+}
+.cat-hero .cta{
+    display:inline-block;
+    margin-top:8px
+}
+.cat-tile{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:#0f1218;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:16px;
+    padding:14px;
+    min-height:120px
+}
+.cat-tile:hover{
+    outline:2px solid rgba(255,255,255,.14)
+}
+.cat-tile img{
+    width:96px;
+    height:96px;
+    object-fit:cover;
+    border-radius:12px
+}
+.cat-tile .t{
+    font-weight:600;
+    font-size:16px
+}
+.cat-tile .sous{
+    opacity:.7;
+    font-size:13px;
+    margin-top:2px
+}
+
+/* PROMOS */
+.promo-deals{
+    margin-block:24px
+}
+.promo-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px
+}
+.promo-grid{
+    display:grid;
+    gap:12px;
+    grid-template-columns:repeat(auto-fill,minmax(210px,1fr))
+}
+.card .discount-badge{
+    position:absolute;
+    top:8px;left:8px;
+    background:#ef4444;
+    color:#fff;
+    font-weight:700;
+    padding:4px 8px;
+    border-radius:9999px;
+    font-size:12px
+}
+
+/* Lignes défilantes */
+.row-scroll{
+    margin-block:20px
+}
+.row-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:6px
+}
+.row-track{
+    display:flex;
+    gap:10px;
+    overflow:auto;
+    scroll-snap-type:x mandatory;
+    padding-bottom:10px
+}
+.row-track .mini-card{
+    min-width:200px;
+    scroll-snap-align:start
+}
+.btn{
+    display:inline-block;
+    padding:.55rem .9rem;
+    border-radius:10px;
+    background:var(--brand,#22c55e);
+    color:#062b12
+}
+.btn.ghost{
+    background:transparent;
+    border:1px solid rgba(255,255,255,.18);
+    color:var(--text,#e5e7eb)
+}
+
+
+/**/
 
 .thumb, .ph{
     font-size:40px;
