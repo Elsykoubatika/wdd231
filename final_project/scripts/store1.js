@@ -45,13 +45,13 @@ const DEFAULT_SETTINGS = {
 let WA_SETTINGS = loadSettings();
 
 // Cat showcase
-const CATEGORY_SHOWCASE_INITIAL = 16;
+const CATEGORY_SHOWCASE_INITIAL = 12;
 const CATEGORY_SHOWCASE_STEP    = 18;
 const catShowcaseState = new Map();
 
 // ===== STATE =====
 let ALL_PRODUCTS = [];
-let CURRENT = { category: 'all', sort: 'price-asc', page: 1 };
+let CURRENT = { category: 'all', sort: 'none', page: 1 };
 
 // ===== DOM =====
 const els = {
@@ -241,7 +241,7 @@ async function loadAllProductsSafe() {
         all.push(...arr);
 
         // rafraîchit périodiquement l'écran
-        if (p % 20 === 0) {
+        if (p % 30 === 0) {
             ALL_PRODUCTS = dedupById(all);
             ensureCategoryOptions(true);
             render();
@@ -489,10 +489,14 @@ function render(){
         ? base
         : base.filter(p => (p.categoryName||'').toLowerCase() === String(CURRENT.category).toLowerCase());
 
-    const sorted = filtered.slice().sort((a,b)=>{
-        const pa = a.price||0, pb=b.price||0;
-        return CURRENT.sort==='price-asc' ? (pa-pb) : (pb-pa);
-    });
+    let sorted = filtered.slice(); // copie
+        if (CURRENT.sort === 'price-asc') {
+            sorted.sort((a,b) => (a.price||0) - (b.price||0));
+        } else if (CURRENT.sort === 'price-desc') {
+            sorted.sort((a,b) => (b.price||0) - (a.price||0));
+        }
+// si CURRENT.sort vaut 'none', on ne trie pas et on conserve l'ordre d'origine
+
 
     const totalPages = Math.max(1, Math.ceil(sorted.length / PER_PAGE));
     const clampedPage = Math.min(Math.max(1, CURRENT.page), totalPages);
@@ -508,7 +512,7 @@ function render(){
 
     pageItems.forEach((p,idx)=>{
         gridEl.appendChild(productCard(p));
-        const shouldInsertBanner = ((idx+1)%10===0);
+        const shouldInsertBanner = ((idx+1)%18===0);
         if(shouldInsertBanner){
             const b = selectBanner(priorityId, bannerRotationIndex++);
             gridEl.appendChild(bannerEl(b));
