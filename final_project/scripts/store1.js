@@ -26,11 +26,11 @@ const API_PRODUCTS   = './public/data/products.json';
 // On n'utilise plus API_CATEGORIES, on génère la liste depuis les produits pour coller aux noms réels.
 
 // UI
-const PER_PAGE = 200;
-const MAX_PAGES_DISPLAY = 100;
+const PER_PAGE = 18;
+const MAX_PAGES_DISPLAY = 5;
 
 // Bannières + priorité par catégorie (mots-clés dans le nom)
-const BANNERS = './public/data/banner.json';
+const BANNERS = './public/data/banners.json';
 const BANNER_PRIORITY_BY_CATEGORY = {
     'électronique':'packs','electronique':'packs',
     'téléphone':'whatsapp','telephone':'whatsapp',
@@ -337,10 +337,7 @@ function productCard(p){
     </div>
         <div class="content">
             <div class="title" title="${escapeHtml(titleClean)}">${escapeHtml(titleClean)}</div>
-            <div class="meta">
-                <span class="stock ${stockCls}">${escapeHtml(stockText)}</span>
-                <span class="cat">${escapeHtml(p.categoryName||'')}</span>
-            </div>
+           
             <div class="price">
                 <span class="now">${fmtCurrency(p.price||0)}</span>
                 ${p.oldPrice>p.price?`<span class="old">${fmtCurrency(p.oldPrice)}</span>`:''}
@@ -357,21 +354,32 @@ function productCard(p){
 
 function bannerEl(b){
     const wrap = document.createElement('div');
-    wrap.className='banner';
+    wrap.className = 'banner';
     wrap.style.background = b.bg || 'linear-gradient(135deg,var(--accent),var(--brand))';
-    const ctas = (b.ctas||[]).map(cta=>{
-        if(cta.type==='link') return `<a class="cta-btn" href="${cta.href||'#'}">${escapeHtml(cta.label||'Découvrir')}</a>`;
-        if(cta.type==='whatsapp'){ const href = buildWhatsAppHref(cta.prefill||'Bonjour 👋'); return `<a class="cta-btn" href="${href}" target="_blank" rel="noopener">${escapeHtml(cta.label||'WhatsApp')}</a>`; }
-        return '';
+
+    // ✅ supporte "ctas" (pluriel) et "cta" (singulier)
+    const rawCtas = Array.isArray(b.ctas) ? b.ctas : (Array.isArray(b.cta) ? b.cta : []);
+    const ctas = rawCtas.map(cta => {
+        const type  = (cta.type || 'link').toLowerCase();
+        const label = escapeHtml(cta.label || (type === 'whatsapp' ? 'WhatsApp' : 'Découvrir'));
+        
+        if (type === 'whatsapp') {
+            const href = buildWhatsAppHref(cta.prefill || 'Bonjour 👋');
+            return `<a class="cta-btn" href="${href}" target="_blank" rel="noopener">${label}</a>`;
+        }
+        // défaut: lien simple
+        const href = escapeHtml(cta.href || '#');
+        return `<a class="cta-btn" href="${href}">${label}</a>`;
     }).join('');
+
     wrap.innerHTML = `
         <div class="left">
-            ${b.kicker?`<div class="kicker">${escapeHtml(b.kicker)}</div>`:''}
-            <div class="headline">${escapeHtml(b.title||'Offre spéciale')}</div>
-            ${b.sub?`<div class="sub">${escapeHtml(b.sub)}</div>`:''}
+            ${b.kicker ? `<div class="kicker">${escapeHtml(b.kicker)}</div>` : ''}
+            <div class="headline">${escapeHtml(b.title || 'Offre spéciale')}</div>
+            ${b.sub ? `<div class="sub">${escapeHtml(b.sub)}</div>` : ''}
             <div class="cta-wrap">${ctas}</div>
         </div>
-        <div class="emoji" aria-hidden="true">${b.emoji||'✨'}</div>
+        <div class="emoji" aria-hidden="true">${b.emoji || '✨'}</div>
     `;
     return wrap;
 }
@@ -512,7 +520,7 @@ function render(){
 
     pageItems.forEach((p,idx)=>{
         gridEl.appendChild(productCard(p));
-        const shouldInsertBanner = ((idx+1)%18===0);
+        const shouldInsertBanner = ((idx+1)%6===0);
         if(shouldInsertBanner){
             const b = selectBanner(priorityId, bannerRotationIndex++);
             gridEl.appendChild(bannerEl(b));
@@ -597,7 +605,7 @@ function renderHomeCategories(){
     const groups = buildCategoryIndex(ALL_PRODUCTS)
         .sort((a,b)=> b.products.length - a.products.length);
 
-    const top = groups.slice(0, 12); // montre 12 blocs “catégories”
+    const top = groups.slice(0, 8); // montre 8 blocs “catégories”
     homeCatsEl.innerHTML = top.map(g=>{
       // jusqu’à 4 sous-catégories ; si moins, on complète avec des produits de la catégorie
         const subEntries = [...g.subs.entries()].slice(0,4);
@@ -620,6 +628,7 @@ function renderHomeCategories(){
         </div>`;
     }).join('');
 }
+
 
 /* ===== RENDER HUB / PROMOS / LIGNES ===== */
 
@@ -657,7 +666,7 @@ function renderCatHub(){
                 <h3 style="margin:.25rem 0 0">${escapeHtml(heroCat)}</h3>
                 <a class="btn" href="categorie.html?cat=${encodeURIComponent(heroCat)}">Profitez-en maintenant</a>
             </div>
-            ${heroImg ? `<img src="${heroImg}" alt="${escapeHtml(heroCat)}" style="position:absolute;right:8px;bottom:0;max-height:95%;border-radius:12px">` : ''}
+            ${heroImg ? `<img src="${heroImg}" alt="${escapeHtml(heroCat)}" style="position:absolute;right:8px;bottom:0;width:60%;border-radius:12px">` : ''}
         </article>`;
 
     const tilesHTML = top.slice(1).map(([cat, items])=>{
@@ -696,6 +705,61 @@ function productMini(p){
     </article>`;
 }
 
+function escapeHtml(s){ 
+    return (s??'').toString().replace(/[&<>"']/g, c => (
+        {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]
+    ));
+    }
+
+    document.addEventListener('DOMContentLoaded', (async function(){
+    const host = document.getElementById('homeBebe');
+    if(!host) return;
+
+    try{
+      // ⚠️ Assure-toi que le fichier s’appelle bien banners.json (pluriel)
+        const res = await fetch('./public/data/banner.json', { headers:{ 'Accept':'application/json' }});
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        const list = await res.json();
+
+      // Cherche l’entrée "bebe"
+        const b = (Array.isArray(list) ? list : []).find(x => (x?.id||'').toLowerCase() === 'bebe') || null;
+
+        // Si pas d’entrée "bebe", on affiche un fallback soft (ça évite un écran vide)
+        const data = b || {
+            kicker: 'Bébé & Maternité',
+            title: 'Tout pour bébé',
+            sub: 'Poussettes, gigoteuses, biberons, et plus…',
+            emoji: '👶',
+            bg: 'linear-gradient(135deg,#f472b6,#60a5fa)',
+            image: '' // facultatif
+        };
+
+        // récupère une image si fournie (image / img / photo)
+        const heroImg = data.image || data.img || data.photo || '';
+
+        // utilise TA fonction WhatsApp si elle existe, sinon lien neutre
+        const waHref = (typeof buildWhatsAppHref === 'function')
+            ? buildWhatsAppHref('Bonjour 👶, je cherche des articles pour bébé/maternité.')
+            : '#';
+
+        host.innerHTML = `
+            <section class="kube" style="margin:12px 16px; background:${escapeHtml(data.bg||'linear-gradient(135deg,#f472b6,#60a5fa)')}; border-radius:16px; padding:20px; display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center;">
+                <div class="copy">
+                    <div class="kicker" style="opacity:.85;font-weight:600">${escapeHtml(data.kicker||'Bébé & Maternité')}</div>
+                    <h1 style="margin:.25rem 0 0">${escapeHtml(data.title||'Tout pour bébé')}</h1>
+                    ${data.sub ? `<p style="margin:.25rem 0 1rem">${escapeHtml(data.sub)}</p>` : ''}
+                    <div class="cta" style="display:flex;gap:8px;flex-wrap:wrap">
+                        <a class="btn" href="bebe.html" style="background:#fff;color:#111;padding:.6rem 1rem;border-radius:10px;text-decoration:none">Voir la boutique</a>
+                        <a class="btn ghost" href="${waHref}" target="_blank" rel="noopener" style="border:1px solid rgba(255,255,255,.6);padding:.6rem 1rem;border-radius:10px;text-decoration:none">WhatsApp</a>
+                    </div>
+                </div>
+                ${heroImg ? `<img src="${heroImg}" alt="Bébé & Maternité" style="max-height:220px;border-radius:12px">` : ''}
+        </section>`;
+    }catch(e){
+        console.error('Bébé & Maternité banner error:', e);
+    }
+}));
+
 function renderPromos(){
     const host = document.getElementById('promoGrid');
     if(!host) return;
@@ -719,164 +783,7 @@ function renderHomeBlocks(){
     renderScrollRow();
 }
 
-
-// Gestion du panier
-
-let cart = [];
-
-function addToCart(productId) {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
-
-    const existing = cart.find(item => item.id === productId);
-    if (existing) {
-        existing.quantity += 1;
-    } else {
-        cart.push({
-            id: product.id,
-            title: product.title,
-            price: product.price,
-            image: product.thumbnail,
-            quantity: 1
-        });
-    }
-
-    updateCart();
-}
-
-function updateCart() {
-    const cartItems = document.getElementById("cartItems");
-    const cartTotal = document.getElementById("cartTotal");
-    const cartCount = document.getElementById("cartCount");
-
-    cartItems.innerHTML = "";
-    let total = 0;
-    let count = 0;
-
-    cart.forEach(item => {
-        total += item.price * item.quantity;
-        count += item.quantity;
-
-        const div = document.createElement("div");
-        div.className = "cart-item";
-        div.innerHTML = `
-            <img src="${item.image}" alt="${item.title}" width="50">
-            <div class="item-info">
-                <p>${item.title}</p>
-                <p>${item.price} FCFA x ${item.quantity}</p>
-            </div>
-        `;
-        cartItems.appendChild(div);
-    });
-
-    cartTotal.textContent = total.toLocaleString();
-    cartCount.textContent = count;
-}
-
-document.addEventListener("click", function(e) {
-    if (e.target.closest('.cart-btn')) {
-        const id = parseInt(e.target.closest('.cart-btn').dataset.id);
-        addToCart(id);
-    }
-});
-const cartModal = document.getElementById("cartModal");
-const cartBtn = document.getElementById("cartBtn");
-const closeCartModal = document.getElementById("closeCartModal");
-
-cartBtn.addEventListener("click", () => {
-    if (cartModal.open) {
-        cartModal.close();
-    } else {
-        cartModal.showModal();
-    }
-});
-
-
-// Gestion du modal produit
-document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('productModal');
-    const closeBtn = document.querySelector('#productModal .close-modal');
-
-    if (closeBtn && modal) {
-        closeBtn.addEventListener('click', () => {
-            modal.close();
-        });
-    }
-});
-
-closeCartModal.addEventListener("click", () => {
-    cartModal.close();
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const productPreview = document.getElementById('selectedProductPreview');
-    const selectedProduct = JSON.parse(localStorage.getItem("selectedProduct"));
-
-    if (selectedProduct) {
-        productPreview.innerHTML = `
-            <div class="product-preview" style="display: flex; align-items: center; gap: 16px; border-radius: 10px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);">
-            <img src="${selectedProduct.image}" alt="${selectedProduct.title}" width="90" height="90" style="border-radius: 8px; object-fit: cover; box-shadow: 0 1px 4px rgba(0,0,0,0.08);">
-            <div style="flex:1;">
-                <h3 style="margin:0 0 6px 0; font-size: 1.1rem; color: #222; font-weight: 600;">${truncateText(selectedProduct.title, 30)}</h3>
-                <p style="margin:0 0 4px 0; color: #555; font-size: 0.9rem;">Produit sélectionné pour achat</p>
-                <p style="margin:0; color: #888; font-size: 0.85rem;">ID: ${selectedProduct.id}</p>
-                <p style="margin:0; color: #888; font-size: 0.85rem;">Quantité: 1</p>
-                <p style="font-weight: bold; color: #1a8917; font-size: 1.05rem; margin: 0;">${selectedProduct.price.toLocaleString()} FCFA</p>
-            </div>
-            </div>
-        `;
-    }
-});
-
-function clearCart() {
-    cart = [];
-    updateCart();
-    console.log("🧹 Panier vidé !");
-}
-
-document.getElementById("clearCartBtn").addEventListener("click", clearCart);
-
-document.getElementById("checkoutBtn").addEventListener("click", function () {
-    if (cart.length === 0) {
-        alert("Votre panier est vide !");
-        return;
-    }
-
-// Stocker les infos du panier dans localStorage
-localStorage.setItem("cart", JSON.stringify(cart));
-// Stocker le total
-const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-localStorage.setItem("cartTotal", total);
-// Redirection
-window.location.href = "order.html";
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const total = parseInt(localStorage.getItem("cartTotal")) || 0;
-    const container = document.getElementById("selectedProductPreview");
-
-    if (cart.length === 0) {
-        container.innerHTML = "<p>Votre panier est vide.</p>";
-        return;
-    }
-
-    container.innerHTML = cart.map(item => `
-        <div  style="border:1px solid #ccc; padding:10px; margin-bottom:10px; display:flex; gap:10px;">
-            <img src="${item.image}" alt="${item.title}" width="80" style="border-radius:5px;">
-            <div>
-                <h3 style="margin:0;">${truncateText(item.title, 30)}</h3>
-                <p  style="font-weight: bold; color: #1a8917; font-size: 1.05rem; margin: 0;">${item.quantity} x ${item.price.toLocaleString()} FCFA</p>
-            </div>
-        </div>
-    `).join("");
-
-    const totalDiv = document.createElement("div");
-    totalDiv.innerHTML = `<h4 style="text-align:right;">Total: ${total.toLocaleString()} FCFA</h4>`;
-    container.appendChild(totalDiv);
-});
-
-// ===== STARTUP =====
+ // ===== STARTUP =====
 (async function init(){
     skeletonCards(12);
     try{

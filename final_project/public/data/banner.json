@@ -1,0 +1,68 @@
+[
+    {
+        "id": "packs",
+        "kicker": "OFFRE SPÉCIALE",
+        "emoji": "🎁",
+        "title": "3 articles = 1 prix",
+        "sub": "Économisez avec nos Packs",
+        "bg": "linear-gradient(135deg,#0ea5e9,#22c55e)",
+        "ctas": [
+            {
+                "label": "Voir les Packs",
+                "type": "link",
+                "href": "/packs"
+            }
+        ]
+    },
+    {
+        "id": "whatsapp",
+        "kicker": "BESOIN D'AIDE ?",
+        "emoji": "💬",
+        "title": "Parlez à un conseiller",
+        "sub": "Réponse rapide sur WhatsApp",
+        "bg": "linear-gradient(135deg,#22c55e,#16a34a)",
+        "ctas": [
+            {
+                "label": "WhatsApp",
+                "type": "whatsapp",
+                "prefill": "Bonjour 👋, je veux en savoir plus sur vos packs."
+            }
+        ]
+    },
+    {
+        "id": "bebe",
+        "kicker": "Bébé & Maternité",
+        "emoji": "🍼",
+        "title": "Tout pour bébé et future maman",
+        "sub": "Essentiels, sécurité, jouets, listes de naissance",
+        "bg": "linear-gradient(90deg,#fce7f3,#e0f2fe)",
+        "image": "/public/assets/hero/bebe-1920x600.jpg",
+        "ctas": [
+            { "label": "Voir la boutique", 
+            "type": "link", 
+            "href": "bebe.html" 
+        },
+            { 
+                "label": "WhatsApp", 
+                "type": "whatsapp", 
+                "prefill": "Bonjour 👶, je cherche des articles pour bébé." 
+            }
+        ]
+    },
+    {
+        "id": "explore",
+        "kicker": "Découvrez plus",
+        "emoji": "🔎",
+        "title": "Explorez davantage.",
+        "sub": "Parcourez les catégories populaires et trouvez l’inspiration",
+        "bg": "linear-gradient(90deg,#0ea5e9,#7c3aed)",
+        "image": "/public/assets/hero/explore-1920x600.jpg",
+        "ctas": [
+                { 
+                    "label": "Voir toutes les catégories", 
+                    "type": "link", 
+                    "href": "explore.html" 
+                }
+        ]
+    }
+]
