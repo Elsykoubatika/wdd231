@@ -1,7 +1,7 @@
 
   // ---------- Config compatibles avec votre projet ----------
-const API_PRODUCTS = '/public/data/products.json';
-const API_BRANDS   = '/public/data/brands.json';
+const API_PRODUCTS = './public/data/products.json';
+const API_BRANDS   = './public/data/brands.json';
 
 // utilitaires légers (reprennent vos patterns)
 function escapeHtml(s){ return (s??'').toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }

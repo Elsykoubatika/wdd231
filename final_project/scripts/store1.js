@@ -31,6 +31,21 @@ const MAX_PAGES_DISPLAY = 5;
 
 // Bannières + priorité par catégorie (mots-clés dans le nom)
 const BANNERS = './public/data/banner.json';
+// Charger les bannières depuis le JSON et ne garder que les 2 premières
+let BANNERS_CACHE = [];
+
+async function initBanners() {
+  try {
+    const res = await fetch(BANNERS, { headers: { 'Accept': 'application/json' } });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    // on s'assure d'avoir un tableau et on limite aux 2 premières
+    BANNERS_CACHE = (Array.isArray(json) ? json : []).slice(0, 2);
+  } catch (e) {
+    console.error('initBanners error:', e);
+    BANNERS_CACHE = []; // fallback silencieux
+  }
+}
 const BANNER_PRIORITY_BY_CATEGORY = {
     'électronique':'packs','electronique':'packs',
     'téléphone':'whatsapp','telephone':'whatsapp',
@@ -385,9 +400,16 @@ function bannerEl(b){
 }
 
 
-function selectBanner(priorityId, rotationIndex){
-    if(priorityId && rotationIndex===0){ const hit = BANNERS.find(x=>x.id===priorityId); if(hit) return hit; }
-    return BANNERS[rotationIndex % BANNERS.length];
+function selectBanner(priorityId, rotationIndex) {
+    const arr = BANNERS_CACHE;
+    if (!arr || arr.length === 0) return null;
+
+    // priorité (si demandée) uniquement sur la première insertion
+    if (priorityId && rotationIndex === 0) {
+        const hit = arr.find(x => x.id === priorityId);
+        if (hit) return hit;
+    }
+    return arr[rotationIndex % arr.length];
 }
 
 function renderPagination(total){
@@ -1011,6 +1033,7 @@ document.addEventListener("DOMContentLoaded", updateCartUI);
 (async function init(){
     skeletonCards(12);
     try{
+        await initBanners(); // charge BANNERS_CACHE
         await loadAllProductsSafe();
         await mountExploreBanner();
     }catch(err){

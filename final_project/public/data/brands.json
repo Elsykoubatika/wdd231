@@ -2,17 +2,17 @@
     "version": 1,
     "generatedAt": "2025-09-09T12:00:00.000Z",
     "items": [
-        { "name": "Sharp",    "image": "/public/media/brands/sharp.jpg" },
-        { "name": "Tornado",  "image": "/public/media/brands/tornado.jpg" },
-        { "name": "LG",       "image": "/public/media/brands/lg.jpg" },
-        { "name": "Panasonic","image": "/public/media/brands/panasonic.jpg" },
-        { "name": "Samsung",  "image": "/public/media/brands/samsung.jpg" },
-        { "name": "Black+Decker", "image": "/public/media/brands/blackdecker.jpg" },
-        { "name": "Bosch",    "image": "/public/media/brands/bosch.jpg" },
-        { "name": "Fresh",    "image": "/public/media/brands/fresh.jpg" },
-        { "name": "Penguin",  "image": "/public/media/brands/penguin.jpg" },
-        { "name": "Ariete",   "image": "/public/media/brands/ariete.jpg" },
-        { "name": "Moulinex", "image": "/public/media/brands/moulinex.jpg" },
-        { "name": "Midea",    "image": "/public/media/brands/midea.jpg" }
+        { "name": "Sharp",    "image": "./public/media/brands/sharp.png" },
+        { "name": "Tornado",  "image": "./public/media/brands/tornado.png" },
+        { "name": "LG",       "image": "./public/media/brands/lg.png" },
+        { "name": "Panasonic","image": "./public/media/brands/panasonic.png" },
+        { "name": "Samsung",  "image": "./public/media/brands/samsung.png" },
+        { "name": "Black+Decker", "image": "./public/media/brands/blackdecker.png" },
+        { "name": "Bosch",    "image": "./public/media/brands/bosch.png" },
+        { "name": "Fresh",    "image": "./public/media/brands/fresh.png" },
+        { "name": "Penguin",  "image": "./public/media/brands/penguin.png" },
+        { "name": "Ariete",   "image": "./public/media/brands/ariete.png" },
+        { "name": "Moulinex", "image": "./public/media/brands/moulinex.png" },
+        { "name": "Midea",    "image": "./public/media/brands/midea.png" }
     ]
 }
