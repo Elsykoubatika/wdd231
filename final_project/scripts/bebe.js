@@ -1,7 +1,7 @@
 
     // --- Config
     const API_PRODUCTS = './public/data/products.json';
-    const WA_DEFAULT = { phone:'+242061234567',
+    const WA_DEFAULT = { phone:'+242065086382',
       template:'Bonjour 👶, je cherche des articles pour bébé/maternité.' };
 
     // --- Utils
@@ -33,9 +33,9 @@
     }
 
     // --- Sélecteurs & helpers Bébé/Maternité
-    const K = ['bébé','bebe','maternité','maternite','grossesse','naissance','nouveau-né','enfant'];
+    const K = ['bébé','bebes','maternité','maternite','grossesse','naissance','nouveau-né','enfants','nourrisson','lait','biberon','couche','poussette','landau','berceau','siège','siege','chaise haute','thermomètre','thermometre','linge','body','gigoteuse','bain'];
     const inBaby = (p)=>{
-      const cat = (p.categoryName||'').toLowerCase();
+      const cat = (p.title||'').toLowerCase();
       const sub = (p.raw?.sub_category||'').toLowerCase();
       return K.some(k=>cat.includes(k)||sub.includes(k));
     };
@@ -96,7 +96,7 @@
         const sub = (p.raw?.sub_category || p.categoryName || 'Autres').toString();
         if(!bySub.has(sub)) bySub.set(sub, {label:sub, img:p.image });
       }
-      const circles = [...bySub.values()].slice(0,12).map(s=>{
+      const circles = [...bySub.values()].slice(0,21).map(s=>{
         const href = `categorie.html?cat=${encodeURIComponent('Bébé')}&sub=${encodeURIComponent(s.label)}`;
         return `<a class="circle" href="${href}">
           ${s.img?`<img src="${s.img}" alt="${escapeHtml(s.label)}">`:`<div class="ph"></div>`}
@@ -105,18 +105,18 @@
       elCir.innerHTML = circles || `<div class="muted">Aucune sous-catégorie trouvée.</div>`;
 
       // Essentiels nouveau-nés (mots clés très usuels)
-      const ESS_KEYS = ['biberon','tétine','tetine','couches','linge','body','gigoteuse','transat','berceau','thermomètre','thermometre','linge','bain','siège','poussette','landau'];
+      const ESS_KEYS = ['biberon','tétine','tetine','linge','enfants','gigoteuse','gourde','thermale','transat','berceau','thermomètre','thermometre','bouteille','linge','siège','poussette','landau'];
       const ess = bb.filter(p => {
-        const t = (p.title||'').toLowerCase();
+        const t = (p.title||p.categoryName||'').toLowerCase();
         const s = (p.raw?.sub_category||'').toLowerCase();
         return ESS_KEYS.some(k => t.includes(k)||s.includes(k));
-      }).slice(0,18);
+      }).slice(0,40);
       elEss.innerHTML = ess.map(card).join('') || `<div class="muted">Pas de sélection pour l’instant.</div>`;
 
       // Promotions
       const promos = bb.filter(p => Number(p.oldPrice)>Number(p.price))
-                       .sort((a,b)=> percent(b.oldPrice,b.price) - percent(a.oldPrice,a.price))
-                       .slice(0,18);
+                      .sort((a,b)=> percent(b.oldPrice,b.price) - percent(a.oldPrice,a.price))
+                      .slice(0,18);
       elPro.innerHTML = promos.map(card).join('') || `<div class="muted">Aucune promo.</div>`;
 
       // Tendances (simple: 20 premiers)

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Explorez davantage • Cowema</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Parcourez les catégories populaires et trouvez l’inspiration.">
+    <link rel="stylesheet" href="styles/explore.css">
+    <script src="scripts/explore.js" defer></script>
+</head>
+<body>
+  <main>
+    <nav class="muted">Accueil ▸ <strong>Explorez davantage</strong></nav>
+
+    <section id="hero" class="hero" aria-label="Explorez davantage">
+      <div>
+        <div id="hk" class="kicker">Découvrez plus</div>
+        <h1 id="ht">Explorez davantage.</h1>
+        <p id="hs">Parcourez les catégories populaires et trouvez l’inspiration.</p>
+        <div class="cta">
+          <a class="btn primary" href="#categories">Voir les catégories</a>
+          <a class="btn ghost" href="index.html">Retour à l’accueil</a>
+        </div>
+      </div>
+      <!-- image de hero injectée par JS -->
+    </section>
+
+    <h2 id="categories">Top catégories</h2>
+    <div id="cats" class="cats"></div>
+
+    <h2>Meilleures ventes</h2>
+    <div id="best" class="row"></div>
+
+    <h2>Offres du moment</h2>
+    <div id="promo" class="grid"></div>
+  </main>
+</body>
+</html>

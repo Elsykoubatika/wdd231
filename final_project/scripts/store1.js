@@ -30,7 +30,7 @@ const PER_PAGE = 18;
 const MAX_PAGES_DISPLAY = 5;
 
 // Bannières + priorité par catégorie (mots-clés dans le nom)
-const BANNERS = './public/data/banners.json';
+const BANNERS = './public/data/banner.json';
 const BANNER_PRIORITY_BY_CATEGORY = {
     'électronique':'packs','electronique':'packs',
     'téléphone':'whatsapp','telephone':'whatsapp',
@@ -337,7 +337,7 @@ function productCard(p){
     </div>
         <div class="content">
             <div class="title" title="${escapeHtml(titleClean)}">${escapeHtml(titleClean)}</div>
-           
+
             <div class="price">
                 <span class="now">${fmtCurrency(p.price||0)}</span>
                 ${p.oldPrice>p.price?`<span class="old">${fmtCurrency(p.oldPrice)}</span>`:''}
@@ -705,6 +705,120 @@ function productMini(p){
     </article>`;
 }
 
+// --- Explore Banner (robuste: banners.json OU banner.json) ---
+// Essaie plusieurs chemins (selon ton projet, certains utilisent banner.json, d'autres banners.json)
+async function loadExploreConfig() {
+    const candidates = './public/data/banner.json';
+    for (const url of candidates) {
+        try {
+            const r = await fetch(url, { headers: { 'Accept': 'application/json' } });
+            if (!r.ok) continue;
+            const json = await r.json();
+            if (Array.isArray(json)) return json;
+        } catch (e) { /* on essaie le suivant */ }
+    }
+    return []; // rien trouvé → tableau vide
+}
+
+function renderExploreSection(host, b) {
+  // Fallback si champs absents
+    const bg     = b?.bg     || '';
+    const kicker = b?.kicker || 'Découvrez plus';
+    const title  = b?.title  || 'Explorez davantage.';
+    const sub    = b?.sub    || '';
+    const image  = b?.image  || '';
+
+    // Utilise escapeHtml déjà présent dans ton projet
+    host.innerHTML = `
+        <section class="hero" style="margin:12px 16px; ${bg ? `background:${escapeHtml(bg)};` : ''}">
+            <div>
+                <div class="kicker">${escapeHtml(kicker)}</div>
+                <h1>${escapeHtml(title)}</h1>
+                ${sub ? `<p>${escapeHtml(sub)}</p>` : ''}
+                <div class="cta">
+                    <a class="btn primary" href="explore.html">Voir les catégories</a>
+                    <a class="btn ghost" href="index.html">Accueil</a>
+                </div>
+            </div>
+            ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(title)}">` : ''}
+        </section>
+    `;
+}
+
+async function mountExploreBanner() {
+    const host = document.getElementById('homeExplore');
+    if (!host) return; // rien à faire si le conteneur n'est pas présent sur cette page
+
+    try {
+        const list = await loadExploreConfig();
+        
+        // Cherche un bloc id: "explore"
+        const b = list.find(x => (x?.id || '').toLowerCase() === 'explore');
+        
+        // Si pas de "explore" dans le JSON, on met un fallback doux
+        const fallback = {
+            kicker: 'Découvrez plus',
+            title : 'Explorez davantage.',
+            sub   : 'Parcourez nos catégories et trouvez ce qui vous plaît.',
+            bg    : 'linear-gradient(135deg,#0ea5e9,#6366f1)',
+            image : '' // facultatif
+        };
+    
+        renderExploreSection(host, b || fallback);
+    } catch (e) {
+        console.error('Explore banner error:', e);
+      // Optionnel : fallback silencieux
+    }
+}
+
+// -------- Shop by Brand (accueil) --------
+const API_BRANDS = './public/data/brands.json';
+
+// sécure & réutilise vos helpers existants
+function slugifyBrand(s){
+    return (s||'')
+        .toString()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+        .replace(/[^a-zA-Z0-9]+/g,'-')
+        .replace(/^-+|-+$/g,'')
+        .toLowerCase();
+}
+
+async function loadBrands(){
+    const host = document.getElementById('brandBanner');
+    if(!host) return;
+
+    // squelettes visuels
+    host.innerHTML = Array.from({length:8}).map(()=>`
+        <div class="brand-skel">
+            <div class="img"></div>
+            <div class="label"></div>
+        </div>`).join('');
+
+    // charge le JSON
+    const res = await fetch(API_BRANDS, { headers:{Accept:'application/json'} });
+    if(!res.ok){ host.innerHTML = `<div class="muted">Impossible de charger les marques.</div>`; return; }
+    const data = await res.json();
+    const items = Array.isArray(data) ? data : (data.items||[]);
+
+    // rendu
+    host.innerHTML = items.map(b=>{
+        const label = (b.name||'Marque').toString().trim();
+        const img = (b.image||'').toString().trim();
+        const href = b.href || `brand.html?brand=${encodeURIComponent(label)}&slug=${encodeURIComponent(slugifyBrand(label))}`;
+        return `
+            <a class="brand-card" href="${href}" aria-label="Voir ${escapeHtml(label)}">
+                <span class="img">${img?`<img src="${img}" alt="${escapeHtml(label)}" loading="lazy">`:''}</span>
+                <span class="label">${escapeHtml(label)}</span>
+            </a>`;
+    }).join('');
+}
+
+// appelez loadBrands() dans votre init existant, une fois le DOM prêt
+document.addEventListener('DOMContentLoaded', () => {
+  loadBrands(); // indépendant du chargement des produits
+});
+
 function escapeHtml(s){ 
     return (s??'').toString().replace(/[&<>"']/g, c => (
         {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]
@@ -783,11 +897,122 @@ function renderHomeBlocks(){
     renderScrollRow();
 }
 
+/* ===================== PANIER (corrigé) ===================== */
+
+// État + persistance
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+function saveCart(){ localStorage.setItem('cart', JSON.stringify(cart)); }
+
+// Raccourcis DOM (existent déjà dans ton HTML)
+const cartModal = document.getElementById("cartModal");
+const cartBtn = document.getElementById("cartBtn");
+const closeCartModal = document.getElementById("closeCartModal");
+const cartItems = document.getElementById("cartItems");
+const cartTotal = document.getElementById("cartTotal");
+const cartCount = document.getElementById("cartCount");
+
+// Trouver un produit dans tes données normalisées (ALL_PRODUCTS)
+function getProductById(id){
+    return (Array.isArray(ALL_PRODUCTS) ? ALL_PRODUCTS : []).find(p => String(p.id) === String(id));
+}
+
+// Ajouter au panier depuis le bouton .cart-btn
+function addToCart(productId){
+    const p = getProductById(productId);
+    if(!p) return;
+
+    const existing = cart.find(it => String(it.id) === String(productId));
+    if (existing){
+        existing.quantity += 1;
+    } else {
+        cart.push({
+            id: p.id,
+            title: p.title,
+            price: Number(p.price || 0),
+            image: p.image || p.thumbnail || '', // p.image est défini par normalizeProduct
+            quantity: 1
+        });
+    }
+    saveCart();
+    updateCartUI();
+}
+
+// Mettre à jour l’UI du panier
+function updateCartUI(){
+    if (!cartItems || !cartTotal || !cartCount) return;
+
+    cartItems.innerHTML = "";
+    let total = 0, count = 0;
+
+    cart.forEach(item => {
+      total += (Number(item.price)||0) * (Number(item.quantity)||0);
+        count += Number(item.quantity)||0;
+        
+        const row = document.createElement("div");
+        row.className = "cart-item";
+        row.innerHTML = `
+            <img src="${item.image || ''}" alt="${item.title}" width="50" height="50" style="object-fit:cover;border-radius:6px">
+            <div class="item-info">
+                <p>${item.title}</p>
+                <p>${(Number(item.price)||0).toLocaleString()} FCFA × ${item.quantity}</p>
+            </div>
+        `;
+        cartItems.appendChild(row);
+    });
+
+    // Si tu as déjà fmtCurrency, tu peux l’utiliser ici à la place
+    cartTotal.textContent = total.toLocaleString();
+    cartCount.textContent = count;
+}
+
+// Écouteur global: clic sur les boutons "Ajouter au panier" des cartes produit
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest('.cart-btn');
+    if (!btn) return;
+    const id = btn.dataset.id;
+    if (!id) return;
+    addToCart(id);
+});
+
+// Ouvrir/fermer le dialog du panier
+cartBtn?.addEventListener("click", () => {
+  // Affiche/actualise avant d’ouvrir pour avoir les données à jour
+    updateCartUI();
+    cartModal?.showModal();
+});
+closeCartModal?.addEventListener("click", () => cartModal?.close());
+
+// Actions “vider” et “commander”
+document.getElementById("clearCartBtn")?.addEventListener("click", () => {
+    cart = [];
+    saveCart();
+    updateCartUI();
+});
+
+document.getElementById("checkoutBtn")?.addEventListener("click", () => {
+    if (cart.length === 0){
+        alert("Votre panier est vide !");
+        return;
+    }
+    // Tu as déjà un flux vers order.html dans ton projet
+    const total = cart.reduce((sum, it) => sum + (Number(it.price)||0) * (Number(it.quantity)||0), 0);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("cartTotal", String(total));
+    window.location.href = "order.html";
+});
+
+// Initialiser l’UI au chargement
+document.addEventListener("DOMContentLoaded", updateCartUI);
+
+/* =================== FIN PANIER (corrigé) =================== */
+
+
  // ===== STARTUP =====
 (async function init(){
     skeletonCards(12);
     try{
         await loadAllProductsSafe();
+        await mountExploreBanner();
     }catch(err){
         console.error(err);
         gridEl.innerHTML = `<div style="grid-column:1/-1;background:#190e0f;border:1px solid rgba(255,255,255,.08);padding:20px;border-radius:12px">
