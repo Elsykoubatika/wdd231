@@ -6,6 +6,7 @@
         "title": "3 articles = 1 prix",
         "sub": "Économisez avec nos Packs",
         "bg": "linear-gradient(135deg,#0ea5e9,#22c55e)",
+        "image": "./public/assets/hero/bebe-1920x600.png",
         "ctas": [
             {
                 "label": "Voir les Packs",
@@ -21,6 +22,7 @@
         "title": "Parlez à un conseiller",
         "sub": "Réponse rapide sur WhatsApp",
         "bg": "linear-gradient(135deg,#22c55e,#16a34a)",
+        "image": "./public/assets/hero/bebe-1920x600.png",
         "ctas": [
             {
                 "label": "WhatsApp",
@@ -56,7 +58,7 @@
         "title": "Explorez davantage.",
         "sub": "Parcourez les catégories populaires et trouvez l’inspiration",
         "bg": "linear-gradient(90deg,#0ea5e9,#7c3aed)",
-        "image": "/public/assets/hero/explore-1920x600.jpg",
+        "image": "./public/assets/hero/explore-1920x600.png",
         "ctas": [
                 { 
                     "label": "Voir toutes les catégories", 
