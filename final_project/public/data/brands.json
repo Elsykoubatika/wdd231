@@ -10,8 +10,6 @@
         { "name": "Black+Decker", "image": "./public/media/brands/blackdecker.png" },
         { "name": "Bosch",    "image": "./public/media/brands/bosch.png" },
         { "name": "Fresh",    "image": "./public/media/brands/fresh.png" },
-        { "name": "Penguin",  "image": "./public/media/brands/penguin.png" },
-        { "name": "Ariete",   "image": "./public/media/brands/ariete.png" },
         { "name": "Moulinex", "image": "./public/media/brands/moulinex.png" },
         { "name": "Midea",    "image": "./public/media/brands/midea.png" }
     ]

@@ -1,7 +1,7 @@
 /* Store Style CSS */
 :root {
     --primary-color:  #083344;
-    --secondary-color: #38C385;
+    --secondary-color: #FE9C00;
     --accent-color: #FE9C00;
     --background-color: #f9f8f5 #F6F9FC;
     --text-color: #121519;
@@ -124,11 +124,11 @@ main{padding:20px 0}
 }
 .thumb{
     aspect-ratio:1/1;
-    background:#0f1218;
     display:grid;
     place-items:center;
     overflow:hidden
 }
+
 img{
     width:100%;
     height:100%;
@@ -179,12 +179,12 @@ img{
 .brand-grid{
     display:grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap:16px;
+    gap:5px;
     margin-top:14px;
 }
 .brand-card{
     position:relative;
-    border-radius:14px;
+    border-radius:3px;
     overflow:hidden;
     background:#0f1218;
     box-shadow: 0 1px 4px rgba(0,0,0,.12);
@@ -262,11 +262,18 @@ img{
 .home-cats{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:16px; margin:20px 0;
+    gap:16px; 
+    margin:20px 0;
+    background: var(--primary-color);
 }
+
+.cat-box img{
+    width:100%; 
+    aspect-ratio:4/3; 
+    display:block;
+}
+
 .home-cats .cat-box{
-    background:#0f1218; 
-    border:1px solid rgba(255,255,255,.08);
     border-radius:12px; 
     padding:14px; 
     display:flex; 
@@ -344,19 +351,18 @@ img{
 .cat-tile{
     display:flex;
     align-items:center;
-    gap:14px;
-    background:#0f1218;
+    gap:5px;
     border:1px solid rgba(255,255,255,.06);
     border-radius:16px;
     padding:14px;
-    min-height:120px
+    min-height:120px;
+    background: var(--accent-color);
 }
 .cat-tile:hover{
     outline:2px solid rgba(255,255,255,.14)
 }
 .cat-tile img{
-    width:96px;
-    height:96px;
+    width:250px;
     object-fit:cover;
     border-radius:12px
 }
@@ -421,7 +427,7 @@ img{
     display:inline-block;
     padding:.55rem .9rem;
     border-radius:10px;
-    background:var(--brand,#22c55e);
+    background:var(--accent-color);
     color:#062b12
 }
 .btn.ghost{
@@ -495,10 +501,8 @@ img{
 
 .cta{
     flex:1;
-    background:var(--secondary-color);
     color:#041017;
     font-weight: bolder;
-    border-radius:10px;
     padding:8px 5px;
     font-weight:700;
     text-align:center
@@ -552,13 +556,32 @@ img{
     background:#111827;
     color:#e5f7ee;
     border:1px solid rgba(255,255,255,.14);
-    padding:10px 14px;
+    padding:10px 10px;
     border-radius:12px;
     font-weight:800
 }
 .banner .emoji{
     font-size:44px;
     filter:drop-shadow(0 10px 12px rgba(0,0,0,.35))
+}
+
+.kube{
+    background-color: #083344;
+}
+
+.hero-banner{
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height: 300px;
+}
+
+.hero-banner img{
+    width: 100%;
+    object-fit: cover;
+    border-radius: 12px;
 }
 
 /* Pagination */

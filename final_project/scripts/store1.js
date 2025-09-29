@@ -394,7 +394,7 @@ function bannerEl(b){
             ${b.sub ? `<div class="sub">${escapeHtml(b.sub)}</div>` : ''}
             <div class="cta-wrap">${ctas}</div>
         </div>
-        <div class="emoji" aria-hidden="true">${b.emoji || '✨'}</div>
+        <div class="image-banner" aria-hidden="true">${b.image?`<img src="${b.image}" alt="image" loading="lazy"/>` : ''}</div>
     `;
     return wrap;
 }
@@ -437,7 +437,7 @@ function renderPagination(total){
 
     const jumpWrap = document.createElement('div');
     jumpWrap.className='page-jump';
-    jumpWrap.innerHTML = `Aller à la page <input id="jumpIn" type="number" min="1" max="${total}" style="width:80px;background:transparent;border:1px solid rgba(255,255,255,.18);border-radius:8px;color:var(--text);padding:6px 8px"> <button class="page-btn" id="jumpBtn">OK</button>`;
+    jumpWrap.innerHTML = `Aller à la page <input id="jumpIn" type="number" min="1" max="${total}" style="width:80px;background:transparent; solid rgba(255,255,255,.18);border-radius:8px;color:var(--text);padding:6px 8px"> <button class="page-btn" id="jumpBtn">OK</button>`;
     paginationEl.appendChild(jumpWrap);
     jumpWrap.querySelector('#jumpBtn').onclick = ()=>{
         const v = Number(jumpWrap.querySelector('#jumpIn').value||1);
@@ -676,7 +676,7 @@ function renderCatHub(){
     if(!host) return;
 
     const pairs = groupByCategory();
-    const top  = pairs.slice(0,7); // 1 hero + 6 tuiles
+    const top  = pairs.slice(0,9); // 1 hero + 6 tuiles
 
     const [heroCat, heroItems] = top[0] || ['Tous', ALL_PRODUCTS];
     const heroImg = pickImageForCategory(heroCat);
@@ -686,7 +686,7 @@ function renderCatHub(){
             <div>
                 <div class="kicker">Viva</div>
                 <h3 style="margin:.25rem 0 0">${escapeHtml(heroCat)}</h3>
-                <a class="btn" href="categorie.html?cat=${encodeURIComponent(heroCat)}">Profitez-en maintenant</a>
+                <a class="btn" href="categorie.html?cat=${encodeURIComponent(heroCat)}">Profitez-en</a>
             </div>
             ${heroImg ? `<img src="${heroImg}" alt="${escapeHtml(heroCat)}" style="position:absolute;right:8px;bottom:0;width:60%;border-radius:12px">` : ''}
         </article>`;
@@ -697,10 +697,9 @@ function renderCatHub(){
         const subs = [...new Set(items.map(x => x.raw?.sub_category).filter(Boolean))].slice(0,2);
         return `
             <a class="cat-tile" href="categorie.html?cat=${encodeURIComponent(cat)}" aria-label="Voir ${escapeHtml(cat)}">
-                ${img ? `<img src="${img}" alt="${escapeHtml(cat)}">` : `<div class="ph" style="width:96px;height:96px;border-radius:12px;background:#1b1f28"></div>`}
+                ${img ? `<img src="${img}" alt="${escapeHtml(cat)}">` : `<div class="ph" style="width:96px;height:96px;border-radius:12px;"></div>`}
                 <div>
                     <div class="t">${escapeHtml(cat)}</div>
-                    ${subs.length ? `<div class="sous">${escapeHtml(subs.join(' • '))}</div>` : ``}
                 </div>
             </a>`;
     }).join('');
@@ -728,7 +727,6 @@ function productMini(p){
 }
 
 // --- Explore Banner (robuste: banners.json OU banner.json) ---
-// Essaie plusieurs chemins (selon ton projet, certains utilisent banner.json, d'autres banners.json)
 async function loadExploreConfig() {
     const candidates = './public/data/banner.json';
     for (const url of candidates) {
@@ -752,17 +750,14 @@ function renderExploreSection(host, b) {
 
     // Utilise escapeHtml déjà présent dans ton projet
     host.innerHTML = `
-        <section class="hero" style="margin:12px 16px; ${bg ? `background:${escapeHtml(bg)};` : ''}">
+        <section class="hero-banner" style="margin:12px 16px; ">
             <div>
                 <div class="kicker">${escapeHtml(kicker)}</div>
-                <h1>${escapeHtml(title)}</h1>
-                ${sub ? `<p>${escapeHtml(sub)}</p>` : ''}
-                <div class="cta">
+                ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(title)}">` : ''}
+                <div class="cta-categorie">
                     <a class="btn primary" href="explore.html">Voir les catégories</a>
-                    <a class="btn ghost" href="index.html">Accueil</a>
                 </div>
             </div>
-            ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(title)}">` : ''}
         </section>
     `;
 }
@@ -782,8 +777,8 @@ async function mountExploreBanner() {
             kicker: 'Découvrez plus',
             title : 'Explorez davantage.',
             sub   : 'Parcourez nos catégories et trouvez ce qui vous plaît.',
-            bg    : 'linear-gradient(135deg,#0ea5e9,#6366f1)',
-            image : '' // facultatif
+            bg    : 'linear-gradient(135deg)',
+            image : "./public/assets/hero/explore-1920x600.png",
         };
     
         renderExploreSection(host, b || fallback);
@@ -827,10 +822,10 @@ async function loadBrands(){
     host.innerHTML = items.map(b=>{
         const label = (b.name||'Marque').toString().trim();
         const img = (b.image||'').toString().trim();
-        const href = b.href || `brand.html?brand=${encodeURIComponent(label)}&slug=${encodeURIComponent(slugifyBrand(label))}`;
+        const href = b.href || `brands.html?brand=${encodeURIComponent(label)}&slug=${encodeURIComponent(slugifyBrand(label))}`;
         return `
             <a class="brand-card" href="${href}" aria-label="Voir ${escapeHtml(label)}">
-                <span class="img">${img?`<img src="${img}" alt="${escapeHtml(label)}" loading="lazy">`:''}</span>
+                <span class="img-container">${img?`<img src="${img}" alt="${escapeHtml(label)}" loading="lazy">`:''}</span>
                 <span class="label">${escapeHtml(label)}</span>
             </a>`;
     }).join('');
@@ -879,17 +874,16 @@ function escapeHtml(s){
             : '#';
 
         host.innerHTML = `
-            <section class="kube" style="margin:12px 16px; background:${escapeHtml(data.bg||'linear-gradient(135deg,#f472b6,#60a5fa)')}; border-radius:16px; padding:20px; display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center;">
+            <section class="kube" style="margin:12px 16px; background:${escapeHtml(data.bg||'linear-gradient(135deg,#f472b6,#60a5fa)')}; padding:20px; display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center;">
                 <div class="copy">
                     <div class="kicker" style="opacity:.85;font-weight:600">${escapeHtml(data.kicker||'Bébé & Maternité')}</div>
                     <h1 style="margin:.25rem 0 0">${escapeHtml(data.title||'Tout pour bébé')}</h1>
                     ${data.sub ? `<p style="margin:.25rem 0 1rem">${escapeHtml(data.sub)}</p>` : ''}
                     <div class="cta" style="display:flex;gap:8px;flex-wrap:wrap">
                         <a class="btn" href="bebe.html" style="background:#fff;color:#111;padding:.6rem 1rem;border-radius:10px;text-decoration:none">Voir la boutique</a>
-                        <a class="btn ghost" href="${waHref}" target="_blank" rel="noopener" style="border:1px solid rgba(255,255,255,.6);padding:.6rem 1rem;border-radius:10px;text-decoration:none">WhatsApp</a>
                     </div>
                 </div>
-                ${heroImg ? `<img src="${heroImg}" alt="Bébé & Maternité" style="max-height:220px;border-radius:12px">` : ''}
+                ${heroImg ? `<img src="${heroImg}" alt="Bébé & Maternité" style="max-height:300px;border-radius:12px">` : ''}
         </section>`;
     }catch(e){
         console.error('Bébé & Maternité banner error:', e);
@@ -901,7 +895,7 @@ function renderPromos(){
     if(!host) return;
     const promos = ALL_PRODUCTS.filter(p => Number(p.oldPrice)>Number(p.price))
                             .sort((a,b)=> percent(b.oldPrice,b.price)-percent(a.oldPrice,a.price))
-                            .slice(0,12);
+                            .slice(0,20);
     host.innerHTML = promos.map(productMini).join('');
 }
 

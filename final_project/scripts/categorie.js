@@ -19,6 +19,7 @@ function percent(oldp, nowp){ const o=Number(oldp), n=Number(nowp); return (o &&
 const sleep = (ms)=> new Promise(r=>setTimeout(r, ms));
 function parseQS(){ const u=new URL(location.href); return Object.fromEntries(u.searchParams.entries()); }
 
+function truncateText(text, maxLength = 32){ return text.length > maxLength ? text.slice(0, maxLength) + "..." : text; }
 
 function loadCache(){
     try{
@@ -63,7 +64,7 @@ function productCard(p){
     const discount = percent(p.oldPrice, p.price);
     const stockText = p.stock>0 ? `${p.stock} en stock` : 'Rupture';
     const stockCls  = p.stock>0 ? 'in' : 'out';
-    const titleClean = (p.title||'').trim();
+    const titleClean = truncateText(p.title||'').trim();
     const img = p.image || '';
     return `<article class="card">
         <a href="detail.html?id=${encodeURIComponent(p.id)}" aria-label="${escapeHtml(titleClean)}">

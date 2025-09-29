@@ -5,8 +5,8 @@
         "emoji": "🎁",
         "title": "3 articles = 1 prix",
         "sub": "Économisez avec nos Packs",
-        "bg": "linear-gradient(135deg,#0ea5e9,#22c55e)",
-        "image": "./public/assets/hero/bebe-1920x600.png",
+        "bg": "linear-gradient(135deg)",
+        "image": "./public/assets/hero/pack.webp",
         "ctas": [
             {
                 "label": "Voir les Packs",
@@ -21,8 +21,8 @@
         "emoji": "💬",
         "title": "Parlez à un conseiller",
         "sub": "Réponse rapide sur WhatsApp",
-        "bg": "linear-gradient(135deg,#22c55e,#16a34a)",
-        "image": "./public/assets/hero/bebe-1920x600.png",
+        "bg": "linear-gradient(135deg)",
+        "image": "./public/assets/hero/image.png",
         "ctas": [
             {
                 "label": "WhatsApp",
@@ -37,7 +37,7 @@
         "emoji": "🍼",
         "title": "Tout pour bébé et future maman",
         "sub": "Essentiels, sécurité, jouets, listes de naissance",
-        "bg": "linear-gradient(90deg,#fce7f3,#e0f2fe)",
+        "bg": "linear-gradient(90deg,#fce7f3,)",
         "image": "./public/assets/hero/bebe-1920x600.png",
         "ctas": [
             { "label": "Voir la boutique", 
