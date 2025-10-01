@@ -1,8 +1,8 @@
 /* Store Style CSS */
 :root {
     --primary-color:  #083344;
-    --secondary-color: #FE9C00;
-    --accent-color: #FE9C00;
+    --secondary-color: #c7a369;
+    --accent-color: #fe9d00bb;
     --background-color: #f9f8f5 #F6F9FC;
     --text-color: #121519;
     --link-color: #1b403c;
@@ -264,7 +264,7 @@ img{
     grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
     gap:16px; 
     margin:20px 0;
-    background: var(--primary-color);
+    background: #379fc554;
 }
 
 .cat-box img{
