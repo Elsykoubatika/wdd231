@@ -387,14 +387,29 @@ function bannerEl(b){
         return `<a class="cta-btn" href="${href}">${label}</a>`;
     }).join('');
 
+      // 2) Images : accepte b.image (string) ou b.image (array) ou b.images (array)
+    const imgList =
+        Array.isArray(b.image) ? b.image
+        : Array.isArray(b.images) ? b.images
+        : (b.image ? [b.image] : []);
+
+    const imagesHTML = imgList
+        .filter(Boolean)
+        .map((src, i) => `<img src="${src}" alt="${escapeHtml((b.title || 'bannière') + ' ' + (i+1))}" loading="lazy">`)
+        .join('');
+
     wrap.innerHTML = `
         <div class="left">
             ${b.kicker ? `<div class="kicker">${escapeHtml(b.kicker)}</div>` : ''}
-            <div class="headline">${escapeHtml(b.title || 'Offre spéciale')}</div>
+            <div class="headline">
+                ${escapeHtml(b.title || 'Offre spéciale')}
+            </div>
             ${b.sub ? `<div class="sub">${escapeHtml(b.sub)}</div>` : ''}
             <div class="cta-wrap">${ctas}</div>
         </div>
-        <div class="image-banner" aria-hidden="true">${b.image?`<img src="${b.image}" alt="image" loading="lazy"/>` : ''}</div>
+            <div class="image-banner" aria-hidden="true">
+            ${imagesHTML}
+        </div>
     `;
     return wrap;
 }
@@ -866,7 +881,15 @@ function escapeHtml(s){
         };
 
         // récupère une image si fournie (image / img / photo)
-        const heroImg = data.image || data.img || data.photo || '';
+        const imgBebe =
+            Array.isArray(b.image) ? b.image
+            : Array.isArray(b.images) ? b.images
+            : (b.image ? [b.image] : []);
+
+        const heroImg = imgBebe
+            .filter(Boolean)
+            .map((src, i) => `<img src="${src}" alt="${escapeHtml((b.title || 'bannière') + ' ' + (i+1))}" loading="lazy">`)
+            .join('');
 
         // utilise TA fonction WhatsApp si elle existe, sinon lien neutre
         const waHref = (typeof buildWhatsAppHref === 'function')
@@ -883,7 +906,9 @@ function escapeHtml(s){
                         <a class="btn" href="bebe.html" style="background:#fff;color:#111;padding:.6rem 1rem;border-radius:10px;text-decoration:none">Voir la boutique</a>
                     </div>
                 </div>
-                ${heroImg ? `<img src="${heroImg}" alt="Bébé & Maternité" style="max-height:300px;border-radius:5px">` : ''}
+                <div class="bebe-image" aria-hidden="true">
+                    ${heroImg }
+                </div>
         </section>`;
     }catch(e){
         console.error('Bébé & Maternité banner error:', e);

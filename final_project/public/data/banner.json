@@ -22,7 +22,7 @@
         "title": "Parlez à un conseiller",
         "sub": "Réponse rapide sur WhatsApp",
         "bg": "linear-gradient(135deg)",
-        "image": "./public/assets/hero/image.png",
+        "image": ["./public/assets/hero/centrale.jpg" ,"./public/assets/hero/gourde.png", "./public/assets/hero/sac.jpg"],
         "ctas": [
             {
                 "label": "WhatsApp",
@@ -38,7 +38,7 @@
         "title": "Tout pour bébé et future maman",
         "sub": "Essentiels, sécurité, jouets, listes de naissance",
         "bg": "linear-gradient(90deg,#fce7f3,)",
-        "image": "./public/assets/hero/bebe-1920x600.png",
+        "image": ["./public/assets/hero/bebe-1920x600.png", "./public/assets/hero/aide.jpg", "./public/assets/hero/congourou.jpg"],
         "ctas": [
             { "label": "Voir la boutique", 
             "type": "link", 

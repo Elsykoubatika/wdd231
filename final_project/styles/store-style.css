@@ -286,6 +286,10 @@ img{
     margin:0 0 4px;
 }
 
+.cat-box span{ 
+    display:none;
+}
+
 .home-cats .tiles{
     display:grid; 
     grid-template-columns:repeat(2,1fr); 
@@ -533,10 +537,16 @@ img{
     box-shadow:var(--shadow)
 }
 
-.banner img {
-    max-height:300px;
-    border-radius:12px;
-    object-fit:cover;
+.banner .image-banner{
+    display: flex;
+    gap: 12px;              /* espace entre les images */
+    align-items: center;        /* passe en ligne suivante sur mobile */
+}
+.banner .image-banner img{
+    max-height: 260px;      /* ajuste si besoin */
+    border-radius: 12px;
+    object-fit: cover;
+    display: block;
 }
 .banner .left{display:grid;gap:6px}
 
@@ -577,6 +587,20 @@ img{
     background: linear-gradient(125deg,#083344,#e5f7ee);
     border-radius: 5px;
 }
+
+.bebe-image {
+    display: flex;
+    gap: 12px;              /* espace entre les images */
+    align-items: center;/* passe en ligne suivante sur mobile */
+    justify-content: center; /* centre les images */
+}
+
+.bebe-image img {
+    max-height: 260px;      /* ajuste si besoin */
+    border-radius: 12px;
+    object-fit: cover;
+    display: block;
+}   
 
 .hero-banner{
     position:relative;
