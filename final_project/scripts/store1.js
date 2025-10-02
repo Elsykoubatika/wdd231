@@ -627,7 +627,7 @@ function renderHomeCategories(){
     const groups = buildCategoryIndex(ALL_PRODUCTS)
         .sort((a,b)=> b.products.length - a.products.length);
 
-    const top = groups.slice(0, 8); // montre 8 blocs “catégories”
+    const top = groups.slice(0, 8); // montre 9 blocs “catégories”
     homeCatsEl.innerHTML = top.map(g=>{
       // jusqu’à 4 sous-catégories ; si moins, on complète avec des produits de la catégorie
         const subEntries = [...g.subs.entries()].slice(0,4);
@@ -861,7 +861,7 @@ function escapeHtml(s){
             title: 'Tout pour bébé',
             sub: 'Poussettes, gigoteuses, biberons, et plus…',
             emoji: '👶',
-            bg: 'linear-gradient(135deg,#f472b6,#60a5fa)',
+            bg: '',
             image: '' // facultatif
         };
 
@@ -874,16 +874,16 @@ function escapeHtml(s){
             : '#';
 
         host.innerHTML = `
-            <section class="kube" style="margin:12px 16px; background:${escapeHtml(data.bg||'linear-gradient(135deg,#f472b6,#60a5fa)')}; padding:20px; display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center;">
+            <section class="kube" style=" background:${escapeHtml(data.bg||'linear-gradient(135deg,#f472b6,#60a5fa)')}; padding:20px; display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center;">
                 <div class="copy">
-                    <div class="kicker" style="opacity:.85;font-weight:600">${escapeHtml(data.kicker||'Bébé & Maternité')}</div>
+                    <div class="kicker" style="opacity:.85;font-weight:900 ;font-size:40px; color:#e5f7ee ">${escapeHtml(data.kicker||'Bébé & Maternité')}</div>
                     <h1 style="margin:.25rem 0 0">${escapeHtml(data.title||'Tout pour bébé')}</h1>
                     ${data.sub ? `<p style="margin:.25rem 0 1rem">${escapeHtml(data.sub)}</p>` : ''}
                     <div class="cta" style="display:flex;gap:8px;flex-wrap:wrap">
                         <a class="btn" href="bebe.html" style="background:#fff;color:#111;padding:.6rem 1rem;border-radius:10px;text-decoration:none">Voir la boutique</a>
                     </div>
                 </div>
-                ${heroImg ? `<img src="${heroImg}" alt="Bébé & Maternité" style="max-height:300px;border-radius:12px">` : ''}
+                ${heroImg ? `<img src="${heroImg}" alt="Bébé & Maternité" style="max-height:300px;border-radius:5px">` : ''}
         </section>`;
     }catch(e){
         console.error('Bébé & Maternité banner error:', e);
@@ -895,7 +895,7 @@ function renderPromos(){
     if(!host) return;
     const promos = ALL_PRODUCTS.filter(p => Number(p.oldPrice)>Number(p.price))
                             .sort((a,b)=> percent(b.oldPrice,b.price)-percent(a.oldPrice,a.price))
-                            .slice(0,20);
+                            .slice(0,24);
     host.innerHTML = promos.map(productMini).join('');
 }
 

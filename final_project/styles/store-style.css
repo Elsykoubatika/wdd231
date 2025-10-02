@@ -285,6 +285,7 @@ img{
     font-size:1.05rem; 
     margin:0 0 4px;
 }
+
 .home-cats .tiles{
     display:grid; 
     grid-template-columns:repeat(2,1fr); 
@@ -521,32 +522,39 @@ img{
 .banner{
     grid-column:1/-1;
     position:relative;
-    border-radius:var(--radius);
+    border-radius:5px;
     overflow:hidden;
     min-height:120px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     padding:20px 18px;
-    background:linear-gradient(135deg,var(--accent),var(--brand));
-    border:1px solid rgba(255,255,255,.12);
+    background:linear-gradient(15deg,var(--primary-color),var(--secondary-color));
     box-shadow:var(--shadow)
+}
+
+.banner img {
+    max-height:300px;
+    border-radius:12px;
+    object-fit:cover;
 }
 .banner .left{display:grid;gap:6px}
 
 .banner .kicker{
-    font-size:12px;
+    font-size:30px;
     letter-spacing:.12em;
+    font-weight:900;
     text-transform:uppercase;
     color:#d7ecff
 }
 .banner .headline{
-    font-size:22px;
+    font-size:25px;
     font-weight:900
 }
 .banner .sub{
     color:#eaf7ff;
-    font-size:14px
+    font-size:20px;
+    font-weight:800;
 }
 .banner .cta-wrap{
     display:flex;
@@ -566,7 +574,8 @@ img{
 }
 
 .kube{
-    background-color: #083344;
+    background: linear-gradient(125deg,#083344,#e5f7ee);
+    border-radius: 5px;
 }
 
 .hero-banner{

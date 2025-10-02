@@ -12,7 +12,7 @@
         { "name": "Fresh",    "image": "./public/media/brands/fresh.png" },
         { "name": "Moulinex", "image": "./public/media/brands/moulinex.png" },
         { "name": "Midea",    "image": "./public/media/brands/midea.png" },
-        { "name": "East Point",    "image": "./public/media/brands/east point.png" },
-        { "name": "Star Track",    "image": "./public/media/brands/star track.png" }
+        { "name": "East Point", "image": "./public/media/brands/east point.png" },
+        { "name": "Star Track", "image": "./public/media/brands/star track.png" }
     ]
 }
