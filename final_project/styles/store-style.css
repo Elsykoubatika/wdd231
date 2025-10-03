@@ -441,6 +441,13 @@ img{
     color:var(--text,#e5e7eb)
 }
 
+.count {
+    font-size:18px;
+    color:#c79200;
+    font-weight:600;
+    gap: 4px;
+    margin-bottom:35px;
+}
 
 /**/
 
@@ -508,18 +515,37 @@ img{
     flex:1;
     color:#041017;
     font-weight: bolder;
-    padding:8px 5px;
+    padding:5px 10px;
     font-weight:700;
     text-align:center
 }
 .cta.wa{
     background:var(--secondary-color);
     color:#041017;
+    border:none;
+    border-radius:3px;
+    cursor:pointer;
 }
 
 .cta.wa:hover{
     background:var(--accent-color);
     color:var(--primary-color);
+}
+
+.cart-container{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    gap:5px;
+}
+
+.cart-bt{
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(11deg,#fdffff,#041017);
+    border: none;
+    border-radius: 90px;
+    cursor: pointer;
 }
 
 /* Bannière pleine largeur */
@@ -574,7 +600,7 @@ img{
     background:#111827;
     color:#e5f7ee;
     border:1px solid rgba(255,255,255,.14);
-    padding:10px 10px;
+    padding:1px 1px;
     border-radius:12px;
     font-weight:800
 }
@@ -590,13 +616,13 @@ img{
 
 .bebe-image {
     display: flex;
-    gap: 12px;              /* espace entre les images */
+    gap: 5px;              /* espace entre les images */
     align-items: center;/* passe en ligne suivante sur mobile */
     justify-content: center; /* centre les images */
 }
 
 .bebe-image img {
-    max-height: 260px;      /* ajuste si besoin */
+    max-height: 210px;      /* ajuste si besoin */
     border-radius: 12px;
     object-fit: cover;
     display: block;
@@ -745,6 +771,14 @@ line-height: 1.6;
 .main-header {
     margin: 0 auto;
     width: 95%;
+}
+
+.cart-btn {
+    color: #2c3e50;
+    border-radius: 50px;
+    cursor: pointer;
+    padding: 10px 10px;
+    font-weight: bolder;
 }
 header {
     background-color: white;
