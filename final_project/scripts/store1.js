@@ -936,6 +936,7 @@ function renderHomeBlocks(){
     renderCatHub();
     renderPromos();
     renderScrollRow();
+    renderTopClickedBanner('topClicksBanner', 20); // ← ICI
 }
 
 /* ===================== PANIER (corrigé) ===================== */
@@ -1041,6 +1042,162 @@ document.getElementById("checkoutBtn")?.addEventListener("click", () => {
     localStorage.setItem("cartTotal", String(total));
     window.location.href = "order.html";
 });
+
+/* =======================
+    TOP CLICKS & RATINGS
+   ======================= */
+const CLICK_STORAGE_KEY   = 'analytics_product_clicks_v1';
+const RATING_STORAGE_KEY  = 'analytics_product_ratings_v1';
+
+/* --- Helpers stockage --- */
+function loadClicks(){
+    try { return JSON.parse(localStorage.getItem(CLICK_STORAGE_KEY) || '{}'); } catch { return {}; }
+}
+function saveClicks(obj){
+    localStorage.setItem(CLICK_STORAGE_KEY, JSON.stringify(obj));
+}
+function bumpClick(id, delta=1){
+    const clicks = loadClicks();
+    const k = String(id);
+    clicks[k] = (clicks[k] || 0) + delta;
+    saveClicks(clicks);
+}
+
+function loadRatings(){
+    try { return JSON.parse(localStorage.getItem(RATING_STORAGE_KEY) || '{}'); } catch { return {}; }
+}
+function saveRatings(obj){
+    localStorage.setItem(RATING_STORAGE_KEY, JSON.stringify(obj));
+}
+/* 
+    Modèle rating local: ratings[productId] = { sum:Number, count:Number, my:Number }
+    (on conserve ta note "my"; sum/count servent à afficher une moyenne locale)
+*/
+function getRating(productId){
+    const r = loadRatings()[String(productId)];
+    if(!r) return { avg: 0, count: 0, my: 0 };
+    const avg = r.count ? (r.sum / r.count) : 0;
+    return { avg, count: r.count, my: r.my||0 };
+}
+function setMyRating(productId, val){
+    val = Math.max(1, Math.min(5, Number(val)||0));
+    const store = loadRatings();
+    const k = String(productId);
+    const cur = store[k] || { sum: 0, count: 0, my: 0 };
+    // si c’était non noté avant, on démarre le compteur
+    if (cur.count === 0) cur.count = 1;
+    // on remplace ta note dans la somme
+    cur.sum = (cur.sum - (cur.my || 0)) + val;
+    cur.my = val;
+    store[k] = cur;
+    saveRatings(store);
+}
+
+/* --- Utilitaires d’intégration --- */
+function parseQS(){ const u = new URL(location.href); return Object.fromEntries(u.searchParams.entries()); }
+function discountPercent(p){ return (p && Number(p.oldPrice)>Number(p.price)) ? percent(p.oldPrice, p.price) : 0; }
+
+/* --- Top cliqués --- */
+function getTopClicked(limit=20){
+    const clicks = loadClicks();
+    const pairs = Object.entries(clicks); // [id, count]
+    pairs.sort((a,b)=> b[1]-a[1]);
+    const out = [];
+    for(const [id, count] of pairs){
+        const prod = ALL_PRODUCTS.find(p => String(p.id) === String(id));
+        if(prod){ out.push({ product: prod, clicks: count }); }
+        if(out.length >= limit) break;
+    }
+    return out;
+}
+
+/* --- Carte compacte pour la bannière --- */
+function topClickCardHTML(prod, clicks){
+    const d = discountPercent(prod);
+    const r = getRating(prod.id);
+    const rounded = Math.round(r.avg || r.my || 0);
+    const stars = Array.from({length:5}, (_,i) =>
+        `<span class="star ${i<rounded?'filled':''}" data-rate-star data-id="${prod.id}" data-val="${i+1}" aria-label="${i+1} étoile">★</span>`
+        ).join('');
+
+    return `
+    <article class="top-mini">
+        <a class="imgwrap" href="detail.html?id=${encodeURIComponent(prod.id)}" aria-label="${escapeHtml(prod.title)}">
+            ${d>0?`<div class="discount-badge">-${d}%</div>`:''}
+            ${prod.image ? `<img src="${prod.image}" alt="${escapeHtml(prod.title)}" loading="lazy">` : `<div class="ph">🛍️</div>`}
+        </a>
+        <div class="txt">
+            <div class="meta">
+                <span class="clicks" title="Nombre de clics">👆 ${clicks}</span>
+                <span class="stars" title="Note">${stars}</span>
+            </div>
+            <div class="price">
+                <span class="now">${fmtCurrency(prod.price||0)}</span>
+                ${prod.oldPrice>prod.price?`<span class="old">${fmtCurrency(prod.oldPrice)}</span>`:''}
+            </div>
+        </div>
+    </article>`;
+}
+
+/* --- Rendu bannière Top cliqués --- */
+function renderTopClickedBanner(containerId='topClicksBanner', limit=20){
+    const host = document.getElementById(containerId);
+    if(!host || !Array.isArray(ALL_PRODUCTS) || ALL_PRODUCTS.length===0) return;
+
+    const top = getTopClicked(limit);
+    if(top.length===0){
+        host.style.display = 'none';
+        return;
+    }
+
+    const cards = top.map(x => topClickCardHTML(x.product, x.clicks)).join('');
+
+    host.innerHTML = `
+        <section class="banner top-clicks">
+            <div class="left">
+                <div class="headline">Les plus cliqués</div>
+                <div class="sub">Top ${top.length} articles populaires</div>
+            </div>
+            <div class="scroller" role="list">${cards}</div>
+        </section>`;
+}
+
+/* --- Écouteurs globaux (à poser une seule fois) --- */
+// 1) Compter les clics vers la fiche produit (depuis toutes les pages)
+document.addEventListener('click', (e)=>{
+    const a = e.target.closest('a');
+    if(!a) return;
+    try{
+        const url = new URL(a.href, location.href);
+        if(url.pathname.endsWith('detail.html') && url.searchParams.get('id')){
+            bumpClick(url.searchParams.get('id'));
+        }
+    }catch(_){}
+});
+// 2) Compter aussi une “vue” quand la fiche s’ouvre directement (detail.html)
+(function trackDetailViewOnce(){
+    const qs = parseQS();
+    if(qs.id){ bumpClick(qs.id); }
+})();
+
+// 3) Notation par étoiles (click)
+document.addEventListener('click', (e)=>{
+    const star = e.target.closest('[data-rate-star]');
+    if(!star) return;
+    const id  = star.getAttribute('data-id');
+    const val = Number(star.getAttribute('data-val'));
+    setMyRating(id, val);
+
+    // Rafraîchit les étoiles de cette carte (local)
+    const parent = star.closest('.stars');
+    if(parent){
+        parent.querySelectorAll('[data-rate-star]').forEach((el)=>{
+        const v = Number(el.getAttribute('data-val'));
+            el.classList.toggle('filled', v <= val);
+        });
+    }
+});
+
 
 // Initialiser l’UI au chargement
 document.addEventListener("DOMContentLoaded", updateCartUI);

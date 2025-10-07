@@ -50,7 +50,7 @@
           ${p.image?`<img src="${p.image}" alt="${escapeHtml(p.title)}">`:`<div class="ph">🛍️</div>`}
         </div>
         <div class="content">
-          <div class="title" title="${escapeHtml(p.title)}">${escapeHtml(trunc(p.title,60))}</div>
+          <div class="title" title="${escapeHtml(p.title)}">${escapeHtml(trunc(p.title,20))}</div>
           <div class="price"><span class="now">${fmt(p.price)}</span>${p.oldPrice>p.price?` <span class="old">${fmt(p.oldPrice)}</span>`:''}</div>
           <div style="margin-top:8px;display:flex;gap:8px">
             <a href="detail.html?id=${encodeURIComponent(p.id)}" class="cta" style="text-decoration:none;background:#334155;color:white;padding:8px 10px;border-radius:8px">Détails</a>

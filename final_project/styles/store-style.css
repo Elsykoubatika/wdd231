@@ -10,6 +10,8 @@
     --radius: 5px;
 }
 
+body::-webkit-scrollbar{display: none;}
+
 a{
     color:inherit;
     text-decoration:none
@@ -20,6 +22,7 @@ a{
     padding:20px;
     gap: 10px;
 }
+
 
 header{
     position:sticky;
@@ -459,6 +462,95 @@ img{
     margin-bottom:35px;
 }
 /*dialog*/
+
+.banner.top-clicks{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:18px;
+    border-radius:5px;
+    background:var(--primary-color);
+    overflow:hidden;
+}
+
+.banner.top-clicks .left{ min-width: 250px; max-width: 680px; }
+
+.banner.top-clicks .scroller{
+    display:grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(180px, 220px);
+    gap: 5px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+}
+.banner.top-clicks .scroller::-webkit-scrollbar{ display: none; }
+
+.banner.top-clicks .scroller::-webkit-scrollbar-thumb{ 
+    background:rgba(255,255,255,.25);
+    border-radius:5px;
+}
+
+.top-mini{
+    scroll-snap-align:start;
+    background:rgba(255, 255, 255, 0.253);
+    border-radius:5px;
+    overflow:hidden;
+}
+.top-mini .imgwrap{
+  position:relative; 
+  display:block; 
+  aspect-ratio:1/1; 
+  overflow:hidden;
+}
+.top-mini .imgwrap img{ 
+    width: 100%;
+    height: 100%;
+    object-fit:cover; 
+    display:block; 
+}
+.top-mini .discount-badge{
+  position:absolute; 
+  top:8px; 
+  left:8px; 
+  background:#ef4444; 
+  color:white;
+  padding: 8px 8px; 
+  border-radius:30px; 
+  font-size:1rem; 
+  font-weight:700;
+}
+.top-mini .txt{ padding:8px; }
+
+.top-mini .title{ 
+    font-weight:600; 
+    line-height:1.5; 
+    margin-bottom:4px;
+}
+.top-mini .price .old{ 
+    opacity:.7;
+    text-decoration: line-through; 
+    margin-left:6px;
+}
+.top-mini .meta{ 
+    display:flex; 
+    flex-direction:row;
+    align-items:center; 
+    justify-content:space-between;
+    gap:3px; 
+}
+.top-mini .meta .clicks{ 
+    font-size:1.5rem;
+    opacity:.9; 
+}
+
+.stars .star{
+  cursor:pointer; 
+  font-size:1.5rem; 
+  line-height:1;
+  color:rgba(255,255,255,.45);
+}
+.stars .star.filled{ color:#ffd166; }
+
 
 /**/
 

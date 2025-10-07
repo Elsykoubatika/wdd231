@@ -11,15 +11,35 @@
 </head>
 <body>
   <header>
-    <div class="container toolbar">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <span>Détail produit</span>
-      </div>
-      <div>
-        <a class="btn ghost small" href="./">⟵ Retour au catalogue</a>
-      </div>
-    </div>
+    <section class="main-header">
+        <article class="header-content">
+            <div  class="image-logo">
+                <a href="index.html">
+                    <img src="images/logo.png" alt="logo">
+                </a>
+                <div>
+                    <h1 class="logo">Ma Boutique</h1>
+                    <P >Acheter, Vendre Simplement!</P>
+                </div>
+              </div>
+            <a id="menu" href="#" title="Open menu"></a>
+            
+            <nav class="filterButton" id="navlinks">
+                <button id="Home" type="button" onclick="window.location.href='index.html'">Bebe</button>
+                <button id="Direction" type="button" onclick="window.location.href='order.html'">Order</button>
+                <button id="Join" type="button" onclick="window.location.href='join.html'">Join</button>
+            </nav>
+            
+            <div class="cart-container">
+                <button class="cart-bt" id="cartBtn">
+                    <i class="fas fa-shopping-cart"></i>.
+                </button>
+                <div class="count" id="cartCount">0</div>
+            </div>
+            <button id="toggle-theme" type="button" title="Changer de thème">🌓</button>
+            
+        </article>
+    </section>
   </header>
 
   <main class="container">
@@ -42,5 +62,35 @@
     <h3 class="row-title">Tous les produits</h3>
     <div id="rowAll" class="row-scroll"></div>
   </main>
+  <footer>
+    <div class="image-logo">
+        <a href="index.html">
+            <img src="images/logo.png" alt="logo">
+        </a>
+        <div>
+            <h2>Ma Boutique</h2>
+            <P >Acheter, Vendre Simplement!</P>
+        </div>
+    </div>
+    <div class="footer-info">
+        <p>
+            10 Rue De La Paix<br>
+            Brazzaville, Congo 999<br>
+            fkoubatika@gmail.com<br>
+            +242065086382
+        </p>
+    </div>
+    <div class="social-media">
+        <a href="https://www.youtube.com/watch?v=e5cYUiB78HU"><img src="images/youtube.png" alt="YouTube"/></a>
+        <a href="#"><img src="images/twitter.png" alt="Twitter"/></a>
+        <a href="#"><img src="images/linkedin.png" alt="LinkedIn"/></a>
+    </div>
+    <div class="footer-note">
+        <p>WDD231 Class Project</p>
+        <p>Koubatika Elsy Fernandez, Brazzaville</p>
+        <p>©<span id="currentyear"></span> ❖ Ma Boutique ❖</p>
+        <p><span id="lastModified"></span> </p>
+    </div>
+  </footer>
 </body>
 </html>

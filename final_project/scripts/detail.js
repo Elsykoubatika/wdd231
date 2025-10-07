@@ -31,7 +31,7 @@ function parseQS(){ const u=new URL(location.href); return Object.fromEntries(u.
 const sleep = (ms)=> new Promise(r=>setTimeout(r, ms));
 
 // WhatsApp settings (partagé avec le catalogue)
-const DEFAULT_SETTINGS = { phone: '+242061234567', template: 'Bonjour Cowema 👋, je souhaite commander: {title} (ID {id}) au prix de {price} FCFA.' };
+const DEFAULT_SETTINGS = { phone: '+242065086382', template: 'Bonjour Cowema 👋, je souhaite commander: {title} (ID {id}) au prix de {price} FCFA.' };
 function loadWA(){ try{ const raw=localStorage.getItem('cowema_wa'); if(raw) return JSON.parse(raw);}catch{} return {...DEFAULT_SETTINGS}; }
 function buildWhatsAppHref(text){
   const phone = (loadWA().phone||'').replace(/\D/g,'');
@@ -159,15 +159,15 @@ function renderProduct(p, allList){
 
   els.info.innerHTML = `
     <h1 class="title">${escapeHtml(p.title||'Produit')}</h1>
-    <div class="meta">${p.categoryName? 'Catégorie : '+escapeHtml(p.categoryName)+' • ' : ''}${p.raw?.supplier? 'Vendeur : '+escapeHtml(p.raw.supplier)+' • ' : ''}${p.raw?.supplier_city? 'Ville : '+escapeHtml(p.raw.supplier_city):''}</div>
+    <div class="meta">${p.categoryName? '• Catégorie : '+escapeHtml(p.categoryName)+' • ' : ''}${p.raw?.supplier? '  ' : ''}${p.raw?.supplier_city? 'Ville : '+escapeHtml(p.raw.supplier_city):''}</div>
     <div><span class="badge ${stockCls}">${escapeHtml(stockTxt)}</span></div>
     <div class="price">
       <span class="now">${fmtCurrency(p.price||0)}</span>
       ${p.oldPrice>p.price? `<span class="old">${fmtCurrency(p.oldPrice)}</span>` : ''}
     </div>
     <div class="actions">
-      <a class="btn" style="background:var(--brand);color:#07230d" href="${waHref}" target="_blank" rel="noopener">Commander via WhatsApp</a>
-      <a class="btn ghost" href="./">Retour au catalogue</a>
+      <a class="btn" style="background:var(--brand);color:#07230d" href="${waHref}" target="_blank" rel="noopener">Commander</a>
+      <a class="btn ghost" href="./">Retour à l'accueil</a>
     </div>
   `;
 
