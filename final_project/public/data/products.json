@@ -1,9 +1,41 @@
 {
   "version": 1,
-  "generatedAt": "2025-09-06T16:10:06.904Z",
+  "generatedAt": "2025-10-07T09:52:03.242Z",
   "source": "https://eu.cowema.org/api/public/products",
-  "total": 2158,
+  "total": 2162,
   "items": [
+    {
+      "id": 12660,
+      "title": "Défroisseur Vapeur Vertical RAF R.3037 – 1700W, Repassage Rapide et Efficace",
+      "thumbnail": "https://app.cowema.org/img/annonces/01K6XXRBZ3Z3CBRYKARRDQW62P.jpg",
+      "price": 60000,
+      "regular_price": 60000,
+      "on_sales": false,
+      "etat": "Tout Neuf (TN)",
+      "brand": null,
+      "sub_category": "Autres Electromenagers",
+      "category": "Electroménager",
+      "supplier": "YEHEHUAYBEI (Petit Boss)",
+      "supplier_city": "Brazzaville",
+      "available_stock": 49,
+      "published_at": "2025-10-06T23:29:53.000000Z"
+    },
+    {
+      "id": 12655,
+      "title": "Power Bank Haute Capacité 50.000mAh – Autonomie XXL pour tous vos appareils",
+      "thumbnail": "https://app.cowema.org/img/annonces/01K6NB622E7VNCG2PV0712846A.jpg",
+      "price": 28500,
+      "regular_price": 28500,
+      "on_sales": false,
+      "etat": "Tout Neuf (TN)",
+      "brand": null,
+      "sub_category": "Power Bank",
+      "category": "Electronics",
+      "supplier": "YEHEHUAYBEI (Petit Boss)",
+      "supplier_city": "Brazzaville",
+      "available_stock": 10,
+      "published_at": "2025-10-03T15:31:23.000000Z"
+    },
     {
       "id": 12632,
       "title": "Fer à vapeur sans fil avec semelle en céramique",
@@ -865,7 +897,7 @@
       "category": "Electronics",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 20,
+      "available_stock": 18,
       "published_at": "2025-07-24T11:09:40.000000Z"
     },
     {
@@ -1089,7 +1121,7 @@
       "category": "Ecole & Education",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 0,
+      "available_stock": 10,
       "published_at": "2025-07-21T15:29:08.000000Z"
     },
     {
@@ -1105,7 +1137,7 @@
       "category": "Ecole & Education",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 20,
+      "available_stock": 18,
       "published_at": "2025-07-21T15:13:11.000000Z"
     },
     {
@@ -1142,11 +1174,11 @@
     },
     {
       "id": 12543,
-      "title": "Haut-Parleurs Portable JBL Xtreme 4",
+      "title": "Haut-Parleurs Portable JBL BOOMS BOX 3 - M45 ",
       "thumbnail": "https://app.cowema.org/img/annonces/01K0H371867STV7ANHQN2Y6EGM.jpg",
-      "price": 110000,
-      "regular_price": 110000,
-      "on_sales": false,
+      "price": 75500,
+      "regular_price": 80000,
+      "on_sales": true,
       "etat": "Tout Neuf (TN)",
       "brand": null,
       "sub_category": "Baffles",
@@ -1201,7 +1233,7 @@
       "category": "Electronics",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 19,
+      "available_stock": 18,
       "published_at": "2025-07-18T15:38:34.000000Z"
     },
     {
@@ -1217,7 +1249,7 @@
       "category": "Immobilier",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 10,
+      "available_stock": 0,
       "published_at": "2025-07-18T15:01:38.000000Z"
     },
     {
@@ -1377,7 +1409,7 @@
       "category": "Habillements",
       "supplier": "Didier Super Elegance Banziri 20",
       "supplier_city": "Brazzaville",
-      "available_stock": 20,
+      "available_stock": 0,
       "published_at": "2025-07-17T09:37:19.000000Z"
     },
     {
@@ -1617,7 +1649,7 @@
       "category": "Ecole & Education",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 10,
+      "available_stock": 9,
       "published_at": "2025-07-09T11:11:34.000000Z"
     },
     {
@@ -1633,7 +1665,7 @@
       "category": "Ecole & Education",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 10,
+      "available_stock": 7,
       "published_at": "2025-07-02T13:44:15.000000Z"
     },
     {
@@ -1681,7 +1713,7 @@
       "category": "Ecole & Education",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 6,
+      "available_stock": 5,
       "published_at": "2025-07-01T11:03:49.000000Z"
     },
     {
@@ -1745,7 +1777,7 @@
       "category": "Electronics",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 10,
+      "available_stock": 9,
       "published_at": "2025-06-27T12:53:33.000000Z"
     },
     {
@@ -1985,7 +2017,7 @@
       "category": "Electronics",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 10,
+      "available_stock": 9,
       "published_at": "2025-06-13T11:55:24.000000Z"
     },
     {
@@ -2246,7 +2278,7 @@
     },
     {
       "id": 12435,
-      "title": "Et si une seule montre pouvait gérer votre santé, vos appels, votre musique… et votre style ?",
+      "title": "Montre connecter H20 Ultra Smart + Airpod BT",
       "thumbnail": "https://app.cowema.org/img/annonces/01JWV4K10QKTHA9KQZ3GCV0DX9.jpg",
       "price": 22000,
       "regular_price": 22000,
@@ -2289,7 +2321,7 @@
       "category": "Electronics",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 18,
+      "available_stock": 17,
       "published_at": "2025-05-30T16:10:19.000000Z"
     },
     {
@@ -3206,7 +3238,7 @@
     },
     {
       "id": 12287,
-      "title": "Centrale électrique portable \"MOBALI 3\"  2000wh, 4 prises 220V, 5 post USB, 1 port Type-c, haute qualité, peut alimenter plusieurs appareils à la fois, TV, congélateur, frigo, etc;",
+      "title": "Centrale électrique portable \"MOBALI 3\"  2000wh, 4 prises 220V, 5 post USB, 1 port Type-c, haute qualité, peut alimenter plusieurs appareils comme, TV, congélateur, frigo, etc;",
       "thumbnail": "https://app.cowema.org/img/annonces/01JRTTB9FMMXY6MWJ0QPXZTAWQ.jpg",
       "price": 900000,
       "regular_price": 900000,
@@ -3238,7 +3270,7 @@
     },
     {
       "id": 12285,
-      "title": "Centrale solaire portable 1500W 25.2v 40h Générateur domestique de sortie AC avec batterie, 4 prises 220V, 5 post USB, 1 port Type-c, haute qualité, peut alimenter plusieurs appareils à la fois, TV, congélateur, frigo, etc;",
+      "title": "Centrale solaire portable 1500W 25.2v 40h Générateur domestique de sortie AC avec batterie, 4 prises 220V, 5 post USB, 1 port Type-c, haute qualité, peut alimenter plusieurs appareils  comme, TV, congélateur, frigo, etc;",
       "thumbnail": "https://app.cowema.org/img/annonces/01JRTQMRF8DH7928492JB5QPDZ.jpg",
       "price": 599000,
       "regular_price": 599000,
@@ -3249,7 +3281,7 @@
       "category": "Electronics",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 9,
+      "available_stock": 8,
       "published_at": "2025-04-14T18:05:35.000000Z"
     },
     {
@@ -3649,7 +3681,7 @@
       "category": "Electroménager",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 14,
+      "available_stock": 13,
       "published_at": "2025-03-21T18:10:07.000000Z"
     },
     {
@@ -4129,7 +4161,7 @@
       "category": null,
       "supplier": "Li ",
       "supplier_city": "Pointe-Noire",
-      "available_stock": 3,
+      "available_stock": 2,
       "published_at": "2025-03-08T23:56:03.000000Z"
     },
     {
@@ -5009,7 +5041,7 @@
       "category": null,
       "supplier": "CHIRAC BH",
       "supplier_city": "Pointe-Noire",
-      "available_stock": 10,
+      "available_stock": 8,
       "published_at": "2025-02-27T16:56:13.000000Z"
     },
     {
@@ -5073,7 +5105,7 @@
       "category": null,
       "supplier": "FILO",
       "supplier_city": "Pointe-Noire",
-      "available_stock": 10,
+      "available_stock": 9,
       "published_at": "2025-02-27T16:28:49.000000Z"
     },
     {
@@ -5288,8 +5320,8 @@
       "id": 12032,
       "title": "Moulin à blé en fonte  \" Zéro Kilomètre\" à Usage domestique",
       "thumbnail": "https://app.cowema.org/img/annonces/01JMF310GRNZNFNM7EVFDHBP58.jpg",
-      "price": 17000,
-      "regular_price": 13500,
+      "price": 25000,
+      "regular_price": 20000,
       "on_sales": true,
       "etat": "Tout Neuf (TN)",
       "brand": null,
@@ -6017,7 +6049,7 @@
       "category": null,
       "supplier": "FILO",
       "supplier_city": "Pointe-Noire",
-      "available_stock": 4,
+      "available_stock": 3,
       "published_at": "2025-02-14T17:38:31.000000Z"
     },
     {
@@ -7121,7 +7153,7 @@
       "category": null,
       "supplier": "Cowema Sales Dépôt BZ",
       "supplier_city": "Brazzaville",
-      "available_stock": 17,
+      "available_stock": 0,
       "published_at": "2025-01-08T16:27:34.000000Z"
     },
     {
@@ -7297,7 +7329,7 @@
       "category": "Electronics",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 1,
+      "available_stock": 0,
       "published_at": "2025-01-06T11:14:41.000000Z"
     },
     {
@@ -7393,7 +7425,7 @@
       "category": null,
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 6,
+      "available_stock": 0,
       "published_at": "2024-12-09T12:08:52.000000Z"
     },
     {
@@ -7905,7 +7937,7 @@
       "category": "Electronics",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 5,
+      "available_stock": 4,
       "published_at": "2024-11-02T12:31:18.000000Z"
     },
     {
@@ -8257,7 +8289,7 @@
       "category": null,
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 4,
+      "available_stock": 0,
       "published_at": "2024-10-30T11:22:20.000000Z"
     },
     {
@@ -8280,8 +8312,8 @@
       "id": 11733,
       "title": "Climatiseur portatif de petite taille 12 L avec interrupteur manuel et glacière 2",
       "thumbnail": "https://app.cowema.org/img/annonces/01JBEGQ4HXXZG5ACY8GJVRG33Z.jpg",
-      "price": 60000,
-      "regular_price": 60000,
+      "price": 70000,
+      "regular_price": 70000,
       "on_sales": false,
       "etat": "Tout Neuf (TN)",
       "brand": null,
@@ -8289,7 +8321,7 @@
       "category": "Electronics",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 24,
+      "available_stock": 23,
       "published_at": "2024-10-30T10:49:36.000000Z"
     },
     {
@@ -9217,7 +9249,7 @@
       "category": "Electronics",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 2,
+      "available_stock": 1,
       "published_at": "2024-09-13T11:41:21.000000Z"
     },
     {
@@ -9793,7 +9825,7 @@
       "category": "Electronics",
       "supplier": "Cowema Sales Dépôt BZ",
       "supplier_city": "Brazzaville",
-      "available_stock": 0,
+      "available_stock": 10,
       "published_at": "2024-09-10T18:30:29.000000Z"
     },
     {
@@ -10545,7 +10577,7 @@
       "category": "Habillements",
       "supplier": "Didier Super Elegance Banziri 20",
       "supplier_city": "Brazzaville",
-      "available_stock": 5,
+      "available_stock": 0,
       "published_at": "2024-07-16T16:20:47.000000Z"
     },
     {
@@ -13681,8 +13713,24 @@
       "category": "Electronics",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 7,
+      "available_stock": 6,
       "published_at": "2024-05-01T12:22:08.000000Z"
+    },
+    {
+      "id": 11156,
+      "title": "Microphone sans fil K8 type-c et Android , micro d'enregistrement Audio et vidéo Portable",
+      "thumbnail": "https://app.cowema.org/img/annonces/01HWT13W06EJMYMNSZK768YFMZ.jpg",
+      "price": 4000,
+      "regular_price": 5000,
+      "on_sales": true,
+      "etat": "Tout Neuf (TN)",
+      "brand": null,
+      "sub_category": "Accéssoires téléphones et tablette",
+      "category": "Electronics",
+      "supplier": "YEHEHUAYBEI (Petit Boss)",
+      "supplier_city": "Brazzaville",
+      "available_stock": 0,
+      "published_at": "2024-05-01T12:12:21.000000Z"
     },
     {
       "id": 11155,
@@ -13697,7 +13745,7 @@
       "category": null,
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 37,
+      "available_stock": 0,
       "published_at": "2024-05-01T12:03:15.000000Z"
     },
     {
@@ -14373,6 +14421,22 @@
       "published_at": "2024-04-09T22:38:48.000000Z"
     },
     {
+      "id": 11062,
+      "title": "Mini boumeur Kimiso, Bluetooth, carte mémoire, ",
+      "thumbnail": "https://app.cowema.org/img/annonces/01HTYRB2NFZZ7666GCQVC1BF5R.jpg",
+      "price": 5000,
+      "regular_price": 5000,
+      "on_sales": false,
+      "etat": "Tout Neuf (TN)",
+      "brand": null,
+      "sub_category": "Son & Hi-fi",
+      "category": "Electronics",
+      "supplier": "YEHEHUAYBEI (Petit Boss)",
+      "supplier_city": "Brazzaville",
+      "available_stock": 9,
+      "published_at": "2024-04-08T11:43:49.000000Z"
+    },
+    {
       "id": 11061,
       "title": "Projecteur Android SMART, Home Cinéma, 4K",
       "thumbnail": "https://app.cowema.org/img/annonces/01HTYQQ5BF662F1X8FK9E2SDDF.jpg",
@@ -14449,7 +14513,7 @@
       "category": "Electronics",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 7,
+      "available_stock": 6,
       "published_at": "2024-04-02T18:31:35.000000Z"
     },
     {
@@ -14609,7 +14673,7 @@
       "category": "Habillements",
       "supplier": "Cowema Sales Dépôt BZ",
       "supplier_city": "Brazzaville",
-      "available_stock": 40,
+      "available_stock": 0,
       "published_at": "2024-03-29T20:34:39.000000Z"
     },
     {
@@ -17281,7 +17345,7 @@
       "category": "Electronics",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 1,
+      "available_stock": 0,
       "published_at": "2023-11-21T19:08:49.000000Z"
     },
     {
@@ -18689,7 +18753,7 @@
       "category": "Electroménager",
       "supplier": "GOLDY",
       "supplier_city": "Brazzaville",
-      "available_stock": 24,
+      "available_stock": 23,
       "published_at": "2023-10-06T09:30:22.000000Z"
     },
     {
@@ -18710,7 +18774,7 @@
     },
     {
       "id": 10005,
-      "title": "Split 1,5 Chevaux",
+      "title": "climatiseur Split 1,5 Chevaux",
       "thumbnail": "https://app.cowema.org/img/annonces/t7WyP3IXtJGG03yOmMnhjfcfzoOP0J-metaRUFTVCBQT0lOVCAxLDUgQ2hldmF1eC5qcGc=-.jpg",
       "price": 205000,
       "regular_price": 205000,
@@ -18726,7 +18790,7 @@
     },
     {
       "id": 10004,
-      "title": "Split 1 Cheval ",
+      "title": "climatiseur Split 1 Cheval ",
       "thumbnail": "https://app.cowema.org/img/annonces/neQqT3zmaCHLFQhdvIPkwH5GZFvmUN-metaYzI4YmQ3NDgyMTVmMzMwMzBlZWQ3MGMuZGVza3RvcC1nYWxsZXJ5LWxhcmdlLmpwZw==-.jpg",
       "price": 180000,
       "regular_price": 180000,
@@ -20968,8 +21032,8 @@
       "id": 9693,
       "title": "Thermos 4 Litres - Gardez Vos Boissons Chaudes ou Froides en Toute Élégance!",
       "thumbnail": "https://app.cowema.org/img/annonces/01HKF9N4SGQ1N75JT0N9JMWR3J.jpg",
-      "price": 19500,
-      "regular_price": 19500,
+      "price": 25000,
+      "regular_price": 25000,
       "on_sales": false,
       "etat": "Tout Neuf (TN)",
       "brand": null,
@@ -22737,7 +22801,7 @@
       "category": "Electronics",
       "supplier": "YEHEHUAYBEI (Petit Boss)",
       "supplier_city": "Brazzaville",
-      "available_stock": 44,
+      "available_stock": 43,
       "published_at": "2023-07-05T12:06:45.000000Z"
     },
     {
@@ -23857,7 +23921,7 @@
       "category": "Electronics",
       "supplier": "ETS ABC, Poto Poto",
       "supplier_city": "Brazzaville",
-      "available_stock": 11,
+      "available_stock": 0,
       "published_at": "2023-06-22T12:58:11.000000Z"
     },
     {
@@ -24337,7 +24401,7 @@
       "category": "Sport",
       "supplier": "ETS ABC, Poto Poto",
       "supplier_city": "Brazzaville",
-      "available_stock": 23,
+      "available_stock": 22,
       "published_at": "2023-06-22T11:21:50.000000Z"
     },
     {

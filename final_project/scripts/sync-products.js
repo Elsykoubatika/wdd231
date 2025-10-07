@@ -10,7 +10,7 @@ const API = 'https://eu.cowema.org/api/public/products';
 const OUT_PRODUCTS   = path.resolve(__dirname, '../public/data/products.json');
 const OUT_CATEGORIES = path.resolve(__dirname, '../public/data/categories.json');
 
-const MAX_PAGES_CAP   = 150;
+const MAX_PAGES_CAP   = 180;
 const MAX_RETRIES     = 5;
 const BACKOFF_BASE_MS = 1200;
 const RATE_LIMIT_MS   = 800;
