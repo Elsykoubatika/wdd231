@@ -98,7 +98,7 @@ function fmtCurrency(n){ return new Intl.NumberFormat('fr-FR',{style:'currency',
 
 function percent(oldp, nowp){ const o=Number(oldp), n=Number(nowp); return (o && n && o>n) ? Math.round(((o-n)/o)*100) : 0; }
 
-function truncateText(text, maxLength = 32){ return text.length > maxLength ? text.slice(0, maxLength) + "..." : text; }
+function truncateText(text, maxLength = 28){ return text.length > maxLength ? text.slice(0, maxLength) + "..." : text; }
 
 
 function buildWhatsAppHref(text){
