@@ -165,43 +165,6 @@ contactForm.addEventListener('submit', (e) => {
     }, 2000);
 });
 
-// Typing Effect for Hero Section (Optional Enhancement)
-const heroSubtitle = document.querySelector('.hero-subtitle');
-const originalText = heroSubtitle.textContent;
-const typingText = ['Student at ESILV', 'Computer Science Enthusiast', 'Web Developer', 'Problem Solver'];
-let textIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
-
-function typeEffect() {
-    const currentText = typingText[textIndex];
-    
-    if (isDeleting) {
-        heroSubtitle.textContent = currentText.substring(0, charIndex - 1);
-        charIndex--;
-    } else {
-        heroSubtitle.textContent = currentText.substring(0, charIndex + 1);
-        charIndex++;
-    }
-    
-    let typeSpeed = isDeleting ? 50 : 100;
-    
-    if (!isDeleting && charIndex === currentText.length) {
-        typeSpeed = 2000; // Pause at end
-        isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        textIndex = (textIndex + 1) % typingText.length;
-        typeSpeed = 500; // Pause before new word
-    }
-    
-    setTimeout(typeEffect, typeSpeed);
-}
-
-// Start typing effect after page load
-window.addEventListener('load', () => {
-    setTimeout(typeEffect, 1000);
-});
 
 // Parallax Effect for Hero Background
 window.addEventListener('scroll', () => {
