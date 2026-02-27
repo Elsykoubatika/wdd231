@@ -304,3 +304,5 @@ The design now features:
 - ✅ Cross-browser compatibility
 
 This redesign transforms a basic portfolio into a modern, engaging, and professional showcase that effectively presents the individual's skills, experience, and projects.
+
+# nothing is add
