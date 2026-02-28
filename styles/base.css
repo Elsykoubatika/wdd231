@@ -258,6 +258,8 @@ article h4, .about-me h5 {
 }
 
 footer {
+    display:flex;
+    justify-content: center;
     background-color: var(--primary-color);
     color: var(--secondary-color);
 }
@@ -1071,6 +1073,7 @@ section {
 
 .footer p {
     color: var(--text-muted);
+    font-size: 0.9rem;
 }
 
 /* Scroll Animations */
