@@ -118,6 +118,10 @@ header {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 12px;
 }
+
+.brand-grid img {
+    width: 100%;
+}
 /* CONTROLS */
 .controls { display: flex; flex-wrap: wrap; gap: 10px; }
 .tools { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
