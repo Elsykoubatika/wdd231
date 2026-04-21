@@ -1,5 +1,5 @@
 // ===== CONFIG =====
-const API_PRODUCTS = 'https://eu.cowema.org/api/public/products';
+const API_PRODUCTS = './public/data/products.json'; // FIX: utilise le JSON local comme store1.js
 const CACHE_KEY    = 'cowema_products_cache_v1';
 const CACHE_TTL_MS = 10*60*1000;
 const MAX_PAGES_CAP = 150;
@@ -225,4 +225,104 @@ async function findProductById(id){
     console.error(e);
     els.status.textContent = 'Erreur: ' + (e?.message || e);
   }
+})();
+
+
+// ===== THEME TOGGLE (FIX: manquait dans detail.js) =====
+(function initDetailTheme(){
+    const btn = document.getElementById('toggle-theme');
+    if(!btn) return;
+    const saved = localStorage.getItem('cowema_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    btn.addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-theme') || 'light';
+        const nxt = cur === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', nxt);
+        localStorage.setItem('cowema_theme', nxt);
+    });
+})();
+
+// ===== PANIER SUR DETAIL (FIX: bouton cartBtn existait mais aucun listener) =====
+(function initDetailCart(){
+    const cartModal  = document.getElementById('cartModal');
+    const cartBtn    = document.getElementById('cartBtn');
+    const closeBtn   = document.getElementById('closeCartModal');
+    const cartItemsEl= document.getElementById('cartItems');
+    const cartTotalEl= document.getElementById('cartTotal');
+    const cartCountEl= document.getElementById('cartCount');
+    const clearBtn   = document.getElementById('clearCartBtn');
+    const checkoutBtn= document.getElementById('checkoutBtn');
+    if(!cartModal) return;
+
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    function saveCart(){ localStorage.setItem('cart', JSON.stringify(cart)); }
+
+    function updateCartUI(){
+        if(!cartItemsEl) return;
+        cartItemsEl.innerHTML = '';
+        let total = 0, count = 0;
+        cart.forEach(item => {
+            total += (item.price||0) * (item.quantity||1);
+            count += item.quantity||1;
+            const row = document.createElement('div');
+            row.className = 'cart-item';
+            row.innerHTML = `
+                <img src="${item.image||''}" alt="${item.title}" width="50" height="50" style="object-fit:cover;border-radius:6px">
+                <div class="item-info">
+                    <p>${item.title}</p>
+                    <p>${(item.price||0).toLocaleString()} FCFA × ${item.quantity||1}</p>
+                </div>`;
+            cartItemsEl.appendChild(row);
+        });
+        if(cartTotalEl) cartTotalEl.textContent = total.toLocaleString();
+        if(cartCountEl) cartCountEl.textContent = count;
+    }
+
+    cartBtn?.addEventListener('click', () => { updateCartUI(); cartModal.showModal(); });
+    closeBtn?.addEventListener('click', () => cartModal.close());
+    clearBtn?.addEventListener('click', () => { cart=[]; saveCart(); updateCartUI(); });
+    checkoutBtn?.addEventListener('click', () => {
+        if(!cart.length){ alert('Votre panier est vide !'); return; }
+        const total = cart.reduce((s,it) => s+(it.price||0)*(it.quantity||1), 0);
+        const lines = cart.map(it => `• ${it.title} ×${it.quantity||1} = ${((it.price||0)*(it.quantity||1)).toLocaleString()} FCFA`).join('\n');
+        const msg = `Bonjour 👋, je souhaite commander :\n${lines}\n\n*Total : ${total.toLocaleString()} FCFA*`;
+        const phone = (loadWA().phone||'+242065086382').replace(/\D/g,'');
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    });
+
+    // Écouter les ajouts au panier depuis les cartes similaires
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.cart-btn');
+        if(!btn) return;
+        const id = btn.dataset.id;
+        if(!id) return;
+        // trouver le produit dans ALL_PRODUCTS si disponible
+        const p = (typeof ALL_PRODUCTS !== 'undefined' ? ALL_PRODUCTS : []).find(x => String(x.id)===String(id));
+        if(!p) return;
+        const ex = cart.find(it => String(it.id)===String(id));
+        if(ex) ex.quantity = (ex.quantity||1)+1;
+        else cart.push({ id:p.id, title:p.title, price:p.price||0, image:p.image||'', quantity:1 });
+        saveCart(); updateCartUI();
+    });
+
+    updateCartUI();
+})();
+
+// ===== BREADCRUMB (FIX: fil d'Ariane statique → dynamique) =====
+(function fillBreadcrumb(){
+    const qs = new URLSearchParams(location.search);
+    const id = qs.get('id');
+    const catEl   = document.getElementById('breadcrumbCat');
+    const titleEl = document.getElementById('breadcrumbTitle');
+    const sepEl   = document.getElementById('breadcrumbSep');
+    // Sera rempli par detail.js une fois le produit chargé
+    window._fillBreadcrumb = function(prod){
+        if(catEl && prod.categoryName){
+            catEl.textContent = prod.categoryName;
+            catEl.innerHTML = `<a href="categorie.html?cat=${encodeURIComponent(prod.categoryName)}" style="color:var(--primary-color)">${prod.categoryName}</a>`;
+        }
+        if(titleEl) titleEl.textContent = prod.title || 'Produit';
+        if(sepEl) sepEl.style.display = '';
+        document.title = `${prod.title||'Produit'} — Ma Boutique`;
+    };
 })();

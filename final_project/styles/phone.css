@@ -1,4 +1,72 @@
+/* ===== RESPONSIVE MOBILE (phone.css) ===== */
 @media screen and (max-width: 640px) {
+    /* Navigation cachée → remplacée par hamburger */
+    .filterButton {
+        display: none;
+        position: absolute;
+        top: 68px;
+        right: 12px;
+        background: var(--card);
+        padding: 16px;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        z-index: 200;
+        min-width: 170px;
+        flex-direction: column;
+        gap: 8px;
+        border: 1px solid var(--border);
+    }
 
+    .filterButton.open { display: flex; }
 
+    #menu { display: block; }
+
+    /* Grille 2 colonnes sur mobile */
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+    /* Cartes compactes */
+    .card .title  { font-size: 12px; }
+    .card .price  { font-size: 15px; }
+
+    /* Bannières verticales */
+    .banner { flex-direction: column; gap: 12px; text-align: center; }
+    .banner .image-banner { justify-content: center; }
+    .banner .image-banner img { max-height: 140px; }
+
+    /* Bannière top cliqués */
+    .banner.top-clicks { flex-direction: column; }
+    .banner.top-clicks .left { min-width: unset; max-width: unset; }
+
+    /* Footer colonne */
+    footer {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    /* Stats 2 colonnes */
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Cat hub linéaire */
+    .cat-hub-grid { grid-template-columns: 1fr; }
+
+    /* Home cats 1 colonne */
+    .home-cats { grid-template-columns: 1fr; }
+
+    /* Logo taille mobile */
+    .logo { font-size: 1.3rem; }
+    .image-logo img { width: 42px; }
+
+    /* Controls empilés */
+    .controls { flex-direction: column; }
+    .control { width: 100%; }
+
+    /* Panier modal plein écran */
+    .cart-modal { width: 100%; max-height: 90vh; border-radius: 16px 16px 0 0; position: fixed; bottom: 0; }
+}
+
+@media screen and (max-width: 400px) {
+    .grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr; }
 }

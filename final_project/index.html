@@ -3,102 +3,116 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>MA BOUTIQUE</title>
-    <meta property="og:title" content="Timbuktu Chamber of Commerce">
-    <meta property="og:description" content="WDD 231 : Développement d'interfaces Web I - Koubatika ELsy Fernandez">
-    <meta property="og:url" content="https://elsykoubatika.github.io/wdd231/">
-    <meta property="og:image" content="images/profil.webp">
-    <meta property="og:type" content="website">
+    <title>Ma Boutique — Acheter & Vendre Simplement</title>
+    <meta name="description" content="Ma Boutique : électroménager, bébé, mode et plus — livraison à Brazzaville et Pointe-Noire.">
+    <meta property="og:title"       content="Ma Boutique">
+    <meta property="og:description" content="WDD 231 : Développement d'interfaces Web I — Koubatika Elsy Fernandez">
+    <meta property="og:url"         content="https://elsykoubatika.github.io/wdd231/final_project/">
+    <meta property="og:image"       content="images/logo.png">
+    <meta property="og:type"        content="website">
+
+    <!-- Font Awesome (icônes panier, etc.) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <link rel="icon" href="images/favicon.ico">
+    <!-- Favicon -->
+    <link rel="icon"  href="images/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
+    <!-- Styles -->
     <link rel="stylesheet" href="styles/store-style.css">
     <link rel="stylesheet" href="styles/phone.css">
 
+    <!-- Scripts -->
     <script src="scripts/store1.js" defer></script>
 
-    <script src="scripts/bebe.js" defer></script>
-
-    <link rel="icon" href="images/favicon-32x32.png" sizes="32x32">
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-
 </head>
 <body>
     <header>
         <section class="main-header">
             <article class="header-content">
-                <div  class="image-logo">
+                <!-- Logo -->
+                <div class="image-logo">
                     <a href="index.html">
-                        <img src="images/logo.png" alt="logo">
+                        <img src="images/logo.png" alt="Logo Ma Boutique" width="52" height="52">
                     </a>
                     <div>
-                        <h1 class="logo">Ma Boutique</h1>
-                        <P >Acheter, Vendre Simplement!</P>
+                        <!-- FIX: h1 unique par page, taille réduite via CSS -->
+                        <span class="logo">Ma Boutique</span>
+                        <p>Acheter, Vendre Simplement !</p>
                     </div>
                 </div>
 
-                <a id="menu" href="#" title="Open menu"></a>
-                
-                <nav class="filterButton" id="navlinks">
-                    <button id="Home" type="button" onclick="window.location.href='index.html'">Bebe</button>
-                    <button id="Direction" type="button" onclick="window.location.href='order.html'">Order</button>
-                    <button id="Join" type="button" onclick="window.location.href='join.html'">Join</button>
+                <!-- Bouton hamburger mobile (FIX: ::before était inversé) -->
+                <a id="menu" href="#" title="Ouvrir le menu" aria-label="Menu" aria-expanded="false"></a>
+
+                <!-- Navigation (FIX: "Bebe" → "Accueil", cohérence avec autres pages) -->
+                <nav class="filterButton" id="navlinks" aria-label="Navigation principale">
+                    <button type="button" onclick="window.location.href='index.html'">Accueil</button>
+                    <button type="button" onclick="window.location.href='bebe.html'">Bébé</button>
+                    <button type="button" onclick="window.location.href='brands.html'">Marques</button>
+                    <button type="button" onclick="window.location.href='join.html'">Rejoindre</button>
                 </nav>
-                
+
+                <!-- Panier -->
                 <div class="cart-container">
-                    <button class="cart-bt" id="cartBtn">
-                        <i class="fas fa-shopping-cart"></i>.
+                    <button class="cart-bt" id="cartBtn" aria-label="Ouvrir le panier">
+                        <i class="fas fa-shopping-cart"></i>
                     </button>
-                    <div class="count" id="cartCount">0</div>
+                    <!-- FIX: count retiré du flux (positionné en absolu via CSS) -->
+                    <div class="count" id="cartCount" aria-label="Articles dans le panier">0</div>
                 </div>
 
-                <button id="toggle-theme" type="button" title="Changer de thème">🌓</button>
+                <!-- FIX: bouton avait un listener mais aucune implémentation JS -->
+                <button id="toggle-theme" type="button" title="Mode sombre" aria-label="Changer de thème">🌓</button>
             </article>
         </section>
     </header>
+
     <main>
-        <section>
-            <!-- Bannière Top cliqués -->
+        <!-- Bannière top cliqués -->
+        <section aria-label="Articles populaires">
             <div id="topClicksBanner"></div>
         </section>
-        <!-- ===== HERO IMAGE ===== -->
-        <section class="brand-hero">
-            <div id="brandBanner" class="brand-grid" aria-label="Shop by brand">
-                <!-- rendu JS -->
-            </div>
-        
+
+        <!-- Marques hero -->
+        <section class="brand-hero" aria-label="Acheter par marque">
+            <div id="brandBanner" class="brand-grid"></div>
             <div class="brand-hero__cta">
                 <a class="btn" href="brands.html">Voir toutes les marques</a>
             </div>
         </section>
-        <section>
+
+        <!-- Bannière explore -->
+        <section aria-label="Explorer">
             <div id="homeExplore"></div>
         </section>
-        <!-- ===== SHOP BY CATEGORY (hub) ===== -->
+
+        <!-- Catégories hub -->
         <section class="cat-hub">
             <h2>Acheter par catégorie</h2>
             <div class="cat-hub-grid" id="catHub"></div>
         </section>
 
-        <!-- ===== PROMOS (deal du jour style) ===== -->
+        <!-- Promos -->
         <section class="promo-deals">
             <div class="promo-head">
-                <h2>Offres & Promotions</h2>
+                <h2>Offres &amp; Promotions</h2>
                 <a class="btn ghost" href="categorie.html?promo=1">Tout voir</a>
             </div>
             <div class="promo-grid" id="promoGrid"></div>
         </section>
 
-        <!-- ===== BÉBÉ & MATERNITÉ (section unique) ===== -->
-        <section class="hom">
+        <!-- Bébé & Maternité -->
+        <section class="hom" aria-label="Bébé et Maternité">
             <div id="homeBebe"></div>
         </section>
 
-        <!-- ===== LIGNES DÉFILANTES (comme “résultats…” / “en lien…”) ===== -->
-        <section class="row-scroll">
+        <!-- Scroll row -->
+        <section class="row-scroll" aria-label="En lien avec vos recherches">
             <div class="row-head">
                 <h3>En lien avec vos recherches</h3>
                 <a class="btn ghost" href="categorie.html?all=1">Voir plus</a>
@@ -106,17 +120,20 @@
             <div class="row-track" id="rowTrack"></div>
         </section>
 
-        <section class="hero-section">
-            <img src="images/joice.webp" alt="hero" loading="lazy">
+        <!-- Hero image -->
+        <section class="hero-section" aria-hidden="true">
+            <img src="images/joice.webp" alt="" loading="lazy">
         </section>
-        
-        <section id="homeCats" class="home-cats"></section>
 
-        <section class="stats-section">
+        <!-- Index catégories tiles -->
+        <section id="homeCats" class="home-cats" aria-label="Catégories"></section>
+
+        <!-- Stats -->
+        <section class="stats-section" aria-label="Chiffres clés">
             <div class="main-header">
                 <div class="stats-grid">
                     <div class="stat-item" id="vendus">
-                        <div class="stat-number">+1800</div>
+                        <div class="stat-number">+1 800</div>
                         <div class="stat-label">Articles vendus</div>
                     </div>
                     <div class="stat-item" id="servis">
@@ -128,23 +145,23 @@
                         <div class="stat-label">Villes couvertes</div>
                     </div>
                     <div class="stat-item" id="taux">
-                        <div class="stat-number" >95%</div>
+                        <div class="stat-number">95 %</div>
                         <div class="stat-label">Taux de satisfaction</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section>
+        <!-- Filtres catalogue -->
+        <section aria-label="Filtres du catalogue">
             <article class="container">
-                <div class="tools" role="region" aria-label="Filtres catalogue">
+                <div class="tools" role="region" aria-label="Disponibilité">
                     <label class="control" title="Disponibilité">
                         <input id="stockOnly" type="checkbox" />
                         <span>En stock uniquement</span>
                     </label>
                 </div>
-
-                <div class="controls" role="group" aria-label="Filtres & Tri">
+                <div class="controls" role="group" aria-label="Filtres et tri">
                     <div class="control" title="Catégorie">
                         <span>Catégorie</span>
                         <select id="categorySelect" aria-label="Filtrer par catégorie">
@@ -159,75 +176,82 @@
                             <option value="price-desc">Prix : décroissant</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="control" title="Rechercher un produit">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="10.5" cy="10.5" r="7.5" stroke="currentColor" stroke-width="2"/></svg>
-                            <input type="text" id="q" placeholder="Rechercher (nom, référence, mot-clé)…" autocomplete="on" />
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="10.5" cy="10.5" r="7.5" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <input type="search" id="q" placeholder="Rechercher (nom, référence…)" autocomplete="off" />
                         </label>
                     </div>
                 </div>
             </article>
         </section>
 
-        <section>
+        <!-- Grille produits -->
+        <section aria-label="Catalogue produits">
             <div id="grid" class="grid" aria-live="polite"></div>
             <div id="pagination" class="pagination" aria-label="Pagination"></div>
         </section>
 
-        <!-- Panier -->
-        <dialog class="cart-modal" id="cartModal">
+        <!-- ===== PANIER (dialog) ===== -->
+        <dialog class="cart-modal" id="cartModal" aria-label="Votre panier">
             <div class="cart-content">
-                <button class="close-cart-modal" id="closeCartModal">
+                <button class="close-cart-modal" id="closeCartModal" aria-label="Fermer le panier">
                     <i class="fas fa-times"></i>
                 </button>
                 <h2><i class="fas fa-shopping-cart"></i> Votre Panier</h2>
-                <div class="cart-items" id="cartItems">
-                    <!-- Les articles du panier seront ajoutés ici -->
-                </div>
+                <div class="cart-items" id="cartItems"></div>
                 <div class="cart-total">
-                    Total: <span id="cartTotal">0</span> FCFA
+                    Total : <span id="cartTotal">0</span> FCFA
                 </div>
                 <div class="cart-actions">
                     <button class="btn btn-skip" id="clearCartBtn">
-                        <i class="fas fa-trash"></i> Vider le panier
+                        <i class="fas fa-trash"></i> Vider
                     </button>
                     <button class="btn btn-submit" id="checkoutBtn">
-                        <i class="fas fa-whatsapp"></i> Commander
+                        <i class="fab fa-whatsapp"></i> Commander via WhatsApp
                     </button>
                 </div>
             </div>
         </dialog>
-    </main>    
+    </main>
 
     <footer>
         <div class="image-logo">
             <a href="index.html">
-                <img src="images/logo.png" alt="logo">
+                <img src="images/logo.png" alt="Logo Ma Boutique" width="60">
             </a>
             <div>
                 <h2>Ma Boutique</h2>
-                <P >Acheter, Vendre Simplement!</P>
+                <p>Acheter, Vendre Simplement !</p>
             </div>
         </div>
         <div class="footer-info">
             <p>
                 10 Rue De La Paix<br>
-                Brazzaville, Congo 999<br>
-                fkoubatika@gmail.com<br>
-                +242065086382
+                Brazzaville, Congo<br>
+                <a href="mailto:fkoubatika@gmail.com" style="color:rgba(255,255,255,.8)">fkoubatika@gmail.com</a><br>
+                <a href="tel:+242065086382" style="color:rgba(255,255,255,.8)">+242 065 086 382</a>
             </p>
         </div>
         <div class="social-media">
-            <a href="https://www.youtube.com/watch?v=e5cYUiB78HU"><img src="images/youtube.png" alt="YouTube"/></a>
-            <a href="#"><img src="images/twitter.png" alt="Twitter"/></a>
-            <a href="#"><img src="images/linkedin.png" alt="LinkedIn"/></a>
+            <a href="https://www.youtube.com/watch?v=e5cYUiB78HU" aria-label="YouTube" target="_blank" rel="noopener">
+                <img src="images/youtube.png" alt="YouTube">
+            </a>
+            <a href="#" aria-label="Twitter">
+                <img src="images/twitter.png" alt="Twitter">
+            </a>
+            <a href="#" aria-label="LinkedIn">
+                <img src="images/linkedin.png" alt="LinkedIn">
+            </a>
         </div>
         <div class="footer-note">
             <p>WDD231 Class Project</p>
-            <p>Koubatika Elsy Fernandez, Brazzaville</p>
+            <p>Koubatika Elsy Fernandez — Brazzaville</p>
             <p>©<span id="currentyear"></span> ❖ Ma Boutique ❖</p>
-            <p><span id="lastModified"></span> </p>
+            <p><span id="lastModified"></span></p>
         </div>
     </footer>
 </body>

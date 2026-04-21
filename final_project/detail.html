@@ -1,96 +1,137 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Détail produit — Cowema</title>
-  <meta name="description" content="Fiche produit Cowema avec galerie, CTA WhatsApp, similaires et liste des produits." />
-  <link rel="stylesheet" href="styles/detail.css">
-  <script src="scripts/detail.js" defer></script>
-  <link rel="icon" href="images/favicon-32x32.png" sizes="32x32">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Détail produit — Ma Boutique</title>
+    <meta name="description" content="Fiche produit Ma Boutique : galerie, prix, commande WhatsApp et produits similaires.">
+
+    <!-- FIX: Font Awesome manquait → icônes du panier étaient brisées -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon"  href="images/favicon-32x32.png" sizes="32x32">
+
+    <link rel="stylesheet" href="styles/store-style.css">
+    <link rel="stylesheet" href="styles/detail.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Playfair+Display:wght@400;800&display=swap" rel="stylesheet">
+
+    <script src="scripts/detail.js" defer></script>
 </head>
 <body>
-  <header>
-    <section class="main-header">
-        <article class="header-content">
-            <div  class="image-logo">
-                <a href="index.html">
-                    <img src="images/logo.png" alt="logo">
-                </a>
-                <div>
-                    <h1 class="logo">Ma Boutique</h1>
-                    <P >Acheter, Vendre Simplement!</P>
+    <header>
+        <section class="main-header">
+            <article class="header-content">
+                <div class="image-logo">
+                    <a href="index.html">
+                        <img src="images/logo.png" alt="Logo Ma Boutique" width="52">
+                    </a>
+                    <div>
+                        <span class="logo">Ma Boutique</span>
+                        <p>Acheter, Vendre Simplement !</p>
+                    </div>
                 </div>
-              </div>
-            <a id="menu" href="#" title="Open menu"></a>
-            
-            <nav class="filterButton" id="navlinks">
-                <button id="Home" type="button" onclick="window.location.href='index.html'">Bebe</button>
-                <button id="Direction" type="button" onclick="window.location.href='order.html'">Order</button>
-                <button id="Join" type="button" onclick="window.location.href='join.html'">Join</button>
-            </nav>
-            
-            <div class="cart-container">
-                <button class="cart-bt" id="cartBtn">
-                    <i class="fas fa-shopping-cart"></i>.
-                </button>
-                <div class="count" id="cartCount">0</div>
-            </div>
-            <button id="toggle-theme" type="button" title="Changer de thème">🌓</button>
-            
-        </article>
-    </section>
-  </header>
 
-  <main class="container">
-    <div id="status" class="muted">
-        <p>Chargement…</p>
-    </div>
+                <a id="menu" href="#" title="Ouvrir le menu" aria-label="Menu"></a>
 
-    <section id="detail" class="detail" aria-live="polite" hidden>
-      <div class="gallery">
-        <div class="gallery-main" id="galleryMain"></div>
-        <div class="gallery-thumbs" id="galleryThumbs"></div>
-      </div>
+                <nav class="filterButton" id="navlinks" aria-label="Navigation principale">
+                    <button type="button" onclick="window.location.href='index.html'">Accueil</button>
+                    <button type="button" onclick="window.location.href='bebe.html'">Bébé</button>
+                    <button type="button" onclick="window.location.href='brands.html'">Marques</button>
+                    <button type="button" onclick="window.location.href='join.html'">Rejoindre</button>
+                </nav>
 
-      <div class="info" id="info"></div>
-    </section>
+                <div class="cart-container">
+                    <button class="cart-bt" id="cartBtn" aria-label="Ouvrir le panier">
+                        <i class="fas fa-shopping-cart"></i>
+                    </button>
+                    <div class="count" id="cartCount">0</div>
+                </div>
 
-    <h3 class="row-title">Produits similaires</h3>
-    <div id="rowSimilar" class="row-scroll"></div>
+                <button id="toggle-theme" type="button" title="Mode sombre" aria-label="Changer de thème">🌓</button>
+            </article>
+        </section>
+    </header>
 
-    <h3 class="row-title">Tous les produits</h3>
-    <div id="rowAll" class="row-scroll"></div>
-  </main>
-  <footer>
-    <div class="image-logo">
-        <a href="index.html">
-            <img src="images/logo.png" alt="logo">
-        </a>
-        <div>
-            <h2>Ma Boutique</h2>
-            <P >Acheter, Vendre Simplement!</P>
+    <main class="container">
+        <!-- Fil d'Ariane -->
+        <nav aria-label="Fil d'Ariane" style="margin-bottom:16px;font-size:.9rem;color:var(--muted)">
+            <a href="index.html" style="color:var(--primary-color)">Accueil</a>
+            <span aria-hidden="true"> › </span>
+            <span id="breadcrumbCat"></span>
+            <span aria-hidden="true" id="breadcrumbSep" style="display:none"> › </span>
+            <span id="breadcrumbTitle" aria-current="page"></span>
+        </nav>
+
+        <div id="status" style="color:var(--muted);padding:40px 0;text-align:center">
+            <p>Chargement…</p>
         </div>
-    </div>
-    <div class="footer-info">
-        <p>
-            10 Rue De La Paix<br>
-            Brazzaville, Congo 999<br>
-            fkoubatika@gmail.com<br>
-            +242065086382
-        </p>
-    </div>
-    <div class="social-media">
-        <a href="https://www.youtube.com/watch?v=e5cYUiB78HU"><img src="images/youtube.png" alt="YouTube"/></a>
-        <a href="#"><img src="images/twitter.png" alt="Twitter"/></a>
-        <a href="#"><img src="images/linkedin.png" alt="LinkedIn"/></a>
-    </div>
-    <div class="footer-note">
-        <p>WDD231 Class Project</p>
-        <p>Koubatika Elsy Fernandez, Brazzaville</p>
-        <p>©<span id="currentyear"></span> ❖ Ma Boutique ❖</p>
-        <p><span id="lastModified"></span> </p>
-    </div>
-  </footer>
+
+        <section id="detail" class="detail" aria-live="polite" hidden>
+            <div class="gallery">
+                <div class="gallery-main" id="galleryMain"></div>
+                <div class="gallery-thumbs" id="galleryThumbs"></div>
+            </div>
+            <div class="info" id="info"></div>
+        </section>
+
+        <h3 class="row-title" style="margin-top:32px;font-size:1.1rem;color:var(--text)">Produits similaires</h3>
+        <div id="rowSimilar" class="row-scroll"></div>
+
+        <h3 class="row-title" style="margin-top:24px;font-size:1.1rem;color:var(--text)">Tous les produits</h3>
+        <div id="rowAll" class="row-scroll"></div>
+    </main>
+
+    <!-- Panier dialog -->
+    <dialog class="cart-modal" id="cartModal" aria-label="Votre panier">
+        <div class="cart-content">
+            <button class="close-cart-modal" id="closeCartModal" aria-label="Fermer">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2><i class="fas fa-shopping-cart"></i> Votre Panier</h2>
+            <div class="cart-items" id="cartItems"></div>
+            <div class="cart-total">Total : <span id="cartTotal">0</span> FCFA</div>
+            <div class="cart-actions">
+                <button class="btn btn-skip" id="clearCartBtn">
+                    <i class="fas fa-trash"></i> Vider
+                </button>
+                <button class="btn btn-submit" id="checkoutBtn">
+                    <i class="fab fa-whatsapp"></i> Commander
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+    <footer>
+        <div class="image-logo">
+            <a href="index.html"><img src="images/logo.png" alt="Logo Ma Boutique" width="60"></a>
+            <div>
+                <h2>Ma Boutique</h2>
+                <p>Acheter, Vendre Simplement !</p>
+            </div>
+        </div>
+        <div class="footer-info">
+            <p>
+                10 Rue De La Paix<br>
+                Brazzaville, Congo<br>
+                fkoubatika@gmail.com<br>
+                +242 065 086 382
+            </p>
+        </div>
+        <div class="social-media">
+            <a href="https://www.youtube.com/watch?v=e5cYUiB78HU" target="_blank" rel="noopener" aria-label="YouTube">
+                <img src="images/youtube.png" alt="YouTube">
+            </a>
+            <a href="#" aria-label="Twitter"><img src="images/twitter.png" alt="Twitter"></a>
+            <a href="#" aria-label="LinkedIn"><img src="images/linkedin.png" alt="LinkedIn"></a>
+        </div>
+        <div class="footer-note">
+            <p>WDD231 Class Project</p>
+            <p>Koubatika Elsy Fernandez — Brazzaville</p>
+            <p>©<span id="currentyear"></span> ❖ Ma Boutique ❖</p>
+            <p><span id="lastModified"></span></p>
+        </div>
+    </footer>
 </body>
 </html>

@@ -560,7 +560,7 @@ function render(){
         const shouldInsertBanner = ((idx+1)%6===0);
         if(shouldInsertBanner){
             const b = selectBanner(priorityId, bannerRotationIndex++);
-            gridEl.appendChild(bannerEl(b));
+            if(b) gridEl.appendChild(bannerEl(b)); // FIX: garde si BANNERS_CACHE vide
         }
     });
 
@@ -851,11 +851,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadBrands(); // indépendant du chargement des produits
 });
 
-function escapeHtml(s){ 
-    return (s??'').toString().replace(/[&<>"']/g, c => (
-        {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]
-    ));
-    }
+// FIX: escapeHtml en double supprimée (déclarée ligne ~95)
 
     document.addEventListener('DOMContentLoaded', (async function(){
     const host = document.getElementById('homeBebe');
@@ -880,15 +876,15 @@ function escapeHtml(s){
             image: '' // facultatif
         };
 
-        // récupère une image si fournie (image / img / photo)
+        // FIX: utilise data (jamais null) et non b qui peut être null
         const imgBebe =
-            Array.isArray(b.image) ? b.image
-            : Array.isArray(b.images) ? b.images
-            : (b.image ? [b.image] : []);
+            Array.isArray(data.image) ? data.image
+            : Array.isArray(data.images) ? data.images
+            : (data.image ? [data.image] : []);
 
         const heroImg = imgBebe
             .filter(Boolean)
-            .map((src, i) => `<img src="${src}" alt="${escapeHtml((b.title || 'bannière') + ' ' + (i+1))}" loading="lazy">`)
+            .map((src, i) => `<img src="${src}" alt="${escapeHtml((data.title || 'bannière') + ' ' + (i+1))}" loading="lazy">`)
             .join('');
 
         // utilise TA fonction WhatsApp si elle existe, sinon lien neutre
@@ -1040,7 +1036,11 @@ document.getElementById("checkoutBtn")?.addEventListener("click", () => {
     const total = cart.reduce((sum, it) => sum + (Number(it.price)||0) * (Number(it.quantity)||0), 0);
     localStorage.setItem("cart", JSON.stringify(cart));
     localStorage.setItem("cartTotal", String(total));
-    window.location.href = "order.html";
+    // FIX: order.html n'existait pas — génère un lien WhatsApp de commande
+    const lines = cart.map(it => `• ${it.title} x${it.quantity} = ${(it.price*it.quantity).toLocaleString()} FCFA`).join('\n');
+    const msg = `Bonjour 👋, je souhaite commander :\n${lines}\n\n*Total: ${total.toLocaleString()} FCFA*`;
+    const phone = (loadSettings().phone || '+242065086382').replace(/\D/g,'');
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
 });
 
 /* =======================
@@ -1204,6 +1204,35 @@ document.addEventListener("DOMContentLoaded", updateCartUI);
 
 /* =================== FIN PANIER (corrigé) =================== */
 
+
+
+// ===== THEME TOGGLE (FIX: bouton existait mais aucun listener) =====
+(function initTheme(){
+    const btn = document.getElementById('toggle-theme');
+    if(!btn) return;
+    const saved = localStorage.getItem('cowema_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    btn.title = saved === 'dark' ? 'Mode clair' : 'Mode sombre';
+    btn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme') || 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('cowema_theme', next);
+        btn.title = next === 'dark' ? 'Mode clair' : 'Mode sombre';
+    });
+})();
+
+// ===== MENU MOBILE (FIX: menu existait mais aucun listener) =====
+(function initMobileMenu(){
+    const menuBtn = document.getElementById('menu');
+    const navLinks = document.getElementById('navlinks');
+    if(!menuBtn || !navLinks) return;
+    menuBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        menuBtn.classList.toggle('active');
+        navLinks.classList.toggle('open');
+    });
+})();
 
  // ===== STARTUP =====
 (async function init(){
