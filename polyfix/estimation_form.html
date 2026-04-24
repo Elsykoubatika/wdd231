@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demande de devis gratuit — POLYFIX</title>
+  <meta name="description" content="Obtenez votre devis personnalisé et gratuit en ligne. Réponse garantie sous 24h par les experts POLYFIX.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://polyfix.cg/estimation_form.html">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23E85A00'/><text y='24' x='4' font-size='22' font-weight='900' fill='white' font-family='sans-serif'>P</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="form-page">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    🔥 Promo : -20% sur rénovations &nbsp;|&nbsp; <a href="index.html">Retour à l'accueil</a>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-logo">
+        <div class="logo-mark"><svg viewBox="0 0 24 24" fill="white"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div><div class="logo-text">POLY<span>FIX</span></div><div class="logo-tagline">Bâtir · Rénover · Fixer</div></div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Accueil</a>
+        <a href="services.html">Services</a>
+        <a href="construction_form.html">Construction</a>
+        <a href="estimation_form.html" class="active">Devis</a>
+        <a href="contact.html">Contact</a>
+        <a href="dashboard.html" style="color:var(--c-brand)">Dashboard Admin</a>
+        <a href="portail-client.html">Espace Client</a>
+      </div>
+      <div class="nav-actions">
+        <a href="tel:+242065000000" class="btn btn-outline btn-sm">
+          <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07"/></svg>
+          +242 065 000 000
+        </a>
+      </div>
+      <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="nav-mobile">
+    <a href="index.html">🏠 Accueil</a>
+    <a href="services.html">⚙️ Services</a>
+    <a href="construction_form.html">🏗️ Construction</a>
+    <a href="estimation_form.html">📋 Devis</a>
+    <a href="contact.html">📞 Contact</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Fil d'Ariane">
+        <a href="index.html">Accueil</a>
+        <span class="breadcrumb-sep" aria-hidden="true">›</span>
+        <span class="breadcrumb-current">Demande de devis</span>
+      </nav>
+      <span class="label">Gratuit · Sans engagement</span>
+      <h1 class="display-md" style="margin-top:10px;margin-bottom:10px">Demande de devis gratuit</h1>
+      <p style="color:var(--c-muted);font-size:16px;max-width:500px">Décrivez votre projet, nous vous envoyons une estimation personnalisée sous <strong style="color:var(--c-text)">24 heures ouvrées</strong>.</p>
+    </div>
+  </div>
+
+  <!-- FORM BODY -->
+  <section class="section-pad">
+    <div class="container">
+      <div class="form-layout">
+
+        <!-- MAIN FORM -->
+        <div class="form-card">
+          <!-- Progress indicator -->
+          <div class="form-progress">
+            <div class="form-step-indicator">
+              <div class="step-dot active" id="dot1">1</div>
+              <div class="step-label active">Votre projet</div>
+            </div>
+            <div class="form-step-indicator">
+              <div class="step-dot" id="dot2">2</div>
+              <div class="step-label">Vos coordonnées</div>
+            </div>
+            <div class="form-step-indicator">
+              <div class="step-dot" id="dot3">3</div>
+              <div class="step-label">Confirmation</div>
+            </div>
+          </div>
+
+          <!-- SUCCESS STATE (hidden by default) -->
+          <div class="form-success" id="formSuccess" style="display:none">
+            <div class="success-icon">
+              <svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3>Demande reçue !</h3>
+            <p>Merci pour votre confiance. Un expert POLYFIX vous contacte dans les <strong>24 heures ouvrées</strong> pour discuter de votre projet.</p>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px">
+              <a href="index.html" class="btn btn-primary">Retour à l'accueil</a>
+              <a href="services.html" class="btn btn-outline">Voir nos services</a>
+            </div>
+          </div>
+
+          <!-- FORM INNER -->
+          <div id="formInner">
+            <h2>Décrivez votre projet</h2>
+            <p class="form-subtitle">Tous les champs marqués <span style="color:var(--c-brand)">*</span> sont obligatoires.</p>
+
+            <form data-polyfix id="estimationForm" novalidate>
+
+              <!-- SECTION 1 : TYPE DE TRAVAUX -->
+              <div class="form-section">
+                <div class="form-section-title">1. Type de travaux</div>
+                <div class="check-group" id="serviceType">
+                  <label class="check-option">
+                    <input type="radio" name="type_travaux" value="construction" required>
+                    <span>🏗️ Construction neuve (villa, immeuble, bureau…)</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="radio" name="type_travaux" value="renovation">
+                    <span>🔨 Rénovation complète ou partielle</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="radio" name="type_travaux" value="electricite">
+                    <span>⚡ Travaux électriques</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="radio" name="type_travaux" value="plomberie">
+                    <span>🚿 Plomberie et sanitaire</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="radio" name="type_travaux" value="menuiserie">
+                    <span>🪵 Menuiserie (portes, fenêtres, meubles)</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="radio" name="type_travaux" value="peinture">
+                    <span>🎨 Peinture et revêtements</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="radio" name="type_travaux" value="multi">
+                    <span>🔧 Plusieurs types de travaux (polyvalent)</span>
+                  </label>
+                </div>
+                <div class="form-group" style="margin-top:12px">
+                  <label class="form-label">Si autre, précisez</label>
+                  <input type="text" class="form-control" name="type_autre" placeholder="Ex: installation de climatisation, clôture…">
+                </div>
+              </div>
+
+              <!-- SECTION 2 : DÉTAILS DU PROJET -->
+              <div class="form-section">
+                <div class="form-section-title">2. Détails du projet</div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="surface">Surface concernée (m²)<span class="required">*</span></label>
+                    <input type="number" id="surface" name="surface" class="form-control" placeholder="Ex: 120" min="1" required>
+                    <span class="form-hint">Surface approximative de l'espace concerné</span>
+                    <span class="form-error">Veuillez indiquer une surface.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="ville">Ville<span class="required">*</span></label>
+                    <select id="ville" name="ville" class="form-control" required>
+                      <option value="" disabled selected>Sélectionner…</option>
+                      <option value="brazzaville">Brazzaville</option>
+                      <option value="pointe-noire">Pointe-Noire</option>
+                      <option value="autre">Autre (préciser dans les détails)</option>
+                    </select>
+                    <span class="form-error">Veuillez sélectionner une ville.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="delai">Délai souhaité<span class="required">*</span></label>
+                    <select id="delai" name="delai" class="form-control" required>
+                      <option value="" disabled selected>Choisir un délai…</option>
+                      <option value="urgent">Urgent (dans les 15 jours)</option>
+                      <option value="1mois">Dans 1 mois</option>
+                      <option value="3mois">Dans 2 à 3 mois</option>
+                      <option value="flexible">Flexible / non défini</option>
+                    </select>
+                    <span class="form-error">Veuillez indiquer un délai.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="budget">Budget estimatif (FCFA)</label>
+                    <select id="budget" name="budget" class="form-control">
+                      <option value="" disabled selected>Fourchette budgétaire…</option>
+                      <option value="inf500">Moins de 500 000 FCFA</option>
+                      <option value="500-2m">500 000 – 2 000 000 FCFA</option>
+                      <option value="2-5m">2 000 000 – 5 000 000 FCFA</option>
+                      <option value="5-15m">5 000 000 – 15 000 000 FCFA</option>
+                      <option value="sup15m">Plus de 15 000 000 FCFA</option>
+                      <option value="nsp">Je ne sais pas encore</option>
+                    </select>
+                  </div>
+                  <div class="form-group span-2">
+                    <label class="form-label" for="description">Description détaillée du projet<span class="required">*</span></label>
+                    <textarea id="description" name="description" class="form-control" rows="5" required
+                      placeholder="Décrivez votre projet : ce que vous souhaitez faire, l'état actuel, vos attentes spécifiques, les matériaux souhaités…"></textarea>
+                    <span class="form-error">Veuillez décrire votre projet.</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SECTION 3 : VOS COORDONNÉES -->
+              <div class="form-section">
+                <div class="form-section-title">3. Vos coordonnées</div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="prenom">Prénom<span class="required">*</span></label>
+                    <input type="text" id="prenom" name="prenom" class="form-control" placeholder="Votre prénom" required autocomplete="given-name">
+                    <span class="form-error">Prénom requis.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="nom">Nom<span class="required">*</span></label>
+                    <input type="text" id="nom" name="nom" class="form-control" placeholder="Votre nom" required autocomplete="family-name">
+                    <span class="form-error">Nom requis.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="telephone">Téléphone<span class="required">*</span></label>
+                    <input type="tel" id="telephone" name="telephone" class="form-control" placeholder="+242 06 000 0000" required autocomplete="tel">
+                    <span class="form-error">Numéro de téléphone requis.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="email">E-mail</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="votre@email.com" autocomplete="email">
+                    <span class="form-error">Adresse e-mail invalide.</span>
+                  </div>
+                  <div class="form-group span-2">
+                    <label class="form-label" for="comment">Comment avez-vous connu POLYFIX ?</label>
+                    <select id="comment" name="comment" class="form-control">
+                      <option value="" disabled selected>Sélectionner…</option>
+                      <option value="bouche-a-oreille">Bouche-à-oreille / recommandation</option>
+                      <option value="internet">Internet / réseaux sociaux</option>
+                      <option value="panneau">Panneau / affichage</option>
+                      <option value="autre">Autre</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SUBMIT -->
+              <div class="form-submit-area">
+                <div class="form-submit-note">
+                  <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Données confidentielles · Aucun spam
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">
+                  <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  Envoyer ma demande
+                </button>
+              </div>
+
+            </form>
+          </div><!-- /formInner -->
+        </div><!-- /form-card -->
+
+        <!-- SIDEBAR -->
+        <aside class="form-sidebar">
+          <div class="sidebar-card">
+            <h3>Nos engagements</h3>
+            <div class="trust-badges">
+              <div class="trust-badge">
+                <svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Devis 100% gratuit et sans obligation
+              </div>
+              <div class="trust-badge">
+                <svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Réponse sous 24 heures ouvrées
+              </div>
+              <div class="trust-badge">
+                <svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Visite sur site gratuite incluse
+              </div>
+              <div class="trust-badge">
+                <svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Devis détaillé poste par poste
+              </div>
+              <div class="trust-badge">
+                <svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Prix transparent, aucun coût caché
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <h3>Nous contacter</h3>
+            <div class="info-list">
+              <div class="info-item">
+                <div class="info-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2"/></svg></div>
+                <div class="info-item-text">
+                  <strong>Téléphone direct</strong>
+                  <span><a href="tel:+242065000000" style="color:var(--c-brand)">+242 065 000 000</a></span>
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8"/></svg></div>
+                <div class="info-item-text">
+                  <strong>WhatsApp</strong>
+                  <span><a href="https://wa.me/242065000000" style="color:var(--c-brand)" target="_blank" rel="noopener">Envoyer un message</a></span>
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                <div class="info-item-text">
+                  <strong>Horaires d'appel</strong>
+                  <span>Lun – Sam · 7h30 – 18h00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-card" style="background:rgba(232,90,0,.06);border-color:rgba(232,90,0,.2)">
+            <div class="badge badge-brand" style="margin-bottom:12px">Offre en cours</div>
+            <p style="font-size:14px;color:var(--c-muted);line-height:1.6">
+              <strong style="color:var(--c-text)">-20% sur la rénovation</strong> pour tout devis signé ce mois. Mentionnez le code <strong style="color:var(--c-brand)">POLYPROMO</strong> lors de votre demande.
+            </p>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <a href="https://wa.me/242065000000" class="whatsapp-float" aria-label="WhatsApp" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.866 2C6.403 2 2 6.403 2 11.866c0 1.938.557 3.74 1.524 5.264L2 22l4.967-1.49A9.827 9.827 0 0011.866 22C17.33 22 22 17.33 22 11.866 22 6.403 17.33 2 11.866 2z"/></svg>
+  </a>
+  <button class="back-to-top" aria-label="Haut de page"><svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Pre-select service type from URL param
+    const urlType = new URLSearchParams(location.search).get('type');
+    if (urlType) {
+      const radio = document.querySelector(`input[value="${urlType}"]`);
+      if (radio) {
+        radio.checked = true;
+        radio.closest('.check-option').style.borderColor = 'var(--c-brand)';
+      }
+    }
+
+    // Visual feedback on radio selection
+    document.querySelectorAll('.check-option input[type="radio"]').forEach(r => {
+      r.addEventListener('change', () => {
+        document.querySelectorAll('.check-option').forEach(o => o.style.borderColor = '');
+        if (r.checked) r.closest('.check-option').style.borderColor = 'var(--c-brand)';
+      });
+    });
+
+    // Progress step update
+    const form = document.getElementById('estimationForm');
+    const desc = document.getElementById('description');
+    const prenom = document.getElementById('prenom');
+
+    [desc].forEach(el => el?.addEventListener('input', () => {
+      document.getElementById('dot2')?.classList.add('active');
+      document.querySelector('.step-label:nth-child(2)')?.classList.add('active');
+    }));
+    [prenom].forEach(el => el?.addEventListener('input', () => {
+      document.getElementById('dot3')?.classList.add('active');
+    }));
+
+    // Hook success display into form submission
+    form?.addEventListener('submit', () => {
+      setTimeout(() => {
+        document.getElementById('formInner').style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+        document.querySelector('.form-progress').style.display = 'none';
+        document.querySelectorAll('.step-dot').forEach(d => d.classList.add('done'));
+      }, 2000);
+    }, { capture: false });
+  </script>
+</body>
+</html>

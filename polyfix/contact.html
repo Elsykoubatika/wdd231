@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — POLYFIX Brazzaville & Pointe-Noire</title>
+  <meta name="description" content="Contactez POLYFIX pour vos projets de construction et rénovation. Téléphone, WhatsApp, e-mail ou formulaire de contact.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://polyfix.cg/contact.html">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23E85A00'/><text y='24' x='4' font-size='22' font-weight='900' fill='white' font-family='sans-serif'>P</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="topbar">🔥 Promo : -20% sur rénovations &nbsp;|&nbsp; <a href="estimation_form.html">Devis gratuit →</a></div>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-logo">
+        <div class="logo-mark"><svg viewBox="0 0 24 24" fill="white"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div><div class="logo-text">POLY<span>FIX</span></div><div class="logo-tagline">Bâtir · Rénover · Fixer</div></div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Accueil</a><a href="services.html">Services</a>
+        <a href="construction_form.html">Construction</a><a href="estimation_form.html">Devis</a>
+        <a href="contact.html" class="active">Contact</a>
+      </div>
+      <div class="nav-actions"><a href="estimation_form.html" class="btn btn-primary btn-sm">Devis gratuit</a></div>
+      <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="nav-mobile">
+    <a href="index.html">🏠 Accueil</a><a href="services.html">⚙️ Services</a>
+    <a href="construction_form.html">🏗️ Construction</a><a href="estimation_form.html">📋 Devis</a>
+    <a href="contact.html">📞 Contact</a>
+    <a href="estimation_form.html" class="btn btn-primary">Devis gratuit</a>
+  </div>
+
+  <div class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb"><a href="index.html">Accueil</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Contact</span></nav>
+      <span class="label" style="margin-top:8px;display:block">Nous sommes à votre écoute</span>
+      <h1 class="display-lg" style="margin-top:10px;margin-bottom:12px">Contactez-nous</h1>
+      <p style="color:var(--c-muted);font-size:17px;max-width:500px">Un projet, une question, un devis ? Notre équipe vous répond dans les <strong style="color:var(--c-text)">24 heures</strong>.</p>
+    </div>
+  </div>
+
+  <section class="section-pad">
+    <div class="container">
+      <div class="form-layout">
+
+        <!-- CONTACT FORM -->
+        <div class="form-card">
+          <div class="form-success" id="contactSuccess" style="display:none">
+            <div class="success-icon"><svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <h3>Message envoyé !</h3>
+            <p>Merci de nous avoir contacté. Nous vous répondrons sous 24 heures ouvrées.</p>
+            <a href="index.html" class="btn btn-primary">Retour à l'accueil</a>
+          </div>
+          <div id="contactInner">
+            <h2>Envoyez-nous un message</h2>
+            <p class="form-subtitle">Pour un devis détaillé, utilisez plutôt notre <a href="estimation_form.html" style="color:var(--c-brand)">formulaire de devis</a>.</p>
+            <form data-polyfix novalidate>
+              <div class="form-section">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="c_prenom">Prénom<span class="required">*</span></label>
+                    <input type="text" id="c_prenom" name="prenom" class="form-control" placeholder="Votre prénom" required>
+                    <span class="form-error">Champ requis.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="c_nom">Nom<span class="required">*</span></label>
+                    <input type="text" id="c_nom" name="nom" class="form-control" placeholder="Votre nom" required>
+                    <span class="form-error">Champ requis.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="c_tel">Téléphone<span class="required">*</span></label>
+                    <input type="tel" id="c_tel" name="telephone" class="form-control" placeholder="+242 06 000 0000" required>
+                    <span class="form-error">Numéro requis.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="c_email">E-mail</label>
+                    <input type="email" id="c_email" name="email" class="form-control" placeholder="votre@email.com">
+                    <span class="form-error">E-mail invalide.</span>
+                  </div>
+                  <div class="form-group span-2">
+                    <label class="form-label" for="c_sujet">Sujet<span class="required">*</span></label>
+                    <select id="c_sujet" name="sujet" class="form-control" required>
+                      <option value="" disabled selected>Sélectionner le sujet…</option>
+                      <option value="devis">Demande de devis</option>
+                      <option value="construction">Projet de construction</option>
+                      <option value="urgence">Intervention urgente</option>
+                      <option value="info">Renseignement général</option>
+                      <option value="reclamation">Réclamation / SAV</option>
+                      <option value="partenariat">Partenariat</option>
+                    </select>
+                    <span class="form-error">Veuillez choisir un sujet.</span>
+                  </div>
+                  <div class="form-group span-2">
+                    <label class="form-label" for="c_message">Message<span class="required">*</span></label>
+                    <textarea id="c_message" name="message" class="form-control" rows="5" required
+                      placeholder="Décrivez votre demande, votre projet ou votre question…"></textarea>
+                    <span class="form-error">Le message est requis.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-submit-area">
+                <div class="form-submit-note">
+                  <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Aucun spam · Données sécurisées
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">
+                  <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  Envoyer
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- SIDEBAR CONTACT -->
+        <aside class="form-sidebar">
+          <div class="sidebar-card">
+            <h3>Coordonnées</h3>
+            <div class="info-list">
+              <div class="info-item">
+                <div class="info-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2"/></svg></div>
+                <div class="info-item-text"><strong>Téléphone</strong><span><a href="tel:+242065000000" style="color:var(--c-brand)">+242 065 000 000</a></span></div>
+              </div>
+              <div class="info-item">
+                <div class="info-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12"/><polyline points="22 6 12 13 2 6"/></svg></div>
+                <div class="info-item-text"><strong>E-mail</strong><span><a href="mailto:contact@polyfix.cg" style="color:var(--c-brand)">contact@polyfix.cg</a></span></div>
+              </div>
+              <div class="info-item">
+                <div class="info-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                <div class="info-item-text"><strong>Horaires</strong><span>Lun – Sam · 7h30 – 18h00</span></div>
+              </div>
+              <div class="info-item">
+                <div class="info-item-icon"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div class="info-item-text"><strong>Brazzaville</strong><span>Avenue de la Paix, Centre-ville</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="sidebar-card">
+            <h3>Action rapide</h3>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <a href="estimation_form.html" class="btn btn-primary" style="justify-content:center">📋 Demander un devis</a>
+              <a href="construction_form.html" class="btn btn-outline" style="justify-content:center">🏗️ Projet de construction</a>
+              <a href="https://wa.me/242065000000" class="btn" style="background:#25D366;color:#fff;justify-content:center" target="_blank" rel="noopener">💬 WhatsApp direct</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="navbar-logo" style="margin-bottom:16px">
+            <div class="logo-mark"><svg viewBox="0 0 24 24" fill="white"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+            <div><div class="logo-text">POLY<span>FIX</span></div></div>
+          </a>
+          <p class="footer-brand-desc">Votre partenaire de confiance pour tous vos travaux au Congo.</p>
+        </div>
+        <div class="footer-col"><h4>Services</h4><div class="footer-links"><a href="services.html#construction">Construction</a><a href="services.html#renovation">Rénovation</a><a href="services.html#electricite">Électricité</a><a href="services.html#plomberie">Plomberie</a></div></div>
+        <div class="footer-col"><h4>Liens</h4><div class="footer-links"><a href="index.html">Accueil</a><a href="estimation_form.html">Devis gratuit</a><a href="contact.html">Contact</a>
+        <a href="dashboard.html" style="color:var(--c-brand)">Dashboard Admin</a>
+        <a href="portail-client.html">Espace Client</a></div></div>
+        <div class="footer-col"><h4>Contact</h4>
+          <div class="footer-contact-item"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2"/></svg><span>+242 065 000 000</span></div>
+          <div class="footer-contact-item"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M4 4h16"/><polyline points="22 6 12 13 2 6"/></svg><span>contact@polyfix.cg</span></div>
+        </div>
+      </div>
+      <div class="footer-bottom"><p>© 2025 POLYFIX. Tous droits réservés.</p></div>
+    </div>
+  </footer>
+  <a href="https://wa.me/242065000000" class="whatsapp-float" aria-label="WhatsApp" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164c-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.866 2C6.403 2 2 6.403 2 11.866c0 1.938.557 3.74 1.524 5.264L2 22l4.967-1.49A9.827 9.827 0 0011.866 22C17.33 22 22 17.33 22 11.866 22 6.403 17.33 2 11.866 2z"/></svg>
+  </a>
+  <button class="back-to-top" aria-label="Haut"><svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+  <script src="js/main.js"></script>
+  <script>
+    document.querySelector('form')?.addEventListener('submit', () => {
+      setTimeout(() => {
+        document.getElementById('contactInner').style.display = 'none';
+        document.getElementById('contactSuccess').style.display = 'block';
+      }, 2000);
+    }, { capture: false });
+  </script>
+</body>
+</html>

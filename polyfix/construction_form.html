@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lancer un projet de construction — POLYFIX</title>
+  <meta name="description" content="Soumettez votre projet de construction à POLYFIX. Villa, immeuble, bureau — notre équipe d'experts prend en charge votre projet de A à Z.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://polyfix.cg/construction_form.html">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23E85A00'/><text y='24' x='4' font-size='22' font-weight='900' fill='white' font-family='sans-serif'>P</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="form-page">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    🏗️ Construction neuve · Devis expert sous 24h &nbsp;|&nbsp; <a href="tel:+242065000000">Appelez-nous directement</a>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-logo">
+        <div class="logo-mark"><svg viewBox="0 0 24 24" fill="white"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div><div class="logo-text">POLY<span>FIX</span></div><div class="logo-tagline">Bâtir · Rénover · Fixer</div></div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Accueil</a>
+        <a href="services.html">Services</a>
+        <a href="construction_form.html" class="active">Construction</a>
+        <a href="estimation_form.html">Devis</a>
+        <a href="contact.html">Contact</a>
+        <a href="dashboard.html" style="color:var(--c-brand)">Dashboard Admin</a>
+        <a href="portail-client.html">Espace Client</a>
+      </div>
+      <div class="nav-actions">
+        <a href="estimation_form.html" class="btn btn-primary btn-sm">Devis rapide</a>
+      </div>
+      <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="nav-mobile">
+    <a href="index.html">🏠 Accueil</a>
+    <a href="services.html">⚙️ Services</a>
+    <a href="construction_form.html">🏗️ Construction</a>
+    <a href="estimation_form.html">📋 Devis</a>
+    <a href="contact.html">📞 Contact</a>
+  </div>
+
+  <!-- PAGE HERO avec image de fond construction -->
+  <div class="page-hero" style="position:relative;overflow:hidden;padding:0">
+    <div style="position:absolute;inset:0;z-index:0">
+      <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1400&q=80&auto=format&fit=crop"
+           alt="Chantier de construction" style="width:100%;height:100%;object-fit:cover;opacity:.18">
+    </div>
+    <div style="position:relative;z-index:1;padding:64px 0 48px">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+          <a href="index.html">Accueil</a>
+          <span class="breadcrumb-sep">›</span>
+          <a href="services.html">Services</a>
+          <span class="breadcrumb-sep">›</span>
+          <span class="breadcrumb-current">Projet de construction</span>
+        </nav>
+        <div style="display:flex;align-items:center;gap:14px;margin-top:8px;flex-wrap:wrap">
+          <span class="label">Construction neuve</span>
+          <span class="badge badge-success">Devis gratuit</span>
+          <span class="badge badge-accent">Réponse 24h</span>
+        </div>
+        <h1 class="display-md" style="margin-top:14px;margin-bottom:12px">Lancer votre projet<br>de construction</h1>
+        <p style="color:var(--c-muted);font-size:16px;max-width:560px">
+          Villas, immeubles résidentiels, locaux commerciaux, bureaux — POLYFIX vous accompagne de la conception au chantier, avec rigueur et transparence.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM BODY -->
+  <section class="section-pad">
+    <div class="container">
+      <div class="form-layout">
+
+        <!-- FORM PRINCIPAL -->
+        <div class="form-card">
+
+          <!-- SUCCESS STATE -->
+          <div class="form-success" id="formSuccess" style="display:none">
+            <div class="success-icon">
+              <svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3>Projet enregistré !</h3>
+            <p>Votre dossier de construction a été transmis à notre équipe. Un architecte ou chef de projet vous contacte dans les <strong>24 heures ouvrées</strong>.</p>
+            <div style="background:rgba(232,90,0,.08);border:1px solid rgba(232,90,0,.2);border-radius:12px;padding:16px;margin:20px 0;text-align:left">
+              <p style="font-size:13px;color:var(--c-muted)"><strong style="color:var(--c-text)">Prochaines étapes :</strong></p>
+              <p style="font-size:13px;color:var(--c-muted);margin-top:6px">① Notre expert vous rappelle · ② Visite du terrain gratuite · ③ Étude de faisabilité · ④ Devis détaillé</p>
+            </div>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+              <a href="index.html" class="btn btn-primary">Retour à l'accueil</a>
+              <a href="estimation_form.html" class="btn btn-outline">Autre demande de devis</a>
+            </div>
+          </div>
+
+          <!-- FORM INNER -->
+          <div id="formInner">
+            <h2>Votre projet de construction</h2>
+            <p class="form-subtitle">Plus vous nous donnez de détails, plus notre estimation sera précise. Tous les champs <span style="color:var(--c-brand)">*</span> sont requis.</p>
+
+            <form data-polyfix id="constructionForm" novalidate>
+
+              <!-- TYPE DE BÂTIMENT -->
+              <div class="form-section">
+                <div class="form-section-title">1. Type de bâtiment à construire</div>
+                <div class="check-group">
+                  <label class="check-option">
+                    <input type="radio" name="type_batiment" value="villa" required>
+                    <span>🏡 Villa / Maison individuelle</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="radio" name="type_batiment" value="immeuble">
+                    <span>🏢 Immeuble résidentiel (R+1 à R+5)</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="radio" name="type_batiment" value="commercial">
+                    <span>🏪 Local commercial / boutique</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="radio" name="type_batiment" value="bureau">
+                    <span>💼 Bureaux / bâtiment professionnel</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="radio" name="type_batiment" value="entrepot">
+                    <span>🏭 Entrepôt / hangar</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="radio" name="type_batiment" value="autre">
+                    <span>🔧 Autre type de construction</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- INFORMATIONS TECHNIQUES -->
+              <div class="form-section">
+                <div class="form-section-title">2. Informations techniques</div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="niveaux">Nombre de niveaux (R+?)<span class="required">*</span></label>
+                    <select id="niveaux" name="niveaux" class="form-control" required>
+                      <option value="" disabled selected>Choisir…</option>
+                      <option value="rdc">Rez-de-chaussée uniquement</option>
+                      <option value="r1">R+1 (1 étage)</option>
+                      <option value="r2">R+2 (2 étages)</option>
+                      <option value="r3">R+3 (3 étages)</option>
+                      <option value="r4+">R+4 et plus</option>
+                      <option value="nsp">À définir avec l'architecte</option>
+                    </select>
+                    <span class="form-error">Sélectionnez un nombre de niveaux.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="surface_totale">Surface habitable totale (m²)<span class="required">*</span></label>
+                    <input type="number" id="surface_totale" name="surface_totale" class="form-control"
+                           placeholder="Ex: 250" min="20" required>
+                    <span class="form-hint">Tous niveaux confondus</span>
+                    <span class="form-error">Indiquez la surface totale.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="surface_terrain">Surface du terrain (m²)</label>
+                    <input type="number" id="surface_terrain" name="surface_terrain" class="form-control" placeholder="Ex: 600" min="1">
+                    <span class="form-hint">Si vous avez déjà un terrain</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="pieces">Nombre de pièces principales</label>
+                    <select id="pieces" name="pieces" class="form-control">
+                      <option value="" disabled selected>Choisir…</option>
+                      <option value="2-3">2 à 3 pièces</option>
+                      <option value="4-5">4 à 5 pièces</option>
+                      <option value="6-8">6 à 8 pièces</option>
+                      <option value="8+">Plus de 8 pièces</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PRESTATIONS INCLUSES -->
+              <div class="form-section">
+                <div class="form-section-title">3. Prestations souhaitées</div>
+                <div class="check-group">
+                  <label class="check-option">
+                    <input type="checkbox" name="prestations" value="gros_oeuvre">
+                    <span>🧱 Gros œuvre (fondations, structure, murs, toiture)</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="checkbox" name="prestations" value="second_oeuvre">
+                    <span>🔧 Second œuvre (cloisons, enduits, chapes)</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="checkbox" name="prestations" value="electricite">
+                    <span>⚡ Installation électrique complète</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="checkbox" name="prestations" value="plomberie">
+                    <span>🚿 Plomberie et réseau sanitaire</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="checkbox" name="prestations" value="finitions">
+                    <span>🎨 Finitions (carrelage, peinture, menuiseries)</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="checkbox" name="prestations" value="cloture">
+                    <span>🏠 Clôture et aménagement extérieur</span>
+                  </label>
+                  <label class="check-option">
+                    <input type="checkbox" name="prestations" value="cle_en_main">
+                    <span>🔑 Tout inclus — Clé en main complet</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- TERRAIN & LOCALISATION -->
+              <div class="form-section">
+                <div class="form-section-title">4. Terrain et localisation</div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="terrain_statut">Statut du terrain<span class="required">*</span></label>
+                    <select id="terrain_statut" name="terrain_statut" class="form-control" required>
+                      <option value="" disabled selected>Sélectionner…</option>
+                      <option value="possede">Je possède déjà un terrain</option>
+                      <option value="en_acquisition">Terrain en cours d'acquisition</option>
+                      <option value="recherche">Je cherche encore un terrain</option>
+                    </select>
+                    <span class="form-error">Précisez le statut du terrain.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="ville_construction">Ville<span class="required">*</span></label>
+                    <select id="ville_construction" name="ville" class="form-control" required>
+                      <option value="" disabled selected>Choisir la ville…</option>
+                      <option value="brazzaville">Brazzaville</option>
+                      <option value="pointe-noire">Pointe-Noire</option>
+                      <option value="autre">Autre ville du Congo</option>
+                    </select>
+                    <span class="form-error">Sélectionnez une ville.</span>
+                  </div>
+                  <div class="form-group span-2">
+                    <label class="form-label" for="adresse_terrain">Adresse ou quartier du terrain</label>
+                    <input type="text" id="adresse_terrain" name="adresse_terrain" class="form-control"
+                           placeholder="Ex: Quartier Moungali, près de l'avenue…">
+                  </div>
+                </div>
+              </div>
+
+              <!-- BUDGET & DÉLAI -->
+              <div class="form-section">
+                <div class="form-section-title">5. Budget et délai</div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="budget_construction">Budget global estimatif<span class="required">*</span></label>
+                    <select id="budget_construction" name="budget" class="form-control" required>
+                      <option value="" disabled selected>Fourchette…</option>
+                      <option value="5-15m">5 000 000 – 15 000 000 FCFA</option>
+                      <option value="15-30m">15 000 000 – 30 000 000 FCFA</option>
+                      <option value="30-60m">30 000 000 – 60 000 000 FCFA</option>
+                      <option value="60-100m">60 000 000 – 100 000 000 FCFA</option>
+                      <option value="sup100m">Plus de 100 000 000 FCFA</option>
+                      <option value="nsp">À définir après étude</option>
+                    </select>
+                    <span class="form-error">Veuillez indiquer un budget.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="debut_souhaite">Début souhaité des travaux</label>
+                    <select id="debut_souhaite" name="debut_souhaite" class="form-control">
+                      <option value="" disabled selected>Choisir…</option>
+                      <option value="1mois">Dans 1 mois</option>
+                      <option value="3mois">Dans 2 à 3 mois</option>
+                      <option value="6mois">Dans 6 mois</option>
+                      <option value="nsp">Non défini</option>
+                    </select>
+                  </div>
+                  <div class="form-group span-2">
+                    <label class="form-label" for="notes_projet">Informations complémentaires</label>
+                    <textarea id="notes_projet" name="notes_projet" class="form-control" rows="4"
+                      placeholder="Décrivez votre vision du projet, les particularités, les matériaux souhaités, les contraintes spécifiques (accès au terrain, type de sol…)"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <!-- COORDONNÉES DU MAÎTRE D'OUVRAGE -->
+              <div class="form-section">
+                <div class="form-section-title">6. Vos coordonnées (maître d'ouvrage)</div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="mo_prenom">Prénom<span class="required">*</span></label>
+                    <input type="text" id="mo_prenom" name="prenom" class="form-control" placeholder="Prénom" required autocomplete="given-name">
+                    <span class="form-error">Prénom requis.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="mo_nom">Nom<span class="required">*</span></label>
+                    <input type="text" id="mo_nom" name="nom" class="form-control" placeholder="Nom de famille" required autocomplete="family-name">
+                    <span class="form-error">Nom requis.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="mo_tel">Téléphone<span class="required">*</span></label>
+                    <input type="tel" id="mo_tel" name="telephone" class="form-control" placeholder="+242 06 000 0000" required autocomplete="tel">
+                    <span class="form-error">Téléphone requis.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="mo_email">E-mail</label>
+                    <input type="email" id="mo_email" name="email" class="form-control" placeholder="votre@email.com" autocomplete="email">
+                    <span class="form-error">E-mail invalide.</span>
+                  </div>
+                  <div class="form-group span-2">
+                    <label class="form-label">Avez-vous déjà des plans ou documents ?</label>
+                    <div class="check-group" style="flex-direction:row;flex-wrap:wrap;gap:10px">
+                      <label class="check-option" style="flex:1;min-width:180px">
+                        <input type="radio" name="documents" value="oui">
+                        <span>Oui, j'ai des plans / esquisses</span>
+                      </label>
+                      <label class="check-option" style="flex:1;min-width:180px">
+                        <input type="radio" name="documents" value="non">
+                        <span>Non, je pars de zéro</span>
+                      </label>
+                    </div>
+                    <span class="form-hint">Si vous avez des plans, vous pourrez les envoyer après soumission</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SUBMIT -->
+              <div class="form-submit-area">
+                <div class="form-submit-note">
+                  <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Données sécurisées · Aucun engagement
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">
+                  <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><polygon points="3 9 12 2 21 9 21 20 3 20"/></svg>
+                  Soumettre mon projet
+                </button>
+              </div>
+
+            </form>
+          </div><!-- /formInner -->
+        </div><!-- /form-card -->
+
+        <!-- SIDEBAR -->
+        <aside class="form-sidebar">
+          <div class="sidebar-card">
+            <h3>Pourquoi POLYFIX ?</h3>
+            <div class="trust-badges">
+              <div class="trust-badge"><svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 12 ans d'expérience au Congo</div>
+              <div class="trust-badge"><svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Plus de 120 constructions livrées</div>
+              <div class="trust-badge"><svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Garantie décennale sur gros œuvre</div>
+              <div class="trust-badge"><svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Matériaux certifiés qualité</div>
+              <div class="trust-badge"><svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Suivi de chantier en temps réel</div>
+              <div class="trust-badge"><svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Chef de projet dédié 6j/7</div>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <h3>Processus construction</h3>
+            <div class="info-list">
+              <div class="info-item">
+                <div class="info-item-icon" style="background:rgba(232,90,0,.1)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10"/></svg></div>
+                <div class="info-item-text"><strong>Étude de faisabilité</strong><span>Analyse du terrain, sol, contraintes</span></div>
+              </div>
+              <div class="info-item">
+                <div class="info-item-icon" style="background:rgba(232,90,0,.1)"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="18" height="18"/><path d="M3 9h18M9 21V9"/></svg></div>
+                <div class="info-item-text"><strong>Plans et conception</strong><span>Dessin, validations, permis</span></div>
+              </div>
+              <div class="info-item">
+                <div class="info-item-icon" style="background:rgba(232,90,0,.1)"><svg viewBox="0 0 24 24" stroke-width="2"><polygon points="3 9 12 2 21 9 21 20 3 20"/></svg></div>
+                <div class="info-item-text"><strong>Chantier structuré</strong><span>Planning, équipes, matériaux</span></div>
+              </div>
+              <div class="info-item">
+                <div class="info-item-icon" style="background:rgba(232,90,0,.1)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                <div class="info-item-text"><strong>Livraison clé en main</strong><span>Inspection qualité + garanties</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <h3>Contact direct</h3>
+            <p style="font-size:14px;color:var(--c-muted);margin-bottom:16px">Préférez-vous en parler directement ? Nos experts sont disponibles.</p>
+            <a href="tel:+242065000000" class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:10px">
+              <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px"><path d="M22 16.92v3a2 2 0 01-2.18 2"/></svg>
+              Appeler maintenant
+            </a>
+            <a href="https://wa.me/242065000000?text=Bonjour%2C%20je%20souhaite%20démarrer%20un%20projet%20de%20construction%20avec%20POLYFIX."
+               class="btn btn-outline" style="width:100%;justify-content:center" target="_blank" rel="noopener">
+              💬 WhatsApp
+            </a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <a href="https://wa.me/242065000000" class="whatsapp-float" aria-label="WhatsApp" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.866 2C6.403 2 2 6.403 2 11.866c0 1.938.557 3.74 1.524 5.264L2 22l4.967-1.49A9.827 9.827 0 0011.866 22C17.33 22 22 17.33 22 11.866 22 6.403 17.33 2 11.866 2z"/></svg>
+  </a>
+  <button class="back-to-top" aria-label="Haut de page"><svg viewBox="0 0 24 24" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Radio / checkbox visual feedback
+    document.querySelectorAll('.check-option input').forEach(input => {
+      input.addEventListener('change', () => {
+        if (input.type === 'radio') {
+          const name = input.name;
+          document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+            r.closest('.check-option').style.borderColor = '';
+          });
+        }
+        if (input.checked) input.closest('.check-option').style.borderColor = 'var(--c-brand)';
+        else input.closest('.check-option').style.borderColor = '';
+      });
+    });
+
+    // Success display
+    document.getElementById('constructionForm')?.addEventListener('submit', () => {
+      setTimeout(() => {
+        document.getElementById('formInner').style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      }, 2000);
+    }, { capture: false });
+  </script>
+</body>
+</html>
