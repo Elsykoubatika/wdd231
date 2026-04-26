@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion — POLYFIX Platform</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23E85A00'/><text y='24' x='4' font-size='22' font-weight='900' fill='white' font-family='sans-serif'>P</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="login-wrap">
+  <div class="login-brand">
+    <div style="position:relative;z-index:1;text-align:center">
+      <div style="width:72px;height:72px;background:rgba(255,255,255,.15);border-radius:16px;display:grid;place-items:center;margin:0 auto 28px;border:1px solid rgba(255,255,255,.25)">
+        <svg viewBox="0 0 24 24" fill="white" style="width:36px;height:36px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22" stroke="white" stroke-width="2" fill="none"/></svg>
+      </div>
+      <h1 style="font-family:var(--font-display);font-size:42px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:#fff;margin-bottom:8px">POLYFIX</h1>
+      <p style="color:rgba(255,255,255,.65);font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:32px">Plateforme de gestion</p>
+      <p style="color:rgba(255,255,255,.5);font-size:14px;line-height:1.8;max-width:300px">Gérez vos devis, projets, équipes et finances en un seul espace.</p>
+      <div style="display:flex;gap:32px;margin-top:48px;padding-top:32px;border-top:1px solid rgba(255,255,255,.15)">
+        <div style="text-align:center"><div style="font-family:var(--font-display);font-size:28px;font-weight:900;color:#fff">350+</div><div style="font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.06em">Projets</div></div>
+        <div style="text-align:center"><div style="font-family:var(--font-display);font-size:28px;font-weight:900;color:#fff">12</div><div style="font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.06em">Années</div></div>
+        <div style="text-align:center"><div style="font-family:var(--font-display);font-size:28px;font-weight:900;color:#fff">98%</div><div style="font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.06em">Satisfaction</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-form-side">
+    <div class="login-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:32px">
+        <div class="logo-mark" style="width:40px;height:40px"><svg viewBox="0 0 24 24" fill="white" style="width:22px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+        <div>
+          <div style="font-family:var(--font-display);font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;line-height:1">POLY<span style="color:var(--c-brand)">FIX</span></div>
+          <div style="font-size:10px;color:var(--c-muted);letter-spacing:.08em;text-transform:uppercase">Espace de connexion</div>
+        </div>
+      </div>
+      <h2 class="login-title">Bienvenue</h2>
+      <p class="login-sub">Connectez-vous à votre espace</p>
+      <div class="role-tabs" id="roleTabs">
+        <button class="role-tab active" data-role="gestionnaire">Gestionnaire</button>
+        <button class="role-tab" data-role="client">Client</button>
+        <button class="role-tab" data-role="ouvrier">Ouvrier</button>
+      </div>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Email</label>
+          <input type="email" id="loginEmail" class="form-control" placeholder="exemple@polyfix.cg" autocomplete="username" required>
+        </div>
+        <div class="form-group" style="margin-bottom:20px">
+          <label class="form-label">Mot de passe</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" autocomplete="current-password" required>
+        </div>
+        <div id="loginError" style="display:none;padding:10px 14px;background:var(--c-danger-bg);border:1px solid rgba(239,68,68,.2);border-radius:var(--radius-sm);font-size:13px;color:var(--c-danger);margin-bottom:16px"></div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;justify-content:center" id="loginBtn">Se connecter</button>
+      </form>
+      <div style="margin-top:24px;padding:16px;background:var(--c-info-bg);border:1px solid rgba(59,130,246,.15);border-radius:var(--radius-sm)">
+        <div style="font-size:11px;font-weight:700;color:var(--c-info);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">Identifiants démo</div>
+        <div style="font-size:13px;color:var(--c-muted);line-height:1.9">
+          <div><strong style="color:var(--c-text)">Gestionnaire :</strong> gest@polyfix.cg / gest123</div>
+          <div><strong style="color:var(--c-text)">Client :</strong> client@demo.cg / client123</div>
+          <div><strong style="color:var(--c-text)">Ouvrier :</strong> ouvrier@demo.cg / ouvr123</div>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:13px;color:var(--c-muted);margin-top:20px">
+        <a href="index.html" style="color:var(--c-brand);font-weight:600">← Retour au site public</a>
+      </p>
+    </div>
+  </div>
+</div>
+<script src="js/db.js"></script>
+<script>
+let selectedRole = 'gestionnaire';
+document.querySelectorAll('.role-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.role-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedRole = btn.dataset.role;
+  });
+});
+function handleLogin(e) {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errDiv = document.getElementById('loginError');
+  const btn = document.getElementById('loginBtn');
+  errDiv.style.display = 'none';
+  if (!email || !password) { errDiv.textContent = 'Veuillez remplir tous les champs.'; errDiv.style.display = 'block'; return; }
+  btn.disabled = true;
+  btn.textContent = 'Connexion en cours…';
+  setTimeout(() => {
+    const user = Auth.login(email, password);
+    if (!user) {
+      errDiv.textContent = 'Email ou mot de passe incorrect.';
+      errDiv.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Se connecter';
+      return;
+    }
+    if (user.role === 'admin' || user.role === 'gestionnaire') window.location.href = 'admin/dashboard.html';
+    else if (user.role === 'client') window.location.href = 'client/monespace.html';
+    else if (user.role === 'ouvrier') window.location.href = 'worker/dashboard.html';
+  }, 700);
+}
+window.addEventListener('load', () => {
+  const user = Auth.current();
+  if (!user) return;
+  if (user.role === 'admin' || user.role === 'gestionnaire') window.location.href = 'admin/dashboard.html';
+  else if (user.role === 'client') window.location.href = 'client/monespace.html';
+  else if (user.role === 'ouvrier') window.location.href = 'worker/dashboard.html';
+});
+</script>
+</body>
+</html>

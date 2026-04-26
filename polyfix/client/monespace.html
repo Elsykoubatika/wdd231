@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon Espace â€” POLYFIX Client</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body style="background:var(--bg)">
+<div style="min-height:100vh;padding:40px 24px">
+  <div class="container" style="max-width:900px">
+    <!-- HEADER -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:40px;flex-wrap:wrap;gap:16px">
+      <div>
+        <h1 class="h1" style="margin-bottom:4px">Mon Espace</h1>
+        <p style="color:var(--text-secondary);font-size:15px" id="clientWelcome">Bienvenue</p>
+      </div>
+      <button class="btn btn-outline" onclick="Auth.logout(); window.location.href='../login.html'">
+        <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        DÃ©connexion
+      </button>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs" style="margin-bottom:32px">
+      <button class="tab-btn active" onclick="switchTab('projects', this)">Mes projets</button>
+      <button class="tab-btn" onclick="switchTab('devis', this)">Mes devis</button>
+      <button class="tab-btn" onclick="switchTab('messages', this)">Messages</button>
+      <button class="tab-btn" onclick="switchTab('factures', this)">Factures</button>
+    </div>
+
+    <!-- TAB: PROJECTS -->
+    <div id="tab-projects" class="tab-panel active">
+      <div id="projectsList" style="display:grid;grid-template-columns:1fr;gap:24px">
+        <!-- ChargÃ© en JS -->
+      </div>
+    </div>
+
+    <!-- TAB: DEVIS -->
+    <div id="tab-devis" class="tab-panel">
+      <div id="devisList" style="display:flex;flex-direction:column;gap:16px">
+        <!-- ChargÃ© en JS -->
+      </div>
+    </div>
+
+    <!-- TAB: MESSAGES -->
+    <div id="tab-messages" class="tab-panel">
+      <div class="card card-pad">
+        <h3 class="h3" style="margin-bottom:20px">Mes messages</h3>
+        <div id="messagesList" style="display:flex;flex-direction:column;gap:12px">
+          <!-- ChargÃ© en JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: FACTURES -->
+    <div id="tab-factures" class="tab-panel">
+      <div id="facturesList" style="display:flex;flex-direction:column;gap:12px">
+        <!-- ChargÃ© en JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/db.js"></script>
+<script>
+const user = Auth.require(['client']);
+if (!user) return;
+
+// Find client
+let clientId = null;
+const clients = DB.list('clients');
+const client = clients.find(c => c.email === user.email || (c.prenom === user.prenom && c.nom === user.nom));
+if (client) clientId = client.id;
+
+document.getElementById('clientWelcome').textContent = `Bienvenue, ${user.prenom} ${user.nom}`;
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+function loadProjects() {
+  if (!clientId) return;
+  const projets = DB.where('projets', p => p.client_id === clientId);
+  const container = document.getElementById('projectsList');
+  
+  container.innerHTML = projets.map(p => {
+    const statusMap = { en_attente: 'warning', actif: 'success', suspendu: 'danger', termine: 'muted' };
+    const cls = statusMap[p.statut] || 'muted';
+    
+    const jours = p.date_fin_prevue ? daysSince(p.date_fin_prevue) : null;
+    const status_texte = jours && jours < 0 
+      ? `Fin prÃ©vue le ${fmtDate(p.date_fin_prevue)}`
+      : jours > 0
+      ? `DÃ©passement de ${jours} jours`
+      : 'En cours';
+
+    return `<div class="card card-pad" onclick="expandProject(${p.id})" style="cursor:pointer">
+      <div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px">
+        <div>
+          <h3 class="h3" style="margin-bottom:6px">${esc(p.titre)}</h3>
+          <div style="font-size:13px;color:var(--text-muted)">${esc(p.lieu || p.ville || '?')}</div>
+        </div>
+        <span class="badge badge-${cls}">${p.statut.replace(/_/g, ' ')}</span>
+      </div>
+
+      <!-- Progress -->
+      <div style="margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="font-weight:600">Avancement</span>
+          <span style="color:var(--brand);font-weight:700">${p.pourcentage_avancement}%</span>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" style="width:${p.pourcentage_avancement}%"></div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px;background:var(--bg-alt);border-radius:var(--r);margin-bottom:16px">
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">DÃ©but</div>
+          <div style="font-weight:600">${fmtDate(p.date_debut_prevue) || '?'}</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">Fin prÃ©vue</div>
+          <div style="font-weight:600">${fmtDate(p.date_fin_prevue) || '?'}</div>
+        </div>
+      </div>
+
+      <!-- Budget -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:4px">Budget</div>
+          <div style="font-weight:700;font-size:16px">${fmt(p.budget_initial, true)}</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:4px">DÃ©pensÃ©</div>
+          <div style="font-weight:700;font-size:16px">${fmt(p.depenses_reelles, true)}</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:4px">EncaissÃ©</div>
+          <div style="font-weight:700;font-size:16px;color:var(--success)">${fmt(p.montant_encaisse, true)}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  if (projets.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:48px;background:var(--bg-card);border-radius:var(--r-lg);color:var(--text-muted)"><p>Aucun projet pour le moment</p></div>';
+  }
+}
+
+function loadDevis() {
+  if (!clientId) return;
+  const devis = DB.where('devis', d => d.client_id === clientId);
+  const container = document.getElementById('devisList');
+  
+  container.innerHTML = devis.map(d => {
+    const statusMap = { brouillon:'muted', envoye:'info', en_attente:'warning', approuve:'success', rejete:'danger' };
+    const cls = statusMap[d.statut] || 'muted';
+    
+    return `<div class="card card-pad">
+      <div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:12px">
+        <div>
+          <div style="font-weight:600;font-size:16px;margin-bottom:4px">${esc(d.numero)}</div>
+          <p style="color:var(--text-secondary);font-size:14px">${esc(d.titre)}</p>
+        </div>
+        <div style="text-align:right">
+          <span class="badge badge-${cls}">${d.statut.replace(/_/g, ' ')}</span>
+          <div style="font-weight:700;font-size:18px;margin-top:8px;color:var(--brand)">${fmt(d.montant_ttc, true)}</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;font-size:12px;color:var(--text-muted)">
+        Ã‰mis le ${fmtDate(d.date_emission)}
+        ${d.date_validite ? ` â€” Valide jusqu'au ${fmtDate(d.date_validite)}` : ''}
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <a href="#" class="btn btn-sm btn-outline">ðŸ“„ Consulter</a>
+        ${d.statut === 'envoye' || d.statut === 'en_attente' ? `<button class="btn btn-sm btn-primary" onclick="approveDevisClient(${d.id})">âœ“ Approuver</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  if (devis.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:48px;background:var(--bg-card);border-radius:var(--r-lg);color:var(--text-muted)"><p>Aucun devis</p></div>';
+  }
+}
+
+function loadMessages() {
+  if (!clientId) return;
+  const messages = DB.where('messages', m => m.destinataire_id === user.id);
+  const container = document.getElementById('messagesList');
+  
+  container.innerHTML = messages.slice(-10).reverse().map(m => `
+    <div style="padding:14px;background:${m.lu ? 'var(--bg-alt)' : 'var(--info-light)'};border-radius:var(--r);border-left:3px solid var(--brand)">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px">
+        <strong style="font-size:14px">${esc(m.sujet || 'Message')}</strong>
+        <span style="font-size:11px;color:var(--text-muted)">${fmtDate(m.created_at)}</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary)">${esc(m.contenu).substring(0,100)}...</p>
+    </div>
+  `).join('');
+
+  if (messages.length === 0) {
+    container.innerHTML = '<p style="text-align:center;color:var(--text-muted)">Aucun message</p>';
+  }
+}
+
+function loadFactures() {
+  if (!clientId) return;
+  const factures = DB.where('factures', f => f.client_id === clientId);
+  const container = document.getElementById('facturesList');
+  
+  container.innerHTML = factures.map(f => {
+    const projet = DB.find('projets', f.projet_id);
+    const statusMap = { impayee:'danger', partiellement_payee:'warning', payee:'success' };
+    const cls = statusMap[f.statut_paiement] || 'muted';
+    
+    return `<div class="card card-pad">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:12px">
+        <div>
+          <div style="font-weight:600;font-size:16px">${esc(f.numero)}</div>
+          <div style="font-size:13px;color:var(--text-muted)">${esc(projet?.titre || '?')}</div>
+        </div>
+        <span class="badge badge-${cls}">${f.statut_paiement.replace(/_/g, ' ')}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:12px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">Total TTC</div>
+          <div style="font-weight:700;font-size:16px">${fmt(f.montant_ttc, false)}</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">Ã‰chÃ©ance</div>
+          <div style="font-weight:600">${fmtDate(f.date_echeance)}</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <a href="#" class="btn btn-sm btn-outline">ðŸ“„ TÃ©lÃ©charger</a>
+      </div>
+    </div>`;
+  }).join('');
+
+  if (factures.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:48px;background:var(--bg-card);border-radius:var(--r-lg);color:var(--text-muted)"><p>Aucune facture</p></div>';
+  }
+}
+
+function expandProject(id) {
+  alert('DÃ©tails du projet ' + id + ' - FonctionnalitÃ© complÃ¨te dans la plateforme finale');
+}
+
+function approveDevisClient(devisId) {
+  confirm('Approuver ce devis ?', 'Cette action lancera les travaux.', () => {
+    const projet = DB.approuverDevis(devisId);
+    if (projet) {
+      toast('Devis approuvÃ© ! Vos travaux vont commencer.', 'success');
+      loadDevis();
+    }
+  });
+}
+
+window.addEventListener('load', () => {
+  loadProjects();
+  loadDevis();
+  loadMessages();
+  loadFactures();
+});
+</script>
+</body>
+</html>
+
+

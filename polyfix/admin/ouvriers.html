@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion des ouvriers â€” POLYFIX Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <div class="admin-sidebar">
+    <div class="sidebar-logo">
+      <div style="width:32px;height:32px;background:var(--brand);border-radius:var(--r);display:grid;place-items:center">
+        <svg viewBox="0 0 24 24" fill="white" style="width:18px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      </div>
+      <div><div class="sidebar-logo-name">POLY<span>FIX</span></div><div class="sidebar-logo-tag">Platform</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section"><div class="sidebar-section-label">Principal</div>
+        <a href="dashboard.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Gestion</div>
+        <a href="ouvriers.html" class="sidebar-link active"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Ouvriers</a>
+      </div>
+    </nav>
+    <div class="sidebar-user"><div class="avatar">JM</div><div><div class="sidebar-user-name">Jean Mbemba</div><div class="sidebar-user-role">Gestionnaire</div></div></div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <div class="topbar-title">Gestion des ouvriers</div>
+      <div class="topbar-actions">
+        <button class="notif-btn" onclick="Auth.logout(); window.location.href='../login.html'"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
+      </div>
+    </div>
+
+    <div class="admin-content">
+      <div class="admin-page-header">
+        <h1 class="admin-page-title">Ã‰quipe d'ouvriers</h1>
+        <div style="display:flex;gap:12px">
+          <select id="filterStatut" class="form-control" onchange="filterOuvriers()" style="max-width:160px">
+            <option value="">Tous</option>
+            <option value="disponible">Disponible</option>
+            <option value="en_mission">En mission</option>
+            <option value="conge">CongÃ©</option>
+            <option value="inactif">Inactif</option>
+          </select>
+          <select id="filterPoste" class="form-control" onchange="filterOuvriers()" style="max-width:140px">
+            <option value="">Tous les postes</option>
+            <option value="MaÃ§on">MaÃ§on</option>
+            <option value="Ã‰lectricien">Ã‰lectricien</option>
+            <option value="Peintre">Peintre</option>
+            <option value="Plombier">Plombier</option>
+            <option value="Menuisier">Menuisier</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- OUVRIERS GRID -->
+      <div id="ouvriersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px">
+        <!-- ChargÃ© en JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL : DÃ©tails ouvrier -->
+<div class="modal-backdrop" id="workerModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="workerModalTitle">DÃ©tails ouvrier</div>
+      <button class="modal-close" onclick="document.getElementById('workerModal').classList.remove('open')"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+        <div>
+          <div class="form-label">Prenom</div>
+          <div id="workerPrenom" style="font-weight:600">â€”</div>
+        </div>
+        <div>
+          <div class="form-label">Nom</div>
+          <div id="workerNom" style="font-weight:600">â€”</div>
+        </div>
+        <div>
+          <div class="form-label">Poste</div>
+          <div id="workerPoste" style="font-weight:600">â€”</div>
+        </div>
+        <div>
+          <div class="form-label">Niveau</div>
+          <div id="workerNiveau" style="font-weight:600">â€”</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px;padding:16px;background:var(--info-light);border:1px solid rgba(59,130,246,.2);border-radius:var(--r)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div>
+            <div class="fs-13" style="color:var(--info);font-weight:600;margin-bottom:4px">TÃ©lÃ©phone</div>
+            <a id="workerPhone" href="tel:+" style="font-weight:600;color:var(--brand)">â€”</a>
+          </div>
+          <div>
+            <div class="fs-13" style="color:var(--info);font-weight:600;margin-bottom:4px">Email</div>
+            <a id="workerEmail" href="mailto:" style="font-weight:600;color:var(--brand)">â€”</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div class="form-label" style="margin-bottom:10px">SpÃ©cialitÃ©s</div>
+        <div id="workerSpecialites" style="display:flex;flex-wrap:wrap;gap:8px">
+          <!-- ChargÃ© en JS -->
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div class="form-label" style="margin-bottom:10px">Ã‰valuation</div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <div>
+            <div style="font-family:var(--font-heading);font-size:32px;font-weight:800;color:var(--brand)" id="workerNote">0</div>
+            <div style="font-size:12px;color:var(--text-muted)">/5 (<span id="workerEvalCount">0</span> Ã©vals)</div>
+          </div>
+          <button class="btn btn-outline" onclick="addEvaluation()">
+            <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Ã‰valuer
+          </button>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div class="form-label">Statut</div>
+        <select id="workerStatut" class="form-control" onchange="updateWorkerStatus()">
+          <option value="disponible">Disponible</option>
+          <option value="en_mission">En mission</option>
+          <option value="conge">CongÃ©</option>
+          <option value="inactif">Inactif</option>
+        </select>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;padding-top:20px;border-top:1px solid var(--border)">
+        <div>
+          <div class="fs-13" style="color:var(--text-muted);margin-bottom:6px">Taux journalier</div>
+          <div id="workerTaux" style="font-family:var(--font-heading);font-size:20px;font-weight:800;color:var(--brand)">0</div>
+        </div>
+        <div>
+          <div class="fs-13" style="color:var(--text-muted);margin-bottom:6px">AnnÃ©es expÃ©rience</div>
+          <div id="workerExpÃ©rience" style="font-family:var(--font-heading);font-size:20px;font-weight:800">0</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px">
+        <button type="button" class="btn btn-ghost" onclick="document.getElementById('workerModal').classList.remove('open')">Fermer</button>
+        <button type="button" class="btn btn-primary" onclick="callWorker()">
+          <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Appeler
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/db.js"></script>
+<script>
+Auth.require(['admin', 'gestionnaire']);
+let selectedWorkerId = null;
+
+function loadOuvriers() {
+  const ouvriers = DB.list('ouvriers');
+  renderOuvriers(ouvriers);
+}
+
+function filterOuvriers() {
+  const statut = document.getElementById('filterStatut').value;
+  const poste = document.getElementById('filterPoste').value;
+  
+  let ouvriers = DB.list('ouvriers');
+  if (statut) ouvriers = ouvriers.filter(o => o.statut === statut);
+  if (poste) ouvriers = ouvriers.filter(o => o.poste === poste);
+  
+  renderOuvriers(ouvriers);
+}
+
+function renderOuvriers(ouvriers) {
+  const grid = document.getElementById('ouvriersGrid');
+  grid.innerHTML = ouvriers.map(o => {
+    const statusIcon = { disponible: 'âœ“', en_mission: 'ðŸ”¨', conge: 'ðŸ–ï¸', inactif: 'âŠ˜' };
+    const statusColor = { disponible: 'success', en_mission: 'info', conge: 'warning', inactif: 'muted' };
+    
+    return `<div class="card card-pad card-hover" onclick="openWorker(${o.id})" style="cursor:pointer">
+      <div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:12px">
+        <div>
+          <h3 class="h3">${esc(o.prenom)} ${esc(o.nom)}</h3>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:4px">${o.poste}</div>
+        </div>
+        <span class="badge badge-${statusColor[o.statut] || 'muted'}">${o.statut}</span>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg-alt);border-radius:var(--r);margin-bottom:12px">
+        <div style="width:44px;height:44px;background:var(--brand-light);border-radius:var(--r);display:grid;place-items:center;flex-shrink:0">
+          <svg viewBox="0 0 24 24" stroke="var(--brand)" stroke-width="2" fill="none" style="width:22px"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        </div>
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:18px;color:var(--brand)">${o.note_moyenne.toFixed(1)}</div>
+          <div style="font-size:11px;color:var(--text-muted)">${o.total_evaluations || 0} Ã©valuations</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:12px">
+        <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px">SpÃ©cialitÃ©s</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          ${(o.specialites || []).slice(0,2).map(s => `<span class="badge badge-muted">${esc(s)}</span>`).join('')}
+          ${(o.specialites || []).length > 2 ? `<span class="badge badge-muted">+${(o.specialites || []).length - 2}</span>` : ''}
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:12px;border-top:1px solid var(--border)">
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:4px">Taux</div>
+          <div style="font-weight:700">${fmt(o.taux_journalier, true)}</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:4px">ExpÃ©rience</div>
+          <div style="font-weight:700">${o.annees_experience} ans</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  if (ouvriers.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text-muted)">Aucun ouvrier</div>';
+  }
+}
+
+function openWorker(id) {
+  selectedWorkerId = id;
+  const o = DB.find('ouvriers', id);
+  if (!o) return;
+
+  document.getElementById('workerModalTitle').textContent = `${esc(o.prenom)} ${esc(o.nom)}`;
+  document.getElementById('workerPrenom').textContent = esc(o.prenom);
+  document.getElementById('workerNom').textContent = esc(o.nom);
+  document.getElementById('workerPoste').textContent = o.poste;
+  document.getElementById('workerNiveau').textContent = o.niveau_qualification || 'â€”';
+  document.getElementById('workerPhone').textContent = o.telephone;
+  document.getElementById('workerPhone').href = 'tel:' + o.telephone;
+  document.getElementById('workerEmail').textContent = o.email || 'â€”';
+  document.getElementById('workerEmail').href = 'mailto:' + (o.email || '');
+  document.getElementById('workerNote').textContent = o.note_moyenne.toFixed(1);
+  document.getElementById('workerEvalCount').textContent = o.total_evaluations || 0;
+  document.getElementById('workerStatut').value = o.statut;
+  document.getElementById('workerTaux').textContent = fmt(o.taux_journalier, false);
+  document.getElementById('workerExpÃ©rience').textContent = o.annees_experience + ' ans';
+
+  // SpÃ©cialitÃ©s
+  const specDiv = document.getElementById('workerSpecialites');
+  specDiv.innerHTML = (o.specialites || []).map(s => `<span class="badge badge-brand">${esc(s)}</span>`).join('');
+
+  document.getElementById('workerModal').classList.add('open');
+}
+
+function updateWorkerStatus() {
+  const newStatut = document.getElementById('workerStatut').value;
+  DB.update('ouvriers', selectedWorkerId, { statut: newStatut });
+  toast('Statut mis Ã  jour', 'success');
+  loadOuvriers();
+}
+
+function addEvaluation() {
+  confirm('Ã‰valuer cet ouvrier ?', 'Note de 1 Ã  5 Ã©toiles', () => {
+    const note = prompt('Note (1-5):', '4');
+    if (note && note >= 1 && note <= 5) {
+      const o = DB.find('ouvriers', selectedWorkerId);
+      const newAvg = ((o.note_moyenne * o.total_evaluations) + parseInt(note)) / (o.total_evaluations + 1);
+      DB.update('ouvriers', selectedWorkerId, {
+        note_moyenne: Math.round(newAvg * 100) / 100,
+        total_evaluations: (o.total_evaluations || 0) + 1
+      });
+      
+      DB.insert('evaluations_ouvrier', {
+        ouvrier_id: selectedWorkerId,
+        note: parseInt(note),
+        evaluateur_id: Auth.current().id,
+        commentaire: 'Ã‰valuation du jour'
+      });
+      
+      toast('Ã‰valuation enregistrÃ©e', 'success');
+      openWorker(selectedWorkerId);
+    }
+  });
+}
+
+function callWorker() {
+  const o = DB.find('ouvriers', selectedWorkerId);
+  toast(`Appel vers ${o.telephone} via Twilio (simulation)...`, 'info');
+  setTimeout(() => toast(`En production: intÃ©gration Twilio`, 'info'), 1500);
+}
+
+window.addEventListener('load', loadOuvriers);
+</script>
+</body>
+</html>
+
+

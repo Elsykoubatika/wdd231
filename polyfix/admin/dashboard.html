@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord â€” POLYFIX Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <div class="admin-sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div style="width:32px;height:32px;background:var(--brand);border-radius:var(--r);display:grid;place-items:center">
+        <svg viewBox="0 0 24 24" fill="white" style="width:18px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      </div>
+      <div>
+        <div class="sidebar-logo-name">POLY<span>FIX</span></div>
+        <div class="sidebar-logo-tag">Platform</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Principal</div>
+        <a href="dashboard.html" class="sidebar-link active">
+          <svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Tableau de bord
+        </a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Gestion</div>
+        <a href="devis.html" class="sidebar-link">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9 12 11 14 15 10"/></svg>
+          Devis
+          <span class="sidebar-badge">4</span>
+        </a>
+        <a href="projets.html" class="sidebar-link">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          Projets
+          <span class="sidebar-badge">3</span>
+        </a>
+        <a href="ouvriers.html" class="sidebar-link">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          Ouvriers
+        </a>
+        <a href="clients.html" class="sidebar-link">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Clients
+        </a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Finance</div>
+        <a href="finances.html" class="sidebar-link">
+          <svg viewBox="0 0 24 24" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          Finances
+        </a>
+        <a href="factures.html" class="sidebar-link">
+          <svg viewBox="0 0 24 24" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16"/></svg>
+          Factures
+        </a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Marketing</div>
+        <a href="promotions.html" class="sidebar-link">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M7 5H5a2 2 0 00-2 2v12a2 2 0 002 2h2m10 0h2a2 2 0 002-2V7a2 2 0 00-2-2h-2m0 0V3a2 2 0 00-2-2h-2a2 2 0 00-2 2v2m0 0h4"/><path d="M9 13h6M9 17h3"/></svg>
+          Promotions
+        </a>
+        <a href="analytics.html" class="sidebar-link">
+          <svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Analytics
+        </a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">ParamÃ¨tres</div>
+        <a href="parametres.html" class="sidebar-link">
+          <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24M1 12h6m6 0h6m-16.78 7.78l4.24-4.24m3.08-3.08l4.24-4.24"/></svg>
+          ParamÃ¨tres
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="avatar">JM</div>
+      <div>
+        <div class="sidebar-user-name" id="userName">Jean Mbemba</div>
+        <div class="sidebar-user-role">Gestionnaire</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div class="admin-main">
+    <!-- TOPBAR -->
+    <div class="admin-topbar">
+      <div class="topbar-title">Tableau de bord</div>
+      <div class="topbar-actions">
+        <button class="notif-btn" title="Notifications">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot"></span>
+        </button>
+        <button class="notif-btn" onclick="Auth.logout(); window.location.href='../login.html'" title="DÃ©connexion">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="admin-content">
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Tableau de bord</h1>
+          <p style="color:var(--text-secondary);font-size:14px;margin-top:4px" id="dateNow">Chargementâ€¦</p>
+        </div>
+        <div style="display:flex;gap:12px">
+          <a href="devis.html" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nouveau devis
+          </a>
+        </div>
+      </div>
+
+      <!-- KPI CARDS -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Visiteurs (ce mois)</div>
+          <div class="kpi-value" id="kpiVisits">0</div>
+          <div class="kpi-sub">Visiteurs totaux : <strong id="kpiVisitsTotal">0</strong></div>
+          <div class="kpi-trend up">â†‘ +15% vs mois dernier</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Devis gÃ©nÃ©rÃ©s</div>
+          <div class="kpi-value" id="kpiDevis">0</div>
+          <div class="kpi-sub">Ce mois : <strong id="kpiDevisMois">0</strong></div>
+          <div class="kpi-trend up">â†‘ 7 nouveaux</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Chiffre d'affaires</div>
+          <div class="kpi-value" id="kpiCA">0M</div>
+          <div class="kpi-sub">Marge : <strong id="kpiMarge">0M</strong></div>
+          <div class="kpi-trend up">â†‘ +22% vs prÃ©visions</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Projets actifs</div>
+          <div class="kpi-value" id="kpiProjets">0</div>
+          <div class="kpi-sub">En attente : <strong id="kpiProjetsAttente">0</strong></div>
+          <div class="kpi-trend">3 projets Ã  finaliser</div>
+        </div>
+      </div>
+
+      <!-- MAIN GRID -->
+      <div class="dash-grid" style="margin-top:32px">
+        <!-- LEFT: Active Projects + Recent Devis -->
+        <div>
+          <!-- Projets actifs -->
+          <div class="card card-pad" style="margin-bottom:24px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+              <h3 class="h3">Projets actifs</h3>
+              <a href="projets.html" style="font-size:13px;color:var(--brand);font-weight:600">Voir tous</a>
+            </div>
+            <div id="projetsActifsList" style="display:flex;flex-direction:column;gap:16px">
+              <!-- ChargÃ© en JS -->
+            </div>
+          </div>
+
+          <!-- Devis rÃ©cents -->
+          <div class="card card-pad">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+              <h3 class="h3">Devis rÃ©cents</h3>
+              <a href="devis.html" style="font-size:13px;color:var(--brand);font-weight:600">Voir tous</a>
+            </div>
+            <div id="devisRecents" style="display:flex;flex-direction:column;gap:0">
+              <!-- ChargÃ© en JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: CA by month + IA Insights -->
+        <div>
+          <!-- Graphique CA -->
+          <div class="card card-pad" style="margin-bottom:24px">
+            <h3 class="h3" style="margin-bottom:20px">Chiffre d'affaires (6 derniers mois)</h3>
+            <canvas id="caChart" style="max-height:200px"></canvas>
+            <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div style="text-align:center">
+                <div class="fs-14" style="color:var(--text-secondary);margin-bottom:4px">Recettes</div>
+                <div style="font-family:var(--font-heading);font-size:22px;font-weight:800;color:var(--success)" id="txRecettes">0</div>
+              </div>
+              <div style="text-align:center">
+                <div class="fs-14" style="color:var(--text-secondary);margin-bottom:4px">DÃ©penses</div>
+                <div style="font-family:var(--font-heading);font-size:22px;font-weight:800;color:var(--danger)" id="txDepenses">0</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- IA Insights -->
+          <div class="ai-panel">
+            <div class="ai-badge">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/></svg>
+              Agent IA
+            </div>
+            <div class="ai-response">
+              <strong style="display:block;margin-bottom:8px">Recommandations du jour :</strong>
+              <ul style="margin-left:16px;color:var(--text-secondary);line-height:1.75">
+                <li>Le projet PRJ-0001 est Ã  45% d'avancement. Vous avez une marge de 2.65M FCFA.</li>
+                <li>3 devis en attente depuis >7j. Relancer les clients potentiels.</li>
+                <li>Score faisabilitÃ© moyen des projets : 82/100. Bon potentiel.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/db.js"></script>
+<script>
+// VÃ©rifier authentification
+const user = Auth.require(['admin', 'gestionnaire']);
+if (user) {
+  document.getElementById('userName').textContent = `${user.prenom} ${user.nom}`;
+  initDashboard();
+}
+
+function initDashboard() {
+  const kpis = DB.getKPIs();
+  
+  // Update KPI cards
+  document.getElementById('kpiVisits').textContent = kpis.visiteurs_mois.toLocaleString('fr-FR');
+  document.getElementById('kpiVisitsTotal').textContent = kpis.visiteurs.toLocaleString('fr-FR');
+  document.getElementById('kpiDevis').textContent = kpis.devis_total;
+  document.getElementById('kpiDevisMois').textContent = kpis.devis_mois;
+  document.getElementById('kpiCA').textContent = (kpis.ca / 1e6).toFixed(1) + 'M';
+  document.getElementById('kpiMarge').textContent = (kpis.ca_net / 1e6).toFixed(1) + 'M';
+  document.getElementById('kpiProjets').textContent = kpis.projets_actifs;
+  document.getElementById('kpiProjetsAttente').textContent = kpis.projets_attente;
+
+  // Date
+  const now = new Date();
+  document.getElementById('dateNow').textContent = now.toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+  // Projets actifs
+  const projetsActifs = DB.where('projets', p => p.statut === 'actif');
+  const projList = document.getElementById('projetsActifsList');
+  projList.innerHTML = projetsActifs.map(p => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--bg-alt);border-radius:var(--r);cursor:pointer" onclick="window.location.href='projets.html?id=${p.id}'">
+      <div style="flex:1">
+        <div style="font-weight:600;font-size:14px;margin-bottom:4px">${esc(p.titre)}</div>
+        <div style="font-size:12px;color:var(--text-muted)">Client: ${esc(DB.find('clients',p.client_id)?.nom || '?')}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-weight:700;font-size:16px;color:var(--brand)">${p.pourcentage_avancement}%</div>
+        <div style="font-size:11px;color:var(--text-muted)">Budget: ${fmt(p.budget_initial, true)}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Devis rÃ©cents
+  const devisRecents = DB.list('devis').sort((a,b) => new Date(b.date_emission) - new Date(a.date_emission)).slice(0, 5);
+  const devisList = document.getElementById('devisRecents');
+  devisList.innerHTML = devisRecents.map(d => {
+    const statusMap = { brouillon:'muted', envoye:'info', en_attente:'warning', approuve:'success', rejete:'danger', expire:'muted' };
+    const [cls] = statusMap[d.statut] ? [statusMap[d.statut]] : ['muted'];
+    return `
+      <div style="padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="window.location.href='devis.html?id=${d.id}'">
+        <div style="flex:1">
+          <div style="font-weight:600;font-size:14px">${esc(d.numero)}</div>
+          <div style="font-size:12px;color:var(--text-muted)">${esc(d.titre.substring(0,35))}</div>
+        </div>
+        <div style="text-align:right">
+          <span class="badge badge-${cls}">${d.statut.replace(/_/g,' ')}</span>
+          <div style="font-size:12px;color:var(--text-secondary);margin-top:4px">${fmt(d.montant_ttc, true)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  if (devisRecents.length === 0) devisList.innerHTML = '<p style="color:var(--text-muted);font-size:14px">Aucun devis</p>';
+
+  // Transactions par mois
+  const txByMonth = DB.getTxByMonth();
+  const txRecettes = txByMonth.reduce((s, [, m]) => s + m.recettes, 0);
+  const txDepenses = txByMonth.reduce((s, [, m]) => s + m.depenses, 0);
+  document.getElementById('txRecettes').textContent = (txRecettes / 1e6).toFixed(1) + 'M';
+  document.getElementById('txDepenses').textContent = (txDepenses / 1e6).toFixed(1) + 'M';
+
+  // Simple chart simulation
+  const canvas = document.getElementById('caChart');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    const h = 120;
+    canvas.height = h;
+    const months = txByMonth.slice(-6);
+    const maxV = Math.max(...months.map(([,m]) => Math.max(m.recettes, m.depenses)));
+    const w = Math.floor(canvas.width / months.length);
+    
+    months.forEach(([_, m], i) => {
+      const x = i * w;
+      const h1 = (m.recettes / maxV) * h * 0.8;
+      const h2 = (m.depenses / maxV) * h * 0.8;
+      
+      ctx.fillStyle = 'rgba(16,185,129,.6)';
+      ctx.fillRect(x + 4, h - h1, w * 0.35, h1);
+      
+      ctx.fillStyle = 'rgba(239,68,68,.6)';
+      ctx.fillRect(x + w * 0.4, h - h2, w * 0.35, h2);
+    });
+  }
+}
+</script>
+</body>
+</html>
+
+

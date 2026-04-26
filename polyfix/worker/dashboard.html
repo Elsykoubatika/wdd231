@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord Ouvrier â€” POLYFIX</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <div class="admin-sidebar">
+    <div class="sidebar-logo">
+      <div style="width:32px;height:32px;background:var(--brand);border-radius:var(--r);display:grid;place-items:center">
+        <svg viewBox="0 0 24 24" fill="white" style="width:18px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      </div>
+      <div><div class="sidebar-logo-name">POLY<span>FIX</span></div><div class="sidebar-logo-tag">Ouvrier</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section"><div class="sidebar-section-label">Mon Espace</div>
+        <a href="dashboard.html" class="sidebar-link active"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+        <a href="taches.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9 12 11 14 15 10"/></svg>Mes tÃ¢ches</a>
+        <a href="projets.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Projets</a>
+        <a href="messages.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Messages</a>
+      </div>
+    </nav>
+    <div class="sidebar-user"><div class="avatar">PK</div><div><div class="sidebar-user-name" id="userName">Pierre Koulousso</div><div class="sidebar-user-role">MaÃ§on</div></div></div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <div class="topbar-title">Tableau de bord</div>
+      <div class="topbar-actions">
+        <button class="notif-btn" title="Appels reÃ§us">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span class="notif-dot"></span>
+        </button>
+        <button class="notif-btn" onclick="Auth.logout(); window.location.href='../login.html'"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
+      </div>
+    </div>
+
+    <div class="admin-content">
+      <div style="margin-bottom:32px">
+        <h1 class="h1" style="margin-bottom:6px">Bienvenue, <span id="workerName">Ouvrier</span></h1>
+        <p style="color:var(--text-secondary);font-size:15px">Consultez vos tÃ¢ches et projets assignÃ©s</p>
+      </div>
+
+      <!-- KPI CARDS -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">TÃ¢ches assignÃ©es</div>
+          <div class="kpi-value" id="kpiTaches">0</div>
+          <div class="kpi-sub">Ã€ faire : <strong id="kpiTachesToDo">0</strong></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Projets actifs</div>
+          <div class="kpi-value" id="kpiProjets">0</div>
+          <div class="kpi-sub">Moyenne avancement : <strong id="kpiAvance">0</strong>%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Ã‰valuation</div>
+          <div class="kpi-value" id="kpiNote">0.0</div>
+          <div class="kpi-sub"><strong id="kpiEvals">0</strong> Ã©valuations</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Salaire journalier</div>
+          <div class="kpi-value" id="kpiTaux">0</div>
+          <div class="kpi-sub">FCFA</div>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT -->
+      <div class="dash-grid" style="margin-top:32px">
+        <!-- LEFT: TÃ¢ches du jour -->
+        <div>
+          <div class="card card-pad">
+            <h3 class="h3" style="margin-bottom:20px">TÃ¢ches d'aujourd'hui</h3>
+            <div id="tachesAujourd" style="display:flex;flex-direction:column;gap:12px">
+              <!-- ChargÃ© en JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Projets assignÃ©s -->
+        <div>
+          <div class="card card-pad">
+            <h3 class="h3" style="margin-bottom:20px">Mes projets</h3>
+            <div id="mesProjets" style="display:flex;flex-direction:column;gap:12px">
+              <!-- ChargÃ© en JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MESSAGES DE L'Ã‰QUIPE -->
+      <div class="card card-pad" style="margin-top:24px">
+        <h3 class="h3" style="margin-bottom:20px">Messages de votre chef</h3>
+        <div id="messagesChef" style="display:flex;flex-direction:column;gap:12px">
+          <!-- ChargÃ© en JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/db.js"></script>
+<script>
+const user = Auth.require(['ouvrier']);
+if (!user) return;
+
+// Trouver l'ouvrier
+let ouvrierObj = DB.list('ouvriers').find(o => 
+  o.email === user.email || (o.prenom === user.prenom && o.nom === user.nom)
+);
+
+if (!ouvrierObj) {
+  ouvrierObj = DB.list('ouvriers')[0]; // Default for demo
+}
+
+document.getElementById('userName').textContent = ouvrierObj.prenom + ' ' + ouvrierObj.nom;
+document.getElementById('workerName').textContent = ouvrierObj.prenom;
+
+function loadDashboard() {
+  // KPI
+  const taches = DB.where('taches', t => t.assignee_id === ouvrierObj.id);
+  const tachesTodo = taches.filter(t => t.statut === 'a_faire').length;
+  const projets = DB.list('projets').filter(p => (p.ouvriers || []).includes(ouvrierObj.id));
+  const avgAvance = projets.length > 0 
+    ? Math.round(projets.reduce((s, p) => s + p.pourcentage_avancement, 0) / projets.length)
+    : 0;
+
+  document.getElementById('kpiTaches').textContent = taches.length;
+  document.getElementById('kpiTachesToDo').textContent = tachesTodo;
+  document.getElementById('kpiProjets').textContent = projets.length;
+  document.getElementById('kpiAvance').textContent = avgAvance;
+  document.getElementById('kpiNote').textContent = (ouvrierObj.note_moyenne || 0).toFixed(1);
+  document.getElementById('kpiEvals').textContent = ouvrierObj.total_evaluations || 0;
+  document.getElementById('kpiTaux').textContent = fmt(ouvrierObj.taux_journalier, true).split(' ')[0];
+
+  // TÃ¢ches du jour
+  const aujourdhui = new Date().toISOString().split('T')[0];
+  const tachesToday = taches.filter(t => {
+    const projet = DB.find('projets', t.projet_id);
+    return projet && !t.date_echeance || t.date_echeance === aujourdhui;
+  });
+
+  const tachesDiv = document.getElementById('tachesAujourd');
+  if (tachesToday.length > 0) {
+    tachesDiv.innerHTML = tachesToday.map(t => {
+      const colorMap = { a_faire: 'muted', en_cours: 'info', terminee: 'success', bloquee: 'danger' };
+      const projet = DB.find('projets', t.projet_id);
+      return `<div style="padding:12px;background:var(--bg-alt);border-left:3px solid var(--${colorMap[t.statut] || 'brand'});border-radius:var(--r);cursor:pointer" onclick="updateTaskStatus(${t.id})">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <strong style="font-size:14px">${esc(t.titre)}</strong>
+          <span class="badge badge-${colorMap[t.statut]}">${t.statut.replace(/_/g, ' ')}</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted)">Projet: ${esc(projet?.titre || '?')}</div>
+      </div>`;
+    }).join('');
+  } else {
+    tachesDiv.innerHTML = '<p style="color:var(--text-muted);font-size:13px">Aucune tÃ¢che programmÃ©e pour aujourd\'hui</p>';
+  }
+
+  // Mes projets
+  const projetsDiv = document.getElementById('mesProjets');
+  if (projets.length > 0) {
+    projetsDiv.innerHTML = projets.map(p => `
+      <div style="padding:12px;background:var(--bg-alt);border-radius:var(--r)">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px">
+          <strong>${esc(p.titre)}</strong>
+          <span class="badge badge-${p.statut === 'actif' ? 'success' : 'warning'}">${p.statut}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px">
+          <span>Avancement: ${p.pourcentage_avancement}%</span>
+          <span>Client: ${esc(DB.find('clients', p.client_id)?.nom || '?')}</span>
+        </div>
+        <div class="progress"><div class="progress-bar" style="width:${p.pourcentage_avancement}%"></div></div>
+      </div>
+    `).join('');
+  } else {
+    projetsDiv.innerHTML = '<p style="color:var(--text-muted);font-size:13px">Aucun projet pour le moment</p>';
+  }
+
+  // Messages
+  const messages = DB.where('messages', m => m.destinataire_id === user.id);
+  const messagesDiv = document.getElementById('messagesChef');
+  if (messages.length > 0) {
+    messagesDiv.innerHTML = messages.slice(-5).reverse().map(m => `
+      <div style="padding:12px;background:var(--bg-alt);border-left:3px solid var(--brand);border-radius:var(--r)">
+        <strong style="font-size:13px">${esc(m.sujet || 'Message')}</strong>
+        <p style="font-size:13px;color:var(--text-secondary);margin-top:4px">${esc(m.contenu).substring(0,80)}...</p>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:6px">${fmtDate(m.created_at)}</div>
+      </div>
+    `).join('');
+  } else {
+    messagesDiv.innerHTML = '<p style="color:var(--text-muted);font-size:13px">Aucun message</p>';
+  }
+}
+
+function updateTaskStatus(taskId) {
+  const task = DB.find('taches', taskId);
+  const statusFlow = { a_faire: 'en_cours', en_cours: 'terminee', terminee: 'a_faire' };
+  const newStatus = statusFlow[task.statut] || 'en_cours';
+  
+  DB.update('taches', taskId, { 
+    statut: newStatus,
+    date_completion: newStatus === 'terminee' ? new Date().toISOString() : null
+  });
+  
+  toast(`TÃ¢che mise Ã  jour : ${newStatus.replace(/_/g, ' ')}`, 'success');
+  loadDashboard();
+}
+
+window.addEventListener('load', loadDashboard);
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion des devis â€” POLYFIX Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <!-- SIDEBAR (same as dashboard) -->
+  <div class="admin-sidebar">
+    <div class="sidebar-logo">
+      <div style="width:32px;height:32px;background:var(--brand);border-radius:var(--r);display:grid;place-items:center">
+        <svg viewBox="0 0 24 24" fill="white" style="width:18px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      </div>
+      <div><div class="sidebar-logo-name">POLY<span>FIX</span></div><div class="sidebar-logo-tag">Platform</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section"><div class="sidebar-section-label">Principal</div>
+        <a href="dashboard.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Gestion</div>
+        <a href="devis.html" class="sidebar-link active"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9 12 11 14 15 10"/></svg>Devis<span class="sidebar-badge">4</span></a>
+        <a href="projets.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Projets</a>
+        <a href="ouvriers.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Ouvriers</a>
+      </div>
+    </nav>
+    <div class="sidebar-user"><div class="avatar">JM</div><div><div class="sidebar-user-name">Jean Mbemba</div><div class="sidebar-user-role">Gestionnaire</div></div></div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div class="admin-main">
+    <!-- TOPBAR -->
+    <div class="admin-topbar">
+      <div class="topbar-title">Gestion des devis</div>
+      <div class="topbar-actions">
+        <button class="notif-btn" onclick="Auth.logout(); window.location.href='../login.html'"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="admin-content">
+      <div class="admin-page-header">
+        <h1 class="admin-page-title">Devis</h1>
+        <button class="btn btn-primary" onclick="showFormDevis()">
+          <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nouveau devis
+        </button>
+      </div>
+
+      <!-- FILTERS -->
+      <div class="search-bar">
+        <div class="search-input-wrap" style="flex:1;min-width:250px">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 21l-4.35-4.35"/><circle cx="10.5" cy="10.5" r="7.5"/></svg>
+          <input type="text" class="form-control" id="searchInput" placeholder="Rechercher devis, client, numÃ©roâ€¦" onkeyup="filterDevis()">
+        </div>
+        <select class="form-control" id="filterStatut" onchange="filterDevis()" style="max-width:160px">
+          <option value="">Tous les statuts</option>
+          <option value="brouillon">Brouillon</option>
+          <option value="envoye">EnvoyÃ©</option>
+          <option value="en_attente">En attente</option>
+          <option value="approuve">ApprouvÃ©</option>
+          <option value="rejete">RejetÃ©</option>
+        </select>
+      </div>
+
+      <!-- TABLE -->
+      <div class="card">
+        <div class="table-wrap">
+          <table id="devisTable">
+            <thead>
+              <tr>
+                <th style="width:20%">NumÃ©ro</th>
+                <th style="width:25%">Client</th>
+                <th style="width:18%">Montant TTC</th>
+                <th style="width:15%">Statut</th>
+                <th style="width:12%">IA Score</th>
+                <th style="width:10%">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="devisBody">
+              <!-- ChargÃ© en JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL : Nouveau/Ã‰diter Devis -->
+<div class="modal-backdrop" id="devisModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="devisModalTitle">Nouveau devis</div>
+      <button class="modal-close" onclick="document.getElementById('devisModal').classList.remove('open')"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <form id="devisForm" onsubmit="handleDevisSave(event)">
+        <!-- Client -->
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Client <span class="req">*</span></label>
+          <select id="clientSelect" class="form-control" required onchange="updateClientInfo()">
+            <option value="">-- SÃ©lectionner client --</option>
+          </select>
+        </div>
+
+        <!-- Titre -->
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Titre <span class="req">*</span></label>
+          <input type="text" id="titreInput" class="form-control" placeholder="Ex: RÃ©novation complÃ¨te villa" required>
+        </div>
+
+        <!-- CatÃ©gorie -->
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">CatÃ©gorie <span class="req">*</span></label>
+          <select id="categorieInput" class="form-control" required>
+            <option value="">-- SÃ©lectionner --</option>
+            <option value="construction">Construction</option>
+            <option value="renovation">RÃ©novation</option>
+            <option value="electricite">Ã‰lectricitÃ©</option>
+            <option value="plomberie">Plomberie</option>
+            <option value="menuiserie">Menuiserie</option>
+            <option value="peinture">Peinture</option>
+          </select>
+        </div>
+
+        <!-- Montant -->
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Montant HT <span class="req">*</span></label>
+            <input type="number" id="montantHT" class="form-control" placeholder="0" step="1000" required onchange="updateMontants()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">TVA %</label>
+            <input type="number" id="tauxTVA" class="form-control" value="18" step="0.1" onchange="updateMontants()">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Montant TTC</label>
+          <div class="form-control" id="montantTTC" style="background:var(--bg-alt);color:var(--text-secondary);cursor:not-allowed">0</div>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Description</label>
+          <textarea id="descriptionInput" class="form-control" placeholder="DÃ©tails du devisâ€¦" style="min-height:100px"></textarea>
+        </div>
+
+        <!-- IA Analysis -->
+        <div class="form-group" style="margin-bottom:20px">
+          <button type="button" class="btn btn-outline" style="width:100%;justify-content:center" onclick="analyzeDevisWithIA(event)">
+            <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            Analyser avec l'IA
+          </button>
+          <div id="iaResult" style="margin-top:12px;padding:12px;background:var(--info-light);border:1px solid rgba(59,130,246,.2);border-radius:var(--r);font-size:12px;color:var(--text-secondary);display:none"></div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="document.getElementById('devisModal').classList.remove('open')">Annuler</button>
+          <button type="submit" class="btn btn-primary">CrÃ©er devis</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="../js/db.js"></script>
+<script>
+Auth.require(['admin', 'gestionnaire']);
+
+// Charger les clients dans le select
+function loadClientsSelect() {
+  const clients = DB.list('clients');
+  const select = document.getElementById('clientSelect');
+  select.innerHTML = '<option value="">-- SÃ©lectionner client --</option>' +
+    clients.map(c => `<option value="${c.id}">${esc((c.prenom || '') + ' ' + (c.nom || c.raison_sociale))}</option>`).join('');
+}
+
+function showFormDevis() {
+  document.getElementById('devisModalTitle').textContent = 'Nouveau devis';
+  document.getElementById('devisForm').reset();
+  document.getElementById('montantTTC').textContent = '0';
+  document.getElementById('iaResult').style.display = 'none';
+  document.getElementById('devisModal').classList.add('open');
+}
+
+function updateMontants() {
+  const ht = parseFloat(document.getElementById('montantHT').value) || 0;
+  const tva = parseFloat(document.getElementById('tauxTVA').value) || 0;
+  const ttc = ht * (1 + tva / 100);
+  document.getElementById('montantTTC').textContent = fmt(ttc, false).replace(' FCFA', '');
+}
+
+function analyzeDevisWithIA(e) {
+  e.preventDefault();
+  const titre = document.getElementById('titreInput').value;
+  const categorie = document.getElementById('categorieInput').value;
+  const montant = parseFloat(document.getElementById('montantHT').value) || 0;
+
+  // Simulation IA
+  const estimateMap = {
+    construction: { days: 120, score: 85, msg: 'Budget cohÃ©rent pour projet construction. RecommandÃ© 4-6 ouvriers. DÃ©lai: ~120 jours.' },
+    renovation: { days: 45, score: 82, msg: 'Travaux de rÃ©novation faisables. DÃ©lai estimÃ©: 45 jours. Budget bien dosÃ©.' },
+    electricite: { days: 10, score: 90, msg: 'Travaux Ã©lectricitÃ© standards. FaisabilitÃ© trÃ¨s bonne. DÃ©lai: 10 jours.' },
+    plomberie: { days: 8, score: 88, msg: 'Installation plomberie standard. Score: bon. DÃ©lai: 8 jours.' },
+  };
+  const est = estimateMap[categorie] || { days: 14, score: 75, msg: 'Analyse en cours...' };
+  
+  const resultDiv = document.getElementById('iaResult');
+  resultDiv.innerHTML = `
+    <strong style="color:var(--info)">Analyse IA complÃ©tÃ©e :</strong><br>
+    âœ“ Score faisabilitÃ©: <strong>${est.score}/100</strong><br>
+    âœ“ ${est.msg}<br>
+    âœ“ Montant: ${fmt(montant, true)}
+  `;
+  resultDiv.style.display = 'block';
+}
+
+function updateClientInfo() {
+  // Changer l'adresse/quartier basÃ© sur le client sÃ©lectionnÃ©
+}
+
+function handleDevisSave(e) {
+  e.preventDefault();
+  const clientId = parseInt(document.getElementById('clientSelect').value);
+  const titre = document.getElementById('titreInput').value;
+  const categorie = document.getElementById('categorieInput').value;
+  const montantHT = parseFloat(document.getElementById('montantHT').value);
+  const tauxTVA = parseFloat(document.getElementById('tauxTVA').value);
+  const montantTTC = montantHT * (1 + tauxTVA / 100);
+  const description = document.getElementById('descriptionInput').value;
+
+  if (!clientId || !titre || !categorie || !montantHT) {
+    toast('Veuillez remplir tous les champs requis', 'error');
+    return;
+  }
+
+  const devis = DB.insert('devis', {
+    numero: DB.nextNumeroDevis(),
+    client_id: clientId,
+    titre: titre,
+    categorie: categorie,
+    montant_ht: montantHT,
+    montant_ttc: montantTTC,
+    taux_tva: tauxTVA,
+    montant_tva: montantTTC - montantHT,
+    description: description,
+    statut: 'brouillon',
+    date_emission: new Date().toISOString().split('T')[0],
+    score_ia: 82,
+    analyse_ia: 'Analyse automatique rÃ©ussie.',
+  });
+
+  toast(`Devis ${devis.numero} crÃ©Ã© avec succÃ¨s`, 'success');
+  document.getElementById('devisModal').classList.remove('open');
+  loadDevisTable();
+}
+
+function filterDevis() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const statut = document.getElementById('filterStatut').value;
+  
+  const devis = DB.list('devis');
+  const filtered = devis.filter(d => {
+    const matchSearch = !search || 
+      d.numero.toLowerCase().includes(search) ||
+      d.titre.toLowerCase().includes(search) ||
+      DB.find('clients', d.client_id)?.nom.toLowerCase().includes(search);
+    const matchStatus = !statut || d.statut === statut;
+    return matchSearch && matchStatus;
+  });
+  
+  renderDevisTable(filtered);
+}
+
+function loadDevisTable() {
+  const devis = DB.list('devis').sort((a, b) => new Date(b.date_emission) - new Date(a.date_emission));
+  renderDevisTable(devis);
+}
+
+function renderDevisTable(devis) {
+  const tbody = document.getElementById('devisBody');
+  tbody.innerHTML = devis.map(d => {
+    const client = DB.find('clients', d.client_id);
+    const statusMap = { brouillon:'muted', envoye:'info', en_attente:'warning', approuve:'success', rejete:'danger' };
+    const cls = statusMap[d.statut] || 'muted';
+    
+    return `<tr>
+      <td><strong>${esc(d.numero)}</strong></td>
+      <td>${esc(client?.nom || client?.raison_sociale || '?')}</td>
+      <td><strong>${fmt(d.montant_ttc, true)}</strong></td>
+      <td><span class="badge badge-${cls}">${d.statut.replace(/_/g, ' ')}</span></td>
+      <td><span style="color:var(--success);font-weight:600">${d.score_ia || '-'}</span></td>
+      <td>
+        <div class="table-actions">
+          <button class="btn btn-sm btn-ghost" onclick="editDevis(${d.id})" title="Ã‰diter">âœï¸</button>
+          <button class="btn btn-sm btn-ghost" onclick="generatePDF(${d.id})" title="PDF">ðŸ“„</button>
+          ${d.statut !== 'approuve' ? `<button class="btn btn-sm btn-primary" onclick="approveDevis(${d.id})" title="Approuver">âœ“</button>` : ''}
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+  
+  if (devis.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text-muted)">Aucun devis</td></tr>';
+  }
+}
+
+function approveDevis(devisId) {
+  confirm('Approuver le devis ?', 'Cette action crÃ©era automatiquement un projet associÃ©.', () => {
+    const projet = DB.approuverDevis(devisId);
+    if (projet) {
+      toast(`Devis approuvÃ©. Projet ${projet.code} crÃ©Ã©.`, 'success');
+      loadDevisTable();
+    }
+  });
+}
+
+function generatePDF(devisId) {
+  const devis = DB.find('devis', devisId);
+  const client = DB.find('clients', devis.client_id);
+  toast('PDF en prÃ©paration... (simulation)', 'info');
+  // En production: appeler une API pour gÃ©nÃ©rer le PDF
+  setTimeout(() => {
+    alert(`PDF du devis ${devis.numero} serait gÃ©nÃ©rÃ© ici avec:\n- En-tÃªte POLYFIX\n- DÃ©tails client\n- Lignes de devis\n- Conditions de paiement`);
+  }, 800);
+}
+
+function editDevis(id) {
+  const devis = DB.find('devis', id);
+  if (!devis) return;
+  
+  document.getElementById('devisModalTitle').textContent = `Ã‰diter ${devis.numero}`;
+  document.getElementById('clientSelect').value = devis.client_id;
+  document.getElementById('titreInput').value = devis.titre;
+  document.getElementById('categorieInput').value = devis.categorie;
+  document.getElementById('montantHT').value = devis.montant_ht;
+  document.getElementById('tauxTVA').value = devis.taux_tva;
+  document.getElementById('descriptionInput').value = devis.description || '';
+  updateMontants();
+  
+  document.getElementById('devisForm').onsubmit = (e) => {
+    e.preventDefault();
+    DB.update('devis', id, {
+      titre: document.getElementById('titreInput').value,
+      categorie: document.getElementById('categorieInput').value,
+      montant_ht: parseFloat(document.getElementById('montantHT').value),
+      montant_ttc: parseFloat(document.getElementById('montantTTC').textContent.replace(/\s+/g,'')) || 0,
+      description: document.getElementById('descriptionInput').value,
+    });
+    toast('Devis mis Ã  jour', 'success');
+    document.getElementById('devisModal').classList.remove('open');
+    loadDevisTable();
+  };
+  
+  document.getElementById('devisModal').classList.add('open');
+}
+
+// Init
+window.addEventListener('load', () => {
+  loadClientsSelect();
+  loadDevisTable();
+});
+</script>
+</body>
+</html>
+
+

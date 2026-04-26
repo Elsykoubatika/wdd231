@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion des clients â€” POLYFIX Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <div class="admin-sidebar">
+    <div class="sidebar-logo">
+      <div style="width:32px;height:32px;background:var(--brand);border-radius:var(--r);display:grid;place-items:center">
+        <svg viewBox="0 0 24 24" fill="white" style="width:18px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      </div>
+      <div><div class="sidebar-logo-name">POLY<span>FIX</span></div><div class="sidebar-logo-tag">Platform</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section"><div class="sidebar-section-label">Gestion</div>
+        <a href="clients.html" class="sidebar-link active"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Clients</a>
+      </div>
+    </nav>
+    <div class="sidebar-user"><div class="avatar">JM</div><div><div class="sidebar-user-name">Jean Mbemba</div><div class="sidebar-user-role">Gestionnaire</div></div></div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <div class="topbar-title">Gestion des clients</div>
+      <div class="topbar-actions">
+        <button class="notif-btn" onclick="Auth.logout(); window.location.href='../login.html'"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
+      </div>
+    </div>
+
+    <div class="admin-content">
+      <div class="admin-page-header">
+        <h1 class="admin-page-title">Clients</h1>
+        <button class="btn btn-primary" onclick="showClientForm()">
+          <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Ajouter client
+        </button>
+      </div>
+
+      <!-- SEARCH & FILTER -->
+      <div class="search-bar">
+        <div class="search-input-wrap" style="flex:1;min-width:250px">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 21l-4.35-4.35"/><circle cx="10.5" cy="10.5" r="7.5"/></svg>
+          <input type="text" class="form-control" id="searchClient" placeholder="Rechercher par nom, email, tÃ©lâ€¦" onkeyup="filterClients()">
+        </div>
+        <select id="filterType" class="form-control" onchange="filterClients()" style="max-width:160px">
+          <option value="">Tous les types</option>
+          <option value="particulier">Particulier</option>
+          <option value="entreprise">Entreprise</option>
+        </select>
+        <select id="filterVille" class="form-control" onchange="filterClients()" style="max-width:140px">
+          <option value="">Toutes les villes</option>
+          <option value="Brazzaville">Brazzaville</option>
+          <option value="Pointe-Noire">Pointe-Noire</option>
+        </select>
+      </div>
+
+      <!-- TABLE -->
+      <div class="card">
+        <div class="table-wrap">
+          <table id="clientsTable">
+            <thead>
+              <tr>
+                <th style="width:25%">Nom</th>
+                <th style="width:20%">TÃ©lÃ©phone</th>
+                <th style="width:20%">Email</th>
+                <th style="width:15%">Ville</th>
+                <th style="width:10%">Projets</th>
+                <th style="width:10%">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="clientsBody">
+              <!-- ChargÃ© en JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL : Nouveau/Ã‰diter client -->
+<div class="modal-backdrop" id="clientModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="clientModalTitle">Ajouter un client</div>
+      <button class="modal-close" onclick="document.getElementById('clientModal').classList.remove('open')"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <form id="clientForm" onsubmit="handleClientSave(event)">
+        <!-- Type -->
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Type <span class="req">*</span></label>
+          <select id="typeClient" class="form-control" required onchange="toggleClientType()">
+            <option value="particulier">Particulier</option>
+            <option value="entreprise">Entreprise</option>
+          </select>
+        </div>
+
+        <!-- Particulier section -->
+        <div id="particulierSection">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">PrÃ©nom</label>
+              <input type="text" id="prenom" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nom <span class="req">*</span></label>
+              <input type="text" id="nom" class="form-control" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Entreprise section -->
+        <div id="entrepriseSection" style="display:none">
+          <div class="form-group" style="margin-bottom:16px">
+            <label class="form-label">Raison sociale</label>
+            <input type="text" id="raison_sociale" class="form-control">
+          </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">TÃ©lÃ©phone <span class="req">*</span></label>
+          <input type="tel" id="telephone" class="form-control" placeholder="+242 06..." required>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">TÃ©lÃ©phone 2</label>
+          <input type="tel" id="telephone2" class="form-control" placeholder="+242 05...">
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Email</label>
+          <input type="email" id="email" class="form-control" placeholder="contact@example.cg">
+        </div>
+
+        <!-- Localisation -->
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Ville</label>
+          <select id="ville" class="form-control">
+            <option value="">â€”</option>
+            <option value="Brazzaville">Brazzaville</option>
+            <option value="Pointe-Noire">Pointe-Noire</option>
+            <option value="Dolisie">Dolisie</option>
+            <option value="Nkayi">Nkayi</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Quartier</label>
+          <input type="text" id="quartier" class="form-control" placeholder="Ex: Poto-Poto">
+        </div>
+
+        <!-- Adresse complÃ¨te -->
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Adresse</label>
+          <textarea id="adresse" class="form-control" placeholder="Adresse complÃ¨teâ€¦" style="min-height:80px"></textarea>
+        </div>
+
+        <!-- Notes -->
+        <div class="form-group" style="margin-bottom:20px">
+          <label class="form-label">Notes internes</label>
+          <textarea id="notes" class="form-control" placeholder="Notes personnellesâ€¦" style="min-height:60px"></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="document.getElementById('clientModal').classList.remove('open')">Annuler</button>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="../js/db.js"></script>
+<script>
+Auth.require(['admin', 'gestionnaire']);
+let selectedClientId = null;
+
+function showClientForm() {
+  selectedClientId = null;
+  document.getElementById('clientModalTitle').textContent = 'Ajouter un client';
+  document.getElementById('clientForm').reset();
+  document.getElementById('typeClient').value = 'particulier';
+  toggleClientType();
+  document.getElementById('clientModal').classList.add('open');
+}
+
+function toggleClientType() {
+  const type = document.getElementById('typeClient').value;
+  document.getElementById('particulierSection').style.display = type === 'particulier' ? 'block' : 'none';
+  document.getElementById('entrepriseSection').style.display = type === 'entreprise' ? 'block' : 'none';
+}
+
+function handleClientSave(e) {
+  e.preventDefault();
+  const type = document.getElementById('typeClient').value;
+  const telephone = document.getElementById('telephone').value;
+
+  if (!telephone) {
+    toast('TÃ©lÃ©phone requis', 'error');
+    return;
+  }
+
+  const data = {
+    type_client: type,
+    telephone: telephone,
+    telephone2: document.getElementById('telephone2').value,
+    email: document.getElementById('email').value,
+    ville: document.getElementById('ville').value,
+    quartier: document.getElementById('quartier').value,
+    adresse: document.getElementById('adresse').value,
+    notes: document.getElementById('notes').value,
+  };
+
+  if (type === 'particulier') {
+    data.prenom = document.getElementById('prenom').value;
+    data.nom = document.getElementById('nom').value;
+  } else {
+    data.raison_sociale = document.getElementById('raison_sociale').value;
+    data.nom = document.getElementById('raison_sociale').value;
+  }
+
+  if (selectedClientId) {
+    DB.update('clients', selectedClientId, data);
+    toast('Client mis Ã  jour', 'success');
+  } else {
+    DB.insert('clients', data);
+    toast('Client crÃ©Ã©', 'success');
+  }
+
+  document.getElementById('clientModal').classList.remove('open');
+  loadClients();
+}
+
+function loadClients() {
+  const clients = DB.list('clients');
+  renderClients(clients);
+}
+
+function filterClients() {
+  const search = document.getElementById('searchClient').value.toLowerCase();
+  const type = document.getElementById('filterType').value;
+  const ville = document.getElementById('filterVille').value;
+
+  let clients = DB.list('clients');
+  if (search) {
+    clients = clients.filter(c => 
+      (c.nom && c.nom.toLowerCase().includes(search)) ||
+      (c.telephone && c.telephone.includes(search)) ||
+      (c.email && c.email.toLowerCase().includes(search))
+    );
+  }
+  if (type) clients = clients.filter(c => c.type_client === type);
+  if (ville) clients = clients.filter(c => c.ville === ville);
+
+  renderClients(clients);
+}
+
+function renderClients(clients) {
+  const tbody = document.getElementById('clientsBody');
+  tbody.innerHTML = clients.map(c => {
+    const projets = DB.where('projets', p => p.client_id === c.id);
+    const nom = c.type_client === 'particulier' 
+      ? (c.prenom || '') + ' ' + (c.nom || '')
+      : c.raison_sociale;
+
+    return `<tr onclick="editClient(${c.id})" style="cursor:pointer">
+      <td><strong>${esc(nom)}</strong></td>
+      <td>${c.telephone}</td>
+      <td>${c.email || 'â€”'}</td>
+      <td>${c.ville || 'â€”'}</td>
+      <td><span class="badge badge-info">${projets.length}</span></td>
+      <td style="pointer-events:none">
+        <div class="table-actions">
+          <button class="btn btn-sm btn-outline">âœŽ</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  if (clients.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text-muted)">Aucun client</td></tr>';
+  }
+}
+
+function editClient(id) {
+  selectedClientId = id;
+  const c = DB.find('clients', id);
+  if (!c) return;
+
+  document.getElementById('clientModalTitle').textContent = 'Ã‰diter client';
+  document.getElementById('typeClient').value = c.type_client;
+  toggleClientType();
+
+  document.getElementById('prenom').value = c.prenom || '';
+  document.getElementById('nom').value = c.nom || '';
+  document.getElementById('raison_sociale').value = c.raison_sociale || '';
+  document.getElementById('telephone').value = c.telephone;
+  document.getElementById('telephone2').value = c.telephone2 || '';
+  document.getElementById('email').value = c.email || '';
+  document.getElementById('ville').value = c.ville || '';
+  document.getElementById('quartier').value = c.quartier || '';
+  document.getElementById('adresse').value = c.adresse || '';
+  document.getElementById('notes').value = c.notes || '';
+
+  document.getElementById('clientModal').classList.add('open');
+}
+
+function deleteClient(id) {
+  confirm('Supprimer ce client ?', 'Tous les devis et projets resteront en base de donnÃ©es.', () => {
+    DB.delete('clients', id);
+    toast('Client supprimÃ©', 'success');
+    loadClients();
+  }, true);
+}
+
+window.addEventListener('load', loadClients);
+</script>
+</body>
+</html>
+
+

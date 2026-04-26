@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion des projets â€” POLYFIX Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <div class="admin-sidebar">
+    <div class="sidebar-logo">
+      <div style="width:32px;height:32px;background:var(--brand);border-radius:var(--r);display:grid;place-items:center">
+        <svg viewBox="0 0 24 24" fill="white" style="width:18px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      </div>
+      <div><div class="sidebar-logo-name">POLY<span>FIX</span></div><div class="sidebar-logo-tag">Platform</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section"><div class="sidebar-section-label">Principal</div>
+        <a href="dashboard.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Gestion</div>
+        <a href="devis.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9 12 11 14 15 10"/></svg>Devis</a>
+        <a href="projets.html" class="sidebar-link active"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Projets<span class="sidebar-badge">3</span></a>
+        <a href="ouvriers.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Ouvriers</a>
+      </div>
+    </nav>
+    <div class="sidebar-user"><div class="avatar">JM</div><div><div class="sidebar-user-name">Jean Mbemba</div><div class="sidebar-user-role">Gestionnaire</div></div></div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <div class="topbar-title">Gestion des projets</div>
+      <div class="topbar-actions">
+        <button class="notif-btn" onclick="Auth.logout(); window.location.href='../login.html'"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
+      </div>
+    </div>
+
+    <div class="admin-content">
+      <div class="admin-page-header">
+        <h1 class="admin-page-title">Projets</h1>
+        <div style="display:flex;gap:12px">
+          <select class="form-control" id="filterStatut" onchange="filterProjets()" style="max-width:140px">
+            <option value="">Tous les statuts</option>
+            <option value="en_attente">En attente</option>
+            <option value="actif">Actif</option>
+            <option value="suspendu">Suspendu</option>
+            <option value="termine">TerminÃ©</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- PROJETS CARDS -->
+      <div id="projetsContainer" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:24px">
+        <!-- ChargÃ© en JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL : DÃ©tails projet -->
+<div class="modal-backdrop" id="projectModal">
+  <div class="modal" style="max-width:700px">
+    <div class="modal-header">
+      <div class="modal-title" id="projectTitle">DÃ©tails du projet</div>
+      <button class="modal-close" onclick="document.getElementById('projectModal').classList.remove('open')"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+        <div>
+          <div class="fs-13" style="color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">Client</div>
+          <div id="projectClient" style="font-weight:600">â€”</div>
+        </div>
+        <div>
+          <div class="fs-13" style="color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">CatÃ©gorie</div>
+          <div id="projectCategorie" style="font-weight:600">â€”</div>
+        </div>
+        <div>
+          <div class="fs-13" style="color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">Budget</div>
+          <div id="projectBudget" style="font-weight:600;color:var(--brand)">â€”</div>
+        </div>
+        <div>
+          <div class="fs-13" style="color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">DÃ©pensÃ©</div>
+          <div id="projectDepense" style="font-weight:600">â€”</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <label class="form-label">Avancement</label>
+          <span id="projectProgress" style="font-weight:700;color:var(--brand)">0%</span>
+        </div>
+        <div class="progress">
+          <div id="projectProgressBar" class="progress-bar" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <label class="form-label">Ã‰quipe assignÃ©e</label>
+        <div id="projectTeam" style="display:flex;flex-direction:column;gap:8px">
+          <!-- ChargÃ© en JS -->
+        </div>
+        <button type="button" class="btn btn-sm btn-outline" style="margin-top:12px;width:100%;justify-content:center" onclick="showTeamSelector()">
+          <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Ajouter ouvrier
+        </button>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <label class="form-label">TÃ¢ches du jour</label>
+        <div id="projectTaches" style="display:flex;flex-direction:column;gap:8px">
+          <!-- ChargÃ© en JS -->
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px;padding:16px;background:var(--info-light);border:1px solid rgba(59,130,246,.2);border-radius:var(--r)">
+        <div style="font-size:13px;font-weight:600;color:var(--info);margin-bottom:8px">Jours restants</div>
+        <div id="projectDaysLeft" style="font-family:var(--font-heading);font-size:28px;font-weight:800">â€”</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px" id="projectDeadline">â€”</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('projectModal').classList.remove('open')">Fermer</button>
+        <button type="button" class="btn btn-primary" id="projectActionBtn" onclick="updateProjectStatus()">Activer projet</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL : SÃ©lectionner ouvrier -->
+<div class="modal-backdrop" id="teamModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Ajouter un ouvrier Ã  l'Ã©quipe</div>
+      <button class="modal-close" onclick="document.getElementById('teamModal').classList.remove('open')"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div id="ouvriersSelect" style="display:grid;grid-template-columns:1fr;gap:10px">
+        <!-- ChargÃ© en JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/db.js"></script>
+<script>
+Auth.require(['admin', 'gestionnaire']);
+let selectedProjectId = null;
+
+function loadProjets() {
+  const projets = DB.list('projets');
+  renderProjets(projets);
+}
+
+function filterProjets() {
+  const statut = document.getElementById('filterStatut').value;
+  let projets = DB.list('projets');
+  if (statut) projets = projets.filter(p => p.statut === statut);
+  renderProjets(projets);
+}
+
+function renderProjets(projets) {
+  const container = document.getElementById('projetsContainer');
+  container.innerHTML = projets.map(p => {
+    const client = DB.find('clients', p.client_id);
+    const statusMap = { en_attente: 'warning', actif: 'success', suspendu: 'muted', termine: 'muted' };
+    const [statusClass] = statusMap[p.statut] ? [statusMap[p.statut]] : ['muted'];
+    
+    const margin = p.budget_initial - p.depenses_reelles;
+    const marginPct = p.budget_initial > 0 ? ((margin / p.budget_initial) * 100).toFixed(0) : 0;
+    
+    return `<div class="card card-pad card-hover" onclick="openProject(${p.id})" style="cursor:pointer">
+      <div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:12px">
+        <div>
+          <div class="fs-13" style="color:var(--text-muted);font-weight:600">${esc(p.code)}</div>
+          <h3 class="h3" style="margin-top:4px">${esc(p.titre)}</h3>
+        </div>
+        <span class="badge badge-${statusClass}">${p.statut.replace(/_/g, ' ')}</span>
+      </div>
+      
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div class="avatar avatar-sm">${esc((client?.prenom || '?')[0]).toUpperCase()}</div>
+        <div>
+          <div style="font-size:13px;font-weight:600">${esc(client?.nom || client?.raison_sociale || '?')}</div>
+          <div style="font-size:12px;color:var(--text-muted)">${esc(p.ville || '?')}</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+          <span style="font-size:12px;font-weight:600">Avancement</span>
+          <span style="font-size:12px;color:var(--brand);font-weight:700">${p.pourcentage_avancement}%</span>
+        </div>
+        <div class="progress"><div class="progress-bar" style="width:${p.pourcentage_avancement}%"></div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:12px">
+        <div>
+          <div style="color:var(--text-muted);font-weight:600;margin-bottom:2px">Budget</div>
+          <div style="font-weight:700">${fmt(p.budget_initial, true)}</div>
+        </div>
+        <div>
+          <div style="color:var(--text-muted);font-weight:600;margin-bottom:2px">Marge</div>
+          <div style="font-weight:700;color:${margin < 0 ? 'var(--danger)' : 'var(--success)'}">${marginPct}%</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);flex-wrap:wrap">
+        ${(p.ouvriers || []).slice(0,3).map(oid => {
+          const o = DB.find('ouvriers', oid);
+          return `<div class="avatar avatar-sm" title="${esc((o?.prenom || '')[0] + (o?.nom || '')[0])}">${(o?.prenom || '?')[0]}${(o?.nom || '?')[0]}</div>`;
+        }).join('')}
+        ${(p.ouvriers || []).length > 3 ? `<div style="font-size:11px;color:var(--text-muted);display:grid;place-items:center">+${(p.ouvriers || []).length - 3}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  if (projets.length === 0) {
+    container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text-muted)">Aucun projet</div>';
+  }
+}
+
+function openProject(id) {
+  selectedProjectId = id;
+  const p = DB.find('projets', id);
+  if (!p) return;
+
+  const client = DB.find('clients', p.client_id);
+  document.getElementById('projectTitle').textContent = `${esc(p.titre)} (${p.code})`;
+  document.getElementById('projectClient').textContent = esc(client?.nom || client?.raison_sociale || '?');
+  document.getElementById('projectCategorie').textContent = p.categorie || 'â€”';
+  document.getElementById('projectBudget').textContent = fmt(p.budget_initial, false);
+  document.getElementById('projectDepense').textContent = fmt(p.depenses_reelles, false);
+  document.getElementById('projectProgress').textContent = `${p.pourcentage_avancement}%`;
+  document.getElementById('projectProgressBar').style.width = `${p.pourcentage_avancement}%`;
+
+  // Ã‰quipe
+  const teamDiv = document.getElementById('projectTeam');
+  if (p.ouvriers && p.ouvriers.length > 0) {
+    teamDiv.innerHTML = (p.ouvriers || []).map(oid => {
+      const o = DB.find('ouvriers', oid);
+      return `<div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg-alt);border-radius:var(--r)">
+        <div class="avatar avatar-sm">${(o?.prenom || '?')[0]}${(o?.nom || '?')[0]}</div>
+        <div style="flex:1">
+          <div style="font-weight:600;font-size:14px">${esc(o?.prenom || '?')} ${esc(o?.nom || '?')}</div>
+          <div style="font-size:12px;color:var(--text-muted)">${o?.poste || '?'}</div>
+        </div>
+        <button class="btn btn-sm btn-danger" onclick="removeFromTeam(${p.id},${oid})">âœ•</button>
+      </div>`;
+    }).join('');
+  } else {
+    teamDiv.innerHTML = '<p style="color:var(--text-muted);font-size:13px">Aucun ouvrier assignÃ©</p>';
+  }
+
+  // TÃ¢ches
+  const taches = DB.where('taches', t => t.projet_id === id);
+  const tachesDiv = document.getElementById('projectTaches');
+  if (taches.length > 0) {
+    tachesDiv.innerHTML = taches.map(t => {
+      const iconMap = { terminee: 'âœ“', en_cours: 'â—', a_faire: 'â—‹', bloquee: '!' };
+      const colorMap = { terminee: 'success', en_cours: 'info', a_faire: 'muted', bloquee: 'danger' };
+      return `<div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg-alt);border-radius:var(--r)">
+        <span style="color:var(--${colorMap[t.statut] || 'text-muted'})">${iconMap[t.statut]}</span>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:600">${esc(t.titre)}</div>
+          <div style="font-size:11px;color:var(--text-muted)">AssignÃ©e Ã : ${DB.find('ouvriers', t.assignee_id)?.prenom || '?'}</div>
+        </div>
+      </div>`;
+    }).join('');
+  } else {
+    tachesDiv.innerHTML = '<p style="color:var(--text-muted);font-size:13px">Aucune tÃ¢che</p>';
+  }
+
+  // Jours restants
+  if (p.date_fin_prevue) {
+    const days = daysSince(p.date_fin_prevue);
+    document.getElementById('projectDaysLeft').textContent = Math.abs(days) + ' j';
+    document.getElementById('projectDeadline').textContent = days < 0 ? `Fin prÃ©vue: ${fmtDate(p.date_fin_prevue)}` : `DÃ©passement de ${Math.abs(days)} jours`;
+  }
+
+  // Action button
+  const actionBtn = document.getElementById('projectActionBtn');
+  if (p.statut === 'en_attente') {
+    actionBtn.textContent = 'Activer le projet';
+    actionBtn.onclick = () => { DB.update('projets', id, { statut: 'actif' }); toast('Projet activÃ©', 'success'); loadProjets(); document.getElementById('projectModal').classList.remove('open'); };
+  } else if (p.statut === 'actif') {
+    actionBtn.textContent = 'Terminer le projet';
+    actionBtn.onclick = () => { DB.update('projets', id, { statut: 'termine', date_fin_reelle: new Date().toISOString().split('T')[0] }); toast('Projet terminÃ©', 'success'); loadProjets(); document.getElementById('projectModal').classList.remove('open'); };
+  } else {
+    actionBtn.disabled = true;
+    actionBtn.textContent = 'Projet ' + p.statut;
+  }
+
+  document.getElementById('projectModal').classList.add('open');
+}
+
+function showTeamSelector() {
+  const p = DB.find('projets', selectedProjectId);
+  const ouvriers = DB.list('ouvriers').filter(o => o.statut === 'disponible');
+  
+  document.getElementById('ouvriersSelect').innerHTML = ouvriers.map(o => `
+    <label class="check-option">
+      <input type="checkbox" onchange="toggleOuvrier(${o.id}, this.checked)">
+      <span><strong>${esc(o.prenom)} ${esc(o.nom)}</strong> â€” ${o.poste} (${fmt(o.taux_journalier, true)})</span>
+    </label>
+  `).join('');
+  
+  document.getElementById('teamModal').classList.add('open');
+}
+
+function toggleOuvrier(ouvrerId, checked) {
+  const p = DB.find('projets', selectedProjectId);
+  if (!p) return;
+  
+  if (checked) {
+    if (!(p.ouvriers || []).includes(ouvrerId)) {
+      p.ouvriers = [...(p.ouvriers || []), ouvrerId];
+    }
+  } else {
+    p.ouvriers = (p.ouvriers || []).filter(id => id !== ouvrerId);
+  }
+  
+  DB.update('projets', selectedProjectId, { ouvriers: p.ouvriers });
+  openProject(selectedProjectId);
+}
+
+function removeFromTeam(projectId, ouvrerId) {
+  const p = DB.find('projets', projectId);
+  p.ouvriers = (p.ouvriers || []).filter(id => id !== ouvrerId);
+  DB.update('projets', projectId, { ouvriers: p.ouvriers });
+  openProject(projectId);
+  toast('Ouvrier retirÃ© de l\'Ã©quipe', 'success');
+}
+
+function updateProjectStatus() {
+  const p = DB.find('projets', selectedProjectId);
+  if (p.statut === 'en_attente') {
+    DB.update('projets', selectedProjectId, { statut: 'actif' });
+    toast('Projet activÃ©', 'success');
+  }
+  loadProjets();
+  document.getElementById('projectModal').classList.remove('open');
+}
+
+window.addEventListener('load', loadProjets);
+</script>
+</body>
+</html>
+
+

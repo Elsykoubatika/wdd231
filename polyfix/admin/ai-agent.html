@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent IA — POLYFIX Admin</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23E85A00'/><text y='24' x='4' font-size='22' font-weight='900' fill='white' font-family='sans-serif'>P</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="dashboard-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a href="dashboard.html" class="sidebar-logo">
+      <svg viewBox="0 0 24 24" style="width:32px;height:32px;fill:var(--c-brand)"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      POLY<span>FIX</span>
+    </a>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+      <a href="devis.html"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Devis</a>
+      <a href="projets.html"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Projets</a>
+      <a href="ouvriers.html"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg>Ouvriers</a>
+      <a href="clients.html"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Clients</a>
+      <a href="finances.html"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Finances</a>
+      <a href="promotions.html"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M7 5H5a2 2 0 00-2 2v12a2 2 0 002 2h2m10 0h2a2 2 0 002-2V7a2 2 0 00-2-2h-2m0 0V3a2 2 0 00-2-2h-2a2 2 0 00-2 2v2m0 0h4"/></svg>Promotions</a>
+      <a href="ai-agent.html" class="active"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Agent IA</a>
+    </nav>
+    <div style="margin-top:auto;padding:14px 0;border-top:1px solid var(--c-border)">
+      <button onclick="Auth.logout();window.location.href='../login.html'" class="btn btn-ghost btn-sm" style="width:100%;justify-content:start;gap:10px">
+        <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px;stroke:currentColor"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Déconnexion
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTENU PRINCIPAL -->
+  <main class="main-content" style="padding:0">
+    <div class="admin-topbar">
+      <div class="topbar-title">Assistant IA</div>
+      <div class="topbar-actions">
+        <button class="btn btn-sm btn-outline" onclick="clearChat()">Nouvelle conversation</button>
+      </div>
+    </div>
+
+    <div style="padding:28px">
+      <div style="margin-bottom:24px">
+        <p style="color:var(--c-muted);font-size:14px">Estimez vos coûts, analysez vos projets et automatisez la rédaction de vos devis grâce à l'IA.</p>
+      </div>
+
+      <!-- Suggestions rapides -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
+        <button class="chip" onclick="sendQuick(this)">Analyser un budget de construction</button>
+        <button class="chip" onclick="sendQuick(this)">Estimer le coût d'une rénovation 100m²</button>
+        <button class="chip" onclick="sendQuick(this)">Calculer les matériaux pour une dalle</button>
+        <button class="chip" onclick="sendQuick(this)">Rédiger un devis électricité</button>
+        <button class="chip" onclick="sendQuick(this)">Évaluer la rentabilité d'un projet</button>
+      </div>
+
+      <!-- Chat -->
+      <div class="chat-container">
+        <div class="chat-messages" id="chatMessages">
+          <div class="message ai">
+            <div class="ai-badge" style="margin-bottom:10px">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
+              Agent IA POLYFIX
+            </div>
+            <p>Bonjour ! Je suis l'assistant IA spécialisé de POLYFIX. Je peux vous aider à :</p>
+            <ul style="margin:10px 0 0 16px;line-height:1.9;color:var(--c-muted)">
+              <li>📊 Analyser et évaluer vos projets de construction/rénovation</li>
+              <li>💰 Estimer les budgets et les coûts de matériaux</li>
+              <li>📋 Générer et rédiger des devis complets</li>
+              <li>👷 Recommander la taille d'équipe et les délais</li>
+              <li>📈 Calculer la rentabilité d'un projet</li>
+            </ul>
+            <p style="margin-top:10px">Comment puis-je vous assister aujourd'hui ?</p>
+          </div>
+        </div>
+
+        <div class="suggestion-chips" id="suggestions">
+          <button class="chip" onclick="sendQuick(this)">Nouveau devis</button>
+          <button class="chip" onclick="sendQuick(this)">Analyse de projet</button>
+          <button class="chip" onclick="sendQuick(this)">Estimation matériaux</button>
+          <button class="chip" onclick="sendQuick(this)">Calcul rentabilité</button>
+        </div>
+
+        <div class="chat-input-area">
+          <input type="text" class="chat-input" id="chatInput" placeholder="Décrivez votre projet ou posez une question…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}">
+          <button class="chat-btn" onclick="sendMessage()">
+            <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:18px;height:18px;stroke:currentColor"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/db.js"></script>
+<script>
+Auth.require(['admin', 'gestionnaire']);
+
+const responses = {
+  defaut: [
+    "Bien sûr ! Pour vous donner une estimation précise, pourriez-vous me préciser : la surface en m², le type de matériaux souhaités, et la ville du chantier ?",
+    "Voici mon analyse basée sur les données POLYFIX : ce type de projet nécessite généralement un budget entre 2M et 5M FCFA selon les finitions choisies.",
+    "D'après notre historique de projets similaires, je recommande une équipe de 4 à 6 ouvriers pour une durée de 6 à 8 semaines.",
+    "Pour optimiser la rentabilité, je suggère de planifier les achats de matériaux en avance (-15% sur les prix) et d'utiliser des équipes polyvalentes.",
+  ],
+  devis: [
+    "Pour générer un devis complet, j'ai besoin des informations suivantes :\n• Type de travaux (construction/rénovation/électricité…)\n• Surface totale en m²\n• Localisation (Brazzaville/Pointe-Noire)\n• Budget indicatif\n• Délai souhaité\n\nPourriez-vous me fournir ces détails ?",
+    "Excellent ! Voici un devis estimatif :\n\n**Rénovation complète** (estimé)\n• Main d'œuvre : 1 500 000 FCFA\n• Matériaux : 2 200 000 FCFA\n• Frais divers : 300 000 FCFA\n• **Total HT : 4 000 000 FCFA**\n• TVA 18% : 720 000 FCFA\n• **Total TTC : 4 720 000 FCFA**\n\nCe devis est valable 30 jours.",
+  ],
+  budget: [
+    "Pour une construction standard à Brazzaville, voici les estimations par m² :\n\n• Gros œuvre seul : 85 000 – 120 000 FCFA/m²\n• Construction complète (hors finitions haut de gamme) : 150 000 – 220 000 FCFA/m²\n• Construction clé en main : 250 000 – 350 000 FCFA/m²\n\nCes prix incluent la main-d'œuvre et les matériaux standards.",
+    "Selon l'analyse de rentabilité pour ce budget :\n• Marge brute estimée : 22-28%\n• Délai de récupération : 8-12 semaines\n• Score de faisabilité IA : 84/100 ✅",
+  ],
+};
+
+function getAIResponse(message) {
+  const msg = message.toLowerCase();
+  if (msg.includes('devis') || msg.includes('rédiger') || msg.includes('générer')) {
+    return responses.devis[Math.floor(Math.random() * responses.devis.length)];
+  }
+  if (msg.includes('budget') || msg.includes('coût') || msg.includes('prix') || msg.includes('estim')) {
+    return responses.budget[Math.floor(Math.random() * responses.budget.length)];
+  }
+  return responses.defaut[Math.floor(Math.random() * responses.defaut.length)];
+}
+
+function addMessage(content, role) {
+  const chat = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'message ' + role;
+  div.innerHTML = content.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/•/g, '&bull;');
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+  return div;
+}
+
+function showTyping() {
+  const chat = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'message ai';
+  div.id = 'typing';
+  div.innerHTML = '<div class="ai-thinking"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div><span style="margin-left:6px">L\'IA analyse votre demande…</span></div>';
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing');
+  if (t) t.remove();
+}
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  addMessage(msg, 'user');
+  input.value = '';
+  showTyping();
+
+  setTimeout(() => {
+    removeTyping();
+    const response = getAIResponse(msg);
+    addMessage(response, 'ai');
+  }, 1200 + Math.random() * 800);
+}
+
+function sendQuick(btn) {
+  document.getElementById('chatInput').value = btn.textContent;
+  sendMessage();
+}
+
+function clearChat() {
+  const chat = document.getElementById('chatMessages');
+  chat.innerHTML = '<div class="message ai">Nouvelle conversation démarrée. Comment puis-je vous aider ?</div>';
+}
+
+// In production: replace with real Claude API call
+// fetch('https://api.anthropic.com/v1/messages', { ... })
+</script>
+</body>
+</html>

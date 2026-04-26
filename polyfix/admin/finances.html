@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finances â€” POLYFIX Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <div class="admin-sidebar">
+    <div class="sidebar-logo">
+      <div style="width:32px;height:32px;background:var(--brand);border-radius:var(--r);display:grid;place-items:center">
+        <svg viewBox="0 0 24 24" fill="white" style="width:18px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      </div>
+      <div><div class="sidebar-logo-name">POLY<span>FIX</span></div><div class="sidebar-logo-tag">Platform</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section"><div class="sidebar-section-label">Principal</div>
+        <a href="dashboard.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+      </div>
+      <div class="sidebar-section"><div class="sidebar-section-label">Finance</div>
+        <a href="finances.html" class="sidebar-link active"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Finances</a>
+        <a href="factures.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16"/></svg>Factures</a>
+      </div>
+    </nav>
+    <div class="sidebar-user"><div class="avatar">JM</div><div><div class="sidebar-user-name">Jean Mbemba</div><div class="sidebar-user-role">Gestionnaire</div></div></div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <div class="topbar-title">Finances</div>
+      <div class="topbar-actions">
+        <button class="notif-btn" onclick="Auth.logout(); window.location.href='../login.html'"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
+      </div>
+    </div>
+
+    <div class="admin-content">
+      <div class="admin-page-header">
+        <h1 class="admin-page-title">Suivi financier</h1>
+        <button class="btn btn-primary" onclick="showTransactionForm()">
+          <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Enregistrer transaction
+        </button>
+      </div>
+
+      <!-- KPI CARDS -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Recettes</div>
+          <div class="kpi-value" id="kpiRecettes">0M</div>
+          <div class="kpi-sub">EncaissÃ© ce mois</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">DÃ©penses</div>
+          <div class="kpi-value" id="kpiDepenses">0M</div>
+          <div class="kpi-sub">EngagÃ© ce mois</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Marge brute</div>
+          <div class="kpi-value" id="kpiMarge">0M</div>
+          <div class="kpi-sub">Recettes - DÃ©penses</div>
+          <div class="kpi-trend up">â†‘ +18% vs prÃ©visions</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Marge nette</div>
+          <div class="kpi-value" id="kpiMargePct">0</div>
+          <div class="kpi-sub">Pourcentage</div>
+        </div>
+      </div>
+
+      <!-- TABS -->
+      <div class="tabs" style="margin:32px 0">
+        <button class="tab-btn active" onclick="switchFinTab('transactions', this)">Transactions</button>
+        <button class="tab-btn" onclick="switchFinTab('budgets', this)">Budget par projet</button>
+        <button class="tab-btn" onclick="switchFinTab('rapports', this)">Rapports mensuels</button>
+      </div>
+
+      <!-- TAB: TRANSACTIONS -->
+      <div id="tab-transactions" class="tab-panel active">
+        <div class="card">
+          <div style="padding:20px;display:flex;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--border)">
+            <div class="search-input-wrap" style="flex:1;min-width:200px">
+              <svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 21l-4.35-4.35"/><circle cx="10.5" cy="10.5" r="7.5"/></svg>
+              <input type="text" class="form-control" placeholder="Rechercher transactionâ€¦" id="searchTx" onkeyup="filterTransactions()">
+            </div>
+            <select id="filterTypeTx" class="form-control" onchange="filterTransactions()" style="max-width:140px">
+              <option value="">Tous les types</option>
+              <option value="recette">Recettes</option>
+              <option value="depense">DÃ©penses</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table id="txTable">
+              <thead>
+                <tr>
+                  <th style="width:20%">Date</th>
+                  <th style="width:30%">Description</th>
+                  <th style="width:15%">Type</th>
+                  <th style="width:20%">Montant</th>
+                  <th style="width:15%">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="txBody">
+                <!-- ChargÃ© en JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: BUDGETS -->
+      <div id="tab-budgets" class="tab-panel">
+        <div id="budgetsList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:20px">
+          <!-- ChargÃ© en JS -->
+        </div>
+      </div>
+
+      <!-- TAB: RAPPORTS -->
+      <div id="tab-rapports" class="tab-panel">
+        <div id="rapportsList" style="display:flex;flex-direction:column;gap:20px">
+          <!-- ChargÃ© en JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL : Nouvelle transaction -->
+<div class="modal-backdrop" id="txModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Enregistrer une transaction</div>
+      <button class="modal-close" onclick="document.getElementById('txModal').classList.remove('open')"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <form onsubmit="handleTransactionSave(event)">
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Type <span class="req">*</span></label>
+          <select id="txType" class="form-control" required>
+            <option value="recette">Recette (entrÃ©e d'argent)</option>
+            <option value="depense">DÃ©pense (sortie d'argent)</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Description <span class="req">*</span></label>
+          <input type="text" id="txLibelle" class="form-control" placeholder="Ex: Paiement client 50%" required>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Montant <span class="req">*</span></label>
+          <input type="number" id="txMontant" class="form-control" placeholder="0" step="1000" required>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Date <span class="req">*</span></label>
+            <input type="date" id="txDate" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mode paiement</label>
+            <select id="txMode" class="form-control">
+              <option value="especes">EspÃ¨ces</option>
+              <option value="virement">Virement</option>
+              <option value="cheque">ChÃ¨que</option>
+              <option value="mobile_money">Mobile Money</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Projet associÃ©</label>
+          <select id="txProjet" class="form-control">
+            <option value="">â€” Aucun (transaction globale) â€”</option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="document.getElementById('txModal').classList.remove('open')">Annuler</button>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="../js/db.js"></script>
+<script>
+Auth.require(['admin', 'gestionnaire']);
+
+function showTransactionForm() {
+  document.getElementById('txType').value = 'recette';
+  document.getElementById('txLibelle').value = '';
+  document.getElementById('txMontant').value = '';
+  document.getElementById('txDate').value = new Date().toISOString().split('T')[0];
+  document.getElementById('txMode').value = 'virement';
+  
+  const projets = DB.list('projets');
+  const projSelect = document.getElementById('txProjet');
+  projSelect.innerHTML = '<option value="">â€” Aucun (transaction globale) â€”</option>' +
+    projets.map(p => `<option value="${p.id}">${esc(p.code)} - ${esc(p.titre)}</option>`).join('');
+  
+  document.getElementById('txModal').classList.add('open');
+}
+
+function handleTransactionSave(e) {
+  e.preventDefault();
+  const type = document.getElementById('txType').value;
+  const libelle = document.getElementById('txLibelle').value;
+  const montant = parseFloat(document.getElementById('txMontant').value);
+  const date = document.getElementById('txDate').value;
+  const mode = document.getElementById('txMode').value;
+  const projetId = parseInt(document.getElementById('txProjet').value) || null;
+
+  if (!libelle || !montant || !date) {
+    toast('Remplissez tous les champs requis', 'error');
+    return;
+  }
+
+  DB.insert('transactions', {
+    type_transaction: type,
+    libelle: libelle,
+    montant: montant,
+    date_transaction: date,
+    mode_paiement: mode,
+    projet_id: projetId,
+    enregistre_par: Auth.current().id,
+  });
+
+  // Update project spending if linked
+  if (projetId) {
+    const projet = DB.find('projets', projetId);
+    if (type === 'depense') {
+      projet.depenses_reelles = (projet.depenses_reelles || 0) + montant;
+    } else {
+      projet.montant_encaisse = (projet.montant_encaisse || 0) + montant;
+    }
+    DB.update('projets', projetId, projet);
+  }
+
+  toast('Transaction enregistrÃ©e', 'success');
+  document.getElementById('txModal').classList.remove('open');
+  loadFinances();
+}
+
+function loadFinances() {
+  const transactions = DB.list('transactions');
+  const projets = DB.list('projets');
+
+  // KPI
+  const recettes = transactions.filter(t => t.type_transaction === 'recette').reduce((s, t) => s + t.montant, 0);
+  const depenses = transactions.filter(t => t.type_transaction === 'depense').reduce((s, t) => s + t.montant, 0);
+  const marge = recettes - depenses;
+  const margePct = recettes > 0 ? Math.round((marge / recettes) * 100) : 0;
+
+  document.getElementById('kpiRecettes').textContent = (recettes / 1e6).toFixed(1) + 'M';
+  document.getElementById('kpiDepenses').textContent = (depenses / 1e6).toFixed(1) + 'M';
+  document.getElementById('kpiMarge').textContent = (marge / 1e6).toFixed(1) + 'M';
+  document.getElementById('kpiMargePct').textContent = margePct + '%';
+
+  // Transactions
+  renderTransactions(transactions);
+
+  // Budgets
+  const budgetDiv = document.getElementById('budgetsList');
+  budgetDiv.innerHTML = projets.filter(p => p.statut !== 'en_attente').map(p => {
+    const reste = p.budget_initial - p.depenses_reelles;
+    const utilisePct = (p.depenses_reelles / p.budget_initial) * 100;
+    const client = DB.find('clients', p.client_id);
+    
+    return `<div class="card card-pad">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:12px">
+        <div>
+          <h3 class="h3">${esc(p.titre)}</h3>
+          <div style="font-size:12px;color:var(--text-muted)">${esc(client?.nom || '?')}</div>
+        </div>
+        <span class="badge badge-${p.statut === 'actif' ? 'success' : 'muted'}">${p.statut}</span>
+      </div>
+
+      <div style="margin-bottom:12px;padding:12px;background:var(--bg-alt);border-radius:var(--r)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+          <div>
+            <div style="font-size:11px;color:var(--text-muted);font-weight:600">Budget</div>
+            <div style="font-weight:700">${fmt(p.budget_initial, true)}</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--text-muted);font-weight:600">DÃ©pensÃ©</div>
+            <div style="font-weight:700;color:var(--danger)">${fmt(p.depenses_reelles, true)}</div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px">
+          <span>Utilisation</span>
+          <span style="font-weight:700;color:var(--brand)">${utilisePct.toFixed(0)}%</span>
+        </div>
+        <div class="progress"><div class="progress-bar" style="width:${utilisePct}%"></div></div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;padding:10px;background:${reste < 0 ? 'var(--danger-light)' : 'var(--success-light)'};border-radius:var(--r)">
+        <span style="font-weight:600">Reste</span>
+        <span style="font-weight:700;color:${reste < 0 ? 'var(--danger)' : 'var(--success)'}">${fmt(reste, true)}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Rapports mensuels
+  const rapportDiv = document.getElementById('rapportsList');
+  const txByMonth = DB.getTxByMonth();
+  rapportDiv.innerHTML = txByMonth.slice(-6).reverse().map(([mois, data]) => {
+    const marge = data.recettes - data.depenses;
+    return `<div class="card card-pad">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h3 class="h3" style="margin:0">${mois}</h3>
+        <span class="badge badge-${marge >= 0 ? 'success' : 'danger'}">${marge >= 0 ? 'âœ“' : '!'}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px">RECETTES</div>
+          <div style="font-weight:700;font-size:18px;color:var(--success)">${fmt(data.recettes, true)}</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px">DÃ‰PENSES</div>
+          <div style="font-weight:700;font-size:18px;color:var(--danger)">${fmt(data.depenses, true)}</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px">MARGE</div>
+          <div style="font-weight:700;font-size:18px;color:var(--brand)">${fmt(marge, true)}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderTransactions(transactions) {
+  const tbody = document.getElementById('txBody');
+  const sorted = transactions.sort((a, b) => new Date(b.date_transaction) - new Date(a.date_transaction));
+  
+  tbody.innerHTML = sorted.slice(0, 50).map(t => {
+    const typeIcon = t.type_transaction === 'recette' ? 'â†“' : 'â†‘';
+    const typeColor = t.type_transaction === 'recette' ? 'success' : 'danger';
+    const projet = t.projet_id ? DB.find('projets', t.projet_id) : null;
+    
+    return `<tr>
+      <td>${fmtDate(t.date_transaction)}</td>
+      <td>
+        <strong>${esc(t.libelle)}</strong>
+        ${projet ? `<div style="font-size:11px;color:var(--text-muted)">${esc(projet.code)}</div>` : ''}
+      </td>
+      <td><span class="badge badge-${typeColor}">${t.type_transaction === 'recette' ? 'Recette' : 'DÃ©pense'}</span></td>
+      <td><strong style="color:var(--${typeColor})">${typeIcon} ${fmt(t.montant, true)}</strong></td>
+      <td><button class="btn btn-sm btn-danger" onclick="deleteTransaction(${t.id})">Supprimer</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function filterTransactions() {
+  const search = document.getElementById('searchTx').value.toLowerCase();
+  const type = document.getElementById('filterTypeTx').value;
+  
+  let transactions = DB.list('transactions');
+  if (search) transactions = transactions.filter(t => t.libelle.toLowerCase().includes(search));
+  if (type) transactions = transactions.filter(t => t.type_transaction === type);
+  
+  renderTransactions(transactions);
+}
+
+function deleteTransaction(id) {
+  confirm('Supprimer cette transaction ?', 'Cette action est irrÃ©versible.', () => {
+    DB.delete('transactions', id);
+    toast('Transaction supprimÃ©e', 'success');
+    loadFinances();
+  }, true);
+}
+
+function switchFinTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+window.addEventListener('load', loadFinances);
+</script>
+</body>
+</html>
+
+
