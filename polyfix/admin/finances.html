@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Finances â€” POLYFIX Admin</title>
+  <title>Finances — POLYFIX Admin</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -51,18 +51,18 @@
         <div class="kpi-card">
           <div class="kpi-label">Recettes</div>
           <div class="kpi-value" id="kpiRecettes">0M</div>
-          <div class="kpi-sub">EncaissÃ© ce mois</div>
+          <div class="kpi-sub">Encaissé ce mois</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">DÃ©penses</div>
+          <div class="kpi-label">Dépenses</div>
           <div class="kpi-value" id="kpiDepenses">0M</div>
-          <div class="kpi-sub">EngagÃ© ce mois</div>
+          <div class="kpi-sub">Engagé ce mois</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-label">Marge brute</div>
           <div class="kpi-value" id="kpiMarge">0M</div>
-          <div class="kpi-sub">Recettes - DÃ©penses</div>
-          <div class="kpi-trend up">â†‘ +18% vs prÃ©visions</div>
+          <div class="kpi-sub">Recettes - Dépenses</div>
+          <div class="kpi-trend up">↑ +18% vs prévisions</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-label">Marge nette</div>
@@ -84,12 +84,12 @@
           <div style="padding:20px;display:flex;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--border)">
             <div class="search-input-wrap" style="flex:1;min-width:200px">
               <svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 21l-4.35-4.35"/><circle cx="10.5" cy="10.5" r="7.5"/></svg>
-              <input type="text" class="form-control" placeholder="Rechercher transactionâ€¦" id="searchTx" onkeyup="filterTransactions()">
+              <input type="text" class="form-control" placeholder="Rechercher transaction…" id="searchTx" onkeyup="filterTransactions()">
             </div>
             <select id="filterTypeTx" class="form-control" onchange="filterTransactions()" style="max-width:140px">
               <option value="">Tous les types</option>
               <option value="recette">Recettes</option>
-              <option value="depense">DÃ©penses</option>
+              <option value="depense">Dépenses</option>
             </select>
           </div>
           <div class="table-wrap">
@@ -104,7 +104,7 @@
                 </tr>
               </thead>
               <tbody id="txBody">
-                <!-- ChargÃ© en JS -->
+                <!-- Chargé en JS -->
               </tbody>
             </table>
           </div>
@@ -114,14 +114,14 @@
       <!-- TAB: BUDGETS -->
       <div id="tab-budgets" class="tab-panel">
         <div id="budgetsList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:20px">
-          <!-- ChargÃ© en JS -->
+          <!-- Chargé en JS -->
         </div>
       </div>
 
       <!-- TAB: RAPPORTS -->
       <div id="tab-rapports" class="tab-panel">
         <div id="rapportsList" style="display:flex;flex-direction:column;gap:20px">
-          <!-- ChargÃ© en JS -->
+          <!-- Chargé en JS -->
         </div>
       </div>
     </div>
@@ -140,8 +140,8 @@
         <div class="form-group" style="margin-bottom:16px">
           <label class="form-label">Type <span class="req">*</span></label>
           <select id="txType" class="form-control" required>
-            <option value="recette">Recette (entrÃ©e d'argent)</option>
-            <option value="depense">DÃ©pense (sortie d'argent)</option>
+            <option value="recette">Recette (entrée d'argent)</option>
+            <option value="depense">Dépense (sortie d'argent)</option>
           </select>
         </div>
 
@@ -163,18 +163,18 @@
           <div class="form-group">
             <label class="form-label">Mode paiement</label>
             <select id="txMode" class="form-control">
-              <option value="especes">EspÃ¨ces</option>
+              <option value="especes">Espèces</option>
               <option value="virement">Virement</option>
-              <option value="cheque">ChÃ¨que</option>
+              <option value="cheque">Chèque</option>
               <option value="mobile_money">Mobile Money</option>
             </select>
           </div>
         </div>
 
         <div class="form-group" style="margin-bottom:16px">
-          <label class="form-label">Projet associÃ©</label>
+          <label class="form-label">Projet associé</label>
           <select id="txProjet" class="form-control">
-            <option value="">â€” Aucun (transaction globale) â€”</option>
+            <option value="">— Aucun (transaction globale) —</option>
           </select>
         </div>
 
@@ -200,7 +200,7 @@ function showTransactionForm() {
   
   const projets = DB.list('projets');
   const projSelect = document.getElementById('txProjet');
-  projSelect.innerHTML = '<option value="">â€” Aucun (transaction globale) â€”</option>' +
+  projSelect.innerHTML = '<option value="">— Aucun (transaction globale) —</option>' +
     projets.map(p => `<option value="${p.id}">${esc(p.code)} - ${esc(p.titre)}</option>`).join('');
   
   document.getElementById('txModal').classList.add('open');
@@ -241,7 +241,7 @@ function handleTransactionSave(e) {
     DB.update('projets', projetId, projet);
   }
 
-  toast('Transaction enregistrÃ©e', 'success');
+  toast('Transaction enregistrée', 'success');
   document.getElementById('txModal').classList.remove('open');
   loadFinances();
 }
@@ -287,7 +287,7 @@ function loadFinances() {
             <div style="font-weight:700">${fmt(p.budget_initial, true)}</div>
           </div>
           <div>
-            <div style="font-size:11px;color:var(--text-muted);font-weight:600">DÃ©pensÃ©</div>
+            <div style="font-size:11px;color:var(--text-muted);font-weight:600">Dépensé</div>
             <div style="font-weight:700;color:var(--danger)">${fmt(p.depenses_reelles, true)}</div>
           </div>
         </div>
@@ -313,7 +313,7 @@ function loadFinances() {
     return `<div class="card card-pad">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
         <h3 class="h3" style="margin:0">${mois}</h3>
-        <span class="badge badge-${marge >= 0 ? 'success' : 'danger'}">${marge >= 0 ? 'âœ“' : '!'}</span>
+        <span class="badge badge-${marge >= 0 ? 'success' : 'danger'}">${marge >= 0 ? '✓' : '!'}</span>
       </div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
         <div>
@@ -321,7 +321,7 @@ function loadFinances() {
           <div style="font-weight:700;font-size:18px;color:var(--success)">${fmt(data.recettes, true)}</div>
         </div>
         <div>
-          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px">DÃ‰PENSES</div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px">DÉPENSES</div>
           <div style="font-weight:700;font-size:18px;color:var(--danger)">${fmt(data.depenses, true)}</div>
         </div>
         <div>
@@ -338,7 +338,7 @@ function renderTransactions(transactions) {
   const sorted = transactions.sort((a, b) => new Date(b.date_transaction) - new Date(a.date_transaction));
   
   tbody.innerHTML = sorted.slice(0, 50).map(t => {
-    const typeIcon = t.type_transaction === 'recette' ? 'â†“' : 'â†‘';
+    const typeIcon = t.type_transaction === 'recette' ? '↓' : '↑';
     const typeColor = t.type_transaction === 'recette' ? 'success' : 'danger';
     const projet = t.projet_id ? DB.find('projets', t.projet_id) : null;
     
@@ -348,7 +348,7 @@ function renderTransactions(transactions) {
         <strong>${esc(t.libelle)}</strong>
         ${projet ? `<div style="font-size:11px;color:var(--text-muted)">${esc(projet.code)}</div>` : ''}
       </td>
-      <td><span class="badge badge-${typeColor}">${t.type_transaction === 'recette' ? 'Recette' : 'DÃ©pense'}</span></td>
+      <td><span class="badge badge-${typeColor}">${t.type_transaction === 'recette' ? 'Recette' : 'Dépense'}</span></td>
       <td><strong style="color:var(--${typeColor})">${typeIcon} ${fmt(t.montant, true)}</strong></td>
       <td><button class="btn btn-sm btn-danger" onclick="deleteTransaction(${t.id})">Supprimer</button></td>
     </tr>`;
@@ -367,9 +367,9 @@ function filterTransactions() {
 }
 
 function deleteTransaction(id) {
-  confirm('Supprimer cette transaction ?', 'Cette action est irrÃ©versible.', () => {
+  confirm('Supprimer cette transaction ?', 'Cette action est irréversible.', () => {
     DB.delete('transactions', id);
-    toast('Transaction supprimÃ©e', 'success');
+    toast('Transaction supprimée', 'success');
     loadFinances();
   }, true);
 }

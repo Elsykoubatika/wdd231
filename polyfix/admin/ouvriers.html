@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestion des ouvriers â€” POLYFIX Admin</title>
+  <title>Gestion des ouvriers — POLYFIX Admin</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -38,19 +38,19 @@
 
     <div class="admin-content">
       <div class="admin-page-header">
-        <h1 class="admin-page-title">Ã‰quipe d'ouvriers</h1>
+        <h1 class="admin-page-title">Équipe d'ouvriers</h1>
         <div style="display:flex;gap:12px">
           <select id="filterStatut" class="form-control" onchange="filterOuvriers()" style="max-width:160px">
             <option value="">Tous</option>
             <option value="disponible">Disponible</option>
             <option value="en_mission">En mission</option>
-            <option value="conge">CongÃ©</option>
+            <option value="conge">Congé</option>
             <option value="inactif">Inactif</option>
           </select>
           <select id="filterPoste" class="form-control" onchange="filterOuvriers()" style="max-width:140px">
             <option value="">Tous les postes</option>
-            <option value="MaÃ§on">MaÃ§on</option>
-            <option value="Ã‰lectricien">Ã‰lectricien</option>
+            <option value="Maçon">Maçon</option>
+            <option value="Électricien">Électricien</option>
             <option value="Peintre">Peintre</option>
             <option value="Plombier">Plombier</option>
             <option value="Menuisier">Menuisier</option>
@@ -60,69 +60,69 @@
 
       <!-- OUVRIERS GRID -->
       <div id="ouvriersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px">
-        <!-- ChargÃ© en JS -->
+        <!-- Chargé en JS -->
       </div>
     </div>
   </div>
 </div>
 
-<!-- MODAL : DÃ©tails ouvrier -->
+<!-- MODAL : Détails ouvrier -->
 <div class="modal-backdrop" id="workerModal">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title" id="workerModalTitle">DÃ©tails ouvrier</div>
+      <div class="modal-title" id="workerModalTitle">Détails ouvrier</div>
       <button class="modal-close" onclick="document.getElementById('workerModal').classList.remove('open')"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
     <div class="modal-body">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
         <div>
           <div class="form-label">Prenom</div>
-          <div id="workerPrenom" style="font-weight:600">â€”</div>
+          <div id="workerPrenom" style="font-weight:600">—</div>
         </div>
         <div>
           <div class="form-label">Nom</div>
-          <div id="workerNom" style="font-weight:600">â€”</div>
+          <div id="workerNom" style="font-weight:600">—</div>
         </div>
         <div>
           <div class="form-label">Poste</div>
-          <div id="workerPoste" style="font-weight:600">â€”</div>
+          <div id="workerPoste" style="font-weight:600">—</div>
         </div>
         <div>
           <div class="form-label">Niveau</div>
-          <div id="workerNiveau" style="font-weight:600">â€”</div>
+          <div id="workerNiveau" style="font-weight:600">—</div>
         </div>
       </div>
 
       <div style="margin-bottom:20px;padding:16px;background:var(--info-light);border:1px solid rgba(59,130,246,.2);border-radius:var(--r)">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div>
-            <div class="fs-13" style="color:var(--info);font-weight:600;margin-bottom:4px">TÃ©lÃ©phone</div>
-            <a id="workerPhone" href="tel:+" style="font-weight:600;color:var(--brand)">â€”</a>
+            <div class="fs-13" style="color:var(--info);font-weight:600;margin-bottom:4px">Téléphone</div>
+            <a id="workerPhone" href="tel:+" style="font-weight:600;color:var(--brand)">—</a>
           </div>
           <div>
             <div class="fs-13" style="color:var(--info);font-weight:600;margin-bottom:4px">Email</div>
-            <a id="workerEmail" href="mailto:" style="font-weight:600;color:var(--brand)">â€”</a>
+            <a id="workerEmail" href="mailto:" style="font-weight:600;color:var(--brand)">—</a>
           </div>
         </div>
       </div>
 
       <div style="margin-bottom:20px">
-        <div class="form-label" style="margin-bottom:10px">SpÃ©cialitÃ©s</div>
+        <div class="form-label" style="margin-bottom:10px">Spécialités</div>
         <div id="workerSpecialites" style="display:flex;flex-wrap:wrap;gap:8px">
-          <!-- ChargÃ© en JS -->
+          <!-- Chargé en JS -->
         </div>
       </div>
 
       <div style="margin-bottom:20px">
-        <div class="form-label" style="margin-bottom:10px">Ã‰valuation</div>
+        <div class="form-label" style="margin-bottom:10px">Évaluation</div>
         <div style="display:flex;align-items:center;gap:16px">
           <div>
             <div style="font-family:var(--font-heading);font-size:32px;font-weight:800;color:var(--brand)" id="workerNote">0</div>
-            <div style="font-size:12px;color:var(--text-muted)">/5 (<span id="workerEvalCount">0</span> Ã©vals)</div>
+            <div style="font-size:12px;color:var(--text-muted)">/5 (<span id="workerEvalCount">0</span> évals)</div>
           </div>
           <button class="btn btn-outline" onclick="addEvaluation()">
             <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Ã‰valuer
+            Évaluer
           </button>
         </div>
       </div>
@@ -132,7 +132,7 @@
         <select id="workerStatut" class="form-control" onchange="updateWorkerStatus()">
           <option value="disponible">Disponible</option>
           <option value="en_mission">En mission</option>
-          <option value="conge">CongÃ©</option>
+          <option value="conge">Congé</option>
           <option value="inactif">Inactif</option>
         </select>
       </div>
@@ -143,8 +143,8 @@
           <div id="workerTaux" style="font-family:var(--font-heading);font-size:20px;font-weight:800;color:var(--brand)">0</div>
         </div>
         <div>
-          <div class="fs-13" style="color:var(--text-muted);margin-bottom:6px">AnnÃ©es expÃ©rience</div>
-          <div id="workerExpÃ©rience" style="font-family:var(--font-heading);font-size:20px;font-weight:800">0</div>
+          <div class="fs-13" style="color:var(--text-muted);margin-bottom:6px">Années expérience</div>
+          <div id="workerExpérience" style="font-family:var(--font-heading);font-size:20px;font-weight:800">0</div>
         </div>
       </div>
 
@@ -183,7 +183,7 @@ function filterOuvriers() {
 function renderOuvriers(ouvriers) {
   const grid = document.getElementById('ouvriersGrid');
   grid.innerHTML = ouvriers.map(o => {
-    const statusIcon = { disponible: 'âœ“', en_mission: 'ðŸ”¨', conge: 'ðŸ–ï¸', inactif: 'âŠ˜' };
+    const statusIcon = { disponible: '✓', en_mission: '🔨', conge: '🏖️', inactif: '⊗' };
     const statusColor = { disponible: 'success', en_mission: 'info', conge: 'warning', inactif: 'muted' };
     
     return `<div class="card card-pad card-hover" onclick="openWorker(${o.id})" style="cursor:pointer">
@@ -201,12 +201,12 @@ function renderOuvriers(ouvriers) {
         </div>
         <div style="flex:1">
           <div style="font-weight:700;font-size:18px;color:var(--brand)">${o.note_moyenne.toFixed(1)}</div>
-          <div style="font-size:11px;color:var(--text-muted)">${o.total_evaluations || 0} Ã©valuations</div>
+          <div style="font-size:11px;color:var(--text-muted)">${o.total_evaluations || 0} évaluations</div>
         </div>
       </div>
 
       <div style="margin-bottom:12px">
-        <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px">SpÃ©cialitÃ©s</div>
+        <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px">Spécialités</div>
         <div style="display:flex;flex-wrap:wrap;gap:6px">
           ${(o.specialites || []).slice(0,2).map(s => `<span class="badge badge-muted">${esc(s)}</span>`).join('')}
           ${(o.specialites || []).length > 2 ? `<span class="badge badge-muted">+${(o.specialites || []).length - 2}</span>` : ''}
@@ -219,7 +219,7 @@ function renderOuvriers(ouvriers) {
           <div style="font-weight:700">${fmt(o.taux_journalier, true)}</div>
         </div>
         <div>
-          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:4px">ExpÃ©rience</div>
+          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:4px">Expérience</div>
           <div style="font-weight:700">${o.annees_experience} ans</div>
         </div>
       </div>
@@ -240,18 +240,18 @@ function openWorker(id) {
   document.getElementById('workerPrenom').textContent = esc(o.prenom);
   document.getElementById('workerNom').textContent = esc(o.nom);
   document.getElementById('workerPoste').textContent = o.poste;
-  document.getElementById('workerNiveau').textContent = o.niveau_qualification || 'â€”';
+  document.getElementById('workerNiveau').textContent = o.niveau_qualification || '—';
   document.getElementById('workerPhone').textContent = o.telephone;
   document.getElementById('workerPhone').href = 'tel:' + o.telephone;
-  document.getElementById('workerEmail').textContent = o.email || 'â€”';
+  document.getElementById('workerEmail').textContent = o.email || '—';
   document.getElementById('workerEmail').href = 'mailto:' + (o.email || '');
   document.getElementById('workerNote').textContent = o.note_moyenne.toFixed(1);
   document.getElementById('workerEvalCount').textContent = o.total_evaluations || 0;
   document.getElementById('workerStatut').value = o.statut;
   document.getElementById('workerTaux').textContent = fmt(o.taux_journalier, false);
-  document.getElementById('workerExpÃ©rience').textContent = o.annees_experience + ' ans';
+  document.getElementById('workerExpérience').textContent = o.annees_experience + ' ans';
 
-  // SpÃ©cialitÃ©s
+  // Spécialités
   const specDiv = document.getElementById('workerSpecialites');
   specDiv.innerHTML = (o.specialites || []).map(s => `<span class="badge badge-brand">${esc(s)}</span>`).join('');
 
@@ -261,12 +261,12 @@ function openWorker(id) {
 function updateWorkerStatus() {
   const newStatut = document.getElementById('workerStatut').value;
   DB.update('ouvriers', selectedWorkerId, { statut: newStatut });
-  toast('Statut mis Ã  jour', 'success');
+  toast('Statut mis à jour', 'success');
   loadOuvriers();
 }
 
 function addEvaluation() {
-  confirm('Ã‰valuer cet ouvrier ?', 'Note de 1 Ã  5 Ã©toiles', () => {
+  confirm('Évaluer cet ouvrier ?', 'Note de 1 à 5 étoiles', () => {
     const note = prompt('Note (1-5):', '4');
     if (note && note >= 1 && note <= 5) {
       const o = DB.find('ouvriers', selectedWorkerId);
@@ -280,10 +280,10 @@ function addEvaluation() {
         ouvrier_id: selectedWorkerId,
         note: parseInt(note),
         evaluateur_id: Auth.current().id,
-        commentaire: 'Ã‰valuation du jour'
+        commentaire: 'Évaluation du jour'
       });
       
-      toast('Ã‰valuation enregistrÃ©e', 'success');
+      toast('Évaluation enregistrée', 'success');
       openWorker(selectedWorkerId);
     }
   });
@@ -292,7 +292,7 @@ function addEvaluation() {
 function callWorker() {
   const o = DB.find('ouvriers', selectedWorkerId);
   toast(`Appel vers ${o.telephone} via Twilio (simulation)...`, 'info');
-  setTimeout(() => toast(`En production: intÃ©gration Twilio`, 'info'), 1500);
+  setTimeout(() => toast(`En production: intégration Twilio`, 'info'), 1500);
 }
 
 window.addEventListener('load', loadOuvriers);

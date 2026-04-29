@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestion des clients â€” POLYFIX Admin</title>
+  <title>Gestion des clients — POLYFIX Admin</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -46,7 +46,7 @@
       <div class="search-bar">
         <div class="search-input-wrap" style="flex:1;min-width:250px">
           <svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 21l-4.35-4.35"/><circle cx="10.5" cy="10.5" r="7.5"/></svg>
-          <input type="text" class="form-control" id="searchClient" placeholder="Rechercher par nom, email, tÃ©lâ€¦" onkeyup="filterClients()">
+          <input type="text" class="form-control" id="searchClient" placeholder="Rechercher par nom, email, tél…" onkeyup="filterClients()">
         </div>
         <select id="filterType" class="form-control" onchange="filterClients()" style="max-width:160px">
           <option value="">Tous les types</option>
@@ -67,7 +67,7 @@
             <thead>
               <tr>
                 <th style="width:25%">Nom</th>
-                <th style="width:20%">TÃ©lÃ©phone</th>
+                <th style="width:20%">Téléphone</th>
                 <th style="width:20%">Email</th>
                 <th style="width:15%">Ville</th>
                 <th style="width:10%">Projets</th>
@@ -75,7 +75,7 @@
               </tr>
             </thead>
             <tbody id="clientsBody">
-              <!-- ChargÃ© en JS -->
+              <!-- Chargé en JS -->
             </tbody>
           </table>
         </div>
@@ -84,7 +84,7 @@
   </div>
 </div>
 
-<!-- MODAL : Nouveau/Ã‰diter client -->
+<!-- MODAL : Nouveau/Éditer client -->
 <div class="modal-backdrop" id="clientModal">
   <div class="modal">
     <div class="modal-header">
@@ -106,7 +106,7 @@
         <div id="particulierSection">
           <div class="form-grid">
             <div class="form-group">
-              <label class="form-label">PrÃ©nom</label>
+              <label class="form-label">Prénom</label>
               <input type="text" id="prenom" class="form-control">
             </div>
             <div class="form-group">
@@ -126,12 +126,12 @@
 
         <!-- Contact -->
         <div class="form-group" style="margin-bottom:16px">
-          <label class="form-label">TÃ©lÃ©phone <span class="req">*</span></label>
+          <label class="form-label">Téléphone <span class="req">*</span></label>
           <input type="tel" id="telephone" class="form-control" placeholder="+242 06..." required>
         </div>
 
         <div class="form-group" style="margin-bottom:16px">
-          <label class="form-label">TÃ©lÃ©phone 2</label>
+          <label class="form-label">Téléphone 2</label>
           <input type="tel" id="telephone2" class="form-control" placeholder="+242 05...">
         </div>
 
@@ -144,7 +144,7 @@
         <div class="form-group" style="margin-bottom:16px">
           <label class="form-label">Ville</label>
           <select id="ville" class="form-control">
-            <option value="">â€”</option>
+            <option value="">—</option>
             <option value="Brazzaville">Brazzaville</option>
             <option value="Pointe-Noire">Pointe-Noire</option>
             <option value="Dolisie">Dolisie</option>
@@ -157,16 +157,16 @@
           <input type="text" id="quartier" class="form-control" placeholder="Ex: Poto-Poto">
         </div>
 
-        <!-- Adresse complÃ¨te -->
+        <!-- Adresse complète -->
         <div class="form-group" style="margin-bottom:16px">
           <label class="form-label">Adresse</label>
-          <textarea id="adresse" class="form-control" placeholder="Adresse complÃ¨teâ€¦" style="min-height:80px"></textarea>
+          <textarea id="adresse" class="form-control" placeholder="Adresse complète…" style="min-height:80px"></textarea>
         </div>
 
         <!-- Notes -->
         <div class="form-group" style="margin-bottom:20px">
           <label class="form-label">Notes internes</label>
-          <textarea id="notes" class="form-control" placeholder="Notes personnellesâ€¦" style="min-height:60px"></textarea>
+          <textarea id="notes" class="form-control" placeholder="Notes personnelles…" style="min-height:60px"></textarea>
         </div>
 
         <div class="modal-footer">
@@ -204,7 +204,7 @@ function handleClientSave(e) {
   const telephone = document.getElementById('telephone').value;
 
   if (!telephone) {
-    toast('TÃ©lÃ©phone requis', 'error');
+    toast('Téléphone requis', 'error');
     return;
   }
 
@@ -229,10 +229,10 @@ function handleClientSave(e) {
 
   if (selectedClientId) {
     DB.update('clients', selectedClientId, data);
-    toast('Client mis Ã  jour', 'success');
+    toast('Client mis à jour', 'success');
   } else {
     DB.insert('clients', data);
-    toast('Client crÃ©Ã©', 'success');
+    toast('Client créé', 'success');
   }
 
   document.getElementById('clientModal').classList.remove('open');
@@ -274,12 +274,12 @@ function renderClients(clients) {
     return `<tr onclick="editClient(${c.id})" style="cursor:pointer">
       <td><strong>${esc(nom)}</strong></td>
       <td>${c.telephone}</td>
-      <td>${c.email || 'â€”'}</td>
-      <td>${c.ville || 'â€”'}</td>
+      <td>${c.email || '—'}</td>
+      <td>${c.ville || '—'}</td>
       <td><span class="badge badge-info">${projets.length}</span></td>
       <td style="pointer-events:none">
         <div class="table-actions">
-          <button class="btn btn-sm btn-outline">âœŽ</button>
+          <button class="btn btn-sm btn-outline">✎</button>
         </div>
       </td>
     </tr>`;
@@ -295,7 +295,7 @@ function editClient(id) {
   const c = DB.find('clients', id);
   if (!c) return;
 
-  document.getElementById('clientModalTitle').textContent = 'Ã‰diter client';
+  document.getElementById('clientModalTitle').textContent = 'Éditer client';
   document.getElementById('typeClient').value = c.type_client;
   toggleClientType();
 
@@ -314,9 +314,9 @@ function editClient(id) {
 }
 
 function deleteClient(id) {
-  confirm('Supprimer ce client ?', 'Tous les devis et projets resteront en base de donnÃ©es.', () => {
+  confirm('Supprimer ce client ?', 'Tous les devis et projets resteront en base de données.', () => {
     DB.delete('clients', id);
-    toast('Client supprimÃ©', 'success');
+    toast('Client supprimé', 'success');
     loadClients();
   }, true);
 }

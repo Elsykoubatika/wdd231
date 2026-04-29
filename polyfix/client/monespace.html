@@ -3,273 +3,697 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mon Espace â€” POLYFIX Client</title>
+  <title>Mon Espace — POLYFIX Client</title>
   <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .client-layout { min-height:100vh; background:var(--c-bg); }
+    .client-nav {
+      background:var(--c-surface);
+      border-bottom:1px solid var(--c-border);
+      padding:0 28px;
+      height:64px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      position:sticky;
+      top:0;
+      z-index:100;
+      box-shadow:var(--shadow-xs);
+    }
+    .step-tracker {
+      display:flex;
+      align-items:center;
+      gap:0;
+      position:relative;
+    }
+    .step-item {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+      flex:1;
+      position:relative;
+    }
+    .step-item:not(:last-child)::after {
+      content:'';
+      position:absolute;
+      top:16px;
+      left:50%;
+      width:100%;
+      height:2px;
+      background:var(--c-border);
+      z-index:0;
+    }
+    .step-item.done:not(:last-child)::after { background:var(--c-success); }
+    .step-item.active:not(:last-child)::after { background:linear-gradient(90deg,var(--c-brand),var(--c-border)); }
+    .step-dot {
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      background:var(--c-surface);
+      border:2px solid var(--c-border);
+      display:grid;
+      place-items:center;
+      font-size:13px;
+      font-weight:700;
+      color:var(--c-muted);
+      position:relative;
+      z-index:1;
+      transition:var(--transition);
+    }
+    .step-item.done .step-dot   { background:var(--c-success); border-color:var(--c-success); color:#fff; }
+    .step-item.active .step-dot { background:var(--c-brand); border-color:var(--c-brand); color:#fff; }
+    .step-label { font-size:11px; color:var(--c-muted); white-space:nowrap; }
+    .step-item.done .step-label   { color:var(--c-success); }
+    .step-item.active .step-label { color:var(--c-brand); font-weight:600; }
+
+    .photo-grid-client { display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:8px; }
+    .photo-thumb-client {
+      aspect-ratio:1;
+      border-radius:var(--radius-sm);
+      overflow:hidden;
+      cursor:pointer;
+      border:1px solid var(--c-border);
+    }
+    .photo-thumb-client img { width:100%; height:100%; object-fit:cover; transition:transform .3s; }
+    .photo-thumb-client:hover img { transform:scale(1.06); }
+    .stat-card {
+      background:var(--c-surface);
+      border:1px solid var(--c-border);
+      border-radius:var(--radius);
+      padding:18px 20px;
+    }
+    .timeline-item {
+      display:flex;
+      gap:14px;
+      padding-bottom:20px;
+      position:relative;
+    }
+    .timeline-item:not(:last-child)::after {
+      content:'';
+      position:absolute;
+      left:14px;
+      top:30px;
+      bottom:0;
+      width:2px;
+      background:var(--c-border);
+    }
+    .timeline-dot {
+      width:28px;
+      height:28px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      flex-shrink:0;
+      position:relative;
+      z-index:1;
+    }
+  </style>
 </head>
-<body style="background:var(--bg)">
-<div style="min-height:100vh;padding:40px 24px">
-  <div class="container" style="max-width:900px">
-    <!-- HEADER -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:40px;flex-wrap:wrap;gap:16px">
-      <div>
-        <h1 class="h1" style="margin-bottom:4px">Mon Espace</h1>
-        <p style="color:var(--text-secondary);font-size:15px" id="clientWelcome">Bienvenue</p>
+<body class="client-layout">
+
+  <!-- NAVBAR CLIENT -->
+  <nav class="client-nav">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="logo-mark" style="width:36px;height:36px">
+        <svg viewBox="0 0 24 24" fill="white" style="width:20px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
       </div>
-      <button class="btn btn-outline" onclick="Auth.logout(); window.location.href='../login.html'">
-        <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-        DÃ©connexion
+      <div>
+        <div style="font-family:var(--font-display);font-size:18px;font-weight:900;text-transform:uppercase">POLY<span style="color:var(--c-brand)">FIX</span></div>
+        <div style="font-size:10px;color:var(--c-muted);letter-spacing:.06em;text-transform:uppercase">Espace client</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="text-align:right">
+        <div style="font-weight:600;font-size:14px" id="clientNavName">Chargement…</div>
+        <div style="font-size:11px;color:var(--c-muted)">Client propriétaire</div>
+      </div>
+      <div class="avatar" id="clientNavAvatar">?</div>
+      <button class="btn btn-ghost btn-sm" onclick="Auth.logout();window.location.href='../login.html'">
+        <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:14px;height:14px;stroke:currentColor"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Déconnexion
       </button>
     </div>
+  </nav>
 
-    <!-- TABS -->
-    <div class="tabs" style="margin-bottom:32px">
-      <button class="tab-btn active" onclick="switchTab('projects', this)">Mes projets</button>
-      <button class="tab-btn" onclick="switchTab('devis', this)">Mes devis</button>
-      <button class="tab-btn" onclick="switchTab('messages', this)">Messages</button>
-      <button class="tab-btn" onclick="switchTab('factures', this)">Factures</button>
-    </div>
+  <div style="max-width:1100px;margin:0 auto;padding:32px 24px">
 
-    <!-- TAB: PROJECTS -->
-    <div id="tab-projects" class="tab-panel active">
-      <div id="projectsList" style="display:grid;grid-template-columns:1fr;gap:24px">
-        <!-- ChargÃ© en JS -->
+    <!-- WELCOME BANNER -->
+    <div style="background:linear-gradient(135deg,var(--c-brand),var(--c-brand-dark));border-radius:var(--radius-lg);padding:28px 32px;color:#fff;margin-bottom:32px;position:relative;overflow:hidden">
+      <div style="position:absolute;right:-40px;top:-40px;width:200px;height:200px;background:rgba(255,255,255,.06);border-radius:50%"></div>
+      <div style="position:absolute;right:60px;bottom:-60px;width:150px;height:150px;background:rgba(255,255,255,.04);border-radius:50%"></div>
+      <div style="position:relative;z-index:1">
+        <div style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.8;margin-bottom:6px">Bienvenue</div>
+        <h1 style="font-family:var(--font-display);font-size:clamp(22px,4vw,36px);font-weight:900;text-transform:uppercase;margin-bottom:4px" id="welcomeName">—</h1>
+        <p style="font-size:14px;opacity:.8" id="welcomeSub">Suivez l'avancement de vos projets en temps réel</p>
       </div>
     </div>
 
-    <!-- TAB: DEVIS -->
+    <!-- TABS NAVIGATION -->
+    <div class="tabs" style="margin-bottom:28px">
+      <button class="tab-btn active" onclick="switchTab('projets',this)">🏗️ Mes projets</button>
+      <button class="tab-btn" onclick="switchTab('devis',this)">📋 Mes devis</button>
+      <button class="tab-btn" onclick="switchTab('paiements',this)">💳 Paiements</button>
+      <button class="tab-btn" onclick="switchTab('photos',this)">📸 Chantier</button>
+      <button class="tab-btn" onclick="switchTab('messages',this)">💬 Messages</button>
+      <button class="tab-btn" onclick="switchTab('profil',this)">👤 Mon profil</button>
+    </div>
+
+    <!-- ── TAB : MES PROJETS ──────────────────────────────────── -->
+    <div id="tab-projets" class="tab-panel active">
+      <div id="projetsContainer" style="display:flex;flex-direction:column;gap:28px">
+        <!-- Rempli en JS -->
+      </div>
+    </div>
+
+    <!-- ── TAB : MES DEVIS ────────────────────────────────────── -->
     <div id="tab-devis" class="tab-panel">
-      <div id="devisList" style="display:flex;flex-direction:column;gap:16px">
-        <!-- ChargÃ© en JS -->
+      <div id="devisContainer" style="display:flex;flex-direction:column;gap:16px"></div>
+    </div>
+
+    <!-- ── TAB : PAIEMENTS ───────────────────────────────────── -->
+    <div id="tab-paiements" class="tab-panel">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px" id="paiementKPIs"></div>
+      <div id="facturesContainer" style="display:flex;flex-direction:column;gap:12px"></div>
+    </div>
+
+    <!-- ── TAB : PHOTOS CHANTIER ─────────────────────────────── -->
+    <div id="tab-photos" class="tab-panel">
+      <div id="photosGlobal">
+        <!-- Rempli en JS -->
       </div>
     </div>
 
-    <!-- TAB: MESSAGES -->
+    <!-- ── TAB : MESSAGES ────────────────────────────────────── -->
     <div id="tab-messages" class="tab-panel">
-      <div class="card card-pad">
-        <h3 class="h3" style="margin-bottom:20px">Mes messages</h3>
-        <div id="messagesList" style="display:flex;flex-direction:column;gap:12px">
-          <!-- ChargÃ© en JS -->
+      <div style="display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:start">
+        <!-- Conversation -->
+        <div>
+          <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-lg);overflow:hidden">
+            <div style="padding:16px 20px;border-bottom:1px solid var(--c-border);font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:14px">
+              Messagerie POLYFIX
+            </div>
+            <div id="messagesThread" style="padding:20px;min-height:300px;max-height:500px;overflow-y:auto;display:flex;flex-direction:column;gap:14px">
+              <!-- Rempli en JS -->
+            </div>
+            <div style="padding:14px 20px;border-top:1px solid var(--c-border);display:flex;gap:10px">
+              <input type="text" id="msgInput" class="form-control" placeholder="Votre message à POLYFIX…" style="flex:1" onkeydown="if(event.key==='Enter')sendClientMsg()">
+              <button class="btn btn-primary" onclick="sendClientMsg()">
+                <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px;stroke:currentColor"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Contact rapide -->
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="card card-pad">
+            <h3 style="font-family:var(--font-display);font-size:14px;font-weight:700;text-transform:uppercase;margin-bottom:16px">Contact direct</h3>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <a href="tel:+242065000000" class="btn btn-primary" style="justify-content:center">
+                <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px;stroke:currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                +242 065 000 000
+              </a>
+              <a href="https://wa.me/242065000000" target="_blank" class="btn btn-outline" style="justify-content:center;border-color:#25D366;color:#25D366">
+                <svg viewBox="0 0 24 24" fill="#25D366" style="width:16px;height:16px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                WhatsApp
+              </a>
+              <a href="mailto:contact@polyfix.cg" class="btn btn-ghost" style="justify-content:center">
+                <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px;stroke:currentColor"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                contact@polyfix.cg
+              </a>
+            </div>
+          </div>
+          <div class="card card-pad">
+            <h3 style="font-family:var(--font-display);font-size:14px;font-weight:700;text-transform:uppercase;margin-bottom:12px">Horaires</h3>
+            <div style="font-size:13px;color:var(--c-muted);line-height:1.9">
+              <div>Lun – Ven : 7h30 – 17h30</div>
+              <div>Samedi : 8h00 – 13h00</div>
+              <div>Dimanche : Urgences uniquement</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- TAB: FACTURES -->
-    <div id="tab-factures" class="tab-panel">
-      <div id="facturesList" style="display:flex;flex-direction:column;gap:12px">
-        <!-- ChargÃ© en JS -->
+    <!-- ── TAB : MON PROFIL ───────────────────────────────────── -->
+    <div id="tab-profil" class="tab-panel">
+      <div style="max-width:560px">
+        <div class="card card-pad" style="margin-bottom:20px">
+          <h3 style="font-family:var(--font-display);font-size:16px;font-weight:700;text-transform:uppercase;margin-bottom:20px">Mes informations</h3>
+          <div class="form-grid" style="gap:16px">
+            <div class="form-group">
+              <label class="form-label">Prénom</label>
+              <input type="text" id="profPrenom" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nom</label>
+              <input type="text" id="profNom" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Téléphone</label>
+              <input type="tel" id="profTel" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" id="profEmail" class="form-control">
+            </div>
+            <div class="form-group span-2">
+              <label class="form-label">Adresse</label>
+              <input type="text" id="profAddr" class="form-control">
+            </div>
+          </div>
+          <div style="margin-top:16px">
+            <button class="btn btn-primary" onclick="saveProfil()">Mettre à jour</button>
+          </div>
+        </div>
+        <div class="card card-pad" style="border-color:rgba(59,130,246,.2);background:var(--c-info-bg)">
+          <h3 style="font-size:14px;font-weight:700;color:var(--c-info);margin-bottom:12px">Votre gestionnaire de projet</h3>
+          <div style="display:flex;align-items:center;gap:14px">
+            <div class="avatar avatar-lg" style="background:var(--c-info)">JM</div>
+            <div>
+              <div style="font-weight:700;font-size:16px">Jean Mbemba</div>
+              <div style="color:var(--c-muted);font-size:13px">Chef de projet POLYFIX</div>
+              <a href="tel:+242065000001" style="color:var(--c-brand);font-size:13px;font-weight:600;display:block;margin-top:4px">+242 065 000 001</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- PHOTO VIEWER -->
+  <div id="photoViewer" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:12px">
+    <button onclick="document.getElementById('photoViewer').style.display='none'" style="position:absolute;top:20px;right:20px;color:#fff;font-size:28px;background:none;border:none;cursor:pointer">✕</button>
+    <img id="viewerImg" style="max-width:90%;max-height:85vh;border-radius:8px;object-fit:contain">
+    <div id="viewerCaption" style="color:rgba(255,255,255,.7);font-size:13px"></div>
   </div>
 </div>
 
 <script src="../js/db.js"></script>
 <script>
-const user = Auth.require(['client']);
-if (!user) return;
+Auth.require(['client','admin','gestionnaire']);
 
-// Find client
-let clientId = null;
-const clients = DB.list('clients');
-const client = clients.find(c => c.email === user.email || (c.prenom === user.prenom && c.nom === user.nom));
-if (client) clientId = client.id;
+let clientObj   = null;
+let clientMsgs  = [];
 
-document.getElementById('clientWelcome').textContent = `Bienvenue, ${user.prenom} ${user.nom}`;
+/* ── MESSAGES DÉMO ─────────────────────────────────────────── */
+const MSGS_DEMO = [
+  { role:'polyfix', text:'Bonjour ! Votre dossier a bien été enregistré. Un gestionnaire vous contactera dans les 24h.', date: new Date(Date.now()-86400000*3).toISOString() },
+  { role:'client',  text:'Merci ! Avez-vous des nouvelles concernant le début des travaux ?', date: new Date(Date.now()-86400000*2).toISOString() },
+  { role:'polyfix', text:'Oui ! Les travaux débuteront le 20 janvier. L\'équipe de 4 ouvriers sera sur place à 7h30. N\'hésitez pas à nous contacter pour toute question.', date: new Date(Date.now()-86400000).toISOString() },
+];
 
-function switchTab(tab, btn) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  btn.classList.add('active');
-}
+/* ── INIT ───────────────────────────────────────────────────── */
+function init() {
+  const user = Auth.current();
+  if (!user) return;
 
-function loadProjects() {
-  if (!clientId) return;
-  const projets = DB.where('projets', p => p.client_id === clientId);
-  const container = document.getElementById('projectsList');
-  
-  container.innerHTML = projets.map(p => {
-    const statusMap = { en_attente: 'warning', actif: 'success', suspendu: 'danger', termine: 'muted' };
-    const cls = statusMap[p.statut] || 'muted';
-    
-    const jours = p.date_fin_prevue ? daysSince(p.date_fin_prevue) : null;
-    const status_texte = jours && jours < 0 
-      ? `Fin prÃ©vue le ${fmtDate(p.date_fin_prevue)}`
-      : jours > 0
-      ? `DÃ©passement de ${jours} jours`
-      : 'En cours';
+  // Trouver le client lié
+  const clients = DB.list('clients');
+  clientObj = clients.find(c => c.email === user.email || (c.prenom === user.prenom && c.nom === user.nom))
+    || clients[0]; // fallback démo
 
-    return `<div class="card card-pad" onclick="expandProject(${p.id})" style="cursor:pointer">
-      <div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px">
-        <div>
-          <h3 class="h3" style="margin-bottom:6px">${esc(p.titre)}</h3>
-          <div style="font-size:13px;color:var(--text-muted)">${esc(p.lieu || p.ville || '?')}</div>
-        </div>
-        <span class="badge badge-${cls}">${p.statut.replace(/_/g, ' ')}</span>
-      </div>
+  const nomComplet = `${user.prenom} ${user.nom}`;
+  document.getElementById('clientNavName').textContent = nomComplet;
+  document.getElementById('clientNavAvatar').textContent = (user.prenom[0]+user.nom[0]).toUpperCase();
+  document.getElementById('welcomeName').textContent = nomComplet;
+  document.getElementById('welcomeSub').textContent = clientObj
+    ? `Bienvenue sur votre espace personnel POLYFIX — ${DB.where('projets', p => p.client_id === clientObj.id).length} projet(s) en cours`
+    : 'Bienvenue sur votre espace personnel POLYFIX';
 
-      <!-- Progress -->
-      <div style="margin-bottom:20px">
-        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-          <span style="font-weight:600">Avancement</span>
-          <span style="color:var(--brand);font-weight:700">${p.pourcentage_avancement}%</span>
-        </div>
-        <div class="progress">
-          <div class="progress-bar" style="width:${p.pourcentage_avancement}%"></div>
-        </div>
-      </div>
-
-      <!-- Timeline -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px;background:var(--bg-alt);border-radius:var(--r);margin-bottom:16px">
-        <div>
-          <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">DÃ©but</div>
-          <div style="font-weight:600">${fmtDate(p.date_debut_prevue) || '?'}</div>
-        </div>
-        <div>
-          <div style="font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">Fin prÃ©vue</div>
-          <div style="font-weight:600">${fmtDate(p.date_fin_prevue) || '?'}</div>
-        </div>
-      </div>
-
-      <!-- Budget -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
-        <div>
-          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:4px">Budget</div>
-          <div style="font-weight:700;font-size:16px">${fmt(p.budget_initial, true)}</div>
-        </div>
-        <div>
-          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:4px">DÃ©pensÃ©</div>
-          <div style="font-weight:700;font-size:16px">${fmt(p.depenses_reelles, true)}</div>
-        </div>
-        <div>
-          <div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:4px">EncaissÃ©</div>
-          <div style="font-weight:700;font-size:16px;color:var(--success)">${fmt(p.montant_encaisse, true)}</div>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-
-  if (projets.length === 0) {
-    container.innerHTML = '<div style="text-align:center;padding:48px;background:var(--bg-card);border-radius:var(--r-lg);color:var(--text-muted)"><p>Aucun projet pour le moment</p></div>';
+  // Préremplir profil
+  if (clientObj) {
+    document.getElementById('profPrenom').value = clientObj.prenom || user.prenom;
+    document.getElementById('profNom').value    = clientObj.nom || user.nom;
+    document.getElementById('profTel').value    = clientObj.telephone || '';
+    document.getElementById('profEmail').value  = clientObj.email || user.email;
+    document.getElementById('profAddr').value   = clientObj.adresse || '';
   }
+
+  clientMsgs = [...MSGS_DEMO, ...(JSON.parse(localStorage.getItem('pf_client_msgs')||'[]'))];
+  renderAll();
 }
 
-function loadDevis() {
-  if (!clientId) return;
-  const devis = DB.where('devis', d => d.client_id === clientId);
-  const container = document.getElementById('devisList');
-  
-  container.innerHTML = devis.map(d => {
-    const statusMap = { brouillon:'muted', envoye:'info', en_attente:'warning', approuve:'success', rejete:'danger' };
-    const cls = statusMap[d.statut] || 'muted';
-    
-    return `<div class="card card-pad">
-      <div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:12px">
+function renderAll() {
+  renderProjets();
+  renderDevis();
+  renderPaiements();
+  renderPhotosGlobal();
+  renderMessages();
+}
+
+/* ── PROJETS ────────────────────────────────────────────────── */
+function renderProjets() {
+  if (!clientObj) {
+    document.getElementById('projetsContainer').innerHTML = '<div class="card card-pad" style="text-align:center;padding:48px;color:var(--c-muted)">Aucun projet associé à votre compte</div>';
+    return;
+  }
+  const projets = DB.where('projets', p => p.client_id === clientObj.id);
+  if (!projets.length) {
+    document.getElementById('projetsContainer').innerHTML = '<div class="card card-pad" style="text-align:center;padding:48px"><div style="font-size:48px;margin-bottom:16px">🏗️</div><p style="color:var(--c-muted)">Aucun projet pour le moment.<br>Votre devis approuvé lancera automatiquement votre premier projet.</p></div>';
+    return;
+  }
+
+  document.getElementById('projetsContainer').innerHTML = projets.map(p => {
+    const statMap   = {en_attente:'warning',actif:'success',suspendu:'danger',termine:'muted'};
+    const statLabel = {en_attente:'En attente',actif:'En cours',suspendu:'Suspendu',termine:'Terminé'};
+    const jours     = p.date_fin_prevue ? Math.ceil((new Date(p.date_fin_prevue)-new Date())/86400000) : null;
+    const budget    = p.budget_initial || 0;
+    const depenses  = p.depenses_reelles || 0;
+    const encaisse  = p.montant_encaisse || 0;
+    const taches    = DB.where('taches', t => t.projet_id === p.id);
+    const done      = taches.filter(t => t.statut === 'terminee').length;
+    const rapports  = DB.where('rapports_journaliers', r => r.projet_id === p.id);
+    const dernRap   = rapports.sort((a,b)=>b.date_rapport?.localeCompare(a.date_rapport))[0];
+    const photos    = (p.photos || []);
+
+    // Étapes du projet
+    const etapes = [
+      { label:'Devis signé',     done: p.devis_id != null },
+      { label:'Travaux lancés',  done: p.statut === 'actif' || p.statut === 'termine' },
+      { label:'Mi-parcours',     done: (p.pourcentage_avancement||0) >= 50 },
+      { label:'Finitions',       done: (p.pourcentage_avancement||0) >= 80 },
+      { label:'Livraison',       done: p.statut === 'termine' },
+    ];
+
+    return `<div class="card card-pad" style="border-top:4px solid ${p.statut==='actif'?'var(--c-success)':p.statut==='en_attente'?'var(--c-warning)':'var(--c-border)'}">
+
+      <!-- Header projet -->
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:20px;flex-wrap:wrap;gap:12px">
         <div>
-          <div style="font-weight:600;font-size:16px;margin-bottom:4px">${esc(d.numero)}</div>
-          <p style="color:var(--text-secondary);font-size:14px">${esc(d.titre)}</p>
+          <div style="font-size:11px;color:var(--c-muted);font-weight:600;letter-spacing:.05em;margin-bottom:4px">${esc(p.code)}</div>
+          <h2 style="font-family:var(--font-display);font-size:clamp(18px,3vw,26px);font-weight:800;text-transform:uppercase;line-height:1.1">${esc(p.titre)}</h2>
+          <div style="font-size:13px;color:var(--c-muted);margin-top:4px">
+            <svg viewBox="0 0 24 24" stroke="var(--c-muted)" stroke-width="2" fill="none" style="width:13px;height:13px;vertical-align:middle"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            ${esc(p.lieu||p.ville||'Congo')}
+          </div>
         </div>
         <div style="text-align:right">
-          <span class="badge badge-${cls}">${d.statut.replace(/_/g, ' ')}</span>
-          <div style="font-weight:700;font-size:18px;margin-top:8px;color:var(--brand)">${fmt(d.montant_ttc, true)}</div>
+          <span class="badge badge-${statMap[p.statut]||'muted'}" style="font-size:13px;padding:6px 14px">${statLabel[p.statut]||p.statut}</span>
+          ${jours !== null ? `<div style="font-size:12px;color:${jours<0?'var(--c-danger)':'var(--c-muted)'};margin-top:8px">${jours<0?'⚠️ Dépassement de '+Math.abs(jours)+'j':'Fin dans '+jours+' jours'}</div>` : ''}
         </div>
       </div>
-      <div style="margin-top:12px;font-size:12px;color:var(--text-muted)">
-        Ã‰mis le ${fmtDate(d.date_emission)}
-        ${d.date_validite ? ` â€” Valide jusqu'au ${fmtDate(d.date_validite)}` : ''}
+
+      <!-- Suivi d'étapes -->
+      <div style="margin-bottom:24px;padding:20px;background:var(--c-dark);border-radius:var(--radius);overflow-x:auto">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c-muted);margin-bottom:14px">Avancement du projet</div>
+        <div class="step-tracker" style="min-width:400px">
+          ${etapes.map((e, i) => {
+            const isActive = !e.done && (i === 0 || etapes[i-1]?.done);
+            return `<div class="step-item ${e.done?'done':isActive?'active':''}">
+              <div class="step-dot">${e.done?'✓':i+1}</div>
+              <div class="step-label">${e.label}</div>
+            </div>`;
+          }).join('')}
+        </div>
+        <div style="margin-top:16px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px">
+            <span>Avancement global</span>
+            <span style="font-weight:700;color:var(--c-brand)">${p.pourcentage_avancement||0}%</span>
+          </div>
+          <div class="progress" style="height:10px"><div class="progress-bar" style="width:${p.pourcentage_avancement||0}%"></div></div>
+        </div>
       </div>
-      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-        <a href="#" class="btn btn-sm btn-outline">ðŸ“„ Consulter</a>
-        ${d.statut === 'envoye' || d.statut === 'en_attente' ? `<button class="btn btn-sm btn-primary" onclick="approveDevisClient(${d.id})">âœ“ Approuver</button>` : ''}
+
+      <!-- Infos clés en grille -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px">
+        <div class="stat-card">
+          <div style="font-size:11px;color:var(--c-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">Budget total</div>
+          <div style="font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--c-text)">${fmt(budget,true)}</div>
+        </div>
+        <div class="stat-card">
+          <div style="font-size:11px;color:var(--c-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">Montant payé</div>
+          <div style="font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--c-success)">${fmt(encaisse,true)}</div>
+        </div>
+        <div class="stat-card">
+          <div style="font-size:11px;color:var(--c-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">Restant à payer</div>
+          <div style="font-family:var(--font-display);font-size:20px;font-weight:800;color:${(budget-encaisse)>0?'var(--c-warning)':'var(--c-success)'}">${fmt(Math.max(0,budget-encaisse),true)}</div>
+        </div>
+        <div class="stat-card">
+          <div style="font-size:11px;color:var(--c-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">Tâches terminées</div>
+          <div style="font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--c-info)">${done}/${taches.length}</div>
+        </div>
+      </div>
+
+      <!-- Dernière activité + Photos mini -->
+      <div style="display:grid;grid-template-columns:1fr ${photos.length?'180px':'0'};gap:20px;align-items:start">
+        <div>
+          <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--c-muted);margin-bottom:12px">Dernière activité</div>
+          ${dernRap ? `<div style="padding:14px;background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius-sm);border-left:3px solid var(--c-brand)">
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--c-muted);margin-bottom:6px">
+              <span>Rapport du ${fmtDate(dernRap.date_rapport,true)}</span>
+              <span>${dernRap.nb_ouvriers||0} ouvriers</span>
+            </div>
+            <p style="font-size:14px;line-height:1.65">${esc(dernRap.avancement_du_jour||'').substring(0,200)}${(dernRap.avancement_du_jour||'').length>200?'…':''}</p>
+            ${dernRap.problemes?`<div style="margin-top:8px;font-size:12px;color:var(--c-warning)">⚠️ ${esc(dernRap.problemes).substring(0,100)}</div>`:''}
+          </div>` : `<div style="padding:20px;text-align:center;color:var(--c-muted);font-size:13px;background:var(--c-dark);border-radius:var(--radius-sm)">Aucun rapport journalier pour l'instant</div>`}
+
+          <!-- Timeline tâches -->
+          ${taches.length ? `<div style="margin-top:16px">
+            <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--c-muted);margin-bottom:12px">Tâches récentes</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              ${taches.slice(0,4).map(t => {
+                const statusColor = {a_faire:'var(--c-muted)',en_cours:'var(--c-info)',terminee:'var(--c-success)',bloquee:'var(--c-danger)'};
+                const statusIcon  = {a_faire:'○',en_cours:'◑',terminee:'●',bloquee:'⊗'};
+                return `<div style="display:flex;align-items:center;gap:10px;font-size:13px;padding:8px 12px;background:var(--c-dark);border-radius:var(--radius-sm)">
+                  <span style="color:${statusColor[t.statut]};font-size:16px">${statusIcon[t.statut]}</span>
+                  <span style="${t.statut==='terminee'?'text-decoration:line-through;color:var(--c-muted)':'font-weight:500'}">${esc(t.titre)}</span>
+                  <span class="badge badge-${t.statut==='terminee'?'success':t.statut==='en_cours'?'info':'muted'}" style="margin-left:auto;font-size:10px">${t.statut.replace(/_/g,' ')}</span>
+                </div>`;
+              }).join('')}
+              ${taches.length > 4 ? `<div style="font-size:12px;color:var(--c-muted);text-align:center">+ ${taches.length-4} tâche(s) supplémentaire(s)</div>` : ''}
+            </div>
+          </div>` : ''}
+        </div>
+
+        <!-- Mini galerie photos -->
+        ${photos.length ? `<div>
+          <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--c-muted);margin-bottom:12px">Photos récentes</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            ${photos.slice(0,4).map(ph => `<div class="photo-thumb-client" onclick="viewPhoto('${ph.url}','${esc(ph.legende||ph.date||'')}')"><img src="${ph.url}" alt="Photo chantier"></div>`).join('')}
+          </div>
+          ${photos.length > 4 ? `<div style="margin-top:8px;font-size:12px;color:var(--c-brand);font-weight:600;cursor:pointer;text-align:center" onclick="switchTab('photos',document.querySelector('[onclick*=photos]'))">Voir toutes les ${photos.length} photos →</div>` : ''}
+        </div>` : ''}
       </div>
     </div>`;
   }).join('');
-
-  if (devis.length === 0) {
-    container.innerHTML = '<div style="text-align:center;padding:48px;background:var(--bg-card);border-radius:var(--r-lg);color:var(--text-muted)"><p>Aucun devis</p></div>';
-  }
 }
 
-function loadMessages() {
-  if (!clientId) return;
-  const messages = DB.where('messages', m => m.destinataire_id === user.id);
-  const container = document.getElementById('messagesList');
-  
-  container.innerHTML = messages.slice(-10).reverse().map(m => `
-    <div style="padding:14px;background:${m.lu ? 'var(--bg-alt)' : 'var(--info-light)'};border-radius:var(--r);border-left:3px solid var(--brand)">
-      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px">
-        <strong style="font-size:14px">${esc(m.sujet || 'Message')}</strong>
-        <span style="font-size:11px;color:var(--text-muted)">${fmtDate(m.created_at)}</span>
-      </div>
-      <p style="font-size:13px;color:var(--text-secondary)">${esc(m.contenu).substring(0,100)}...</p>
-    </div>
-  `).join('');
+/* ── DEVIS ──────────────────────────────────────────────────── */
+function renderDevis() {
+  if (!clientObj) { document.getElementById('devisContainer').innerHTML = '<p style="color:var(--c-muted)">Aucun devis</p>'; return; }
+  const devis = DB.where('devis', d => d.client_id === clientObj.id)
+    .sort((a,b) => (b.date_emission||'').localeCompare(a.date_emission||''));
 
-  if (messages.length === 0) {
-    container.innerHTML = '<p style="text-align:center;color:var(--text-muted)">Aucun message</p>';
+  if (!devis.length) {
+    document.getElementById('devisContainer').innerHTML = '<div class="card card-pad" style="text-align:center;padding:48px;color:var(--c-muted)">Aucun devis pour le moment</div>';
+    return;
   }
-}
 
-function loadFactures() {
-  if (!clientId) return;
-  const factures = DB.where('factures', f => f.client_id === clientId);
-  const container = document.getElementById('facturesList');
-  
-  container.innerHTML = factures.map(f => {
-    const projet = DB.find('projets', f.projet_id);
-    const statusMap = { impayee:'danger', partiellement_payee:'warning', payee:'success' };
-    const cls = statusMap[f.statut_paiement] || 'muted';
-    
-    return `<div class="card card-pad">
-      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:12px">
+  const statMap = {brouillon:'muted',envoye:'info',en_attente:'warning',approuve:'success',rejete:'danger'};
+  const statLbl = {brouillon:'Brouillon',envoye:'Envoyé',en_attente:'En attente de votre réponse',approuve:'Approuvé ✓',rejete:'Refusé'};
+
+  document.getElementById('devisContainer').innerHTML = devis.map(d => {
+    const lignes = (d.lignes||[]).filter(l=>!l.isSection);
+    const catIco = {construction:'🏗️',renovation:'🔨',electricite:'⚡',plomberie:'🚿',menuiserie:'🪵',peinture:'🎨'};
+
+    return `<div class="card card-pad" style="${d.statut==='en_attente'?'border-color:var(--c-warning);box-shadow:0 0 0 2px rgba(245,158,11,.1)':''}">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:14px;flex-wrap:wrap;gap:10px">
         <div>
-          <div style="font-weight:600;font-size:16px">${esc(f.numero)}</div>
-          <div style="font-size:13px;color:var(--text-muted)">${esc(projet?.titre || '?')}</div>
+          <div style="font-family:var(--font-display);font-size:18px;font-weight:700;text-transform:uppercase">${esc(d.numero||'—')}</div>
+          <div style="font-size:14px;color:var(--c-text);margin-top:2px">${catIco[d.categorie]||''} ${esc(d.titre)}</div>
+          <div style="font-size:12px;color:var(--c-muted);margin-top:2px">Émis le ${fmtDate(d.date_emission,true)}</div>
         </div>
-        <span class="badge badge-${cls}">${f.statut_paiement.replace(/_/g, ' ')}</span>
+        <span class="badge badge-${statMap[d.statut]||'muted'}" style="font-size:13px;padding:6px 14px">${statLbl[d.statut]||d.statut}</span>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:12px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-        <div>
-          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">Total TTC</div>
-          <div style="font-weight:700;font-size:16px">${fmt(f.montant_ttc, false)}</div>
-        </div>
-        <div>
-          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">Ã‰chÃ©ance</div>
-          <div style="font-weight:600">${fmtDate(f.date_echeance)}</div>
-        </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px">
+        <div><div style="font-size:11px;color:var(--c-muted);font-weight:600;margin-bottom:4px">Montant HT</div><div style="font-weight:700">${fmt(d.montant_ht,true)}</div></div>
+        <div><div style="font-size:11px;color:var(--c-muted);font-weight:600;margin-bottom:4px">TVA (${d.taux_tva||18}%)</div><div style="font-weight:700">${fmt(d.montant_tva,true)}</div></div>
+        <div><div style="font-size:11px;color:var(--c-muted);font-weight:600;margin-bottom:4px">Total TTC</div><div style="font-family:var(--font-display);font-size:22px;font-weight:900;color:var(--c-brand)">${fmt(d.montant_ttc,true)}</div></div>
       </div>
-      <div style="margin-top:12px;display:flex;gap:8px">
-        <a href="#" class="btn btn-sm btn-outline">ðŸ“„ TÃ©lÃ©charger</a>
+
+      ${lignes.length ? `<div style="margin-bottom:14px;padding:12px;background:var(--c-dark);border-radius:var(--radius-sm)">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--c-muted);margin-bottom:8px">${lignes.length} poste(s) de travaux</div>
+        ${lignes.slice(0,3).map(l => `<div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px solid var(--c-border)"><span>${esc(l.designation||'—')}</span><span style="color:var(--c-muted)">${l.quantite} ${l.unite} × ${fmt(l.prix_unitaire)}</span></div>`).join('')}
+        ${lignes.length > 3 ? `<div style="font-size:12px;color:var(--c-muted);margin-top:6px">+ ${lignes.length-3} poste(s) supplémentaire(s)</div>` : ''}
+      </div>` : ''}
+
+      ${d.conditions ? `<div style="font-size:12px;color:var(--c-muted);padding:8px;background:var(--c-info-bg);border-radius:var(--radius-sm);margin-bottom:14px">💳 ${esc(d.conditions)}</div>` : ''}
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        ${d.statut === 'en_attente' || d.statut === 'envoye' ? `
+          <button class="btn btn-success" onclick="approuverDevis(${d.id})">✓ Approuver ce devis</button>
+          <button class="btn btn-ghost btn-sm" onclick="refuserDevis(${d.id})">Refuser</button>` : ''}
+        ${d.statut === 'approuve' ? '<span class="badge badge-success" style="align-self:center">✓ Ce devis a été approuvé — le projet est en cours</span>' : ''}
       </div>
     </div>`;
   }).join('');
-
-  if (factures.length === 0) {
-    container.innerHTML = '<div style="text-align:center;padding:48px;background:var(--bg-card);border-radius:var(--r-lg);color:var(--text-muted)"><p>Aucune facture</p></div>';
-  }
 }
 
-function expandProject(id) {
-  alert('DÃ©tails du projet ' + id + ' - FonctionnalitÃ© complÃ¨te dans la plateforme finale');
-}
-
-function approveDevisClient(devisId) {
-  confirm('Approuver ce devis ?', 'Cette action lancera les travaux.', () => {
-    const projet = DB.approuverDevis(devisId);
+function approuverDevis(id) {
+  confirm('Approuver ce devis ?', 'Vos travaux seront planifiés et un projet sera créé automatiquement.', () => {
+    const projet = DB.approuverDevis(id);
     if (projet) {
-      toast('Devis approuvÃ© ! Vos travaux vont commencer.', 'success');
-      loadDevis();
+      toast('Devis approuvé ! Votre projet démarre bientôt. 🎉', 'success');
+      renderAll();
     }
   });
 }
 
-window.addEventListener('load', () => {
-  loadProjects();
-  loadDevis();
-  loadMessages();
-  loadFactures();
+function refuserDevis(id) {
+  confirm('Refuser ce devis ?', 'Vous pouvez nous contacter pour discuter d\'ajustements.', () => {
+    DB.update('devis', id, {statut:'rejete'});
+    toast('Devis refusé. N\'hésitez pas à nous contacter.', 'info');
+    renderAll();
+  }, true);
+}
+
+/* ── PAIEMENTS ──────────────────────────────────────────────── */
+function renderPaiements() {
+  if (!clientObj) return;
+  const factures = DB.where('factures', f => f.client_id === clientObj.id);
+  const total    = factures.reduce((s,f) => s + f.montant_ttc, 0);
+  const paye     = factures.filter(f=>f.statut_paiement==='payee').reduce((s,f) => s+f.montant_ttc, 0);
+  const restant  = total - paye;
+
+  document.getElementById('paiementKPIs').innerHTML = `
+    <div class="stat-card"><div style="font-size:11px;color:var(--c-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">Total facturé</div><div style="font-family:var(--font-display);font-size:24px;font-weight:900">${fmt(total,true)}</div></div>
+    <div class="stat-card" style="border-color:rgba(16,185,129,.2)"><div style="font-size:11px;color:var(--c-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">Payé</div><div style="font-family:var(--font-display);font-size:24px;font-weight:900;color:var(--c-success)">${fmt(paye,true)}</div></div>
+    <div class="stat-card" style="border-color:${restant>0?'rgba(245,158,11,.2)':'rgba(16,185,129,.2)'}"><div style="font-size:11px;color:var(--c-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">Restant à payer</div><div style="font-family:var(--font-display);font-size:24px;font-weight:900;color:${restant>0?'var(--c-warning)':'var(--c-success)'}">${fmt(restant,true)}</div></div>
+    <div class="stat-card"><div style="font-size:11px;color:var(--c-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">Recouvrement</div><div style="font-family:var(--font-display);font-size:24px;font-weight:900">${total?Math.round(paye/total*100):0}%</div></div>`;
+
+  const statMap = {impayee:'danger',partiellement_payee:'warning',payee:'success'};
+  const statLbl = {impayee:'Impayée',partiellement_payee:'Partiellement payée',payee:'Payée'};
+
+  document.getElementById('facturesContainer').innerHTML = factures.map(f => {
+    const projet = DB.find('projets', f.projet_id);
+    const overdue= f.statut_paiement !== 'payee' && f.date_echeance && new Date(f.date_echeance) < new Date();
+    return `<div class="card card-pad">
+      <div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:10px">
+        <div>
+          <div style="font-family:var(--font-display);font-size:16px;font-weight:700">${esc(f.numero)}</div>
+          <div style="font-size:13px;color:var(--c-muted)">${projet?esc(projet.titre):'Facture générale'}</div>
+          <div style="font-size:12px;color:var(--c-muted);margin-top:4px">Émise le ${fmtDate(f.date_emission,true)} · Échéance : <span style="${overdue?'color:var(--c-danger);font-weight:600':''}">${fmtDate(f.date_echeance,true)}</span>${overdue?' ⚠️':''}</div>
+        </div>
+        <div style="text-align:right">
+          <span class="badge badge-${statMap[f.statut_paiement]||'muted'}">${statLbl[f.statut_paiement]||f.statut_paiement}</span>
+          <div style="font-family:var(--font-display);font-size:22px;font-weight:900;color:var(--c-brand);margin-top:4px">${fmt(f.montant_ttc,true)}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('') || '<div class="card card-pad" style="text-align:center;padding:32px;color:var(--c-muted)">Aucune facture</div>';
+}
+
+/* ── PHOTOS GLOBAL ──────────────────────────────────────────── */
+function renderPhotosGlobal() {
+  if (!clientObj) return;
+  const projets = DB.where('projets', p => p.client_id === clientObj.id);
+  let allPhotos = [];
+  projets.forEach(p => { (p.photos||[]).forEach(ph => allPhotos.push({...ph, projetTitre: p.titre})); });
+
+  if (!allPhotos.length) {
+    document.getElementById('photosGlobal').innerHTML = '<div class="card card-pad" style="text-align:center;padding:48px;color:var(--c-muted)"><div style="font-size:48px;margin-bottom:16px">📸</div><p>Les photos de votre chantier apparaîtront ici au fil des travaux.</p></div>';
+    return;
+  }
+
+  document.getElementById('photosGlobal').innerHTML = projets.map(p => {
+    const photos = p.photos || [];
+    if (!photos.length) return '';
+    return `<div style="margin-bottom:24px">
+      <div style="font-family:var(--font-display);font-size:15px;font-weight:700;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+        🏗️ ${esc(p.titre)}
+        <span class="badge badge-muted">${photos.length} photo(s)</span>
+      </div>
+      <div class="photo-grid-client">
+        ${photos.map(ph => `<div class="photo-thumb-client" onclick="viewPhoto('${ph.url}','${esc(ph.legende||ph.date||'')}')">
+          <img src="${ph.url}" alt="${esc(ph.legende||'Photo chantier')}">
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('') || '<div class="card card-pad" style="text-align:center;padding:32px;color:var(--c-muted)">Aucune photo</div>';
+}
+
+/* ── MESSAGES ───────────────────────────────────────────────── */
+function renderMessages() {
+  const user = Auth.current();
+  document.getElementById('messagesThread').innerHTML = clientMsgs.map(m => {
+    const isClient = m.role === 'client';
+    return `<div style="display:flex;flex-direction:column;align-items:${isClient?'flex-end':'flex-start'};gap:4px;max-width:75%;align-self:${isClient?'flex-end':'flex-start'}">
+      ${!isClient ? '<div style="font-size:11px;font-weight:700;color:var(--c-brand);margin-left:4px">POLYFIX</div>' : ''}
+      <div style="padding:12px 16px;border-radius:${isClient?'16px 16px 4px 16px':'16px 16px 16px 4px'};background:${isClient?'var(--c-brand)':'var(--c-surface)'};color:${isClient?'#fff':'var(--c-text)'};border:${isClient?'none':'1px solid var(--c-border)'};font-size:14px;line-height:1.6;box-shadow:var(--shadow-xs)">${esc(m.text)}</div>
+      <div style="font-size:11px;color:var(--c-muted);margin:0 4px">${getTimeAgo(m.date)}</div>
+    </div>`;
+  }).join('');
+  // Scroll to bottom
+  const thread = document.getElementById('messagesThread');
+  thread.scrollTop = thread.scrollHeight;
+}
+
+function sendClientMsg() {
+  const input = document.getElementById('msgInput');
+  const text  = input.value.trim();
+  if (!text) return;
+  clientMsgs.push({ role:'client', text, date: new Date().toISOString() });
+  localStorage.setItem('pf_client_msgs', JSON.stringify(clientMsgs.filter(m=>m.role==='client')));
+  input.value = '';
+  renderMessages();
+  // Auto-reply simulée
+  setTimeout(() => {
+    const replies = [
+      'Message bien reçu ! Votre gestionnaire vous répondra dans les 24h.',
+      'Merci pour votre message. Nous prenons note et revenons vers vous rapidement.',
+      'Bien reçu ! Si c\'est urgent, n\'hésitez pas à nous appeler au +242 065 000 000.',
+    ];
+    clientMsgs.push({ role:'polyfix', text: replies[Math.floor(Math.random()*replies.length)], date: new Date().toISOString() });
+    renderMessages();
+    toast('Réponse automatique reçue', 'info');
+  }, 1500);
+}
+
+/* ── PROFIL ─────────────────────────────────────────────────── */
+function saveProfil() {
+  if (!clientObj) return;
+  DB.update('clients', clientObj.id, {
+    prenom:   document.getElementById('profPrenom').value,
+    nom:      document.getElementById('profNom').value,
+    telephone:document.getElementById('profTel').value,
+    email:    document.getElementById('profEmail').value,
+    adresse:  document.getElementById('profAddr').value,
+  });
+  toast('Profil mis à jour', 'success');
+}
+
+/* ── UTILS ──────────────────────────────────────────────────── */
+function viewPhoto(url, caption) {
+  document.getElementById('viewerImg').src = url;
+  document.getElementById('viewerCaption').textContent = caption || '';
+  document.getElementById('photoViewer').style.display = 'flex';
+}
+
+function getTimeAgo(dateStr) {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diff/60000);
+  if (mins < 1)  return 'à l\'instant';
+  if (mins < 60) return `il y a ${mins}min`;
+  const hrs = Math.floor(mins/60);
+  if (hrs < 24)  return `il y a ${hrs}h`;
+  const days = Math.floor(hrs/24);
+  return days < 7 ? `il y a ${days}j` : fmtDate(dateStr, true);
+}
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+document.getElementById('photoViewer').addEventListener('click', e => {
+  if (e.target === document.getElementById('photoViewer')) document.getElementById('photoViewer').style.display = 'none';
 });
+
+window.addEventListener('load', init);
 </script>
 </body>
 </html>
-
-

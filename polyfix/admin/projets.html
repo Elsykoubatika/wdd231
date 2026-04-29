@@ -3,142 +3,425 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestion des projets â€” POLYFIX Admin</title>
+  <title>Projets — POLYFIX Admin</title>
   <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .photo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:10px; }
+    .photo-thumb { aspect-ratio:1; border-radius:var(--radius-sm); overflow:hidden; position:relative; border:1px solid var(--c-border); cursor:pointer; }
+    .photo-thumb img { width:100%; height:100%; object-fit:cover; transition:transform .3s; }
+    .photo-thumb:hover img { transform:scale(1.06); }
+    .photo-thumb-overlay { position:absolute; inset:0; background:rgba(0,0,0,.45); display:flex; align-items:center; justify-content:center; opacity:0; transition:.2s; }
+    .photo-thumb:hover .photo-thumb-overlay { opacity:1; }
+    .upload-zone { border:2px dashed var(--c-border); border-radius:var(--radius); padding:28px; text-align:center; cursor:pointer; transition:var(--transition); }
+    .upload-zone:hover { border-color:var(--c-brand); background:var(--c-brand-bg); }
+    .task-item { display:flex; align-items:center; gap:12px; padding:12px 14px; background:var(--c-dark); border-radius:var(--radius-sm); border-left:3px solid transparent; transition:var(--transition); }
+    .task-item.a_faire  { border-color:var(--c-muted-light); }
+    .task-item.en_cours { border-color:var(--c-info); }
+    .task-item.terminee { border-color:var(--c-success); }
+    .task-item.bloquee  { border-color:var(--c-danger); }
+    .ouvrier-chip { display:flex; align-items:center; gap:8px; padding:8px 12px; background:var(--c-surface); border:1px solid var(--c-border); border-radius:var(--radius-sm); font-size:13px; }
+    .rapport-card { padding:14px; background:var(--c-surface); border:1px solid var(--c-border); border-radius:var(--radius-sm); margin-bottom:10px; }
+  </style>
 </head>
 <body>
-<div class="admin-layout">
-  <!-- SIDEBAR -->
-  <div class="admin-sidebar">
-    <div class="sidebar-logo">
-      <div style="width:32px;height:32px;background:var(--brand);border-radius:var(--r);display:grid;place-items:center">
-        <svg viewBox="0 0 24 24" fill="white" style="width:18px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-      </div>
-      <div><div class="sidebar-logo-name">POLY<span>FIX</span></div><div class="sidebar-logo-tag">Platform</div></div>
-    </div>
-    <nav class="sidebar-nav">
-      <div class="sidebar-section"><div class="sidebar-section-label">Principal</div>
-        <a href="dashboard.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
-      </div>
-      <div class="sidebar-section"><div class="sidebar-section-label">Gestion</div>
-        <a href="devis.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9 12 11 14 15 10"/></svg>Devis</a>
-        <a href="projets.html" class="sidebar-link active"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Projets<span class="sidebar-badge">3</span></a>
-        <a href="ouvriers.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Ouvriers</a>
-      </div>
-    </nav>
-    <div class="sidebar-user"><div class="avatar">JM</div><div><div class="sidebar-user-name">Jean Mbemba</div><div class="sidebar-user-role">Gestionnaire</div></div></div>
-  </div>
+<div class="dashboard-layout">
 
-  <!-- MAIN AREA -->
-  <div class="admin-main">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a href="dashboard.html" class="sidebar-logo">
+      <svg viewBox="0 0 24 24" style="width:32px;height:32px;fill:var(--c-brand)"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      POLY<span>FIX</span>
+    </a>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a href="dashboard.html" data-page="dashboard"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Gestion</div>
+      <a href="devis.html" data-page="devis"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/><polyline points="9 12 11 14 15 10"/></svg>Devis</a>
+      <a href="projets.html" data-page="projets" class="active"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Projets</a>
+      <a href="ouvriers.html" data-page="ouvriers"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Ouvriers</a>
+      <a href="clients.html" data-page="clients"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Clients</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Finance</div>
+      <a href="finances.html" data-page="finances"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Finances</a>
+      <a href="factures.html" data-page="factures"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16"/></svg>Factures</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Marketing</div>
+      <a href="promotions.html" data-page="promotions"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M7 5H5a2 2 0 00-2 2v12a2 2 0 002 2h2m10 0h2a2 2 0 002-2V7a2 2 0 00-2-2h-2m0 0V3a2 2 0 00-2-2h-2a2 2 0 00-2 2v2m0 0h4"/></svg>Promotions</a>
+      <a href="analytics.html" data-page="analytics"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analytics</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Outils</div>
+      <a href="ai-agent.html" data-page="ai-agent"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Agent IA</a>
+      <a href="parametres.html" data-page="parametres"><svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Paramètres</a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="sidebarAvatar">JM</div>
+      <div><div class="sidebar-user-name" id="userName">Jean Mbemba</div><div class="sidebar-user-role">Gestionnaire</div></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content" style="padding:0">
     <div class="admin-topbar">
       <div class="topbar-title">Gestion des projets</div>
       <div class="topbar-actions">
-        <button class="notif-btn" onclick="Auth.logout(); window.location.href='../login.html'"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
-      </div>
-    </div>
-
-    <div class="admin-content">
-      <div class="admin-page-header">
-        <h1 class="admin-page-title">Projets</h1>
-        <div style="display:flex;gap:12px">
-          <select class="form-control" id="filterStatut" onchange="filterProjets()" style="max-width:140px">
-            <option value="">Tous les statuts</option>
-            <option value="en_attente">En attente</option>
-            <option value="actif">Actif</option>
-            <option value="suspendu">Suspendu</option>
-            <option value="termine">TerminÃ©</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- PROJETS CARDS -->
-      <div id="projetsContainer" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:24px">
-        <!-- ChargÃ© en JS -->
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL : DÃ©tails projet -->
-<div class="modal-backdrop" id="projectModal">
-  <div class="modal" style="max-width:700px">
-    <div class="modal-header">
-      <div class="modal-title" id="projectTitle">DÃ©tails du projet</div>
-      <button class="modal-close" onclick="document.getElementById('projectModal').classList.remove('open')"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    </div>
-    <div class="modal-body">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
-        <div>
-          <div class="fs-13" style="color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">Client</div>
-          <div id="projectClient" style="font-weight:600">â€”</div>
-        </div>
-        <div>
-          <div class="fs-13" style="color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">CatÃ©gorie</div>
-          <div id="projectCategorie" style="font-weight:600">â€”</div>
-        </div>
-        <div>
-          <div class="fs-13" style="color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">Budget</div>
-          <div id="projectBudget" style="font-weight:600;color:var(--brand)">â€”</div>
-        </div>
-        <div>
-          <div class="fs-13" style="color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:6px">DÃ©pensÃ©</div>
-          <div id="projectDepense" style="font-weight:600">â€”</div>
-        </div>
-      </div>
-
-      <div style="margin-bottom:20px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-          <label class="form-label">Avancement</label>
-          <span id="projectProgress" style="font-weight:700;color:var(--brand)">0%</span>
-        </div>
-        <div class="progress">
-          <div id="projectProgressBar" class="progress-bar" style="width:0%"></div>
-        </div>
-      </div>
-
-      <div style="margin-bottom:20px">
-        <label class="form-label">Ã‰quipe assignÃ©e</label>
-        <div id="projectTeam" style="display:flex;flex-direction:column;gap:8px">
-          <!-- ChargÃ© en JS -->
-        </div>
-        <button type="button" class="btn btn-sm btn-outline" style="margin-top:12px;width:100%;justify-content:center" onclick="showTeamSelector()">
-          <svg viewBox="0 0 24 24" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Ajouter ouvrier
+        <select class="form-control" id="filterStatut" onchange="renderProjets()" style="max-width:160px">
+          <option value="">Tous les statuts</option>
+          <option value="en_attente">En attente</option>
+          <option value="actif">Actif</option>
+          <option value="suspendu">Suspendu</option>
+          <option value="termine">Terminé</option>
+        </select>
+        <button class="notif-btn" onclick="Auth.logout();window.location.href='../login.html'">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
         </button>
       </div>
+    </div>
 
-      <div style="margin-bottom:20px">
-        <label class="form-label">TÃ¢ches du jour</label>
-        <div id="projectTaches" style="display:flex;flex-direction:column;gap:8px">
-          <!-- ChargÃ© en JS -->
+    <div style="padding:28px">
+      <!-- KPI -->
+      <div class="kpi-grid" style="margin-bottom:24px">
+        <div class="kpi-card"><div class="kpi-title">Total projets</div><div class="kpi-value" id="kpiTotal">0</div></div>
+        <div class="kpi-card"><div class="kpi-title">Actifs</div><div class="kpi-value" id="kpiActifs" style="color:var(--c-success)">0</div></div>
+        <div class="kpi-card"><div class="kpi-title">En attente</div><div class="kpi-value" id="kpiAttente" style="color:var(--c-warning)">0</div></div>
+        <div class="kpi-card"><div class="kpi-title">Budget total</div><div class="kpi-value" id="kpiBudget">0</div></div>
+      </div>
+
+      <!-- PROJETS GRID -->
+      <div id="projetsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:22px"></div>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════ MODAL PROJET COMPLET ═══════════════════ -->
+<div class="modal-backdrop" id="projetModal" style="align-items:flex-start;padding:20px 0">
+  <div class="modal" style="max-width:960px;max-height:95vh;border-radius:var(--radius-lg)">
+
+    <!-- HEADER -->
+    <div style="padding:20px 28px;border-bottom:1px solid var(--c-border);display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-family:var(--font-display);font-size:20px;font-weight:800;text-transform:uppercase" id="pModalTitle">Projet</div>
+        <div style="font-size:12px;color:var(--c-muted)" id="pModalCode"></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span class="badge" id="pModalBadge">Actif</span>
+        <button class="modal-close" onclick="closeModal()"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div style="border-bottom:1px solid var(--c-border);padding:0 28px;display:flex;gap:0;overflow-x:auto">
+      <button class="tab-btn active" onclick="switchTab('general',this)">📋 Général</button>
+      <button class="tab-btn" onclick="switchTab('equipe',this)">👷 Équipe</button>
+      <button class="tab-btn" onclick="switchTab('taches',this)">✅ Tâches</button>
+      <button class="tab-btn" onclick="switchTab('photos',this)">📸 Photos</button>
+      <button class="tab-btn" onclick="switchTab('rapports',this)">📝 Rapports</button>
+      <button class="tab-btn" onclick="switchTab('finances',this)">💰 Finances</button>
+      <button class="tab-btn" onclick="switchTab('cloture',this)">🏁 Clôture</button>
+    </div>
+
+    <div style="overflow-y:auto;max-height:calc(95vh - 180px)">
+
+      <!-- ── TAB GÉNÉRAL ────────────────────────────────────── -->
+      <div id="ptab-general" class="tab-content active" style="padding:24px 28px">
+        <div class="form-grid" style="gap:18px">
+          <div class="form-group">
+            <label class="form-label">Titre du projet <span class="req">*</span></label>
+            <input type="text" id="pTitre" class="form-control">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Statut</label>
+            <select id="pStatut" class="form-control">
+              <option value="en_attente">En attente</option>
+              <option value="actif">Actif</option>
+              <option value="suspendu">Suspendu</option>
+              <option value="termine">Terminé</option>
+              <option value="annule">Annulé</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Client propriétaire</label>
+            <select id="pClient" class="form-control"></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Catégorie</label>
+            <select id="pCategorie" class="form-control">
+              <option value="construction">🏗️ Construction</option>
+              <option value="renovation">🔨 Rénovation</option>
+              <option value="electricite">⚡ Électricité</option>
+              <option value="plomberie">🚿 Plomberie</option>
+              <option value="menuiserie">🪵 Menuiserie</option>
+              <option value="peinture">🎨 Peinture</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Lieu du chantier</label>
+            <input type="text" id="pLieu" class="form-control" placeholder="Adresse, quartier…">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ville</label>
+            <select id="pVille" class="form-control">
+              <option value="Brazzaville">Brazzaville</option>
+              <option value="Pointe-Noire">Pointe-Noire</option>
+              <option value="Dolisie">Dolisie</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date de début prévue</label>
+            <input type="date" id="pDateDebut" class="form-control">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date de fin prévue</label>
+            <input type="date" id="pDateFin" class="form-control">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Avancement (%)</label>
+            <div style="display:flex;align-items:center;gap:12px">
+              <input type="range" id="pAvancement" min="0" max="100" step="5" oninput="updateAvancement(this.value)" style="flex:1;accent-color:var(--c-brand)">
+              <span id="pAvancementVal" style="font-family:var(--font-display);font-weight:700;color:var(--c-brand);min-width:40px">0%</span>
+            </div>
+            <div class="progress" style="margin-top:6px"><div id="pAvancementBar" class="progress-bar" style="width:0%"></div></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nb. ouvriers sur chantier</label>
+            <input type="number" id="pNbOuvriers" class="form-control" min="0">
+          </div>
+          <div class="form-group span-2">
+            <label class="form-label">Description du projet</label>
+            <textarea id="pDescription" class="form-control" style="min-height:80px"></textarea>
+          </div>
+          <div class="form-group span-2">
+            <label class="form-label">Notes internes</label>
+            <textarea id="pNotes" class="form-control" style="min-height:60px"></textarea>
+          </div>
         </div>
       </div>
 
-      <div style="margin-bottom:20px;padding:16px;background:var(--info-light);border:1px solid rgba(59,130,246,.2);border-radius:var(--r)">
-        <div style="font-size:13px;font-weight:600;color:var(--info);margin-bottom:8px">Jours restants</div>
-        <div id="projectDaysLeft" style="font-family:var(--font-heading);font-size:28px;font-weight:800">â€”</div>
-        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px" id="projectDeadline">â€”</div>
+      <!-- ── TAB ÉQUIPE ─────────────────────────────────────── -->
+      <div id="ptab-equipe" class="tab-content" style="padding:24px 28px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <!-- Équipe assignée -->
+          <div>
+            <h3 style="font-family:var(--font-display);font-size:16px;font-weight:700;text-transform:uppercase;margin-bottom:16px">Équipe assignée</h3>
+            <div id="equipeAssignee" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px"></div>
+          </div>
+          <!-- Ouvriers disponibles -->
+          <div>
+            <h3 style="font-family:var(--font-display);font-size:16px;font-weight:700;text-transform:uppercase;margin-bottom:16px">Ouvriers disponibles</h3>
+            <div id="ouvriersDisponibles" style="display:flex;flex-direction:column;gap:8px"></div>
+          </div>
+        </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <button type="button" class="btn btn-outline" onclick="document.getElementById('projectModal').classList.remove('open')">Fermer</button>
-        <button type="button" class="btn btn-primary" id="projectActionBtn" onclick="updateProjectStatus()">Activer projet</button>
+      <!-- ── TAB TÂCHES ─────────────────────────────────────── -->
+      <div id="ptab-taches" class="tab-content" style="padding:24px 28px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <h3 style="font-family:var(--font-display);font-size:16px;font-weight:700;text-transform:uppercase">Tâches du projet</h3>
+          <button class="btn btn-primary btn-sm" onclick="showAddTache()">+ Ajouter une tâche</button>
+        </div>
+        <!-- Formulaire ajout tâche (masqué par défaut) -->
+        <div id="addTacheForm" style="display:none;padding:16px;background:var(--c-brand-bg);border:1px solid rgba(232,90,0,.2);border-radius:var(--radius);margin-bottom:16px">
+          <div class="form-grid" style="gap:12px;margin-bottom:12px">
+            <div class="form-group">
+              <label class="form-label">Titre <span class="req">*</span></label>
+              <input type="text" id="newTacheTitre" class="form-control" placeholder="Titre de la tâche…">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Assigné à</label>
+              <select id="newTacheAssignee" class="form-control"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Priorité</label>
+              <select id="newTachePrio" class="form-control">
+                <option value="normale">Normale</option>
+                <option value="haute">Haute</option>
+                <option value="urgente">Urgente</option>
+                <option value="basse">Basse</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date d'échéance</label>
+              <input type="date" id="newTacheDate" class="form-control">
+            </div>
+            <div class="form-group span-2">
+              <label class="form-label">Description</label>
+              <textarea id="newTacheDesc" class="form-control" style="min-height:60px"></textarea>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-primary btn-sm" onclick="addTache()">Créer la tâche</button>
+            <button class="btn btn-ghost btn-sm" onclick="document.getElementById('addTacheForm').style.display='none'">Annuler</button>
+          </div>
+        </div>
+        <!-- Liste des tâches -->
+        <div id="tachesList" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+
+      <!-- ── TAB PHOTOS ─────────────────────────────────────── -->
+      <div id="ptab-photos" class="tab-content" style="padding:24px 28px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <h3 style="font-family:var(--font-display);font-size:16px;font-weight:700;text-transform:uppercase">Photos du chantier</h3>
+          <div style="font-size:13px;color:var(--c-muted)" id="photoCount">0 photo(s)</div>
+        </div>
+        <!-- Zone d'upload -->
+        <div class="upload-zone" onclick="document.getElementById('photoInput').click()" id="uploadZone">
+          <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload(event)">
+          <svg viewBox="0 0 24 24" stroke-width="1.5" fill="none" style="width:40px;height:40px;stroke:var(--c-muted);margin:0 auto 12px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <p style="font-weight:600;margin-bottom:4px">Cliquez ou glissez vos photos ici</p>
+          <p style="font-size:12px;color:var(--c-muted)">JPG, PNG, WEBP — Plusieurs fichiers acceptés</p>
+        </div>
+        <!-- Galerie -->
+        <div class="photo-grid" id="photoGallery" style="margin-top:20px"></div>
+        <!-- Viewer fullscreen -->
+        <div id="photoViewer" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:999;display:none;align-items:center;justify-content:center">
+          <button onclick="document.getElementById('photoViewer').style.display='none'" style="position:absolute;top:20px;right:20px;color:#fff;font-size:30px;background:none;border:none;cursor:pointer">✕</button>
+          <img id="viewerImg" style="max-width:90%;max-height:90vh;border-radius:8px">
+        </div>
+      </div>
+
+      <!-- ── TAB RAPPORTS ───────────────────────────────────── -->
+      <div id="ptab-rapports" class="tab-content" style="padding:24px 28px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <!-- Nouveau rapport -->
+          <div>
+            <h3 style="font-family:var(--font-display);font-size:16px;font-weight:700;text-transform:uppercase;margin-bottom:16px">Rapport du jour</h3>
+            <div style="padding:14px;background:var(--c-brand-bg);border-radius:var(--radius-sm);font-size:13px;color:var(--c-brand);font-weight:600;margin-bottom:16px">
+              📅 <span id="rapportDate"></span>
+            </div>
+            <form onsubmit="submitRapport(event)" style="display:flex;flex-direction:column;gap:14px">
+              <div class="form-group">
+                <label class="form-label">Météo</label>
+                <select id="rMeteo" class="form-control">
+                  <option value="ensoleille">☀️ Ensoleillé</option>
+                  <option value="nuageux">⛅ Nuageux</option>
+                  <option value="pluie">🌧️ Pluie</option>
+                  <option value="vent">💨 Venteux</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nb. ouvriers présents</label>
+                <input type="number" id="rNbOuvriers" class="form-control" min="0" placeholder="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Travaux effectués <span class="req">*</span></label>
+                <textarea id="rAvancement" class="form-control" placeholder="Décrivez les travaux réalisés…" required></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Matériaux utilisés</label>
+                <textarea id="rMateriaux" class="form-control" placeholder="Ex: 20 sacs ciment, 3m³ sable…" style="min-height:70px"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Problèmes rencontrés</label>
+                <textarea id="rProblemes" class="form-control" style="min-height:70px" placeholder="Incidents, blocages, manques…"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px;stroke:currentColor"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Soumettre le rapport
+              </button>
+            </form>
+          </div>
+          <!-- Historique rapports -->
+          <div>
+            <h3 style="font-family:var(--font-display);font-size:16px;font-weight:700;text-transform:uppercase;margin-bottom:16px">Historique</h3>
+            <div id="rapportsHistorique" style="display:flex;flex-direction:column;gap:10px;max-height:500px;overflow-y:auto"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB FINANCES ───────────────────────────────────── -->
+      <div id="ptab-finances" class="tab-content" style="padding:24px 28px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <div>
+            <div class="form-grid" style="gap:16px;margin-bottom:20px">
+              <div class="form-group">
+                <label class="form-label">Budget initial (FCFA)</label>
+                <input type="number" id="pBudget" class="form-control" step="10000" oninput="updateFinancesDisplay()">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Budget révisé (FCFA)</label>
+                <input type="number" id="pBudgetRevise" class="form-control" step="10000" oninput="updateFinancesDisplay()">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Dépenses réelles (FCFA)</label>
+                <input type="number" id="pDepenses" class="form-control" step="1000" oninput="updateFinancesDisplay()">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Montant encaissé (FCFA)</label>
+                <input type="number" id="pEncaisse" class="form-control" step="1000" oninput="updateFinancesDisplay()">
+              </div>
+            </div>
+            <div style="padding:16px;background:var(--c-dark);border-radius:var(--radius);border:1px solid var(--c-border)">
+              <div style="font-family:var(--font-display);font-size:13px;font-weight:700;text-transform:uppercase;margin-bottom:12px">Récapitulatif</div>
+              <div style="display:flex;flex-direction:column;gap:8px" id="financesRecap"></div>
+            </div>
+          </div>
+          <div>
+            <h3 style="font-family:var(--font-display);font-size:14px;font-weight:700;text-transform:uppercase;margin-bottom:12px">Transactions liées</h3>
+            <div id="transactionsProjet" style="max-height:400px;overflow-y:auto;display:flex;flex-direction:column;gap:8px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB CLÔTURE ────────────────────────────────────── -->
+      <div id="ptab-cloture" class="tab-content" style="padding:24px 28px">
+        <div style="max-width:600px">
+          <div style="padding:20px;background:var(--c-warning-bg);border:1px solid rgba(245,158,11,.3);border-radius:var(--radius);margin-bottom:24px;font-size:14px">
+            ⚠️ La clôture d'un projet génère un <strong>rapport final</strong> incluant une évaluation de la rentabilité et de la qualité. Cette action peut être réversible si nécessaire.
+          </div>
+          <div class="form-grid" style="gap:16px;margin-bottom:24px">
+            <div class="form-group">
+              <label class="form-label">Date de fin réelle</label>
+              <input type="date" id="pDateFinReelle" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Taux de satisfaction client</label>
+              <select id="pSatisfaction" class="form-control">
+                <option value="5">⭐⭐⭐⭐⭐ Excellent (5/5)</option>
+                <option value="4">⭐⭐⭐⭐ Très bien (4/5)</option>
+                <option value="3">⭐⭐⭐ Bien (3/5)</option>
+                <option value="2">⭐⭐ Passable (2/5)</option>
+                <option value="1">⭐ Insuffisant (1/5)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Note de qualité des travaux</label>
+              <select id="pNoteQualite" class="form-control">
+                <option value="5">⭐⭐⭐⭐⭐ Parfait</option>
+                <option value="4">⭐⭐⭐⭐ Très bon</option>
+                <option value="3">⭐⭐⭐ Acceptable</option>
+                <option value="2">⭐⭐ À améliorer</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Note de rentabilité</label>
+              <select id="pNoteRenta" class="form-control">
+                <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                <option value="4">⭐⭐⭐⭐ Bon</option>
+                <option value="3">⭐⭐⭐ Moyen</option>
+                <option value="2">⭐⭐ Insuffisant</option>
+              </select>
+            </div>
+            <div class="form-group span-2">
+              <label class="form-label">Bilan final et leçons apprises</label>
+              <textarea id="pBilan" class="form-control" style="min-height:100px" placeholder="Ce qui a bien fonctionné, les difficultés rencontrées, les améliorations pour les prochains projets…"></textarea>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px">
+            <button class="btn btn-outline" onclick="printRapportFinal()">🖨️ Imprimer le rapport final</button>
+            <button class="btn btn-danger" onclick="clotureProjet()">🏁 Clôturer le projet</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- MODAL : SÃ©lectionner ouvrier -->
-<div class="modal-backdrop" id="teamModal">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Ajouter un ouvrier Ã  l'Ã©quipe</div>
-      <button class="modal-close" onclick="document.getElementById('teamModal').classList.remove('open')"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    </div>
-    <div class="modal-body">
-      <div id="ouvriersSelect" style="display:grid;grid-template-columns:1fr;gap:10px">
-        <!-- ChargÃ© en JS -->
+    <!-- FOOTER ACTIONS -->
+    <div style="padding:16px 28px;border-top:1px solid var(--c-border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:var(--c-surface)">
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-ghost btn-sm" onclick="closeModal()">Fermer</button>
+        <button class="btn btn-danger btn-sm" id="btnDeleteProjet" onclick="deleteProjet()">Supprimer</button>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-outline btn-sm" id="btnActiverProjet" onclick="toggleActivate()">Activer le projet</button>
+        <button class="btn btn-primary btn-sm" onclick="saveProjet()">
+          <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px;stroke:currentColor"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+          Enregistrer
+        </button>
       </div>
     </div>
   </div>
@@ -146,207 +429,541 @@
 
 <script src="../js/db.js"></script>
 <script>
-Auth.require(['admin', 'gestionnaire']);
-let selectedProjectId = null;
+Auth.require(['admin','gestionnaire']);
 
-function loadProjets() {
-  const projets = DB.list('projets');
-  renderProjets(projets);
+let currentProjetId = null;
+let projectPhotos   = []; // {id, url, legende, date}
+
+/* ── INIT ───────────────────────────────────────────────────── */
+function init() {
+  const user = Auth.current();
+  if (user) {
+    document.getElementById('userName').textContent = `${user.prenom} ${user.nom}`;
+    document.getElementById('sidebarAvatar').textContent = (user.prenom[0]+user.nom[0]).toUpperCase();
+  }
+  loadKPIs();
+  renderProjets();
+  document.getElementById('rapportDate').textContent =
+    new Date().toLocaleDateString('fr-FR', {weekday:'long', day:'2-digit', month:'long', year:'numeric'});
 }
 
-function filterProjets() {
+function loadKPIs() {
+  const all = DB.list('projets');
+  document.getElementById('kpiTotal').textContent = all.length;
+  document.getElementById('kpiActifs').textContent = all.filter(p=>p.statut==='actif').length;
+  document.getElementById('kpiAttente').textContent = all.filter(p=>p.statut==='en_attente').length;
+  const budget = all.reduce((s,p)=>s+(p.budget_initial||0),0);
+  document.getElementById('kpiBudget').textContent = fmt(budget, true);
+}
+
+/* ── GRID ───────────────────────────────────────────────────── */
+function renderProjets() {
   const statut = document.getElementById('filterStatut').value;
-  let projets = DB.list('projets');
+  let projets  = DB.list('projets');
   if (statut) projets = projets.filter(p => p.statut === statut);
-  renderProjets(projets);
-}
 
-function renderProjets(projets) {
-  const container = document.getElementById('projetsContainer');
-  container.innerHTML = projets.map(p => {
-    const client = DB.find('clients', p.client_id);
-    const statusMap = { en_attente: 'warning', actif: 'success', suspendu: 'muted', termine: 'muted' };
-    const [statusClass] = statusMap[p.statut] ? [statusMap[p.statut]] : ['muted'];
-    
-    const margin = p.budget_initial - p.depenses_reelles;
-    const marginPct = p.budget_initial > 0 ? ((margin / p.budget_initial) * 100).toFixed(0) : 0;
-    
-    return `<div class="card card-pad card-hover" onclick="openProject(${p.id})" style="cursor:pointer">
-      <div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:12px">
+  const statColor = {en_attente:'warning', actif:'success', suspendu:'danger', termine:'muted', annule:'danger'};
+  const statLabel = {en_attente:'En attente', actif:'Actif', suspendu:'Suspendu', termine:'Terminé', annule:'Annulé'};
+
+  document.getElementById('projetsGrid').innerHTML = projets.map(p => {
+    const client   = DB.find('clients', p.client_id);
+    const nomCli   = client ? (client.prenom ? `${client.prenom} ${client.nom}` : client.raison_sociale||'?') : '?';
+    const marge    = (p.budget_initial||0) - (p.depenses_reelles||0);
+    const margePct = p.budget_initial ? Math.round(marge/p.budget_initial*100) : 0;
+    const jours    = p.date_fin_prevue ? Math.ceil((new Date(p.date_fin_prevue)-new Date())/86400000) : null;
+    const ouvNb    = (p.ouvriers||[]).length;
+    const tachesProjet = DB.where('taches', t => t.projet_id === p.id);
+    const donePct  = tachesProjet.length ? Math.round(tachesProjet.filter(t=>t.statut==='terminee').length/tachesProjet.length*100) : 0;
+
+    return `<div class="card card-pad card-hover" onclick="openProjet(${p.id})" style="cursor:pointer;border-top:3px solid ${p.statut==='actif'?'var(--c-success)':p.statut==='en_attente'?'var(--c-warning)':'var(--c-border)'}">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:12px">
         <div>
-          <div class="fs-13" style="color:var(--text-muted);font-weight:600">${esc(p.code)}</div>
-          <h3 class="h3" style="margin-top:4px">${esc(p.titre)}</h3>
+          <div style="font-size:11px;color:var(--c-muted);font-weight:600;letter-spacing:.04em;margin-bottom:4px">${esc(p.code)}</div>
+          <h3 style="font-family:var(--font-display);font-size:17px;font-weight:700;text-transform:uppercase;line-height:1.2">${esc(p.titre)}</h3>
         </div>
-        <span class="badge badge-${statusClass}">${p.statut.replace(/_/g, ' ')}</span>
+        <span class="badge badge-${statColor[p.statut]||'muted'}">${statLabel[p.statut]||p.statut}</span>
       </div>
-      
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-        <div class="avatar avatar-sm">${esc((client?.prenom || '?')[0]).toUpperCase()}</div>
-        <div>
-          <div style="font-size:13px;font-weight:600">${esc(client?.nom || client?.raison_sociale || '?')}</div>
-          <div style="font-size:12px;color:var(--text-muted)">${esc(p.ville || '?')}</div>
-        </div>
+
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:13px;color:var(--c-muted)">
+        <svg viewBox="0 0 24 24" stroke="var(--c-brand)" stroke-width="2" fill="none" style="width:14px;height:14px;flex-shrink:0"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        ${esc(nomCli)}
+        <span style="margin:0 4px">·</span>
+        <svg viewBox="0 0 24 24" stroke="var(--c-muted)" stroke-width="2" fill="none" style="width:13px;height:13px;flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        ${esc(p.lieu||p.ville||'—')}
       </div>
 
       <div style="margin-bottom:12px">
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
-          <span style="font-size:12px;font-weight:600">Avancement</span>
-          <span style="font-size:12px;color:var(--brand);font-weight:700">${p.pourcentage_avancement}%</span>
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px">
+          <span>Avancement</span><span style="font-weight:700;color:var(--c-brand)">${p.pourcentage_avancement||0}%</span>
         </div>
-        <div class="progress"><div class="progress-bar" style="width:${p.pourcentage_avancement}%"></div></div>
+        <div class="progress"><div class="progress-bar" style="width:${p.pourcentage_avancement||0}%"></div></div>
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:12px">
-        <div>
-          <div style="color:var(--text-muted);font-weight:600;margin-bottom:2px">Budget</div>
-          <div style="font-weight:700">${fmt(p.budget_initial, true)}</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:12px">
+        <div style="padding:8px;background:var(--c-dark);border-radius:var(--radius-sm);text-align:center">
+          <div style="color:var(--c-muted);margin-bottom:2px">Budget</div>
+          <div style="font-weight:700">${fmt(p.budget_initial,true)}</div>
         </div>
-        <div>
-          <div style="color:var(--text-muted);font-weight:600;margin-bottom:2px">Marge</div>
-          <div style="font-weight:700;color:${margin < 0 ? 'var(--danger)' : 'var(--success)'}">${marginPct}%</div>
+        <div style="padding:8px;background:var(--c-dark);border-radius:var(--radius-sm);text-align:center">
+          <div style="color:var(--c-muted);margin-bottom:2px">Marge</div>
+          <div style="font-weight:700;color:${margePct<0?'var(--c-danger)':'var(--c-success)'}">${margePct}%</div>
         </div>
-      </div>
-
-      <div style="display:flex;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);flex-wrap:wrap">
-        ${(p.ouvriers || []).slice(0,3).map(oid => {
-          const o = DB.find('ouvriers', oid);
-          return `<div class="avatar avatar-sm" title="${esc((o?.prenom || '')[0] + (o?.nom || '')[0])}">${(o?.prenom || '?')[0]}${(o?.nom || '?')[0]}</div>`;
-        }).join('')}
-        ${(p.ouvriers || []).length > 3 ? `<div style="font-size:11px;color:var(--text-muted);display:grid;place-items:center">+${(p.ouvriers || []).length - 3}</div>` : ''}
+        <div style="padding:8px;background:var(--c-dark);border-radius:var(--radius-sm);text-align:center">
+          <div style="color:var(--c-muted);margin-bottom:2px">Ouvriers</div>
+          <div style="font-weight:700">${ouvNb}</div>
+        </div>
+        <div style="padding:8px;background:var(--c-dark);border-radius:var(--radius-sm);text-align:center">
+          <div style="color:var(--c-muted);margin-bottom:2px">${jours !== null && jours < 0 ? 'Dépassé' : 'Reste'}</div>
+          <div style="font-weight:700;color:${jours!==null&&jours<0?'var(--c-danger)':'inherit'}">${jours!==null?Math.abs(jours)+'j':'—'}</div>
+        </div>
       </div>
     </div>`;
-  }).join('');
-
-  if (projets.length === 0) {
-    container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text-muted)">Aucun projet</div>';
-  }
+  }).join('') || '<div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--c-muted);background:var(--c-surface);border-radius:var(--radius);border:1px solid var(--c-border)">Aucun projet</div>';
 }
 
-function openProject(id) {
-  selectedProjectId = id;
+/* ── OUVRIR PROJET ──────────────────────────────────────────── */
+function openProjet(id) {
+  currentProjetId = id;
   const p = DB.find('projets', id);
   if (!p) return;
 
+  // Peupler client select
+  const clients = DB.list('clients');
+  document.getElementById('pClient').innerHTML = clients.map(c =>
+    `<option value="${c.id}" ${c.id===p.client_id?'selected':''}>${esc(c.prenom?`${c.prenom} ${c.nom}`:c.raison_sociale||c.nom)}</option>`
+  ).join('');
+
+  // Infos générales
+  document.getElementById('pModalTitle').textContent = p.titre;
+  document.getElementById('pModalCode').textContent  = p.code;
+  const statMap = {en_attente:'warning',actif:'success',suspendu:'danger',termine:'muted',annule:'danger'};
+  const badge = document.getElementById('pModalBadge');
+  badge.className = `badge badge-${statMap[p.statut]||'muted'}`;
+  badge.textContent = p.statut.replace(/_/g,' ');
+
+  document.getElementById('pTitre').value      = p.titre || '';
+  document.getElementById('pStatut').value     = p.statut || 'en_attente';
+  document.getElementById('pCategorie').value  = p.categorie || 'construction';
+  document.getElementById('pLieu').value       = p.lieu || p.lieu_chantier || '';
+  document.getElementById('pVille').value      = p.ville || 'Brazzaville';
+  document.getElementById('pDateDebut').value  = p.date_debut_prevue || '';
+  document.getElementById('pDateFin').value    = p.date_fin_prevue || '';
+  document.getElementById('pDescription').value= p.description || '';
+  document.getElementById('pNotes').value      = p.notes_internes || '';
+  document.getElementById('pNbOuvriers').value = p.nb_ouvriers_chantier || 0;
+  updateAvancement(p.pourcentage_avancement || 0);
+  document.getElementById('pAvancement').value = p.pourcentage_avancement || 0;
+
+  // Bouton activation
+  const btnAct = document.getElementById('btnActiverProjet');
+  if (p.statut === 'en_attente') { btnAct.style.display = 'inline-flex'; btnAct.textContent = '▶ Activer le projet'; }
+  else if (p.statut === 'actif') { btnAct.style.display = 'inline-flex'; btnAct.textContent = '⏸ Suspendre'; }
+  else btnAct.style.display = 'none';
+
+  // Équipe
+  renderEquipe(p);
+
+  // Tâches
+  renderTaches(id);
+  populateAssigneeSelect(p);
+
+  // Photos
+  projectPhotos = p.photos || [];
+  renderPhotos();
+
+  // Rapports
+  renderRapports(id);
+
+  // Finances
+  document.getElementById('pBudget').value        = p.budget_initial || 0;
+  document.getElementById('pBudgetRevise').value  = p.budget_revise || '';
+  document.getElementById('pDepenses').value      = p.depenses_reelles || 0;
+  document.getElementById('pEncaisse').value      = p.montant_encaisse || 0;
+  updateFinancesDisplay();
+  renderTransactionsProjet(id);
+
+  // Clôture
+  document.getElementById('pDateFinReelle').value = p.date_fin_reelle || '';
+
+  document.getElementById('projetModal').classList.add('open');
+  switchTab('general', document.querySelector('[onclick="switchTab(\'general\',this)"]'));
+}
+
+/* ── ÉQUIPE ─────────────────────────────────────────────────── */
+function renderEquipe(p) {
+  const assignes = (p.ouvriers||[]).map(id => DB.find('ouvriers', id)).filter(Boolean);
+  const disponibl= DB.where('ouvriers', o => o.statut !== 'inactif' && !(p.ouvriers||[]).includes(o.id));
+
+  document.getElementById('equipeAssignee').innerHTML = assignes.length
+    ? assignes.map(o => `<div class="ouvrier-chip">
+        <div class="avatar avatar-sm">${o.prenom[0]}${o.nom[0]}</div>
+        <div style="flex:1"><div style="font-weight:600">${esc(o.prenom)} ${esc(o.nom)}</div><div style="font-size:11px;color:var(--c-muted)">${o.poste} · ${fmt(o.taux_journalier,true)}/j</div></div>
+        <button onclick="removeOuvrier(${o.id})" class="btn btn-sm btn-danger" title="Retirer">✕</button>
+      </div>`)
+    .join('')
+    : '<p style="color:var(--c-muted);font-size:13px">Aucun ouvrier assigné</p>';
+
+  document.getElementById('ouvriersDisponibles').innerHTML = disponibl.length
+    ? disponibl.map(o => {
+        const statusColor = {disponible:'success',en_mission:'warning',conge:'muted'};
+        return `<div class="ouvrier-chip" style="opacity:${o.statut==='disponible'?1:0.7}">
+          <div class="avatar avatar-sm">${o.prenom[0]}${o.nom[0]}</div>
+          <div style="flex:1"><div style="font-weight:600">${esc(o.prenom)} ${esc(o.nom)}</div><div style="font-size:11px;color:var(--c-muted)">${o.poste}</div></div>
+          <span class="badge badge-${statusColor[o.statut]||'muted'}" style="font-size:11px">${o.statut}</span>
+          <button onclick="addOuvrier(${o.id})" class="btn btn-sm btn-primary" title="Ajouter" ${o.statut!=='disponible'?'disabled':''}>+</button>
+        </div>`;}).join('')
+    : '<p style="color:var(--c-muted);font-size:13px">Aucun ouvrier disponible</p>';
+}
+
+function addOuvrier(ouvrId) {
+  const p = DB.find('projets', currentProjetId);
+  p.ouvriers = [...new Set([...(p.ouvriers||[]), ouvrId])];
+  DB.update('projets', currentProjetId, { ouvriers: p.ouvriers });
+  DB.update('ouvriers', ouvrId, { statut: 'en_mission' });
+  toast('Ouvrier ajouté à l\'équipe', 'success');
+  renderEquipe(DB.find('projets', currentProjetId));
+}
+
+function removeOuvrier(ouvrId) {
+  const p = DB.find('projets', currentProjetId);
+  p.ouvriers = (p.ouvriers||[]).filter(id => id !== ouvrId);
+  DB.update('projets', currentProjetId, { ouvriers: p.ouvriers });
+  DB.update('ouvriers', ouvrId, { statut: 'disponible' });
+  toast('Ouvrier retiré de l\'équipe', 'success');
+  renderEquipe(DB.find('projets', currentProjetId));
+}
+
+/* ── TÂCHES ─────────────────────────────────────────────────── */
+function populateAssigneeSelect(p) {
+  const ouvriers = (p.ouvriers||[]).map(id => DB.find('ouvriers', id)).filter(Boolean);
+  const allOuvr  = DB.list('ouvriers');
+  const opts = [...new Set([...ouvriers, ...allOuvr])];
+  document.getElementById('newTacheAssignee').innerHTML =
+    '<option value="">— Non assigné —</option>' +
+    opts.map(o => `<option value="${o.id}">${esc(o.prenom)} ${esc(o.nom)}</option>`).join('');
+}
+
+function renderTaches(projetId) {
+  const taches = DB.where('taches', t => t.projet_id === projetId)
+    .sort((a,b) => { const o={urgente:0,haute:1,normale:2,basse:3}; return (o[a.priorite]||2)-(o[b.priorite]||2); });
+  const prioColor = {urgente:'danger',haute:'brand',normale:'warning',basse:'muted'};
+  const statIcon  = {a_faire:'○',en_cours:'◑',terminee:'●',bloquee:'⊗'};
+  const statColor = {a_faire:'var(--c-muted)',en_cours:'var(--c-info)',terminee:'var(--c-success)',bloquee:'var(--c-danger)'};
+
+  document.getElementById('tachesList').innerHTML = taches.length
+    ? taches.map(t => {
+        const ouvr = t.assignee_id ? DB.find('ouvriers', t.assignee_id) : null;
+        return `<div class="task-item ${t.statut}">
+          <span style="font-size:20px;color:${statColor[t.statut]};cursor:pointer" onclick="cycleTaskStatus(${t.id})" title="Changer statut">${statIcon[t.statut]}</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:600;font-size:14px;${t.statut==='terminee'?'text-decoration:line-through;color:var(--c-muted)':''}">${esc(t.titre)}</div>
+            ${t.description?`<div style="font-size:12px;color:var(--c-muted)">${esc(t.description)}</div>`:''}
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+            ${ouvr?`<div class="avatar avatar-sm" title="${esc(ouvr.prenom)}">${ouvr.prenom[0]}${ouvr.nom[0]}</div>`:''}
+            <span class="badge badge-${prioColor[t.priorite]||'muted'}" style="font-size:11px">${t.priorite}</span>
+            ${t.date_echeance?`<span style="font-size:11px;color:var(--c-muted)">${fmtDate(t.date_echeance)}</span>`:''}
+            <button onclick="deleteTask(${t.id})" class="btn btn-sm btn-ghost" style="padding:4px 6px;color:var(--c-danger)">✕</button>
+          </div>
+        </div>`;}).join('')
+    : '<div style="text-align:center;padding:32px;color:var(--c-muted)">Aucune tâche — Cliquez sur "+ Ajouter une tâche"</div>';
+}
+
+function showAddTache() {
+  document.getElementById('addTacheForm').style.display = 'block';
+  document.getElementById('newTacheTitre').focus();
+}
+
+function addTache() {
+  const titre = document.getElementById('newTacheTitre').value.trim();
+  if (!titre) { toast('Titre requis', 'error'); return; }
+  DB.insert('taches', {
+    projet_id:   currentProjetId,
+    titre,
+    description: document.getElementById('newTacheDesc').value,
+    statut:      'a_faire',
+    priorite:    document.getElementById('newTachePrio').value,
+    assignee_id: parseInt(document.getElementById('newTacheAssignee').value) || null,
+    date_echeance:document.getElementById('newTacheDate').value || null,
+  });
+  document.getElementById('addTacheForm').style.display = 'none';
+  document.getElementById('newTacheTitre').value = '';
+  document.getElementById('newTacheDesc').value  = '';
+  toast('Tâche créée', 'success');
+  renderTaches(currentProjetId);
+}
+
+function cycleTaskStatus(id) {
+  const t = DB.find('taches', id);
+  const flow = {a_faire:'en_cours',en_cours:'terminee',terminee:'bloquee',bloquee:'a_faire'};
+  DB.update('taches', id, {statut: flow[t.statut]||'en_cours', date_completion: flow[t.statut]==='terminee'?new Date().toISOString():null});
+  renderTaches(currentProjetId);
+}
+
+function deleteTask(id) {
+  confirm('Supprimer cette tâche ?', 'Action irréversible.', () => {
+    DB.delete('taches', id);
+    renderTaches(currentProjetId);
+    toast('Tâche supprimée', 'success');
+  }, true);
+}
+
+/* ── PHOTOS ─────────────────────────────────────────────────── */
+function handlePhotoUpload(event) {
+  const files = Array.from(event.target.files);
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const photo = { id: Date.now() + Math.random(), url: e.target.result, legende: file.name.replace(/\.[^.]+$/,''), date: new Date().toISOString().split('T')[0] };
+      projectPhotos.push(photo);
+      renderPhotos();
+      // Sauvegarder dans le projet
+      DB.update('projets', currentProjetId, { photos: projectPhotos });
+    };
+    reader.readAsDataURL(file);
+  });
+  event.target.value = '';
+}
+
+// Drag & drop sur upload zone
+document.getElementById('uploadZone')?.addEventListener('dragover', e => { e.preventDefault(); document.getElementById('uploadZone').style.borderColor = 'var(--c-brand)'; });
+document.getElementById('uploadZone')?.addEventListener('dragleave', () => { document.getElementById('uploadZone').style.borderColor = ''; });
+document.getElementById('uploadZone')?.addEventListener('drop', e => {
+  e.preventDefault();
+  document.getElementById('uploadZone').style.borderColor = '';
+  const dt = e.dataTransfer;
+  if (dt.files.length) handlePhotoUpload({target:{files: dt.files, value:''}});
+});
+
+function renderPhotos() {
+  document.getElementById('photoCount').textContent = `${projectPhotos.length} photo(s)`;
+  document.getElementById('photoGallery').innerHTML = projectPhotos.map(ph => `
+    <div class="photo-thumb">
+      <img src="${ph.url}" alt="${esc(ph.legende||'Photo')}" onclick="viewPhoto('${ph.url}')">
+      <div class="photo-thumb-overlay">
+        <div style="display:flex;gap:8px">
+          <button onclick="viewPhoto('${ph.url}')" style="background:rgba(255,255,255,.15);border:none;border-radius:4px;padding:6px 10px;color:#fff;cursor:pointer;font-size:12px">👁</button>
+          <button onclick="deletePhoto('${ph.id}')" style="background:rgba(239,68,68,.7);border:none;border-radius:4px;padding:6px 10px;color:#fff;cursor:pointer;font-size:12px">✕</button>
+        </div>
+      </div>
+      <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.6);color:#fff;font-size:10px;padding:4px 6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(ph.legende||ph.date||'')}</div>
+    </div>`).join('') +
+    `<div class="photo-thumb" onclick="document.getElementById('photoInput').click()" style="border:2px dashed var(--c-border);background:var(--c-dark);display:flex;align-items:center;justify-content:center;cursor:pointer">
+      <span style="font-size:28px;color:var(--c-muted)">+</span>
+    </div>`;
+}
+
+function viewPhoto(url) {
+  const viewer = document.getElementById('photoViewer');
+  document.getElementById('viewerImg').src = url;
+  viewer.style.display = 'flex';
+}
+
+function deletePhoto(photoId) {
+  projectPhotos = projectPhotos.filter(p => String(p.id) !== String(photoId));
+  DB.update('projets', currentProjetId, { photos: projectPhotos });
+  renderPhotos();
+  toast('Photo supprimée', 'success');
+}
+
+/* ── RAPPORTS ───────────────────────────────────────────────── */
+function renderRapports(projetId) {
+  const rapports = DB.where('rapports_journaliers', r => r.projet_id === projetId)
+    .sort((a,b) => (b.date_rapport||'').localeCompare(a.date_rapport||''));
+  const meteoIco = {ensoleille:'☀️',nuageux:'⛅',pluie:'🌧️',vent:'💨'};
+
+  document.getElementById('rapportsHistorique').innerHTML = rapports.length
+    ? rapports.map(r => `<div class="rapport-card">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <strong style="font-size:13px">${fmtDate(r.date_rapport, true)}</strong>
+          <span>${meteoIco[r.meteo]||''}  ${r.nb_ouvriers||0} ouvriers</span>
+        </div>
+        <p style="font-size:13px;color:var(--c-muted);margin-bottom:6px">${esc(r.avancement_du_jour||'').substring(0,120)}…</p>
+        ${r.problemes?`<div style="font-size:12px;color:var(--c-danger)">⚠️ ${esc(r.problemes).substring(0,80)}</div>`:''}
+      </div>`)
+    .join('')
+    : '<p style="color:var(--c-muted);font-size:13px">Aucun rapport pour ce projet</p>';
+}
+
+function submitRapport(e) {
+  e.preventDefault();
+  DB.insert('rapports_journaliers', {
+    projet_id:          currentProjetId,
+    date_rapport:       new Date().toISOString().split('T')[0],
+    meteo:              document.getElementById('rMeteo').value,
+    nb_ouvriers:        parseInt(document.getElementById('rNbOuvriers').value)||0,
+    avancement_du_jour: document.getElementById('rAvancement').value,
+    materiaux_utilises: document.getElementById('rMateriaux').value,
+    problemes:          document.getElementById('rProblemes').value,
+    redacteur_id:       Auth.current()?.id,
+  });
+  document.getElementById('rAvancement').value = '';
+  document.getElementById('rMateriaux').value  = '';
+  document.getElementById('rProblemes').value  = '';
+  toast('Rapport soumis avec succès', 'success');
+  renderRapports(currentProjetId);
+}
+
+/* ── FINANCES ───────────────────────────────────────────────── */
+function updateFinancesDisplay() {
+  const budget  = parseFloat(document.getElementById('pBudget').value)||0;
+  const depenses= parseFloat(document.getElementById('pDepenses').value)||0;
+  const encaisse= parseFloat(document.getElementById('pEncaisse').value)||0;
+  const marge   = budget - depenses;
+  const margePct= budget ? Math.round(marge/budget*100) : 0;
+  const recouvr = budget ? Math.round(encaisse/budget*100) : 0;
+
+  document.getElementById('financesRecap').innerHTML = [
+    ['Budget initial', fmt(budget), ''],
+    ['Dépenses réelles', fmt(depenses), depenses>budget?'color:var(--c-danger)':''],
+    ['Marge brute', fmt(marge), marge<0?'color:var(--c-danger)':'color:var(--c-success)'],
+    ['Marge %', margePct+'%', margePct<20?'color:var(--c-warning)':'color:var(--c-success)'],
+    ['Encaissé', fmt(encaisse), 'color:var(--c-info)'],
+    ['Taux recouvrement', recouvr+'%', ''],
+  ].map(([k,v,style]) => `<div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px solid var(--c-border)"><span style="color:var(--c-muted)">${k}</span><strong style="${style}">${v}</strong></div>`).join('');
+}
+
+function renderTransactionsProjet(id) {
+  const txs = DB.where('transactions', t => t.projet_id === id)
+    .sort((a,b) => (b.date_transaction||'').localeCompare(a.date_transaction||''));
+  document.getElementById('transactionsProjet').innerHTML = txs.length
+    ? txs.map(t => `<div style="display:flex;justify-content:space-between;padding:10px;background:var(--c-dark);border-radius:var(--radius-sm);font-size:13px">
+        <div><div style="font-weight:600">${esc(t.libelle)}</div><div style="font-size:11px;color:var(--c-muted)">${fmtDate(t.date_transaction)} · ${t.mode_paiement||'—'}</div></div>
+        <span style="font-weight:700;color:${t.type_transaction==='recette'?'var(--c-success)':'var(--c-danger)'}">${t.type_transaction==='recette'?'+':'-'}${fmt(t.montant,true)}</span>
+      </div>`).join('')
+    : '<p style="color:var(--c-muted);font-size:13px">Aucune transaction liée à ce projet</p>';
+}
+
+/* ── SAUVEGARDER ────────────────────────────────────────────── */
+function saveProjet() {
+  const data = {
+    titre:              document.getElementById('pTitre').value,
+    statut:             document.getElementById('pStatut').value,
+    client_id:          parseInt(document.getElementById('pClient').value),
+    categorie:          document.getElementById('pCategorie').value,
+    lieu:               document.getElementById('pLieu').value,
+    lieu_chantier:      document.getElementById('pLieu').value,
+    ville:              document.getElementById('pVille').value,
+    date_debut_prevue:  document.getElementById('pDateDebut').value,
+    date_fin_prevue:    document.getElementById('pDateFin').value,
+    description:        document.getElementById('pDescription').value,
+    notes_internes:     document.getElementById('pNotes').value,
+    nb_ouvriers_chantier: parseInt(document.getElementById('pNbOuvriers').value)||0,
+    pourcentage_avancement: parseInt(document.getElementById('pAvancement').value)||0,
+    budget_initial:     parseFloat(document.getElementById('pBudget').value)||0,
+    budget_revise:      parseFloat(document.getElementById('pBudgetRevise').value)||null,
+    depenses_reelles:   parseFloat(document.getElementById('pDepenses').value)||0,
+    montant_encaisse:   parseFloat(document.getElementById('pEncaisse').value)||0,
+    photos:             projectPhotos,
+  };
+  DB.update('projets', currentProjetId, data);
+  toast('Projet enregistré', 'success');
+  loadKPIs(); renderProjets();
+  // Mettre à jour badge modal
+  const statMap = {en_attente:'warning',actif:'success',suspendu:'danger',termine:'muted',annule:'danger'};
+  const badge = document.getElementById('pModalBadge');
+  badge.className = `badge badge-${statMap[data.statut]||'muted'}`;
+  badge.textContent = data.statut.replace(/_/g,' ');
+}
+
+/* ── ACTIVATION / CLÔTURE ───────────────────────────────────── */
+function toggleActivate() {
+  const p = DB.find('projets', currentProjetId);
+  const next = p.statut === 'actif' ? 'suspendu' : 'actif';
+  const msg  = p.statut === 'actif' ? 'Suspendre ce projet ?' : 'Activer ce projet ?';
+  confirm(msg, '', () => {
+    DB.update('projets', currentProjetId, { statut: next, date_debut_reelle: next==='actif'&&!p.date_debut_reelle?new Date().toISOString().split('T')[0]:p.date_debut_reelle });
+    document.getElementById('pStatut').value = next;
+    saveProjet();
+    toast(`Projet ${next === 'actif' ? 'activé' : 'suspendu'}`, 'success');
+  });
+}
+
+function clotureProjet() {
+  confirm('Clôturer ce projet ?', 'Le statut passera à "Terminé" et un rapport final sera généré.', () => {
+    DB.update('projets', currentProjetId, {
+      statut: 'termine',
+      date_fin_reelle: document.getElementById('pDateFinReelle').value || new Date().toISOString().split('T')[0],
+      note_qualite:    parseInt(document.getElementById('pNoteQualite').value),
+      note_rentabilite:parseInt(document.getElementById('pNoteRenta').value),
+    });
+    toast('Projet clôturé avec succès', 'success');
+    saveProjet();
+    closeModal();
+  });
+}
+
+function printRapportFinal() {
+  const p = DB.find('projets', currentProjetId);
   const client = DB.find('clients', p.client_id);
-  document.getElementById('projectTitle').textContent = `${esc(p.titre)} (${p.code})`;
-  document.getElementById('projectClient').textContent = esc(client?.nom || client?.raison_sociale || '?');
-  document.getElementById('projectCategorie').textContent = p.categorie || 'â€”';
-  document.getElementById('projectBudget').textContent = fmt(p.budget_initial, false);
-  document.getElementById('projectDepense').textContent = fmt(p.depenses_reelles, false);
-  document.getElementById('projectProgress').textContent = `${p.pourcentage_avancement}%`;
-  document.getElementById('projectProgressBar').style.width = `${p.pourcentage_avancement}%`;
+  const nomCli = client ? (client.prenom?`${client.prenom} ${client.nom}`:client.raison_sociale) : '?';
+  const budget = p.budget_initial||0;
+  const dep    = p.depenses_reelles||0;
+  const marge  = budget - dep;
 
-  // Ã‰quipe
-  const teamDiv = document.getElementById('projectTeam');
-  if (p.ouvriers && p.ouvriers.length > 0) {
-    teamDiv.innerHTML = (p.ouvriers || []).map(oid => {
-      const o = DB.find('ouvriers', oid);
-      return `<div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg-alt);border-radius:var(--r)">
-        <div class="avatar avatar-sm">${(o?.prenom || '?')[0]}${(o?.nom || '?')[0]}</div>
-        <div style="flex:1">
-          <div style="font-weight:600;font-size:14px">${esc(o?.prenom || '?')} ${esc(o?.nom || '?')}</div>
-          <div style="font-size:12px;color:var(--text-muted)">${o?.poste || '?'}</div>
-        </div>
-        <button class="btn btn-sm btn-danger" onclick="removeFromTeam(${p.id},${oid})">âœ•</button>
-      </div>`;
-    }).join('');
-  } else {
-    teamDiv.innerHTML = '<p style="color:var(--text-muted);font-size:13px">Aucun ouvrier assignÃ©</p>';
-  }
-
-  // TÃ¢ches
-  const taches = DB.where('taches', t => t.projet_id === id);
-  const tachesDiv = document.getElementById('projectTaches');
-  if (taches.length > 0) {
-    tachesDiv.innerHTML = taches.map(t => {
-      const iconMap = { terminee: 'âœ“', en_cours: 'â—', a_faire: 'â—‹', bloquee: '!' };
-      const colorMap = { terminee: 'success', en_cours: 'info', a_faire: 'muted', bloquee: 'danger' };
-      return `<div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg-alt);border-radius:var(--r)">
-        <span style="color:var(--${colorMap[t.statut] || 'text-muted'})">${iconMap[t.statut]}</span>
-        <div style="flex:1">
-          <div style="font-size:13px;font-weight:600">${esc(t.titre)}</div>
-          <div style="font-size:11px;color:var(--text-muted)">AssignÃ©e Ã : ${DB.find('ouvriers', t.assignee_id)?.prenom || '?'}</div>
-        </div>
-      </div>`;
-    }).join('');
-  } else {
-    tachesDiv.innerHTML = '<p style="color:var(--text-muted);font-size:13px">Aucune tÃ¢che</p>';
-  }
-
-  // Jours restants
-  if (p.date_fin_prevue) {
-    const days = daysSince(p.date_fin_prevue);
-    document.getElementById('projectDaysLeft').textContent = Math.abs(days) + ' j';
-    document.getElementById('projectDeadline').textContent = days < 0 ? `Fin prÃ©vue: ${fmtDate(p.date_fin_prevue)}` : `DÃ©passement de ${Math.abs(days)} jours`;
-  }
-
-  // Action button
-  const actionBtn = document.getElementById('projectActionBtn');
-  if (p.statut === 'en_attente') {
-    actionBtn.textContent = 'Activer le projet';
-    actionBtn.onclick = () => { DB.update('projets', id, { statut: 'actif' }); toast('Projet activÃ©', 'success'); loadProjets(); document.getElementById('projectModal').classList.remove('open'); };
-  } else if (p.statut === 'actif') {
-    actionBtn.textContent = 'Terminer le projet';
-    actionBtn.onclick = () => { DB.update('projets', id, { statut: 'termine', date_fin_reelle: new Date().toISOString().split('T')[0] }); toast('Projet terminÃ©', 'success'); loadProjets(); document.getElementById('projectModal').classList.remove('open'); };
-  } else {
-    actionBtn.disabled = true;
-    actionBtn.textContent = 'Projet ' + p.statut;
-  }
-
-  document.getElementById('projectModal').classList.add('open');
+  const win = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>Rapport final — ${p.code}</title><style>body{font-family:Georgia,serif;margin:40px;max-width:800px;color:#222}.header{display:flex;justify-content:space-between;border-bottom:3px solid #E85A00;padding-bottom:16px;margin-bottom:24px}.title{font-size:28px;font-weight:900;color:#E85A00}.section{margin:20px 0}.section h3{font-size:14px;text-transform:uppercase;letter-spacing:.1em;color:#888;margin-bottom:10px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.box{padding:12px;background:#f5f5f5;border-radius:6px}.box label{font-size:11px;color:#888}.box strong{display:block;font-size:16px}</style></head><body>
+    <div class="header">
+      <div><div class="title">POLYFIX</div><div style="font-size:12px;color:#888">Rapport final de projet</div></div>
+      <div style="text-align:right"><div style="font-size:18px;font-weight:700">${p.code}</div><div style="font-size:12px;color:#888">${fmtDate(p.date_fin_reelle||new Date().toISOString(),true)}</div></div>
+    </div>
+    <div class="section"><h3>Informations générales</h3>
+      <div class="grid">
+        <div class="box"><label>Projet</label><strong>${p.titre}</strong></div>
+        <div class="box"><label>Client</label><strong>${nomCli}</strong></div>
+        <div class="box"><label>Localisation</label><strong>${p.lieu||p.ville||'—'}</strong></div>
+        <div class="box"><label>Avancement final</label><strong>${p.pourcentage_avancement||0}%</strong></div>
+      </div>
+    </div>
+    <div class="section"><h3>Bilan financier</h3>
+      <div class="grid">
+        <div class="box"><label>Budget initial</label><strong>${fmt(budget)}</strong></div>
+        <div class="box"><label>Dépenses réelles</label><strong>${fmt(dep)}</strong></div>
+        <div class="box"><label>Marge brute</label><strong style="color:${marge>=0?'green':'red'}">${fmt(marge)}</strong></div>
+        <div class="box"><label>Encaissé</label><strong>${fmt(p.montant_encaisse||0)}</strong></div>
+      </div>
+    </div>
+    ${document.getElementById('pBilan').value?`<div class="section"><h3>Bilan et leçons apprises</h3><p>${document.getElementById('pBilan').value}</p></div>`:''}
+    <div style="margin-top:40px;display:flex;justify-content:space-between;border-top:1px solid #ccc;padding-top:20px">
+      <div><div style="font-size:11px;color:#888">Signature POLYFIX</div><div style="margin-top:40px;border-top:1px solid #333;width:200px"></div></div>
+      <div><div style="font-size:11px;color:#888">Signature client</div><div style="margin-top:40px;border-top:1px solid #333;width:200px"></div></div>
+    </div>
+    </body></html>`);
+  win.print();
 }
 
-function showTeamSelector() {
-  const p = DB.find('projets', selectedProjectId);
-  const ouvriers = DB.list('ouvriers').filter(o => o.statut === 'disponible');
-  
-  document.getElementById('ouvriersSelect').innerHTML = ouvriers.map(o => `
-    <label class="check-option">
-      <input type="checkbox" onchange="toggleOuvrier(${o.id}, this.checked)">
-      <span><strong>${esc(o.prenom)} ${esc(o.nom)}</strong> â€” ${o.poste} (${fmt(o.taux_journalier, true)})</span>
-    </label>
-  `).join('');
-  
-  document.getElementById('teamModal').classList.add('open');
+function deleteProjet() {
+  confirm('Supprimer ce projet ?', 'Toutes les tâches, rapports et photos associés seront perdus.', () => {
+    DB.delete('projets', currentProjetId);
+    toast('Projet supprimé', 'success');
+    closeModal(); loadKPIs(); renderProjets();
+  }, true);
 }
 
-function toggleOuvrier(ouvrerId, checked) {
-  const p = DB.find('projets', selectedProjectId);
-  if (!p) return;
-  
-  if (checked) {
-    if (!(p.ouvriers || []).includes(ouvrerId)) {
-      p.ouvriers = [...(p.ouvriers || []), ouvrerId];
-    }
-  } else {
-    p.ouvriers = (p.ouvriers || []).filter(id => id !== ouvrerId);
-  }
-  
-  DB.update('projets', selectedProjectId, { ouvriers: p.ouvriers });
-  openProject(selectedProjectId);
+/* ── TAB SWITCH / CLOSE ─────────────────────────────────────── */
+function updateAvancement(val) {
+  document.getElementById('pAvancementVal').textContent = val+'%';
+  document.getElementById('pAvancementBar').style.width = val+'%';
 }
 
-function removeFromTeam(projectId, ouvrerId) {
-  const p = DB.find('projets', projectId);
-  p.ouvriers = (p.ouvriers || []).filter(id => id !== ouvrerId);
-  DB.update('projets', projectId, { ouvriers: p.ouvriers });
-  openProject(projectId);
-  toast('Ouvrier retirÃ© de l\'Ã©quipe', 'success');
+function switchTab(tab, btn) {
+  document.querySelectorAll('#projetModal .tab-content').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#projetModal .tab-btn').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('ptab-'+tab);
+  if (el) el.classList.add('active');
+  if (btn) btn.classList.add('active');
 }
 
-function updateProjectStatus() {
-  const p = DB.find('projets', selectedProjectId);
-  if (p.statut === 'en_attente') {
-    DB.update('projets', selectedProjectId, { statut: 'actif' });
-    toast('Projet activÃ©', 'success');
-  }
-  loadProjets();
-  document.getElementById('projectModal').classList.remove('open');
+function closeModal() {
+  document.getElementById('projetModal').classList.remove('open');
+  document.getElementById('photoViewer').style.display = 'none';
+  currentProjetId = null;
+  projectPhotos   = [];
 }
+document.getElementById('projetModal').addEventListener('click', e => { if(e.target===document.getElementById('projetModal')) closeModal(); });
+document.getElementById('photoViewer').addEventListener('click', e => { if(e.target===document.getElementById('photoViewer')) document.getElementById('photoViewer').style.display='none'; });
 
-window.addEventListener('load', loadProjets);
+window.addEventListener('load', init);
 </script>
 </body>
 </html>
-
-

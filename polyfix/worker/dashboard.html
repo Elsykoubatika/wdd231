@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tableau de bord Ouvrier â€” POLYFIX</title>
+  <title>Tableau de bord Ouvrier — POLYFIX</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -19,12 +19,12 @@
     <nav class="sidebar-nav">
       <div class="sidebar-section"><div class="sidebar-section-label">Mon Espace</div>
         <a href="dashboard.html" class="sidebar-link active"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
-        <a href="taches.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9 12 11 14 15 10"/></svg>Mes tÃ¢ches</a>
+        <a href="taches.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9 12 11 14 15 10"/></svg>Mes tâches</a>
         <a href="projets.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Projets</a>
         <a href="messages.html" class="sidebar-link"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Messages</a>
       </div>
     </nav>
-    <div class="sidebar-user"><div class="avatar">PK</div><div><div class="sidebar-user-name" id="userName">Pierre Koulousso</div><div class="sidebar-user-role">MaÃ§on</div></div></div>
+    <div class="sidebar-user"><div class="avatar">PK</div><div><div class="sidebar-user-name" id="userName">Pierre Koulousso</div><div class="sidebar-user-role">Maçon</div></div></div>
   </div>
 
   <!-- MAIN AREA -->
@@ -32,7 +32,7 @@
     <div class="admin-topbar">
       <div class="topbar-title">Tableau de bord</div>
       <div class="topbar-actions">
-        <button class="notif-btn" title="Appels reÃ§us">
+        <button class="notif-btn" title="Appels reçus">
           <svg viewBox="0 0 24 24" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           <span class="notif-dot"></span>
         </button>
@@ -43,15 +43,15 @@
     <div class="admin-content">
       <div style="margin-bottom:32px">
         <h1 class="h1" style="margin-bottom:6px">Bienvenue, <span id="workerName">Ouvrier</span></h1>
-        <p style="color:var(--text-secondary);font-size:15px">Consultez vos tÃ¢ches et projets assignÃ©s</p>
+        <p style="color:var(--text-secondary);font-size:15px">Consultez vos tâches et projets assignés</p>
       </div>
 
       <!-- KPI CARDS -->
       <div class="kpi-grid">
         <div class="kpi-card">
-          <div class="kpi-label">TÃ¢ches assignÃ©es</div>
+          <div class="kpi-label">Tâches assignées</div>
           <div class="kpi-value" id="kpiTaches">0</div>
-          <div class="kpi-sub">Ã€ faire : <strong id="kpiTachesToDo">0</strong></div>
+          <div class="kpi-sub">À faire : <strong id="kpiTachesToDo">0</strong></div>
         </div>
         <div class="kpi-card">
           <div class="kpi-label">Projets actifs</div>
@@ -59,9 +59,9 @@
           <div class="kpi-sub">Moyenne avancement : <strong id="kpiAvance">0</strong>%</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">Ã‰valuation</div>
+          <div class="kpi-label">Évaluation</div>
           <div class="kpi-value" id="kpiNote">0.0</div>
-          <div class="kpi-sub"><strong id="kpiEvals">0</strong> Ã©valuations</div>
+          <div class="kpi-sub"><strong id="kpiEvals">0</strong> évaluations</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-label">Salaire journalier</div>
@@ -72,32 +72,32 @@
 
       <!-- MAIN CONTENT -->
       <div class="dash-grid" style="margin-top:32px">
-        <!-- LEFT: TÃ¢ches du jour -->
+        <!-- LEFT: Tâches du jour -->
         <div>
           <div class="card card-pad">
-            <h3 class="h3" style="margin-bottom:20px">TÃ¢ches d'aujourd'hui</h3>
+            <h3 class="h3" style="margin-bottom:20px">Tâches d'aujourd'hui</h3>
             <div id="tachesAujourd" style="display:flex;flex-direction:column;gap:12px">
-              <!-- ChargÃ© en JS -->
+              <!-- Chargé en JS -->
             </div>
           </div>
         </div>
 
-        <!-- RIGHT: Projets assignÃ©s -->
+        <!-- RIGHT: Projets assignés -->
         <div>
           <div class="card card-pad">
             <h3 class="h3" style="margin-bottom:20px">Mes projets</h3>
             <div id="mesProjets" style="display:flex;flex-direction:column;gap:12px">
-              <!-- ChargÃ© en JS -->
+              <!-- Chargé en JS -->
             </div>
           </div>
         </div>
       </div>
 
-      <!-- MESSAGES DE L'Ã‰QUIPE -->
+      <!-- MESSAGES DE L'ÉQUIPE -->
       <div class="card card-pad" style="margin-top:24px">
         <h3 class="h3" style="margin-bottom:20px">Messages de votre chef</h3>
         <div id="messagesChef" style="display:flex;flex-direction:column;gap:12px">
-          <!-- ChargÃ© en JS -->
+          <!-- Chargé en JS -->
         </div>
       </div>
     </div>
@@ -138,7 +138,7 @@ function loadDashboard() {
   document.getElementById('kpiEvals').textContent = ouvrierObj.total_evaluations || 0;
   document.getElementById('kpiTaux').textContent = fmt(ouvrierObj.taux_journalier, true).split(' ')[0];
 
-  // TÃ¢ches du jour
+  // Tâches du jour
   const aujourdhui = new Date().toISOString().split('T')[0];
   const tachesToday = taches.filter(t => {
     const projet = DB.find('projets', t.projet_id);
@@ -159,7 +159,7 @@ function loadDashboard() {
       </div>`;
     }).join('');
   } else {
-    tachesDiv.innerHTML = '<p style="color:var(--text-muted);font-size:13px">Aucune tÃ¢che programmÃ©e pour aujourd\'hui</p>';
+    tachesDiv.innerHTML = '<p style="color:var(--text-muted);font-size:13px">Aucune tâche programmée pour aujourd\'hui</p>';
   }
 
   // Mes projets
@@ -208,7 +208,7 @@ function updateTaskStatus(taskId) {
     date_completion: newStatus === 'terminee' ? new Date().toISOString() : null
   });
   
-  toast(`TÃ¢che mise Ã  jour : ${newStatus.replace(/_/g, ' ')}`, 'success');
+  toast(`Tâche mise à jour : ${newStatus.replace(/_/g, ' ')}`, 'success');
   loadDashboard();
 }
 

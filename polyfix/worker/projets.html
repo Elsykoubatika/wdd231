@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes projets — POLYFIX Ouvrier</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a href="dashboard.html" class="sidebar-logo">
+      <svg viewBox="0 0 24 24" style="width:32px;height:32px;fill:var(--c-brand)"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      POLY<span>FIX</span>
+    </a>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Mon espace</div>
+      <a href="dashboard.html" data-page="dashboard"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+      <a href="taches.html" data-page="taches"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9 12 11 14 15 10"/></svg>Mes tâches<span class="sidebar-badge" id="sb-taches" style="display:none">0</span></a>
+      <a href="projets.html" data-page="projets"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Mes projets</a>
+      <a href="messages.html" data-page="messages"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Messages<span class="sidebar-badge" id="sb-msgs" style="display:none">0</span></a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="sidebarAvatar">PK</div>
+      <div>
+        <div class="sidebar-user-name" id="userName">Pierre Koulousso</div>
+        <div class="sidebar-user-role" id="userPoste">Maçon</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content" style="padding:0">
+    <div class="admin-topbar">
+      <div class="topbar-title">Mes projets</div>
+      <div class="topbar-actions">
+        <button class="notif-btn" onclick="Auth.logout();window.location.href='../login.html'">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div style="padding:28px">
+
+      <!-- PROJETS EN GRILLE -->
+      <div id="projetsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px">
+        <div style="text-align:center;padding:48px;color:var(--c-muted);grid-column:1/-1">Chargement…</div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- MODAL DÉTAIL PROJET -->
+<div class="modal-backdrop" id="projetModal">
+  <div class="modal" style="max-width:700px">
+    <div class="modal-header">
+      <div class="modal-title" id="projetModalTitle">Détail du projet</div>
+      <button class="modal-close" onclick="closeModal()"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <!-- TABS DANS LE MODAL -->
+      <div class="tabs" style="margin-bottom:20px">
+        <button class="tab-btn active" onclick="switchModalTab('info',this)">Informations</button>
+        <button class="tab-btn" onclick="switchModalTab('taches',this)">Mes tâches</button>
+        <button class="tab-btn" onclick="switchModalTab('rapport',this)">Rapport du jour</button>
+        <button class="tab-btn" onclick="switchModalTab('photos',this)">Photos</button>
+      </div>
+
+      <!-- TAB : INFOS -->
+      <div id="modal-info" class="tab-panel active">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px" id="projetInfoGrid">
+          <!-- Rempli en JS -->
+        </div>
+        <div style="margin-bottom:20px" id="projetProgress">
+          <!-- Rempli en JS -->
+        </div>
+        <div style="padding:14px;background:var(--c-info-bg);border-radius:var(--radius-sm);font-size:13px;color:var(--c-muted)" id="projetDesc">
+          <!-- Rempli en JS -->
+        </div>
+      </div>
+
+      <!-- TAB : TÂCHES -->
+      <div id="modal-taches" class="tab-panel">
+        <div id="modalTachesList" style="display:flex;flex-direction:column;gap:10px">
+          <!-- Rempli en JS -->
+        </div>
+      </div>
+
+      <!-- TAB : RAPPORT JOURNALIER -->
+      <div id="modal-rapport" class="tab-panel">
+        <div style="margin-bottom:16px;padding:12px;background:var(--c-brand-bg);border-radius:var(--radius-sm);font-size:13px;color:var(--c-brand);font-weight:600">
+          Rapport du <span id="rapportDate"></span>
+        </div>
+        <form onsubmit="submitRapport(event)" style="display:flex;flex-direction:column;gap:16px">
+          <div class="form-group">
+            <label class="form-label">Météo du chantier</label>
+            <select id="rMeteo" class="form-control">
+              <option value="ensoleille">☀️ Ensoleillé</option>
+              <option value="nuageux">⛅ Nuageux</option>
+              <option value="pluie">🌧️ Pluie</option>
+              <option value="vent">💨 Venteux</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre d'ouvriers présents</label>
+            <input type="number" id="rNbOuvriers" class="form-control" min="0" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Travaux effectués aujourd'hui <span class="req">*</span></label>
+            <textarea id="rAvancement" class="form-control" placeholder="Décrivez les travaux réalisés aujourd'hui…" required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Matériaux utilisés</label>
+            <textarea id="rMateriaux" class="form-control" placeholder="Ex: 20 sacs de ciment, 5m³ de sable…" style="min-height:70px"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Problèmes rencontrés</label>
+            <textarea id="rProblemes" class="form-control" placeholder="Signaler tout incident ou blocage…" style="min-height:70px"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="align-self:flex-start">
+            <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px;stroke:currentColor"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            Soumettre le rapport
+          </button>
+        </form>
+      </div>
+
+      <!-- TAB : PHOTOS -->
+      <div id="modal-photos" class="tab-panel">
+        <!-- Upload -->
+        <div style="border:2px dashed var(--c-border);border-radius:var(--radius);padding:28px;text-align:center;margin-bottom:20px;cursor:pointer;transition:var(--transition)" onclick="document.getElementById('photoInput').click()" onmouseover="this.style.borderColor='var(--c-brand)'" onmouseout="this.style.borderColor='var(--c-border)'">
+          <svg viewBox="0 0 24 24" stroke-width="1.5" fill="none" style="width:40px;height:40px;stroke:var(--c-muted);display:block;margin:0 auto 12px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <p style="font-weight:600;margin-bottom:4px">Glisser une photo ou cliquer</p>
+          <p style="font-size:12px;color:var(--c-muted)">JPG, PNG — Max 5 Mo</p>
+          <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotos(event)">
+        </div>
+        <!-- Galerie -->
+        <div id="photoGallery" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px">
+          <!-- Photos simulées -->
+        </div>
+        <p style="font-size:12px;color:var(--c-muted);margin-top:12px;text-align:center">
+          En production : les photos sont stockées sur AWS S3 et associées au projet.
+        </p>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="../js/db.js"></script>
+<script>
+Auth.require(['ouvrier','admin','gestionnaire']);
+
+let ouvrierObj = null;
+let selectedProjetId = null;
+
+function init() {
+  const user = Auth.current();
+  if (!user) return;
+  ouvrierObj = DB.list('ouvriers').find(o => o.email === user.email || (o.prenom === user.prenom && o.nom === user.nom))
+    || DB.list('ouvriers')[0];
+
+  document.getElementById('userName').textContent = `${user.prenom} ${user.nom}`;
+  document.getElementById('sidebarAvatar').textContent = (user.prenom[0]+user.nom[0]).toUpperCase();
+  if (ouvrierObj) document.getElementById('userPoste').textContent = ouvrierObj.poste;
+
+  renderProjets();
+}
+
+function renderProjets() {
+  const grid = document.getElementById('projetsGrid');
+  const projets = ouvrierObj
+    ? DB.list('projets').filter(p => (p.ouvriers||[]).includes(ouvrierObj.id))
+    : DB.list('projets').slice(0,2);
+
+  if (!projets.length) {
+    grid.innerHTML = '<div style="text-align:center;padding:48px;color:var(--c-muted);grid-column:1/-1;background:var(--c-surface);border-radius:var(--radius);border:1px solid var(--c-border)">Aucun projet assigné pour le moment</div>';
+    return;
+  }
+
+  const statusColor = {en_attente:'warning', actif:'success', suspendu:'danger', termine:'muted'};
+  const statusLbl   = {en_attente:'En attente', actif:'Actif', suspendu:'Suspendu', termine:'Terminé'};
+
+  grid.innerHTML = projets.map(p => {
+    const client  = DB.find('clients', p.client_id);
+    const nomCli  = client ? (client.prenom ? `${client.prenom} ${client.nom}` : client.raison_sociale) : '?';
+    const jours   = p.date_fin_prevue ? Math.ceil((new Date(p.date_fin_prevue) - new Date()) / 86400000) : null;
+    const mesTaches = ouvrierObj ? DB.where('taches', t => t.projet_id === p.id && t.assignee_id === ouvrierObj.id) : [];
+    const done    = mesTaches.filter(t => t.statut === 'terminee').length;
+
+    return `<div class="card card-pad card-hover" onclick="openProjet(${p.id})" style="cursor:pointer">
+      <div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--c-muted);letter-spacing:.04em;margin-bottom:4px">${esc(p.code)}</div>
+          <h3 style="font-family:var(--font-display);font-size:17px;font-weight:700;text-transform:uppercase;line-height:1.2">${esc(p.titre)}</h3>
+        </div>
+        <span class="badge badge-${statusColor[p.statut]||'muted'}">${statusLbl[p.statut]||p.statut}</span>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px;background:var(--c-dark);border-radius:var(--radius-sm)">
+        <svg viewBox="0 0 24 24" stroke="var(--c-brand)" stroke-width="2" fill="none" style="width:16px;height:16px;flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span style="font-size:13px;color:var(--c-muted)">${esc(p.lieu||p.ville||'Congo')}</span>
+        <span style="margin-left:auto;font-size:12px;color:var(--c-muted)">Client: <strong>${esc(nomCli)}</strong></span>
+      </div>
+
+      <div style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px">
+          <span>Avancement global</span>
+          <span style="font-weight:700;color:var(--c-brand)">${p.pourcentage_avancement}%</span>
+        </div>
+        <div class="progress"><div class="progress-bar" style="width:${p.pourcentage_avancement}%"></div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px">
+        <div style="padding:8px;background:var(--c-dark);border-radius:var(--radius-sm)">
+          <div style="color:var(--c-muted);margin-bottom:2px">Mes tâches</div>
+          <div style="font-weight:700">${done}/${mesTaches.length} terminées</div>
+        </div>
+        <div style="padding:8px;background:var(--c-dark);border-radius:var(--radius-sm)">
+          <div style="color:var(--c-muted);margin-bottom:2px">${jours !== null ? (jours < 0 ? 'Dépassé' : 'Fin dans') : 'Fin prévue'}</div>
+          <div style="font-weight:700;color:${jours !== null && jours < 0 ? 'var(--c-danger)' : 'inherit'}">${jours !== null ? Math.abs(jours)+'j' : fmtDate(p.date_fin_prevue)}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openProjet(id) {
+  selectedProjetId = id;
+  const p = DB.find('projets', id);
+  if (!p) return;
+
+  document.getElementById('projetModalTitle').textContent = `${p.code} — ${p.titre}`;
+  document.getElementById('rapportDate').textContent = new Date().toLocaleDateString('fr-FR', {day:'2-digit',month:'long',year:'numeric'});
+
+  // Info grid
+  const client  = DB.find('clients', p.client_id);
+  const nomCli  = client ? (client.prenom ? `${client.prenom} ${client.nom}` : client.raison_sociale) : '?';
+  document.getElementById('projetInfoGrid').innerHTML = `
+    <div><div class="form-label">Client propriétaire</div><div style="font-weight:600">${esc(nomCli)}</div></div>
+    <div><div class="form-label">Téléphone client</div><div style="font-weight:600">${esc(client?.telephone||'—')}</div></div>
+    <div><div class="form-label">Localisation</div><div style="font-weight:600">${esc(p.lieu||p.ville||'—')}</div></div>
+    <div><div class="form-label">Catégorie</div><div style="font-weight:600;text-transform:capitalize">${esc(p.categorie||'—')}</div></div>
+    <div><div class="form-label">Début prévu</div><div>${fmtDate(p.date_debut_prevue,true)}</div></div>
+    <div><div class="form-label">Fin prévue</div><div style="font-weight:600">${fmtDate(p.date_fin_prevue,true)}</div></div>
+    <div><div class="form-label">Nb. ouvriers sur chantier</div><div style="font-weight:700;font-size:18px;color:var(--c-brand)">${p.nb_ouvriers_chantier||0}</div></div>
+    <div><div class="form-label">Statut</div><div><span class="badge badge-${p.statut==='actif'?'success':p.statut==='en_attente'?'warning':'muted'}">${p.statut.replace(/_/g,' ')}</span></div></div>`;
+
+  document.getElementById('projetProgress').innerHTML = `
+    <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+      <span style="font-weight:600">Avancement global du chantier</span>
+      <span style="font-weight:800;color:var(--c-brand);font-size:18px">${p.pourcentage_avancement}%</span>
+    </div>
+    <div class="progress" style="height:12px"><div class="progress-bar" style="width:${p.pourcentage_avancement}%"></div></div>`;
+
+  document.getElementById('projetDesc').innerHTML = p.description || 'Aucune description disponible.';
+
+  // Tâches
+  const mesTaches = ouvrierObj ? DB.where('taches', t => t.projet_id === id && t.assignee_id === ouvrierObj.id) : [];
+  const statusIcon  = {a_faire:'○', en_cours:'◑', terminee:'●', bloquee:'⊗'};
+  const statusColor = {a_faire:'var(--c-muted)', en_cours:'var(--c-info)', terminee:'var(--c-success)', bloquee:'var(--c-danger)'};
+  document.getElementById('modalTachesList').innerHTML = mesTaches.length
+    ? mesTaches.map(t => `
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--c-dark);border-radius:var(--radius-sm);border-left:3px solid ${statusColor[t.statut]};cursor:pointer" onclick="quickUpdateTask(${t.id})">
+          <span style="font-size:20px;color:${statusColor[t.statut]}">${statusIcon[t.statut]}</span>
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:14px">${esc(t.titre)}</div>
+            ${t.description ? `<div style="font-size:12px;color:var(--c-muted)">${esc(t.description)}</div>` : ''}
+          </div>
+          <div style="text-align:right">
+            <span class="badge badge-${t.priorite==='urgente'?'danger':t.priorite==='haute'?'brand':'muted'}" style="font-size:11px">${t.priorite}</span>
+            <div style="font-size:11px;color:var(--c-muted);margin-top:4px">Cliquer pour avancer</div>
+          </div>
+        </div>`).join('')
+    : '<p style="color:var(--c-muted);text-align:center;padding:20px">Aucune tâche assignée pour ce projet</p>';
+
+  // Photos simulées
+  renderGallery();
+
+  document.getElementById('projetModal').classList.add('open');
+}
+
+function renderGallery() {
+  const colors = ['#FFF5EE','#EFF6FF','#ECFDF5','#FFFBEB','#FEF2F2'];
+  const labels = ['Fondations','Élévation murs','Toiture','Électricité','Finitions'];
+  document.getElementById('photoGallery').innerHTML = Array.from({length:4}, (_,i) => `
+    <div style="aspect-ratio:1;background:${colors[i%colors.length]};border-radius:var(--radius-sm);border:1px solid var(--c-border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:11px;color:var(--c-muted);text-align:center;padding:8px">
+      <svg viewBox="0 0 24 24" stroke="var(--c-muted)" stroke-width="1.5" fill="none" style="width:28px;height:28px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      ${labels[i]}
+    </div>`).join('') +
+    `<div style="aspect-ratio:1;border:2px dashed var(--c-border);border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-size:11px;color:var(--c-muted)" onclick="document.getElementById('photoInput').click()">
+      <svg viewBox="0 0 24 24" stroke="var(--c-brand)" stroke-width="2" fill="none" style="width:24px;height:24px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Ajouter
+    </div>`;
+}
+
+function quickUpdateTask(id) {
+  const t = DB.find('taches', id);
+  const flow = {a_faire:'en_cours', en_cours:'terminee', terminee:'a_faire', bloquee:'a_faire'};
+  DB.update('taches', id, { statut: flow[t.statut]||'en_cours', date_completion: flow[t.statut]==='terminee'?new Date().toISOString():null });
+  toast(`Tâche → ${(flow[t.statut]||'en_cours').replace(/_/g,' ')}`, 'success');
+  openProjet(selectedProjetId);
+}
+
+function submitRapport(e) {
+  e.preventDefault();
+  const rapport = {
+    projet_id: selectedProjetId,
+    date_rapport: new Date().toISOString().split('T')[0],
+    meteo: document.getElementById('rMeteo').value,
+    nb_ouvriers: parseInt(document.getElementById('rNbOuvriers').value) || 0,
+    avancement_du_jour: document.getElementById('rAvancement').value,
+    materiaux_utilises: document.getElementById('rMateriaux').value,
+    problemes: document.getElementById('rProblemes').value,
+    redacteur_id: Auth.current()?.id,
+  };
+
+  DB.insert('rapports_journaliers', rapport);
+  toast('Rapport du jour soumis avec succès !', 'success');
+  document.getElementById('rAvancement').value = '';
+  document.getElementById('rMateriaux').value = '';
+  document.getElementById('rProblemes').value = '';
+}
+
+function handlePhotos(event) {
+  const files = Array.from(event.target.files);
+  toast(`${files.length} photo(s) sélectionnée(s) — Upload vers S3 en production`, 'info');
+  // Simulation d'ajout à la galerie
+  files.forEach(file => {
+    const url = URL.createObjectURL(file);
+    const div = document.createElement('div');
+    div.style.cssText = 'aspect-ratio:1;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--c-border)';
+    div.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover">`;
+    document.getElementById('photoGallery').insertBefore(div, document.getElementById('photoGallery').lastElementChild);
+  });
+}
+
+function switchModalTab(tab, btn) {
+  ['info','taches','rapport','photos'].forEach(t => document.getElementById('modal-'+t).classList.remove('active'));
+  document.querySelectorAll('#projetModal .tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('modal-'+tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+function closeModal() { document.getElementById('projetModal').classList.remove('open'); }
+document.getElementById('projetModal').addEventListener('click', e => { if(e.target===document.getElementById('projetModal')) closeModal(); });
+
+window.addEventListener('load', init);
+</script>
+
+<script>
+(function(){
+  var page = location.pathname.split('/').pop().replace('.html','');
+  document.querySelectorAll('.sidebar-nav a[data-page]').forEach(function(a){
+    if(a.dataset.page === page) a.classList.add('active');
+  });
+})();
+</script>
+</body>
+</html>

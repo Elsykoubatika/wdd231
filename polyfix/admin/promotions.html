@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Promotions â€” POLYFIX Admin</title>
+  <title>Promotions — POLYFIX Admin</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -54,21 +54,21 @@
           <div class="kpi-sub">Ce mois</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">RÃ©duction totale</div>
+          <div class="kpi-label">Réduction totale</div>
           <div class="kpi-value" id="kpiReduction">0M</div>
-          <div class="kpi-sub">AccordÃ©e</div>
+          <div class="kpi-sub">Accordée</div>
         </div>
       </div>
 
       <!-- PROMOTIONS GRID -->
       <div id="promotionsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:20px">
-        <!-- ChargÃ© en JS -->
+        <!-- Chargé en JS -->
       </div>
     </div>
   </div>
 </div>
 
-<!-- MODAL : Nouvelle/Ã‰diter promotion -->
+<!-- MODAL : Nouvelle/Éditer promotion -->
 <div class="modal-backdrop" id="promoModal">
   <div class="modal">
     <div class="modal-header">
@@ -80,18 +80,18 @@
         <!-- Titre -->
         <div class="form-group" style="margin-bottom:16px">
           <label class="form-label">Titre <span class="req">*</span></label>
-          <input type="text" id="promoTitre" class="form-control" placeholder="Ex: Saison rÃ©novation" required>
+          <input type="text" id="promoTitre" class="form-control" placeholder="Ex: Saison rénovation" required>
         </div>
 
         <!-- Description -->
         <div class="form-group" style="margin-bottom:16px">
           <label class="form-label">Description</label>
-          <textarea id="promoDesc" class="form-control" placeholder="Description pour les clientsâ€¦" style="min-height:80px"></textarea>
+          <textarea id="promoDesc" class="form-control" placeholder="Description pour les clients…" style="min-height:80px"></textarea>
         </div>
 
-        <!-- Type de rÃ©duction -->
+        <!-- Type de réduction -->
         <div class="form-group" style="margin-bottom:16px">
-          <label class="form-label">Type de rÃ©duction <span class="req">*</span></label>
+          <label class="form-label">Type de réduction <span class="req">*</span></label>
           <select id="promoType" class="form-control" required onchange="updatePromoPreview()">
             <option value="pourcentage">Pourcentage (-20%)</option>
             <option value="montant_fixe">Montant fixe (-500 000 FCFA)</option>
@@ -114,18 +114,18 @@
           <label class="form-label">Code promo</label>
           <div style="display:flex;gap:8px">
             <input type="text" id="promoCode" class="form-control" placeholder="POLYPROMO" style="text-transform:uppercase">
-            <button type="button" class="btn btn-outline" onclick="generateCode()">ðŸŽ² GÃ©nÃ©rer</button>
+            <button type="button" class="btn btn-outline" onclick="generateCode()">🎲 Générer</button>
           </div>
         </div>
 
-        <!-- CatÃ©gorie -->
+        <!-- Catégorie -->
         <div class="form-group" style="margin-bottom:16px">
-          <label class="form-label">CatÃ©gorie (optionnel)</label>
+          <label class="form-label">Catégorie (optionnel)</label>
           <select id="promoCategorie" class="form-control">
-            <option value="">â€” Toutes catÃ©gories â€”</option>
-            <option value="RENOVATION">RÃ©novation</option>
+            <option value="">— Toutes catégories —</option>
+            <option value="RENOVATION">Rénovation</option>
             <option value="CONSTRUCTION">Construction</option>
-            <option value="ELECTRICITE">Ã‰lectricitÃ©</option>
+            <option value="ELECTRICITE">Électricité</option>
             <option value="PLOMBERIE">Plomberie</option>
           </select>
         </div>
@@ -133,7 +133,7 @@
         <!-- Dates -->
         <div class="form-grid">
           <div class="form-group">
-            <label class="form-label">Date dÃ©but <span class="req">*</span></label>
+            <label class="form-label">Date début <span class="req">*</span></label>
             <input type="date" id="promoStart" class="form-control" required>
           </div>
           <div class="form-group">
@@ -145,7 +145,7 @@
         <!-- Usage limit -->
         <div class="form-group" style="margin-bottom:16px">
           <label class="form-label">Nombre d'usages maximum</label>
-          <input type="number" id="promoUsageMax" class="form-control" placeholder="IllimitÃ© si vide" min="1">
+          <input type="number" id="promoUsageMax" class="form-control" placeholder="Illimité si vide" min="1">
         </div>
 
         <!-- Conditions -->
@@ -156,13 +156,13 @@
 
         <!-- Preview -->
         <div style="margin-bottom:20px;padding:16px;background:var(--brand-light);border-radius:var(--r);border-left:3px solid var(--brand)">
-          <div style="font-size:12px;color:var(--brand);font-weight:600;margin-bottom:8px">APERÃ‡U</div>
+          <div style="font-size:12px;color:var(--brand);font-weight:600;margin-bottom:8px">APERÇU</div>
           <div style="font-size:16px;font-weight:700;color:var(--text-primary)" id="promoPreview">-20%</div>
         </div>
 
         <div class="modal-footer">
           <button type="button" class="btn btn-ghost" onclick="document.getElementById('promoModal').classList.remove('open')">Annuler</button>
-          <button type="submit" class="btn btn-primary">CrÃ©er promotion</button>
+          <button type="submit" class="btn btn-primary">Créer promotion</button>
         </div>
       </form>
     </div>
@@ -242,10 +242,10 @@ function handlePromoSave(e) {
 
   if (selectedPromoId) {
     DB.update('promotions', selectedPromoId, data);
-    toast('Promotion mise Ã  jour', 'success');
+    toast('Promotion mise à jour', 'success');
   } else {
     DB.insert('promotions', data);
-    toast('Promotion crÃ©Ã©e', 'success');
+    toast('Promotion créée', 'success');
   }
 
   document.getElementById('promoModal').classList.remove('open');
@@ -260,7 +260,7 @@ function loadPromotions() {
   document.getElementById('kpiActive').textContent = actives;
   document.getElementById('kpiUsages').textContent = totalUsages;
 
-  // RÃ©duction totale estimÃ©e
+  // Réduction totale estimée
   const reduction = promotions.reduce((s, p) => {
     if (p.type_promo === 'pourcentage') return s + (p.valeur * 100 * p.usage_actuel || 0);
     return s + (p.valeur * (p.usage_actuel || 0));
@@ -275,7 +275,7 @@ function renderPromotions(promotions) {
   grid.innerHTML = promotions.map(p => {
     const isActive = p.actif && new Date(p.date_fin) >= new Date();
     const daysLeft = Math.ceil((new Date(p.date_fin) - new Date()) / 86400000);
-    const usagePct = p.usage_max ? (p.usage_actuel / p.usage_max * 100).toFixed(0) : 'â€”';
+    const usagePct = p.usage_max ? (p.usage_actuel / p.usage_max * 100).toFixed(0) : '—';
 
     const valueText = p.type_promo === 'pourcentage'
       ? `-${p.valeur}%`
@@ -287,7 +287,7 @@ function renderPromotions(promotions) {
       <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:12px">
         <div>
           <h3 class="h3" style="margin-bottom:4px">${esc(p.titre)}</h3>
-          <div style="font-size:12px;color:var(--text-muted)">${esc(p.code_promo || 'â€”')}</div>
+          <div style="font-size:12px;color:var(--text-muted)">${esc(p.code_promo || '—')}</div>
         </div>
         <span class="badge ${isActive ? 'badge-success' : 'badge-muted'}">${isActive ? 'Actif' : 'Inactif'}</span>
       </div>
@@ -307,7 +307,7 @@ function renderPromotions(promotions) {
 
       <div style="display:flex;justify-content:space-between;padding:10px;background:${daysLeft < 7 ? 'var(--warning-light)' : 'var(--info-light)'};border-radius:var(--r);font-size:12px">
         <span>Expire dans</span>
-        <span style="font-weight:700">${daysLeft > 0 ? daysLeft + ' j' : 'ExpirÃ©'}</span>
+        <span style="font-weight:700">${daysLeft > 0 ? daysLeft + ' j' : 'Expiré'}</span>
       </div>
     </div>`;
   }).join('');
@@ -321,7 +321,7 @@ function editPromo(id) {
   const p = DB.find('promotions', id);
   if (!p) return;
 
-  document.getElementById('promoModalTitle').textContent = 'Ã‰diter promotion';
+  document.getElementById('promoModalTitle').textContent = 'Éditer promotion';
   document.getElementById('promoTitre').value = p.titre;
   document.getElementById('promoDesc').value = p.description || '';
   document.getElementById('promoType').value = p.type_promo;
@@ -341,7 +341,7 @@ function editPromo(id) {
 function deletePromo(id) {
   confirm('Supprimer cette promotion ?', 'Les codes existants ne seront plus valides.', () => {
     DB.delete('promotions', id);
-    toast('Promotion supprimÃ©e', 'success');
+    toast('Promotion supprimée', 'success');
     loadPromotions();
   }, true);
 }

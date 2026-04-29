@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Factures — POLYFIX Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a href="dashboard.html" class="sidebar-logo">
+      <svg viewBox="0 0 24 24" style="width:32px;height:32px;fill:var(--c-brand)"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      POLY<span>FIX</span>
+    </a>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a href="dashboard.html" data-page="dashboard"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Gestion</div>
+      <a href="devis.html" data-page="devis"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9 12 11 14 15 10"/></svg>Devis</a>
+      <a href="projets.html" data-page="projets"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Projets</a>
+      <a href="ouvriers.html" data-page="ouvriers"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Ouvriers</a>
+      <a href="clients.html" data-page="clients"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Clients</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Finance</div>
+      <a href="finances.html" data-page="finances"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Finances</a>
+      <a href="factures.html" data-page="factures"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16"/></svg>Factures</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Marketing</div>
+      <a href="promotions.html" data-page="promotions"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M7 5H5a2 2 0 00-2 2v12a2 2 0 002 2h2m10 0h2a2 2 0 002-2V7a2 2 0 00-2-2h-2m0 0V3a2 2 0 00-2-2h-2a2 2 0 00-2 2v2m0 0h4"/></svg>Promotions</a>
+      <a href="analytics.html" data-page="analytics"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analytics</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Outils</div>
+      <a href="ai-agent.html" data-page="ai-agent"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Agent IA</a>
+      <a href="parametres.html" data-page="parametres"><svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Paramètres</a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="sidebarAvatar">JM</div>
+      <div>
+        <div class="sidebar-user-name" id="userName">Jean Mbemba</div>
+        <div class="sidebar-user-role">Gestionnaire</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content" style="padding:0">
+    <div class="admin-topbar">
+      <div class="topbar-title">Factures</div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary btn-sm" onclick="showFactureModal()">
+          <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px;stroke:currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nouvelle facture
+        </button>
+        <button class="notif-btn" onclick="Auth.logout();window.location.href='../login.html'">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div style="padding:28px">
+      <!-- KPI -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header"><div class="kpi-title">Total facturé</div><div class="kpi-icon"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16"/></svg></div></div>
+          <div class="kpi-value" id="kpiTotal">0M</div>
+          <div class="kpi-sub">Toutes factures confondues</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header"><div class="kpi-title">Encaissé</div><div class="kpi-icon"><svg viewBox="0 0 24 24" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+          <div class="kpi-value" id="kpiPayees">0M</div>
+          <div class="kpi-sub" id="kpiPayeesCount">0 factures payées</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header"><div class="kpi-title">En attente</div><div class="kpi-icon"><svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div></div>
+          <div class="kpi-value" id="kpiImpayees">0M</div>
+          <div class="kpi-sub" id="kpiImpayeesCount">0 factures impayées</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header"><div class="kpi-title">Taux de recouvrement</div><div class="kpi-icon"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div></div>
+          <div class="kpi-value" id="kpiTaux">0%</div>
+          <div class="kpi-trend up" id="kpiTrend">↑ Bon</div>
+        </div>
+      </div>
+
+      <!-- FILTRES -->
+      <div class="search-bar">
+        <div class="search-input-wrap" style="flex:1;min-width:220px">
+          <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" class="form-control" id="searchFact" placeholder="Numéro, client, projet…" oninput="filterFactures()">
+        </div>
+        <select class="form-control" id="filterStatut" onchange="filterFactures()" style="max-width:170px">
+          <option value="">Tous les statuts</option>
+          <option value="impayee">Impayée</option>
+          <option value="partiellement_payee">Partiellement payée</option>
+          <option value="payee">Payée</option>
+        </select>
+        <select class="form-control" id="filterClient" onchange="filterFactures()" style="max-width:170px">
+          <option value="">Tous les clients</option>
+        </select>
+      </div>
+
+      <!-- TABLE -->
+      <div class="card" style="overflow:hidden">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Numéro</th>
+                <th>Client</th>
+                <th>Projet</th>
+                <th>Montant TTC</th>
+                <th>Émission</th>
+                <th>Échéance</th>
+                <th>Statut</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="facturesBody">
+              <tr><td colspan="8" style="text-align:center;padding:48px;color:var(--c-muted)">Chargement…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL NOUVELLE FACTURE -->
+<div class="modal-backdrop" id="factureModal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <div class="modal-title" id="factureModalTitle">Nouvelle facture</div>
+      <button class="modal-close" onclick="closeModal('factureModal')"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <form id="factureForm" onsubmit="saveFacture(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Client <span class="req">*</span></label>
+            <select id="fClient" class="form-control" required></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Projet associé</label>
+            <select id="fProjet" class="form-control"></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Montant HT <span class="req">*</span></label>
+            <input type="number" id="fMontantHT" class="form-control" placeholder="0" min="0" step="1000" required oninput="calcTTC()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">TVA %</label>
+            <input type="number" id="fTVA" class="form-control" value="18" min="0" step="0.1" oninput="calcTTC()">
+          </div>
+          <div class="form-group span-2">
+            <label class="form-label">Montant TTC</label>
+            <div class="form-control" id="fTTC" style="background:var(--c-dark);cursor:not-allowed;font-weight:700;color:var(--c-brand)">0 FCFA</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date d'émission</label>
+            <input type="date" id="fEmission" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date d'échéance</label>
+            <input type="date" id="fEcheance" class="form-control">
+          </div>
+          <div class="form-group span-2">
+            <label class="form-label">Statut initial</label>
+            <select id="fStatut" class="form-control">
+              <option value="impayee">Impayée</option>
+              <option value="partiellement_payee">Partiellement payée</option>
+              <option value="payee">Payée</option>
+            </select>
+          </div>
+          <div class="form-group span-2">
+            <label class="form-label">Notes</label>
+            <textarea id="fNotes" class="form-control" placeholder="Conditions de paiement, remarques…" style="min-height:80px"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="closeModal('factureModal')">Annuler</button>
+          <button type="submit" class="btn btn-primary">Créer la facture</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DÉTAIL FACTURE -->
+<div class="modal-backdrop" id="detailModal">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-header">
+      <div class="modal-title" id="detailNum">FAC-2025-0001</div>
+      <button class="modal-close" onclick="closeModal('detailModal')"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body" id="detailBody"></div>
+  </div>
+</div>
+
+<script src="../js/db.js"></script>
+<script>
+Auth.require(['admin','gestionnaire']);
+
+/* ── INIT ─────────────────────────────────────────────────────── */
+let allFactures = [];
+
+function init() {
+  const user = Auth.current();
+  if (user) {
+    document.getElementById('userName').textContent = `${user.prenom} ${user.nom}`;
+    document.getElementById('sidebarAvatar').textContent = (user.prenom[0] + user.nom[0]).toUpperCase();
+  }
+
+  // Si pas de factures en base, en créer depuis les projets
+  if (!DB.list('factures').length) seedFactures();
+
+  allFactures = DB.list('factures');
+  loadKPIs();
+  populateFilters();
+  renderTable(allFactures);
+}
+
+function seedFactures() {
+  const projets = DB.list('projets');
+  projets.forEach((p, i) => {
+    const ht  = p.budget_initial * 0.5;
+    const ttc = ht * 1.18;
+    DB.insert('factures', {
+      numero: `FAC-2025-${String(i+1).padStart(4,'0')}`,
+      projet_id: p.id,
+      client_id: p.client_id,
+      montant_ht: Math.round(ht),
+      montant_ttc: Math.round(ttc),
+      statut_paiement: i === 0 ? 'payee' : i === 1 ? 'partiellement_payee' : 'impayee',
+      date_emission: p.date_debut_prevue || new Date().toISOString().split('T')[0],
+      date_echeance: p.date_fin_prevue,
+      date_paiement: i === 0 ? new Date().toISOString().split('T')[0] : null,
+      notes: '',
+    });
+  });
+}
+
+/* ── KPIs ─────────────────────────────────────────────────────── */
+function loadKPIs() {
+  const facts = DB.list('factures');
+  const total   = facts.reduce((s, f) => s + f.montant_ttc, 0);
+  const payees  = facts.filter(f => f.statut_paiement === 'payee');
+  const impayees= facts.filter(f => f.statut_paiement !== 'payee');
+  const encaisse= payees.reduce((s, f) => s + f.montant_ttc, 0);
+  const attente = impayees.reduce((s, f) => s + f.montant_ttc, 0);
+  const taux    = total > 0 ? Math.round(encaisse / total * 100) : 0;
+
+  document.getElementById('kpiTotal').textContent = fmt(total, true);
+  document.getElementById('kpiPayees').textContent = fmt(encaisse, true);
+  document.getElementById('kpiPayeesCount').textContent = `${payees.length} facture(s) payée(s)`;
+  document.getElementById('kpiImpayees').textContent = fmt(attente, true);
+  document.getElementById('kpiImpayeesCount').textContent = `${impayees.length} facture(s) en attente`;
+  document.getElementById('kpiTaux').textContent = taux + '%';
+  const trendEl = document.getElementById('kpiTrend');
+  trendEl.textContent = taux >= 70 ? '↑ Bon recouvrement' : taux >= 40 ? '→ À améliorer' : '↓ Attention';
+  trendEl.className = 'kpi-trend ' + (taux >= 70 ? 'up' : taux >= 40 ? '' : 'down');
+}
+
+/* ── TABLE ────────────────────────────────────────────────────── */
+function renderTable(facts) {
+  const tbody = document.getElementById('facturesBody');
+  if (!facts.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--c-muted)">Aucune facture trouvée</td></tr>';
+    return;
+  }
+  const sorted = [...facts].sort((a,b) => (b.date_emission||'').localeCompare(a.date_emission||''));
+  tbody.innerHTML = sorted.map(f => {
+    const client  = DB.find('clients', f.client_id);
+    const projet  = DB.find('projets',  f.projet_id);
+    const nomClient = client ? (client.prenom ? `${client.prenom} ${client.nom}` : client.raison_sociale) : '—';
+    const statMap = { payee:'success', partiellement_payee:'warning', impayee:'danger' };
+    const statLbl = { payee:'Payée', partiellement_payee:'Part. payée', impayee:'Impayée' };
+    const cls = statMap[f.statut_paiement] || 'muted';
+    const overdue = f.statut_paiement !== 'payee' && f.date_echeance && new Date(f.date_echeance) < new Date();
+    return `<tr>
+      <td><strong style="font-family:var(--font-display)">${esc(f.numero)}</strong></td>
+      <td>${esc(nomClient)}</td>
+      <td style="color:var(--c-muted);font-size:13px">${projet ? esc(projet.code) : '—'}</td>
+      <td><strong>${fmt(f.montant_ttc,true)}</strong></td>
+      <td style="font-size:13px">${fmtDate(f.date_emission)}</td>
+      <td style="font-size:13px;color:${overdue?'var(--c-danger)':'inherit'}">${fmtDate(f.date_echeance)}${overdue?' ⚠️':''}</td>
+      <td><span class="badge badge-${cls}">${statLbl[f.statut_paiement]||f.statut_paiement}</span></td>
+      <td>
+        <div class="table-actions">
+          <button class="btn btn-sm btn-outline" onclick="openDetail(${f.id})" title="Voir">👁</button>
+          <button class="btn btn-sm btn-ghost" onclick="printFacture(${f.id})" title="Imprimer">🖨️</button>
+          ${f.statut_paiement !== 'payee' ? `<button class="btn btn-sm btn-success" onclick="markPaid(${f.id})" title="Marquer payée">✓</button>` : ''}
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+/* ── FILTRES ──────────────────────────────────────────────────── */
+function populateFilters() {
+  const clients = DB.list('clients');
+  const sel = document.getElementById('filterClient');
+  sel.innerHTML = '<option value="">Tous les clients</option>' +
+    clients.map(c => `<option value="${c.id}">${esc(c.prenom ? `${c.prenom} ${c.nom}` : c.raison_sociale)}</option>`).join('');
+}
+
+function filterFactures() {
+  const search  = document.getElementById('searchFact').value.toLowerCase();
+  const statut  = document.getElementById('filterStatut').value;
+  const clientId = parseInt(document.getElementById('filterClient').value) || null;
+  let facts = DB.list('factures');
+  if (search)   facts = facts.filter(f => f.numero.toLowerCase().includes(search) || (DB.find('clients',f.client_id)?.nom||'').toLowerCase().includes(search));
+  if (statut)   facts = facts.filter(f => f.statut_paiement === statut);
+  if (clientId) facts = facts.filter(f => f.client_id === clientId);
+  renderTable(facts);
+}
+
+/* ── MODAL NOUVELLE FACTURE ──────────────────────────────────── */
+function showFactureModal() {
+  // Peupler clients
+  const sel = document.getElementById('fClient');
+  sel.innerHTML = '<option value="">— Sélectionner —</option>' +
+    DB.list('clients').map(c => `<option value="${c.id}">${esc(c.prenom ? `${c.prenom} ${c.nom}` : c.raison_sociale)}</option>`).join('');
+  // Peupler projets
+  const selP = document.getElementById('fProjet');
+  selP.innerHTML = '<option value="">— Aucun —</option>' +
+    DB.list('projets').map(p => `<option value="${p.id}">${esc(p.code)} — ${esc(p.titre)}</option>`).join('');
+  // Date par défaut
+  document.getElementById('fEmission').value = new Date().toISOString().split('T')[0];
+  const ech = new Date(); ech.setDate(ech.getDate() + 30);
+  document.getElementById('fEcheance').value = ech.toISOString().split('T')[0];
+  document.getElementById('fMontantHT').value = '';
+  document.getElementById('fTTC').textContent = '0 FCFA';
+  document.getElementById('factureModal').classList.add('open');
+}
+
+function calcTTC() {
+  const ht  = parseFloat(document.getElementById('fMontantHT').value) || 0;
+  const tva = parseFloat(document.getElementById('fTVA').value) || 0;
+  document.getElementById('fTTC').textContent = fmt(ht * (1 + tva/100));
+}
+
+function saveFacture(e) {
+  e.preventDefault();
+  const ht  = parseFloat(document.getElementById('fMontantHT').value);
+  const tva = parseFloat(document.getElementById('fTVA').value) || 18;
+  const ttc = ht * (1 + tva/100);
+  const count = DB.list('factures').length + 1;
+  DB.insert('factures', {
+    numero: `FAC-${new Date().getFullYear()}-${String(count).padStart(4,'0')}`,
+    client_id: parseInt(document.getElementById('fClient').value),
+    projet_id:  parseInt(document.getElementById('fProjet').value)  || null,
+    montant_ht: Math.round(ht),
+    montant_ttc: Math.round(ttc),
+    statut_paiement: document.getElementById('fStatut').value,
+    date_emission: document.getElementById('fEmission').value,
+    date_echeance: document.getElementById('fEcheance').value,
+    notes: document.getElementById('fNotes').value,
+  });
+  closeModal('factureModal');
+  toast('Facture créée avec succès', 'success');
+  allFactures = DB.list('factures');
+  loadKPIs(); renderTable(allFactures);
+}
+
+/* ── ACTIONS ──────────────────────────────────────────────────── */
+function markPaid(id) {
+  confirm('Marquer comme payée ?', 'La date de paiement sera enregistrée aujourd\'hui.', () => {
+    DB.update('factures', id, { statut_paiement: 'payee', date_paiement: new Date().toISOString().split('T')[0] });
+    toast('Facture marquée payée', 'success');
+    allFactures = DB.list('factures');
+    loadKPIs(); filterFactures();
+  });
+}
+
+function printFacture(id) {
+  const f = DB.find('factures', id);
+  const client = DB.find('clients', f.client_id);
+  const projet = DB.find('projets', f.projet_id);
+  const nom = client ? (client.prenom ? `${client.prenom} ${client.nom}` : client.raison_sociale) : '?';
+  toast(`Impression de ${f.numero} — ${nom} (simulation)`, 'info');
+  // Production : générer PDF via PDFKit/jsPDF
+  setTimeout(() => alert(`Facture ${f.numero}\nClient : ${nom}\nMontant TTC : ${fmt(f.montant_ttc)}\nStatut : ${f.statut_paiement}`), 400);
+}
+
+function openDetail(id) {
+  const f = DB.find('factures', id);
+  const client = DB.find('clients', f.client_id);
+  const projet = DB.find('projets', f.projet_id);
+  const nom = client ? (client.prenom ? `${client.prenom} ${client.nom}` : client.raison_sociale) : '?';
+  const statMap = { payee:'success', partiellement_payee:'warning', impayee:'danger' };
+  const statLbl = { payee:'Payée ✓', partiellement_payee:'Partiellement payée', impayee:'Impayée' };
+
+  document.getElementById('detailNum').textContent = f.numero;
+  document.getElementById('detailBody').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+      <div><div class="form-label">Client</div><div style="font-weight:600">${esc(nom)}</div></div>
+      <div><div class="form-label">Projet</div><div style="font-weight:600">${projet ? esc(projet.titre) : '—'}</div></div>
+      <div><div class="form-label">Émission</div><div>${fmtDate(f.date_emission, true)}</div></div>
+      <div><div class="form-label">Échéance</div><div>${fmtDate(f.date_echeance, true)}</div></div>
+    </div>
+    <div style="background:var(--c-dark);border-radius:var(--radius);padding:20px;margin-bottom:20px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px"><span style="color:var(--c-muted)">Montant HT</span><span>${fmt(f.montant_ht)}</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px"><span style="color:var(--c-muted)">TVA (18%)</span><span>${fmt(f.montant_ttc - f.montant_ht)}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;padding-top:10px;border-top:1px solid var(--c-border)"><span>Total TTC</span><span style="color:var(--c-brand)">${fmt(f.montant_ttc)}</span></div>
+    </div>
+    <div style="text-align:center;margin-bottom:20px">
+      <span class="badge badge-${statMap[f.statut_paiement]}" style="font-size:14px;padding:8px 20px">${statLbl[f.statut_paiement]}</span>
+      ${f.date_paiement ? `<div style="font-size:12px;color:var(--c-muted);margin-top:8px">Payée le ${fmtDate(f.date_paiement, true)}</div>` : ''}
+    </div>
+    ${f.notes ? `<div style="padding:12px;background:var(--c-info-bg);border-radius:var(--radius-sm);font-size:13px;color:var(--c-muted)">${esc(f.notes)}</div>` : ''}
+    <div class="modal-footer" style="padding:16px 0 0">
+      <button class="btn btn-ghost" onclick="closeModal('detailModal')">Fermer</button>
+      <button class="btn btn-outline" onclick="printFacture(${f.id})">🖨️ Imprimer</button>
+      ${f.statut_paiement !== 'payee' ? `<button class="btn btn-success" onclick="markPaid(${f.id});closeModal('detailModal')">✓ Marquer payée</button>` : ''}
+    </div>`;
+  document.getElementById('detailModal').classList.add('open');
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('.modal-backdrop').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); }));
+window.addEventListener('load', init);
+</script>
+
+<script>
+// Auto-marquer le lien actif selon la page courante
+(function(){
+  var page = location.pathname.split('/').pop().replace('.html','');
+  document.querySelectorAll('.sidebar-nav a[data-page]').forEach(function(a){
+    if(a.dataset.page === page) a.classList.add('active');
+  });
+})();
+</script>
+</body>
+</html>

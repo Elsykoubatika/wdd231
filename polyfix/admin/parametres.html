@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paramètres — POLYFIX Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a href="dashboard.html" class="sidebar-logo">
+      <svg viewBox="0 0 24 24" style="width:32px;height:32px;fill:var(--c-brand)"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      POLY<span>FIX</span>
+    </a>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a href="dashboard.html" data-page="dashboard"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Gestion</div>
+      <a href="devis.html" data-page="devis"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9 12 11 14 15 10"/></svg>Devis</a>
+      <a href="projets.html" data-page="projets"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Projets</a>
+      <a href="ouvriers.html" data-page="ouvriers"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Ouvriers</a>
+      <a href="clients.html" data-page="clients"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Clients</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Finance</div>
+      <a href="finances.html" data-page="finances"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Finances</a>
+      <a href="factures.html" data-page="factures"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16"/></svg>Factures</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Marketing</div>
+      <a href="promotions.html" data-page="promotions"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M7 5H5a2 2 0 00-2 2v12a2 2 0 002 2h2m10 0h2a2 2 0 002-2V7a2 2 0 00-2-2h-2m0 0V3a2 2 0 00-2-2h-2a2 2 0 00-2 2v2m0 0h4"/></svg>Promotions</a>
+      <a href="analytics.html" data-page="analytics"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analytics</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Outils</div>
+      <a href="ai-agent.html" data-page="ai-agent"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Agent IA</a>
+      <a href="parametres.html" data-page="parametres"><svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Paramètres</a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="sidebarAvatar">JM</div>
+      <div>
+        <div class="sidebar-user-name" id="userName">Jean Mbemba</div>
+        <div class="sidebar-user-role">Gestionnaire</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content" style="padding:0">
+    <div class="admin-topbar">
+      <div class="topbar-title">Paramètres</div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary btn-sm" onclick="saveAll()">
+          <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px;stroke:currentColor"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Enregistrer tout
+        </button>
+        <button class="notif-btn" onclick="Auth.logout();window.location.href='../login.html'">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div style="padding:28px">
+      <!-- TABS -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('entreprise',this)">Entreprise</button>
+        <button class="tab-btn" onclick="switchTab('compte',this)">Mon compte</button>
+        <button class="tab-btn" onclick="switchTab('utilisateurs',this)">Utilisateurs</button>
+        <button class="tab-btn" onclick="switchTab('notifications',this)">Notifications</button>
+        <button class="tab-btn" onclick="switchTab('integrations',this)">Intégrations</button>
+        <button class="tab-btn" onclick="switchTab('donnees',this)">Données</button>
+      </div>
+
+      <!-- TAB : ENTREPRISE -->
+      <div id="tab-entreprise" class="tab-panel active">
+        <div class="card card-pad" style="max-width:700px">
+          <div class="form-section-title">Informations de l'entreprise</div>
+          <div class="form-grid" style="gap:20px;margin-bottom:20px">
+            <div class="form-group">
+              <label class="form-label">Nom de l'entreprise</label>
+              <input type="text" id="eName" class="form-control" value="POLYFIX SARL">
+            </div>
+            <div class="form-group">
+              <label class="form-label">RCCM / Registre commercial</label>
+              <input type="text" id="eRccm" class="form-control" value="CG-BZV-2015-B-12345">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Téléphone principal</label>
+              <input type="tel" id="eTel" class="form-control" value="+242 065 000 000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Téléphone secondaire</label>
+              <input type="tel" id="eTel2" class="form-control" value="+242 055 000 000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email professionnel</label>
+              <input type="email" id="eEmail" class="form-control" value="contact@polyfix.cg">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Site web</label>
+              <input type="url" id="eWeb" class="form-control" value="https://polyfix.cg">
+            </div>
+            <div class="form-group span-2">
+              <label class="form-label">Adresse principale (Brazzaville)</label>
+              <input type="text" id="eAddr1" class="form-control" value="Avenue de la Paix, Quartier Bacongo, Brazzaville">
+            </div>
+            <div class="form-group span-2">
+              <label class="form-label">Adresse secondaire (Pointe-Noire)</label>
+              <input type="text" id="eAddr2" class="form-control" value="Boulevard de l'Amitié, Centre-ville, Pointe-Noire">
+            </div>
+          </div>
+
+          <div class="form-section-title">Paramètres financiers</div>
+          <div class="form-grid" style="gap:20px;margin-bottom:20px">
+            <div class="form-group">
+              <label class="form-label">Monnaie</label>
+              <select id="eCurrency" class="form-control">
+                <option value="XAF" selected>Franc CFA (FCFA)</option>
+                <option value="USD">Dollar US (USD)</option>
+                <option value="EUR">Euro (EUR)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Taux TVA par défaut (%)</label>
+              <input type="number" id="eTVA" class="form-control" value="18" min="0" step="0.5">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Validité devis (jours)</label>
+              <input type="number" id="eDevisValidite" class="form-control" value="30" min="1">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Délai paiement facture (jours)</label>
+              <input type="number" id="eFactureDelai" class="form-control" value="30" min="1">
+            </div>
+          </div>
+
+          <div class="form-section-title">WhatsApp & Contact rapide</div>
+          <div class="form-grid" style="gap:20px">
+            <div class="form-group">
+              <label class="form-label">Numéro WhatsApp</label>
+              <input type="text" id="eWA" class="form-control" value="242065000000" placeholder="Sans + ni espaces">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Message WhatsApp par défaut</label>
+              <input type="text" id="eWAMsg" class="form-control" value="Bonjour POLYFIX, je souhaite un devis pour…">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB : MON COMPTE -->
+      <div id="tab-compte" class="tab-panel">
+        <div class="card card-pad" style="max-width:560px">
+          <div style="display:flex;align-items:center;gap:20px;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--c-border)">
+            <div class="avatar avatar-xl" id="accountAvatar">JM</div>
+            <div>
+              <div style="font-family:var(--font-display);font-size:20px;font-weight:700" id="accountName">Jean Mbemba</div>
+              <div style="color:var(--c-muted);font-size:14px" id="accountRole">Gestionnaire</div>
+              <button class="btn btn-ghost btn-sm" style="margin-top:8px">Changer la photo</button>
+            </div>
+          </div>
+
+          <div class="form-section-title">Informations personnelles</div>
+          <div class="form-grid" style="gap:20px;margin-bottom:24px">
+            <div class="form-group">
+              <label class="form-label">Prénom</label>
+              <input type="text" id="cPrenom" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nom</label>
+              <input type="text" id="cNom" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" id="cEmail" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Téléphone</label>
+              <input type="tel" id="cTel" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-section-title">Changer le mot de passe</div>
+          <div class="form-grid" style="gap:20px">
+            <div class="form-group">
+              <label class="form-label">Mot de passe actuel</label>
+              <input type="password" id="cPwdOld" class="form-control" placeholder="••••••••">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nouveau mot de passe</label>
+              <input type="password" id="cPwdNew" class="form-control" placeholder="••••••••">
+            </div>
+            <div class="form-group span-2">
+              <label class="form-label">Confirmer le nouveau mot de passe</label>
+              <input type="password" id="cPwdConf" class="form-control" placeholder="••••••••">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB : UTILISATEURS -->
+      <div id="tab-utilisateurs" class="tab-panel">
+        <div class="admin-page-header" style="margin-bottom:16px">
+          <div></div>
+          <button class="btn btn-primary btn-sm" onclick="showUserModal()">
+            <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px;stroke:currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Ajouter un utilisateur
+          </button>
+        </div>
+        <div class="card" style="overflow:hidden">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Utilisateur</th>
+                  <th>Email</th>
+                  <th>Rôle</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="usersTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB : NOTIFICATIONS -->
+      <div id="tab-notifications" class="tab-panel">
+        <div class="card card-pad" style="max-width:600px">
+          <div class="form-section-title">Alertes email</div>
+          <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:28px" id="emailAlerts">
+            <!-- Rempli en JS -->
+          </div>
+          <div class="form-section-title">Alertes système</div>
+          <div style="display:flex;flex-direction:column;gap:16px" id="sysAlerts">
+            <!-- Rempli en JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB : INTÉGRATIONS -->
+      <div id="tab-integrations" class="tab-panel">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px">
+          <!-- Claude API -->
+          <div class="card card-pad" style="border-left:3px solid #6366F1">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+              <div style="width:44px;height:44px;background:#EEF2FF;border-radius:var(--radius-sm);display:grid;place-items:center">
+                <svg viewBox="0 0 24 24" style="width:22px;fill:#6366F1"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
+              </div>
+              <div>
+                <div style="font-weight:700">Claude AI</div>
+                <div style="font-size:12px;color:var(--c-muted)">Analyse de devis & chatbot</div>
+              </div>
+              <span class="badge badge-warning" style="margin-left:auto">Non configuré</span>
+            </div>
+            <div class="form-group" style="margin-bottom:12px">
+              <label class="form-label">Clé API Anthropic</label>
+              <input type="password" class="form-control" placeholder="sk-ant-…">
+            </div>
+            <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center">Tester la connexion</button>
+          </div>
+
+          <!-- EmailJS -->
+          <div class="card card-pad" style="border-left:3px solid var(--c-success)">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+              <div style="width:44px;height:44px;background:var(--c-success-bg);border-radius:var(--radius-sm);display:grid;place-items:center">
+                <svg viewBox="0 0 24 24" stroke="var(--c-success)" stroke-width="2" fill="none" style="width:22px"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <div style="font-weight:700">EmailJS</div>
+                <div style="font-size:12px;color:var(--c-muted)">Envoi de devis par email</div>
+              </div>
+              <span class="badge badge-warning" style="margin-left:auto">Non configuré</span>
+            </div>
+            <div class="form-group" style="margin-bottom:8px">
+              <label class="form-label">Service ID</label>
+              <input type="text" class="form-control" placeholder="service_xxxxxxx">
+            </div>
+            <div class="form-group" style="margin-bottom:12px">
+              <label class="form-label">Template ID</label>
+              <input type="text" class="form-control" placeholder="template_xxxxxxx">
+            </div>
+            <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center">Tester l'envoi</button>
+          </div>
+
+          <!-- Twilio -->
+          <div class="card card-pad" style="border-left:3px solid #F22F46">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+              <div style="width:44px;height:44px;background:#FEF2F2;border-radius:var(--radius-sm);display:grid;place-items:center">
+                <svg viewBox="0 0 24 24" stroke="#F22F46" stroke-width="2" fill="none" style="width:22px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.11 12 19.79 19.79 0 0 1 1.04 3.4A2 2 0 0 1 3 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+              </div>
+              <div>
+                <div style="font-weight:700">Twilio SMS</div>
+                <div style="font-size:12px;color:var(--c-muted)">Appels & SMS ouvriers</div>
+              </div>
+              <span class="badge badge-warning" style="margin-left:auto">Non configuré</span>
+            </div>
+            <div class="form-group" style="margin-bottom:8px">
+              <label class="form-label">Account SID</label>
+              <input type="password" class="form-control" placeholder="AC…">
+            </div>
+            <div class="form-group" style="margin-bottom:12px">
+              <label class="form-label">Auth Token</label>
+              <input type="password" class="form-control" placeholder="•••">
+            </div>
+            <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center">Configurer</button>
+          </div>
+
+          <!-- AWS S3 -->
+          <div class="card card-pad" style="border-left:3px solid #FF9900">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+              <div style="width:44px;height:44px;background:#FFF7ED;border-radius:var(--radius-sm);display:grid;place-items:center">
+                <svg viewBox="0 0 24 24" fill="#FF9900" style="width:22px"><path d="M4 4h16v16H4z" opacity=".2"/><path d="M20 6l-8 4-8-4v12l8 4 8-4z"/></svg>
+              </div>
+              <div>
+                <div style="font-weight:700">AWS S3</div>
+                <div style="font-size:12px;color:var(--c-muted)">Stockage photos chantier</div>
+              </div>
+              <span class="badge badge-warning" style="margin-left:auto">Non configuré</span>
+            </div>
+            <div class="form-group" style="margin-bottom:8px">
+              <label class="form-label">Access Key ID</label>
+              <input type="password" class="form-control" placeholder="AKIA…">
+            </div>
+            <div class="form-group" style="margin-bottom:12px">
+              <label class="form-label">Nom du bucket</label>
+              <input type="text" class="form-control" placeholder="polyfix-media">
+            </div>
+            <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center">Configurer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB : DONNÉES -->
+      <div id="tab-donnees" class="tab-panel">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:800px">
+          <div class="card card-pad">
+            <h3 style="font-family:var(--font-display);font-size:18px;font-weight:700;text-transform:uppercase;margin-bottom:12px">Exporter les données</h3>
+            <p style="font-size:14px;color:var(--c-muted);margin-bottom:20px">Téléchargez une sauvegarde complète de vos données au format JSON.</p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <button class="btn btn-outline" onclick="exportData('clients')">📥 Exporter les clients</button>
+              <button class="btn btn-outline" onclick="exportData('devis')">📥 Exporter les devis</button>
+              <button class="btn btn-outline" onclick="exportData('projets')">📥 Exporter les projets</button>
+              <button class="btn btn-outline" onclick="exportData('transactions')">📥 Exporter les transactions</button>
+              <button class="btn btn-primary" onclick="exportData('all')">📦 Exporter tout</button>
+            </div>
+          </div>
+          <div class="card card-pad" style="border-color:rgba(239,68,68,.3)">
+            <h3 style="font-family:var(--font-display);font-size:18px;font-weight:700;text-transform:uppercase;margin-bottom:12px;color:var(--c-danger)">Zone de danger</h3>
+            <p style="font-size:14px;color:var(--c-muted);margin-bottom:20px">Ces actions sont irréversibles. Procédez avec précaution.</p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <button class="btn btn-outline" onclick="resetDemoData()" style="border-color:var(--c-warning);color:#92400E">🔄 Réinitialiser les données de démo</button>
+              <button class="btn btn-danger" onclick="clearAllData()">🗑️ Supprimer toutes les données</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- MODAL AJOUTER UTILISATEUR -->
+<div class="modal-backdrop" id="userModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Ajouter un utilisateur</div>
+      <button class="modal-close" onclick="document.getElementById('userModal').classList.remove('open')"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <form onsubmit="addUser(event)">
+        <div class="form-grid" style="gap:16px;margin-bottom:16px">
+          <div class="form-group">
+            <label class="form-label">Prénom <span class="req">*</span></label>
+            <input type="text" id="uPrenom" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nom <span class="req">*</span></label>
+            <input type="text" id="uNom" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email <span class="req">*</span></label>
+            <input type="email" id="uEmail" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Téléphone</label>
+            <input type="tel" id="uTel" class="form-control">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Rôle <span class="req">*</span></label>
+            <select id="uRole" class="form-control" required>
+              <option value="gestionnaire">Gestionnaire</option>
+              <option value="client">Client</option>
+              <option value="ouvrier">Ouvrier</option>
+              <option value="admin">Administrateur</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mot de passe <span class="req">*</span></label>
+            <input type="password" id="uPwd" class="form-control" placeholder="Minimum 8 caractères" required minlength="6">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="document.getElementById('userModal').classList.remove('open')">Annuler</button>
+          <button type="submit" class="btn btn-primary">Créer l'utilisateur</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="../js/db.js"></script>
+<script>
+Auth.require(['admin','gestionnaire']);
+
+const NOTIF_EMAIL = [
+  {id:'n1', label:'Nouveau devis soumis', desc:'Recevoir un email à chaque nouveau devis client', def:true},
+  {id:'n2', label:'Devis approuvé', desc:'Notification quand un client approuve un devis', def:true},
+  {id:'n3', label:'Paiement reçu', desc:'Alerte à chaque transaction de recette enregistrée', def:true},
+  {id:'n4', label:'Rapport hebdomadaire', desc:'Résumé des KPIs envoyé chaque lundi matin', def:false},
+];
+const NOTIF_SYS = [
+  {id:'s1', label:'Projet en retard', desc:'Alerte si un projet dépasse sa date de fin prévue', def:true},
+  {id:'s2', label:'Budget dépassé', desc:'Alerte si les dépenses dépassent 90% du budget', def:true},
+  {id:'s3', label:'Ouvrier disponible', desc:'Notifier quand un ouvrier change de statut', def:false},
+  {id:'s4', label:'Facture en retard', desc:'Rappel si une facture est impayée depuis 15 jours', def:true},
+];
+
+function init() {
+  const user = Auth.current();
+  if (user) {
+    document.getElementById('userName').textContent = `${user.prenom} ${user.nom}`;
+    document.getElementById('sidebarAvatar').textContent = (user.prenom[0]+user.nom[0]).toUpperCase();
+    document.getElementById('accountAvatar').textContent = (user.prenom[0]+user.nom[0]).toUpperCase();
+    document.getElementById('accountName').textContent = `${user.prenom} ${user.nom}`;
+    document.getElementById('accountRole').textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
+    document.getElementById('cPrenom').value = user.prenom;
+    document.getElementById('cNom').value = user.nom;
+    document.getElementById('cEmail').value = user.email;
+    document.getElementById('cTel').value = user.telephone || '';
+  }
+  renderUsers();
+  renderNotifs();
+}
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+function renderUsers() {
+  const users = Auth.users;
+  const roleColor = {admin:'brand', gestionnaire:'info', client:'success', ouvrier:'warning'};
+  document.getElementById('usersTable').innerHTML = users.map(u => `
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar avatar-sm">${u.prenom[0]+u.nom[0]}</div>
+          <strong>${esc(u.prenom)} ${esc(u.nom)}</strong>
+        </div>
+      </td>
+      <td style="font-size:13px;color:var(--c-muted)">${esc(u.email)}</td>
+      <td><span class="badge badge-${roleColor[u.role]||'muted'}">${u.role}</span></td>
+      <td><span class="badge badge-success">Actif</span></td>
+      <td>
+        <div class="table-actions">
+          <button class="btn btn-sm btn-ghost" title="Modifier">✎</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteUser(${u.id})" title="Supprimer">✕</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function renderNotifs() {
+  const saved = JSON.parse(localStorage.getItem('pf_notifs') || '{}');
+  document.getElementById('emailAlerts').innerHTML = NOTIF_EMAIL.map(n => {
+    const checked = saved[n.id] !== undefined ? saved[n.id] : n.def;
+    return `<label style="display:flex;align-items:flex-start;gap:14px;cursor:pointer;padding:14px;background:var(--c-dark);border-radius:var(--radius-sm);border:1px solid var(--c-border)">
+      <input type="checkbox" id="${n.id}" ${checked?'checked':''} style="width:18px;height:18px;accent-color:var(--c-brand);margin-top:1px;flex-shrink:0" onchange="saveNotif('${n.id}',this.checked)">
+      <div><div style="font-weight:600;font-size:14px">${n.label}</div><div style="font-size:12px;color:var(--c-muted);margin-top:2px">${n.desc}</div></div>
+    </label>`;
+  }).join('');
+
+  document.getElementById('sysAlerts').innerHTML = NOTIF_SYS.map(n => {
+    const checked = saved[n.id] !== undefined ? saved[n.id] : n.def;
+    return `<label style="display:flex;align-items:flex-start;gap:14px;cursor:pointer;padding:14px;background:var(--c-dark);border-radius:var(--radius-sm);border:1px solid var(--c-border)">
+      <input type="checkbox" id="${n.id}" ${checked?'checked':''} style="width:18px;height:18px;accent-color:var(--c-brand);margin-top:1px;flex-shrink:0" onchange="saveNotif('${n.id}',this.checked)">
+      <div><div style="font-weight:600;font-size:14px">${n.label}</div><div style="font-size:12px;color:var(--c-muted);margin-top:2px">${n.desc}</div></div>
+    </label>`;
+  }).join('');
+}
+
+function saveNotif(id, val) {
+  const saved = JSON.parse(localStorage.getItem('pf_notifs') || '{}');
+  saved[id] = val;
+  localStorage.setItem('pf_notifs', JSON.stringify(saved));
+}
+
+function showUserModal() { document.getElementById('userModal').classList.add('open'); }
+
+function addUser(e) {
+  e.preventDefault();
+  toast(`Utilisateur ${document.getElementById('uPrenom').value} créé (simulation — backend requis pour persistance)`, 'success');
+  document.getElementById('userModal').classList.remove('open');
+}
+
+function deleteUser(id) {
+  confirm('Supprimer cet utilisateur ?', 'Cette action est irréversible.', () => toast('Suppression simulée — backend requis', 'info'), true);
+}
+
+function saveAll() {
+  const settings = {
+    entreprise: {
+      nom: document.getElementById('eName').value,
+      rccm: document.getElementById('eRccm').value,
+      tel: document.getElementById('eTel').value,
+      tel2: document.getElementById('eTel2').value,
+      email: document.getElementById('eEmail').value,
+      web: document.getElementById('eWeb').value,
+      addr1: document.getElementById('eAddr1').value,
+      addr2: document.getElementById('eAddr2').value,
+      currency: document.getElementById('eCurrency').value,
+      tva: document.getElementById('eTVA').value,
+      devisValidite: document.getElementById('eDevisValidite').value,
+      factureDelai: document.getElementById('eFactureDelai').value,
+      wa: document.getElementById('eWA').value,
+      waMsg: document.getElementById('eWAMsg').value,
+    }
+  };
+  localStorage.setItem('pf_settings', JSON.stringify(settings));
+  toast('Paramètres enregistrés avec succès', 'success');
+}
+
+function exportData(type) {
+  let data;
+  if (type === 'all') {
+    data = {
+      clients: DB.list('clients'), devis: DB.list('devis'),
+      projets: DB.list('projets'), transactions: DB.list('transactions'),
+      ouvriers: DB.list('ouvriers'), exported_at: new Date().toISOString(),
+    };
+  } else {
+    data = DB.list(type);
+  }
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `polyfix_${type}_${new Date().toISOString().split('T')[0]}.json`;
+  a.click(); URL.revokeObjectURL(url);
+  toast(`Export "${type}" téléchargé`, 'success');
+}
+
+function resetDemoData() {
+  confirm('Réinitialiser les données ?', 'Les données de démonstration seront restaurées.', () => {
+    DB.reset();
+    toast('Données de démo réinitialisées', 'success');
+  });
+}
+
+function clearAllData() {
+  confirm('SUPPRIMER TOUTES LES DONNÉES ?', 'Cette action est IRRÉVERSIBLE. Toutes vos données seront perdues.', () => {
+    ['clients','devis','projets','transactions','ouvriers','taches','factures','promotions'].forEach(t => localStorage.removeItem(`pf_${t}`));
+    localStorage.removeItem('polyfix_init');
+    toast('Toutes les données ont été supprimées', 'success');
+    setTimeout(() => window.location.reload(), 1500);
+  }, true);
+}
+
+document.getElementById('userModal').addEventListener('click', e => { if(e.target===document.getElementById('userModal')) document.getElementById('userModal').classList.remove('open'); });
+window.addEventListener('load', init);
+</script>
+
+<script>
+// Auto-marquer le lien actif selon la page courante
+(function(){
+  var page = location.pathname.split('/').pop().replace('.html','');
+  document.querySelectorAll('.sidebar-nav a[data-page]').forEach(function(a){
+    if(a.dataset.page === page) a.classList.add('active');
+  });
+})();
+</script>
+</body>
+</html>

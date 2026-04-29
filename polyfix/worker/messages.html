@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages — POLYFIX Ouvrier</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a href="dashboard.html" class="sidebar-logo">
+      <svg viewBox="0 0 24 24" style="width:32px;height:32px;fill:var(--c-brand)"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      POLY<span>FIX</span>
+    </a>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Mon espace</div>
+      <a href="dashboard.html" data-page="dashboard"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+      <a href="taches.html" data-page="taches"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9 12 11 14 15 10"/></svg>Mes tâches<span class="sidebar-badge" id="sb-taches" style="display:none">0</span></a>
+      <a href="projets.html" data-page="projets"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Mes projets</a>
+      <a href="messages.html" data-page="messages"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Messages<span class="sidebar-badge" id="sb-msgs" style="display:none">0</span></a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="sidebarAvatar">PK</div>
+      <div>
+        <div class="sidebar-user-name" id="userName">Pierre Koulousso</div>
+        <div class="sidebar-user-role" id="userPoste">Maçon</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content" style="padding:0">
+    <div class="admin-topbar">
+      <div class="topbar-title">Messages</div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary btn-sm" onclick="showCompose()">
+          <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px;stroke:currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nouveau message
+        </button>
+        <button class="notif-btn" onclick="Auth.logout();window.location.href='../login.html'">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- LAYOUT MESSAGERIE -->
+    <div style="display:grid;grid-template-columns:320px 1fr;height:calc(100vh - var(--topbar-h))">
+
+      <!-- LISTE CONVERSATIONS -->
+      <div style="border-right:1px solid var(--c-border);display:flex;flex-direction:column;background:var(--c-surface)">
+        <!-- Recherche -->
+        <div style="padding:16px;border-bottom:1px solid var(--c-border)">
+          <div class="search-input-wrap">
+            <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" class="form-control" id="searchMsg" placeholder="Rechercher…" oninput="filterConversations()">
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div style="display:flex;border-bottom:1px solid var(--c-border)">
+          <button class="tab-btn active" style="flex:1;padding:12px 8px;font-size:12px" onclick="filterByType('tous',this)">Tous</button>
+          <button class="tab-btn" style="flex:1;padding:12px 8px;font-size:12px" onclick="filterByType('non_lu',this)">Non lus</button>
+          <button class="tab-btn" style="flex:1;padding:12px 8px;font-size:12px" onclick="filterByType('notifications',this)">Alertes</button>
+        </div>
+
+        <!-- Conversations -->
+        <div id="conversationsList" style="overflow-y:auto;flex:1">
+          <!-- Rempli en JS -->
+        </div>
+      </div>
+
+      <!-- PANNEAU MESSAGE OUVERT -->
+      <div id="messagePanel" style="display:flex;flex-direction:column;background:var(--c-bg)">
+
+        <!-- État vide -->
+        <div id="emptyState" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--c-muted)">
+          <svg viewBox="0 0 24 24" stroke-width="1" fill="none" style="width:64px;height:64px;stroke:var(--c-border)"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <div style="text-align:center">
+            <p style="font-weight:600;margin-bottom:4px">Sélectionnez un message</p>
+            <p style="font-size:13px">Ou composez un nouveau message</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="showCompose()">Nouveau message</button>
+        </div>
+
+        <!-- Contenu message -->
+        <div id="messageContent" style="display:none;flex-direction:column;height:100%">
+
+          <!-- Header message -->
+          <div id="msgHeader" style="padding:20px 24px;background:var(--c-surface);border-bottom:1px solid var(--c-border);display:flex;align-items:center;gap:16px">
+            <!-- Rempli en JS -->
+          </div>
+
+          <!-- Corps message -->
+          <div id="msgBody" style="flex:1;padding:24px;overflow-y:auto">
+            <!-- Rempli en JS -->
+          </div>
+
+          <!-- Zone de réponse -->
+          <div id="msgReply" style="padding:16px 24px;background:var(--c-surface);border-top:1px solid var(--c-border)">
+            <div style="display:flex;gap:12px;align-items:flex-end">
+              <textarea id="replyText" class="form-control" placeholder="Écrire une réponse…" style="min-height:60px;resize:none;flex:1" onkeydown="if(event.ctrlKey&&event.key==='Enter')sendReply()"></textarea>
+              <button class="btn btn-primary" onclick="sendReply()" style="flex-shrink:0;align-self:flex-end">
+                <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px;stroke:currentColor"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Envoyer
+              </button>
+            </div>
+            <p style="font-size:11px;color:var(--c-muted);margin-top:6px">Ctrl+Entrée pour envoyer</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL COMPOSER -->
+<div class="modal-backdrop" id="composeModal">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-header">
+      <div class="modal-title">Nouveau message</div>
+      <button class="modal-close" onclick="closeCompose()"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <form onsubmit="sendNewMessage(event)" style="display:flex;flex-direction:column;gap:16px">
+        <div class="form-group">
+          <label class="form-label">Destinataire <span class="req">*</span></label>
+          <select id="composeRecipient" class="form-control" required>
+            <option value="">— Choisir —</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Sujet <span class="req">*</span></label>
+          <input type="text" id="composeSubject" class="form-control" placeholder="Objet du message…" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message <span class="req">*</span></label>
+          <textarea id="composeBody" class="form-control" placeholder="Votre message…" style="min-height:120px" required></textarea>
+        </div>
+        <!-- Projets liés -->
+        <div class="form-group">
+          <label class="form-label">Projet concerné (optionnel)</label>
+          <select id="composeProjet" class="form-control">
+            <option value="">— Aucun —</option>
+          </select>
+        </div>
+        <div class="modal-footer" style="padding:0">
+          <button type="button" class="btn btn-ghost" onclick="closeCompose()">Annuler</button>
+          <button type="submit" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:16px;height:16px;stroke:currentColor"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Envoyer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="../js/db.js"></script>
+<script>
+Auth.require(['ouvrier','admin','gestionnaire']);
+
+let ouvrierObj   = null;
+let allMessages  = [];
+let selectedMsgId = null;
+let typeFilter   = 'tous';
+
+/* ── MESSAGES DE DÉMO ─────────────────────────────────────────── */
+const DEMO_MESSAGES = [
+  {
+    id: 1001,
+    expediteur_id: 2, // gestionnaire
+    destinataire_id: null, // sera mis à jour
+    sujet: 'Réunion de chantier demain matin',
+    contenu: 'Bonjour Pierre,\n\nJe vous informe que nous aurons une réunion de chantier demain matin à 7h30 sur le projet PRJ-2025-0001.\n\nMerci de confirmer votre présence.\n\nCordialement,\nJean Mbemba — Chef de projet POLYFIX',
+    lu: false,
+    type_message: 'direct',
+    projet_id: 1,
+    created_at: new Date(Date.now() - 3600000).toISOString(),
+  },
+  {
+    id: 1002,
+    expediteur_id: 2,
+    destinataire_id: null,
+    sujet: 'Matériaux disponibles au dépôt',
+    contenu: 'Bonjour,\n\nLes matériaux pour la semaine ont été livrés au dépôt :\n• 50 sacs de ciment\n• 20 barres d\'acier HA12\n• Sable et gravier\n\nVous pouvez passer les récupérer dès aujourd\'hui.\n\nBon travail !',
+    lu: false,
+    type_message: 'direct',
+    projet_id: 1,
+    created_at: new Date(Date.now() - 86400000).toISOString(),
+  },
+  {
+    id: 1003,
+    expediteur_id: null,
+    destinataire_id: null,
+    sujet: '⚠️ Alerte : Tâche en retard',
+    contenu: 'La tâche "Installation électrique étage 1" est en retard.\n\nDate d\'échéance dépassée : 28 février 2025.\n\nVeuillez mettre à jour le statut ou contacter votre responsable.\n\n— Système POLYFIX',
+    lu: true,
+    type_message: 'notification',
+    projet_id: 1,
+    created_at: new Date(Date.now() - 172800000).toISOString(),
+  },
+  {
+    id: 1004,
+    expediteur_id: 2,
+    destinataire_id: null,
+    sujet: 'Évaluation mensuelle — Très bon travail !',
+    contenu: 'Bonjour Pierre,\n\nJ\'ai le plaisir de vous informer que votre évaluation du mois de mars est excellente : 4.8/5.\n\nVotre sérieux, ponctualité et qualité de travail sont très appréciés par l\'équipe et les clients.\n\nContinuez ainsi !\n\nJean Mbemba',
+    lu: true,
+    type_message: 'direct',
+    projet_id: null,
+    created_at: new Date(Date.now() - 604800000).toISOString(),
+  },
+];
+
+/* ── INIT ─────────────────────────────────────────────────────── */
+function init() {
+  const user = Auth.current();
+  if (!user) return;
+  ouvrierObj = DB.list('ouvriers').find(o => o.email === user.email || (o.prenom === user.prenom && o.nom === user.nom))
+    || DB.list('ouvriers')[0];
+
+  document.getElementById('userName').textContent = `${user.prenom} ${user.nom}`;
+  document.getElementById('sidebarAvatar').textContent = (user.prenom[0]+user.nom[0]).toUpperCase();
+  if (ouvrierObj) document.getElementById('userPoste').textContent = ouvrierObj.poste;
+
+  // Charger messages réels + demo
+  let stored = DB.where('messages', m => m.destinataire_id === user.id);
+  allMessages = [...DEMO_MESSAGES, ...stored];
+
+  // Badge non lus
+  const unread = allMessages.filter(m => !m.lu).length;
+  const badge = document.getElementById('unreadBadge');
+  if (unread > 0) { badge.textContent = unread; badge.style.display = 'inline-block'; }
+
+  // Remplir composeRecipient
+  const gestu = Auth.users.filter(u => u.role === 'gestionnaire' || u.role === 'admin');
+  document.getElementById('composeRecipient').innerHTML = '<option value="">— Choisir —</option>' +
+    gestu.map(u => `<option value="${u.id}">${esc(u.prenom+' '+u.nom)} (${u.role})</option>`).join('');
+
+  // Remplir projets
+  const projets = ouvrierObj ? DB.list('projets').filter(p => (p.ouvriers||[]).includes(ouvrierObj.id)) : [];
+  document.getElementById('composeProjet').innerHTML = '<option value="">— Aucun —</option>' +
+    projets.map(p => `<option value="${p.id}">${esc(p.code)} — ${esc(p.titre)}</option>`).join('');
+
+  renderConversations(allMessages);
+}
+
+/* ── RENDU LISTE ──────────────────────────────────────────────── */
+function getFiltered() {
+  const search = document.getElementById('searchMsg').value.toLowerCase();
+  let msgs = [...allMessages];
+  if (typeFilter === 'non_lu')       msgs = msgs.filter(m => !m.lu);
+  if (typeFilter === 'notifications') msgs = msgs.filter(m => m.type_message === 'notification');
+  if (search) msgs = msgs.filter(m => m.sujet.toLowerCase().includes(search) || m.contenu.toLowerCase().includes(search));
+  return msgs.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+}
+
+function renderConversations(msgs) {
+  const list = document.getElementById('conversationsList');
+  if (!msgs.length) {
+    list.innerHTML = '<div style="padding:32px;text-align:center;color:var(--c-muted);font-size:13px">Aucun message</div>';
+    return;
+  }
+  list.innerHTML = msgs.map(m => {
+    const isNotif  = m.type_message === 'notification';
+    const expedNom = m.expediteur_id
+      ? (() => { const u = Auth.users.find(u => u.id === m.expediteur_id); return u ? u.prenom+' '+u.nom : 'POLYFIX'; })()
+      : 'Système';
+    const timeAgo = getTimeAgo(m.created_at);
+    const snippet = m.contenu.split('\n')[0].substring(0,60);
+
+    return `<div onclick="openMessage(${m.id})"
+      style="padding:14px 16px;border-bottom:1px solid var(--c-border);cursor:pointer;transition:background .15s;background:${selectedMsgId===m.id?'var(--c-brand-bg)':m.lu?'transparent':'rgba(232,90,0,.04)'}"
+      onmouseover="this.style.background='${selectedMsgId===m.id?'var(--c-brand-bg)':'var(--c-dark)'}'"
+      onmouseout="this.style.background='${selectedMsgId===m.id?'var(--c-brand-bg)':m.lu?'transparent':'rgba(232,90,0,.04)'}'">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:5px">
+        <div style="width:32px;height:32px;border-radius:50%;background:${isNotif?'var(--c-warning-bg)':'var(--c-brand-bg)'};display:grid;place-items:center;flex-shrink:0">
+          ${isNotif
+            ? '<svg viewBox="0 0 24 24" stroke="#F59E0B" stroke-width="2" fill="none" style="width:14px;height:14px"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>'
+            : `<span style="font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--c-brand)">${expedNom.substring(0,2).toUpperCase()}</span>`}
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+            <span style="font-weight:${m.lu?'500':'700'};font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(expedNom)}</span>
+            <span style="font-size:11px;color:var(--c-muted);flex-shrink:0">${timeAgo}</span>
+          </div>
+          <div style="font-size:13px;font-weight:${m.lu?'500':'600'};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:${m.lu?'var(--c-muted)':'var(--c-text)'}">${esc(m.sujet)}</div>
+        </div>
+        ${!m.lu?'<div style="width:8px;height:8px;background:var(--c-brand);border-radius:50%;flex-shrink:0"></div>':''}
+      </div>
+      <div style="font-size:12px;color:var(--c-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-left:42px">${esc(snippet)}…</div>
+    </div>`;
+  }).join('');
+}
+
+/* ── OUVRIR MESSAGE ───────────────────────────────────────────── */
+function openMessage(id) {
+  selectedMsgId = id;
+  const m = allMessages.find(msg => msg.id === id);
+  if (!m) return;
+
+  // Marquer comme lu
+  m.lu = true;
+  if (m.id > 1000) DB.update('messages', id, {lu: true}); // messages réels
+  renderConversations(getFiltered());
+
+  const expedNom = m.expediteur_id
+    ? (() => { const u = Auth.users.find(u => u.id === m.expediteur_id); return u ? u.prenom+' '+u.nom : 'POLYFIX'; })()
+    : 'Système POLYFIX';
+  const isNotif  = m.type_message === 'notification';
+  const projet   = m.projet_id ? DB.find('projets', m.projet_id) : null;
+
+  document.getElementById('msgHeader').innerHTML = `
+    <div style="width:44px;height:44px;border-radius:50%;background:${isNotif?'var(--c-warning-bg)':'var(--c-brand-bg)'};display:grid;place-items:center;flex-shrink:0;font-family:var(--font-display);font-size:17px;font-weight:700;color:${isNotif?'#B45309':'var(--c-brand)'}">
+      ${isNotif?'⚠':expedNom.substring(0,2).toUpperCase()}
+    </div>
+    <div style="flex:1">
+      <div style="font-weight:700;font-size:15px">${esc(expedNom)}</div>
+      <div style="font-size:12px;color:var(--c-muted)">${new Date(m.created_at).toLocaleString('fr-FR')}</div>
+    </div>
+    ${projet ? `<span class="badge badge-info" style="align-self:center">${esc(projet.code)}</span>` : ''}
+    ${m.expediteur_id ? `
+    <div style="display:flex;gap:8px;flex-shrink:0">
+      <button class="btn btn-sm btn-outline" onclick="callBack(${m.expediteur_id})">
+        <svg viewBox="0 0 24 24" stroke-width="2" fill="none" style="width:14px;height:14px;stroke:currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Appeler
+      </button>
+    </div>` : ''}`;
+
+  document.getElementById('msgBody').innerHTML = `
+    <h2 style="font-family:var(--font-display);font-size:22px;font-weight:800;text-transform:uppercase;margin-bottom:20px">${esc(m.sujet)}</h2>
+    <div style="background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius);padding:24px;white-space:pre-line;font-size:15px;line-height:1.75;color:var(--c-text)">${esc(m.contenu)}</div>
+    ${isNotif ? '' : `
+    <div style="margin-top:24px">
+      <div style="font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--c-muted);margin-bottom:12px">Actions rapides</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-sm btn-outline" onclick="document.getElementById('replyText').value='Bonjour,\\n\\nJ\'ai bien reçu votre message.\\n\\n';document.getElementById('replyText').focus()">✓ Confirmer</button>
+        <button class="btn btn-sm btn-outline" onclick="document.getElementById('replyText').value='Bonjour,\\n\\nJe rencontre une difficulté :';document.getElementById('replyText').focus()">⚠ Signaler un problème</button>
+        <button class="btn btn-sm btn-outline" onclick="document.getElementById('replyText').value='Bonjour,\\n\\nMessage bien reçu, merci !\\n\\nCordialement.';document.getElementById('replyText').focus()">👍 Accusé de réception</button>
+      </div>
+    </div>`}`;
+
+  // Afficher la vue message
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('messageContent').style.display = 'flex';
+  document.getElementById('msgReply').style.display = isNotif ? 'none' : 'block';
+}
+
+/* ── ENVOYER RÉPONSE ──────────────────────────────────────────── */
+function sendReply() {
+  const text = document.getElementById('replyText').value.trim();
+  if (!text) return;
+
+  const m = allMessages.find(msg => msg.id === selectedMsgId);
+  const user = Auth.current();
+  const newMsg = {
+    expediteur_id: user?.id,
+    destinataire_id: m?.expediteur_id,
+    sujet: 'Re: ' + (m?.sujet || ''),
+    contenu: text,
+    lu: false,
+    type_message: 'direct',
+    projet_id: m?.projet_id || null,
+    created_at: new Date().toISOString(),
+  };
+
+  const saved = DB.insert('messages', newMsg);
+  allMessages.unshift({...saved, id: saved.id});
+  document.getElementById('replyText').value = '';
+  toast('Réponse envoyée', 'success');
+}
+
+/* ── NOUVEAU MESSAGE ──────────────────────────────────────────── */
+function sendNewMessage(e) {
+  e.preventDefault();
+  const recipientId = parseInt(document.getElementById('composeRecipient').value);
+  const sujet   = document.getElementById('composeSubject').value;
+  const contenu = document.getElementById('composeBody').value;
+  const projetId= parseInt(document.getElementById('composeProjet').value) || null;
+  const user    = Auth.current();
+
+  if (!recipientId || !sujet || !contenu) { toast('Remplissez tous les champs', 'error'); return; }
+
+  const saved = DB.insert('messages', {
+    expediteur_id:   user?.id,
+    destinataire_id: recipientId,
+    sujet, contenu,
+    lu: false,
+    type_message: 'direct',
+    projet_id: projetId,
+    created_at: new Date().toISOString(),
+  });
+
+  allMessages.unshift({...saved});
+  closeCompose();
+  toast('Message envoyé avec succès', 'success');
+  renderConversations(getFiltered());
+}
+
+/* ── APPEL ────────────────────────────────────────────────────── */
+function callBack(userId) {
+  const u = Auth.users.find(u => u.id === userId);
+  if (!u) return;
+  toast(`Appel vers ${u.prenom} ${u.nom}… (via Twilio en production)`, 'info');
+  setTimeout(() => {
+    const tel = prompt(`Confirmer l'appel vers ${u.prenom} ${u.nom} ?`, '+242 065 000 000');
+    if (tel) { window.location.href = `tel:${tel}`; }
+  }, 400);
+}
+
+/* ── UTILS ────────────────────────────────────────────────────── */
+function getTimeAgo(dateStr) {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'à l\'instant';
+  if (mins < 60) return `il y a ${mins}min`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `il y a ${hrs}h`;
+  const days = Math.floor(hrs / 24);
+  if (days < 7) return `il y a ${days}j`;
+  return fmtDate(dateStr);
+}
+
+function filterConversations() { renderConversations(getFiltered()); }
+
+function filterByType(type, btn) {
+  typeFilter = type;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderConversations(getFiltered());
+}
+
+function showCompose()  { document.getElementById('composeModal').classList.add('open'); }
+function closeCompose() { document.getElementById('composeModal').classList.remove('open'); document.getElementById('composeBody').value = ''; document.getElementById('composeSubject').value = ''; }
+
+document.getElementById('composeModal').addEventListener('click', e => { if(e.target===document.getElementById('composeModal')) closeCompose(); });
+window.addEventListener('load', init);
+</script>
+
+<script>
+(function(){
+  var page = location.pathname.split('/').pop().replace('.html','');
+  document.querySelectorAll('.sidebar-nav a[data-page]').forEach(function(a){
+    if(a.dataset.page === page) a.classList.add('active');
+  });
+})();
+</script>
+</body>
+</html>

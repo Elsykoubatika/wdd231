@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics — POLYFIX Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a href="dashboard.html" class="sidebar-logo">
+      <svg viewBox="0 0 24 24" style="width:32px;height:32px;fill:var(--c-brand)"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      POLY<span>FIX</span>
+    </a>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <a href="dashboard.html" data-page="dashboard"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Gestion</div>
+      <a href="devis.html" data-page="devis"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9 12 11 14 15 10"/></svg>Devis</a>
+      <a href="projets.html" data-page="projets"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Projets</a>
+      <a href="ouvriers.html" data-page="ouvriers"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Ouvriers</a>
+      <a href="clients.html" data-page="clients"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Clients</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Finance</div>
+      <a href="finances.html" data-page="finances"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Finances</a>
+      <a href="factures.html" data-page="factures"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16"/></svg>Factures</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Marketing</div>
+      <a href="promotions.html" data-page="promotions"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M7 5H5a2 2 0 00-2 2v12a2 2 0 002 2h2m10 0h2a2 2 0 002-2V7a2 2 0 00-2-2h-2m0 0V3a2 2 0 00-2-2h-2a2 2 0 00-2 2v2m0 0h4"/></svg>Promotions</a>
+      <a href="analytics.html" data-page="analytics"><svg viewBox="0 0 24 24" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analytics</a>
+      <div class="sidebar-section-label" style="margin-top:12px">Outils</div>
+      <a href="ai-agent.html" data-page="ai-agent"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Agent IA</a>
+      <a href="parametres.html" data-page="parametres"><svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Paramètres</a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="sidebarAvatar">JM</div>
+      <div>
+        <div class="sidebar-user-name" id="userName">Jean Mbemba</div>
+        <div class="sidebar-user-role">Gestionnaire</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content" style="padding:0">
+    <div class="admin-topbar">
+      <div class="topbar-title">Analytics</div>
+      <div class="topbar-actions">
+        <select class="form-control" id="periodeSelect" onchange="reloadAll()" style="max-width:160px">
+          <option value="7">7 derniers jours</option>
+          <option value="30" selected>30 derniers jours</option>
+          <option value="90">3 derniers mois</option>
+          <option value="365">12 derniers mois</option>
+        </select>
+        <button class="notif-btn" onclick="Auth.logout();window.location.href='../login.html'">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div style="padding:28px">
+
+      <!-- KPI TRAFFIC -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Visiteurs uniques</div>
+            <div class="kpi-icon"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          </div>
+          <div class="kpi-value" id="kpiVisiteurs">1 248</div>
+          <div class="kpi-trend up" id="kpiVisTrend">↑ +15% vs période préc.</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Formulaires soumis</div>
+            <div class="kpi-icon"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          </div>
+          <div class="kpi-value" id="kpiForms">87</div>
+          <div class="kpi-trend up">↑ +8% vs période préc.</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Taux de conversion</div>
+            <div class="kpi-icon"><svg viewBox="0 0 24 24" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          </div>
+          <div class="kpi-value" id="kpiConv">22%</div>
+          <div class="kpi-trend up">↑ +3pts vs période préc.</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Durée moy. session</div>
+            <div class="kpi-icon"><svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          </div>
+          <div class="kpi-value" id="kpiDuree">3:42</div>
+          <div class="kpi-trend up">↑ +0:28 vs période préc.</div>
+        </div>
+      </div>
+
+      <!-- GRAPHIQUES -->
+      <div class="two-col-grid" style="margin-bottom:24px">
+
+        <!-- Visiteurs par jour -->
+        <div class="card card-pad">
+          <div class="card-header">
+            <div class="card-title">Visiteurs par jour</div>
+            <span class="badge badge-info" id="periodLabel">30 jours</span>
+          </div>
+          <canvas id="visitChart" height="180"></canvas>
+        </div>
+
+        <!-- Sources de trafic -->
+        <div class="card card-pad">
+          <div class="card-header">
+            <div class="card-title">Sources de trafic</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px">
+            <div class="source-row" data-pct="42" data-color="var(--c-brand)" data-label="Recherche organique" data-val="524"></div>
+            <div class="source-row" data-pct="28" data-color="var(--c-info)" data-label="Réseaux sociaux" data-val="349"></div>
+            <div class="source-row" data-pct="18" data-color="var(--c-success)" data-label="Accès direct" data-val="225"></div>
+            <div class="source-row" data-pct="8"  data-color="var(--c-warning)" data-label="Recommandations" data-val="100"></div>
+            <div class="source-row" data-pct="4"  data-color="var(--c-muted-light)" data-label="Autres" data-val="50"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGES & ENTONNOIR -->
+      <div class="two-col-grid" style="margin-bottom:24px">
+
+        <!-- Pages les plus visitées -->
+        <div class="card card-pad">
+          <div class="card-header">
+            <div class="card-title">Pages les plus visitées</div>
+          </div>
+          <div class="table-wrap" style="border:none;box-shadow:none">
+            <table>
+              <thead>
+                <tr>
+                  <th>Page</th>
+                  <th>Vues</th>
+                  <th>Taux rebond</th>
+                </tr>
+              </thead>
+              <tbody id="pagesTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Entonnoir conversion -->
+        <div class="card card-pad">
+          <div class="card-header">
+            <div class="card-title">Entonnoir de conversion</div>
+          </div>
+          <div id="funnelChart" style="display:flex;flex-direction:column;gap:10px;margin-top:8px"></div>
+        </div>
+      </div>
+
+      <!-- APPAREILS & VILLES -->
+      <div class="two-col-grid">
+
+        <!-- Appareils -->
+        <div class="card card-pad">
+          <div class="card-header">
+            <div class="card-title">Appareils</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px">
+            <div class="source-row" data-pct="54" data-color="var(--c-brand)" data-label="Mobile" data-val="674"></div>
+            <div class="source-row" data-pct="36" data-color="var(--c-info)" data-label="Ordinateur" data-val="449"></div>
+            <div class="source-row" data-pct="10" data-color="var(--c-success)" data-label="Tablette" data-val="125"></div>
+          </div>
+        </div>
+
+        <!-- Villes -->
+        <div class="card card-pad">
+          <div class="card-header">
+            <div class="card-title">Villes les plus actives</div>
+          </div>
+          <div class="table-wrap" style="border:none;box-shadow:none">
+            <table>
+              <thead>
+                <tr><th>Ville</th><th>Visiteurs</th><th>Part</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Brazzaville</strong></td><td>712</td><td><span class="badge badge-brand">57%</span></td></tr>
+                <tr><td><strong>Pointe-Noire</strong></td><td>336</td><td><span class="badge badge-info">27%</span></td></tr>
+                <tr><td>Dolisie</td><td>88</td><td><span class="badge badge-muted">7%</span></td></tr>
+                <tr><td>Nkayi</td><td>62</td><td><span class="badge badge-muted">5%</span></td></tr>
+                <tr><td>Autres</td><td>50</td><td><span class="badge badge-muted">4%</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="../js/db.js"></script>
+<script>
+Auth.require(['admin','gestionnaire']);
+
+function init() {
+  const user = Auth.current();
+  if (user) {
+    document.getElementById('userName').textContent = `${user.prenom} ${user.nom}`;
+    document.getElementById('sidebarAvatar').textContent = (user.prenom[0]+user.nom[0]).toUpperCase();
+  }
+  reloadAll();
+}
+
+function reloadAll() {
+  const periode = parseInt(document.getElementById('periodeSelect').value);
+  const lblMap = {7:'7 jours', 30:'30 jours', 90:'3 mois', 365:'12 mois'};
+  document.getElementById('periodLabel').textContent = lblMap[periode];
+  drawVisitChart(periode);
+  renderSources();
+  renderPages();
+  renderFunnel();
+}
+
+/* ── Graphique visiteurs ──────────────────────────────────────── */
+function drawVisitChart(days) {
+  const canvas = document.getElementById('visitChart');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth || 400;
+  canvas.width = W; canvas.height = 180;
+  ctx.clearRect(0, 0, W, 180);
+
+  const pts = Array.from({length: Math.min(days, 30)}, (_, i) =>
+    Math.floor(20 + Math.random() * 80)
+  );
+  const maxV = Math.max(...pts);
+  const padL = 36, padB = 28, padT = 10, padR = 10;
+  const plotW = W - padL - padR;
+  const plotH = 180 - padB - padT;
+  const stepX = plotW / (pts.length - 1);
+
+  // Grille horizontale
+  ctx.strokeStyle = '#E2E8F0'; ctx.lineWidth = 1;
+  [0.25, 0.5, 0.75, 1].forEach(r => {
+    const y = padT + plotH * (1 - r);
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+    ctx.fillStyle = '#94A3B8'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText(Math.round(maxV * r), padL - 4, y + 4);
+  });
+
+  // Zone remplie
+  const grad = ctx.createLinearGradient(0, padT, 0, padT + plotH);
+  grad.addColorStop(0, 'rgba(232,90,0,.18)');
+  grad.addColorStop(1, 'rgba(232,90,0,0)');
+  ctx.beginPath();
+  pts.forEach((v, i) => {
+    const x = padL + i * stepX;
+    const y = padT + plotH * (1 - v / maxV);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.lineTo(padL + (pts.length-1)*stepX, padT + plotH);
+  ctx.lineTo(padL, padT + plotH);
+  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+
+  // Ligne
+  ctx.beginPath(); ctx.strokeStyle = '#E85A00'; ctx.lineWidth = 2.5;
+  pts.forEach((v, i) => {
+    const x = padL + i * stepX;
+    const y = padT + plotH * (1 - v / maxV);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // Points
+  pts.forEach((v, i) => {
+    if (i % Math.ceil(pts.length / 8) !== 0 && i !== pts.length - 1) return;
+    const x = padL + i * stepX;
+    const y = padT + plotH * (1 - v / maxV);
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI*2);
+    ctx.fillStyle = '#E85A00'; ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+  });
+}
+
+/* ── Sources / barres ─────────────────────────────────────────── */
+function renderSources() {
+  document.querySelectorAll('.source-row').forEach(el => {
+    const pct = el.dataset.pct, color = el.dataset.color, label = el.dataset.label, val = el.dataset.val;
+    el.innerHTML = `
+      <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px">
+        <span style="font-weight:500">${label}</span>
+        <span style="color:var(--c-muted)">${val} <span style="color:${color};font-weight:700">(${pct}%)</span></span>
+      </div>
+      <div class="progress">
+        <div class="progress-bar" style="width:${pct}%;background:${color}"></div>
+      </div>`;
+  });
+}
+
+/* ── Pages visitées ───────────────────────────────────────────── */
+function renderPages() {
+  const pages = [
+    {page:'/ Accueil', vues:512, rebond:'38%'},
+    {page:'/services', vues:287, rebond:'42%'},
+    {page:'/estimation-form', vues:198, rebond:'25%'},
+    {page:'/construction-form', vues:124, rebond:'28%'},
+    {page:'/contact', vues:96, rebond:'51%'},
+    {page:'/ai-agent', vues:31, rebond:'22%'},
+  ];
+  document.getElementById('pagesTable').innerHTML = pages.map(p => `
+    <tr>
+      <td style="font-size:13px;color:var(--c-brand);font-weight:500">${p.page}</td>
+      <td><strong>${p.vues}</strong></td>
+      <td style="color:var(--c-muted)">${p.rebond}</td>
+    </tr>`).join('');
+}
+
+/* ── Entonnoir ────────────────────────────────────────────────── */
+function renderFunnel() {
+  const steps = [
+    {label:'Visiteurs uniques', val:1248, pct:100, color:'var(--c-brand)'},
+    {label:'Pages services vues', val:712,  pct:57,  color:'var(--c-info)'},
+    {label:'Formulaires ouverts', val:287,  pct:23,  color:'var(--c-warning)'},
+    {label:'Formulaires soumis', val:87,   pct:7,   color:'var(--c-success)'},
+    {label:'Devis créés',        val:28,   pct:2.2, color:'#6366F1'},
+  ];
+  document.getElementById('funnelChart').innerHTML = steps.map((s, i) => `
+    <div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px">
+        <span style="font-weight:600">${i+1}. ${s.label}</span>
+        <span><strong>${s.val}</strong> <span style="color:var(--c-muted)">(${s.pct}%)</span></span>
+      </div>
+      <div class="progress" style="height:12px">
+        <div class="progress-bar" style="width:${s.pct}%;background:${s.color}"></div>
+      </div>
+    </div>`).join('');
+}
+
+window.addEventListener('load', init);
+window.addEventListener('resize', () => {
+  const periode = parseInt(document.getElementById('periodeSelect').value);
+  drawVisitChart(periode);
+});
+</script>
+
+<script>
+// Auto-marquer le lien actif selon la page courante
+(function(){
+  var page = location.pathname.split('/').pop().replace('.html','');
+  document.querySelectorAll('.sidebar-nav a[data-page]').forEach(function(a){
+    if(a.dataset.page === page) a.classList.add('active');
+  });
+})();
+</script>
+</body>
+</html>

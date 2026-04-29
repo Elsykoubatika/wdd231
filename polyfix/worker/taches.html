@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes tâches — POLYFIX Ouvrier</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR OUVRIER -->
+  <aside class="sidebar">
+    <a href="dashboard.html" class="sidebar-logo">
+      <svg viewBox="0 0 24 24" style="width:32px;height:32px;fill:var(--c-brand)"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      POLY<span>FIX</span>
+    </a>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Mon espace</div>
+      <a href="dashboard.html" data-page="dashboard"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Tableau de bord</a>
+      <a href="taches.html" data-page="taches"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><polyline points="9 12 11 14 15 10"/></svg>Mes tâches<span class="sidebar-badge" id="sb-taches" style="display:none">0</span></a>
+      <a href="projets.html" data-page="projets"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Mes projets</a>
+      <a href="messages.html" data-page="messages"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Messages<span class="sidebar-badge" id="sb-msgs" style="display:none">0</span></a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="sidebarAvatar">PK</div>
+      <div>
+        <div class="sidebar-user-name" id="userName">Pierre Koulousso</div>
+        <div class="sidebar-user-role" id="userPoste">Maçon</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content" style="padding:0">
+    <div class="admin-topbar">
+      <div class="topbar-title">Mes tâches</div>
+      <div class="topbar-actions">
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm btn-ghost" id="viewList" onclick="setView('list')" style="font-weight:600">Liste</button>
+          <button class="btn btn-sm btn-outline" id="viewKanban" onclick="setView('kanban')">Kanban</button>
+        </div>
+        <button class="notif-btn" onclick="Auth.logout();window.location.href='../login.html'">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div style="padding:28px">
+      <!-- KPI -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px">
+        <div class="kpi-card">
+          <div class="kpi-title">À faire</div>
+          <div class="kpi-value" id="cntTodo" style="color:var(--c-muted)">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">En cours</div>
+          <div class="kpi-value" id="cntDoing" style="color:var(--c-info)">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Terminées</div>
+          <div class="kpi-value" id="cntDone" style="color:var(--c-success)">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-title">Bloquées</div>
+          <div class="kpi-value" id="cntBlocked" style="color:var(--c-danger)">0</div>
+        </div>
+      </div>
+
+      <!-- FILTRES -->
+      <div class="search-bar" style="margin-bottom:20px">
+        <div class="search-input-wrap" style="flex:1;min-width:200px">
+          <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" class="form-control" id="searchTask" placeholder="Rechercher une tâche…" oninput="renderAll()">
+        </div>
+        <select class="form-control" id="filterPrio" onchange="renderAll()" style="max-width:150px">
+          <option value="">Toutes priorités</option>
+          <option value="urgente">🔴 Urgente</option>
+          <option value="haute">🟠 Haute</option>
+          <option value="normale">🟡 Normale</option>
+          <option value="basse">🟢 Basse</option>
+        </select>
+        <select class="form-control" id="filterProjet" onchange="renderAll()" style="max-width:180px">
+          <option value="">Tous les projets</option>
+        </select>
+      </div>
+
+      <!-- VUE LISTE -->
+      <div id="listView">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('toutes',this)">Toutes</button>
+          <button class="tab-btn" onclick="switchTab('a_faire',this)">À faire</button>
+          <button class="tab-btn" onclick="switchTab('en_cours',this)">En cours</button>
+          <button class="tab-btn" onclick="switchTab('terminee',this)">Terminées</button>
+        </div>
+        <div id="taskListContainer"></div>
+      </div>
+
+      <!-- VUE KANBAN -->
+      <div id="kanbanView" style="display:none">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+          <div>
+            <div style="font-family:var(--font-display);font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--c-muted);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+              <span style="width:8px;height:8px;background:var(--c-muted-light);border-radius:50%;display:inline-block"></span>
+              À faire <span id="k-todo-cnt" class="badge badge-muted" style="margin-left:4px">0</span>
+            </div>
+            <div id="k-a_faire" class="kanban-col" ondragover="allowDrop(event)" ondrop="drop(event,'a_faire')"></div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display);font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--c-info);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+              <span style="width:8px;height:8px;background:var(--c-info);border-radius:50%;display:inline-block"></span>
+              En cours <span id="k-doing-cnt" class="badge badge-info" style="margin-left:4px">0</span>
+            </div>
+            <div id="k-en_cours" class="kanban-col" ondragover="allowDrop(event)" ondrop="drop(event,'en_cours')"></div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display);font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--c-success);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+              <span style="width:8px;height:8px;background:var(--c-success);border-radius:50%;display:inline-block"></span>
+              Terminées <span id="k-done-cnt" class="badge badge-success" style="margin-left:4px">0</span>
+            </div>
+            <div id="k-terminee" class="kanban-col" ondragover="allowDrop(event)" ondrop="drop(event,'terminee')"></div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display);font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--c-danger);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+              <span style="width:8px;height:8px;background:var(--c-danger);border-radius:50%;display:inline-block"></span>
+              Bloquées <span id="k-blocked-cnt" class="badge badge-danger" style="margin-left:4px">0</span>
+            </div>
+            <div id="k-bloquee" class="kanban-col" ondragover="allowDrop(event)" ondrop="drop(event,'bloquee')"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<style>
+.kanban-col { min-height:200px; display:flex; flex-direction:column; gap:10px; }
+.kanban-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: 14px;
+  cursor: grab;
+  transition: var(--transition);
+  box-shadow: var(--shadow-xs);
+}
+.kanban-card:hover { box-shadow: var(--shadow-sm); transform: translateY(-1px); }
+.kanban-card.dragging { opacity: .5; }
+.kanban-col.drag-over { background: var(--c-dark); border-radius: var(--radius); }
+</style>
+
+<script src="../js/db.js"></script>
+<script>
+Auth.require(['ouvrier','admin','gestionnaire']);
+
+let ouvrierObj = null;
+let currentTabFilter = 'toutes';
+let currentView = 'list';
+let draggedId = null;
+
+function init() {
+  const user = Auth.current();
+  if (!user) return;
+  ouvrierObj = DB.list('ouvriers').find(o => o.email === user.email || (o.prenom === user.prenom && o.nom === user.nom))
+    || DB.list('ouvriers')[0];
+
+  document.getElementById('userName').textContent = `${user.prenom} ${user.nom}`;
+  document.getElementById('sidebarAvatar').textContent = (user.prenom[0]+user.nom[0]).toUpperCase();
+  if (ouvrierObj) document.getElementById('userPoste').textContent = ouvrierObj.poste;
+
+  // Peupler filtre projets
+  const projets = DB.list('projets').filter(p => (p.ouvriers||[]).includes(ouvrierObj?.id));
+  document.getElementById('filterProjet').innerHTML = '<option value="">Tous les projets</option>' +
+    projets.map(p => `<option value="${p.id}">${esc(p.code)}</option>`).join('');
+
+  renderAll();
+}
+
+function getFilteredTasks() {
+  if (!ouvrierObj) return [];
+  const search = document.getElementById('searchTask').value.toLowerCase();
+  const prio   = document.getElementById('filterPrio').value;
+  const projId = parseInt(document.getElementById('filterProjet').value) || null;
+
+  let tasks = DB.where('taches', t => t.assignee_id === ouvrierObj.id);
+  if (search)  tasks = tasks.filter(t => t.titre.toLowerCase().includes(search));
+  if (prio)    tasks = tasks.filter(t => t.priorite === prio);
+  if (projId)  tasks = tasks.filter(t => t.projet_id === projId);
+  if (currentTabFilter !== 'toutes') tasks = tasks.filter(t => t.statut === currentTabFilter);
+  return tasks;
+}
+
+function renderAll() {
+  const tasks = getFilteredTasks();
+  const allMyTasks = ouvrierObj ? DB.where('taches', t => t.assignee_id === ouvrierObj.id) : [];
+
+  // KPIs
+  document.getElementById('cntTodo').textContent    = allMyTasks.filter(t=>t.statut==='a_faire').length;
+  document.getElementById('cntDoing').textContent   = allMyTasks.filter(t=>t.statut==='en_cours').length;
+  document.getElementById('cntDone').textContent    = allMyTasks.filter(t=>t.statut==='terminee').length;
+  document.getElementById('cntBlocked').textContent = allMyTasks.filter(t=>t.statut==='bloquee').length;
+
+  if (currentView === 'list') renderList(tasks);
+  else renderKanban(allMyTasks);
+}
+
+function renderList(tasks) {
+  const prioColor = {urgente:'danger', haute:'brand', normale:'warning', basse:'success'};
+  const statusIcon = {a_faire:'○', en_cours:'◑', terminee:'●', bloquee:'⊗'};
+  const statusColor = {a_faire:'var(--c-muted)', en_cours:'var(--c-info)', terminee:'var(--c-success)', bloquee:'var(--c-danger)'};
+
+  document.getElementById('taskListContainer').innerHTML = tasks.length
+    ? `<div class="card" style="overflow:hidden">
+        ${tasks.map(t => {
+          const projet = DB.find('projets', t.projet_id);
+          const overdue = t.date_echeance && new Date(t.date_echeance) < new Date() && t.statut !== 'terminee';
+          return `<div style="padding:16px 20px;border-bottom:1px solid var(--c-border);display:flex;align-items:center;gap:14px;cursor:pointer;transition:background .15s" onclick="updateStatus(${t.id})" onmouseover="this.style.background='var(--c-dark)'" onmouseout="this.style.background=''">
+            <span style="font-size:20px;color:${statusColor[t.statut]};flex-shrink:0">${statusIcon[t.statut]}</span>
+            <div style="flex:1;min-width:0">
+              <div style="font-weight:600;font-size:14px;margin-bottom:3px;${t.statut==='terminee'?'text-decoration:line-through;color:var(--c-muted)':''}">${esc(t.titre)}</div>
+              <div style="font-size:12px;color:var(--c-muted)">
+                ${projet?`<span>${esc(projet.code)}</span> · `:''}
+                ${t.date_echeance?`<span style="color:${overdue?'var(--c-danger)':'inherit'}">📅 ${fmtDate(t.date_echeance)}</span>`:''}
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+              <span class="badge badge-${prioColor[t.priorite]||'muted'}" style="font-size:11px">${t.priorite}</span>
+              <span style="font-size:11px;font-weight:600;color:var(--c-muted);font-family:var(--font-display);text-transform:uppercase">
+                ${t.statut==='a_faire'?'→ Démarrer':t.statut==='en_cours'?'→ Terminer':t.statut==='terminee'?'✓':'⊗'}
+              </span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`
+    : '<div style="text-align:center;padding:48px;color:var(--c-muted);background:var(--c-surface);border-radius:var(--radius);border:1px solid var(--c-border)">Aucune tâche trouvée</div>';
+}
+
+function renderKanban(tasks) {
+  const cols = ['a_faire','en_cours','terminee','bloquee'];
+  const cntIds = {'a_faire':'k-todo-cnt','en_cours':'k-doing-cnt','terminee':'k-done-cnt','bloquee':'k-blocked-cnt'};
+  const prioColor = {urgente:'danger', haute:'brand', normale:'warning', basse:'success'};
+
+  cols.forEach(col => {
+    const colTasks = tasks.filter(t => t.statut === col);
+    document.getElementById('k-'+col).innerHTML = colTasks.map(t => {
+      const projet = DB.find('projets', t.projet_id);
+      return `<div class="kanban-card" draggable="true" data-id="${t.id}"
+        ondragstart="dragStart(event,${t.id})"
+        ondragend="this.classList.remove('dragging')">
+        <div style="font-weight:600;font-size:14px;margin-bottom:8px">${esc(t.titre)}</div>
+        ${projet?`<div style="font-size:11px;color:var(--c-muted);margin-bottom:8px">${esc(projet.code)}</div>`:''}
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span class="badge badge-${prioColor[t.priorite]||'muted'}" style="font-size:11px">${t.priorite}</span>
+          ${t.date_echeance?`<span style="font-size:11px;color:var(--c-muted)">📅 ${fmtDate(t.date_echeance)}</span>`:''}
+        </div>
+      </div>`;
+    }).join('');
+    document.getElementById(cntIds[col]).textContent = colTasks.length;
+  });
+}
+
+function updateStatus(id) {
+  const t = DB.find('taches', id);
+  const flow = {a_faire:'en_cours', en_cours:'terminee', terminee:'a_faire', bloquee:'a_faire'};
+  const next = flow[t.statut] || 'en_cours';
+  DB.update('taches', id, { statut: next, date_completion: next==='terminee'?new Date().toISOString():null });
+  toast(`Tâche → ${next.replace(/_/g,' ')}`, 'success');
+  renderAll();
+}
+
+function switchTab(tab, btn) {
+  currentTabFilter = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('listView').style.display = v==='list'?'block':'none';
+  document.getElementById('kanbanView').style.display = v==='kanban'?'block':'none';
+  document.getElementById('viewList').className   = v==='list'  ? 'btn btn-sm btn-ghost'   : 'btn btn-sm btn-outline';
+  document.getElementById('viewKanban').className = v==='kanban'? 'btn btn-sm btn-ghost'   : 'btn btn-sm btn-outline';
+  renderAll();
+}
+
+// Drag & drop Kanban
+function dragStart(e, id) { draggedId = id; e.target.classList.add('dragging'); }
+function allowDrop(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+function drop(e, newStatus) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!draggedId) return;
+  DB.update('taches', draggedId, { statut: newStatus, date_completion: newStatus==='terminee'?new Date().toISOString():null });
+  toast(`Tâche déplacée → ${newStatus.replace(/_/g,' ')}`, 'success');
+  draggedId = null;
+  renderAll();
+}
+document.addEventListener('dragover', e => { document.querySelectorAll('.kanban-col').forEach(c => c.classList.remove('drag-over')); });
+
+window.addEventListener('load', init);
+</script>
+
+<script>
+(function(){
+  var page = location.pathname.split('/').pop().replace('.html','');
+  document.querySelectorAll('.sidebar-nav a[data-page]').forEach(function(a){
+    if(a.dataset.page === page) a.classList.add('active');
+  });
+})();
+</script>
+</body>
+</html>
